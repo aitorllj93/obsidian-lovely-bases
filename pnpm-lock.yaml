@@ -8,6 +8,9 @@ dependencies:
   '@heroicons/react':
     specifier: ^2.2.0
     version: 2.2.0(react@19.2.3)
+  '@toolwind/corner-shape':
+    specifier: 0.0.8-3
+    version: 0.0.8-3
   class-variance-authority:
     specifier: ^0.7.1
     version: 0.7.1
@@ -580,6 +583,12 @@ packages:
       tailwindcss: 4.1.18
     dev: true
 
+  /@toolwind/corner-shape@0.0.8-3:
+    resolution: {integrity: sha512-MPIF81F2bhtXbzEeXF0vnL+PKpnopCHOzBspOkK8osMzWQvPUujZn2XZOMdsu4DF6wsVbbRYQtdsJr486HmIPQ==}
+    dependencies:
+      '@types/node': 20.19.27
+    dev: false
+
   /@types/codemirror@5.60.8:
     resolution: {integrity: sha512-VjFgDF/eB+Aklcy15TtOTLQeMjTo07k7KAjql8OK5Dirr7a6sJY4T1uVBDuTVG9VEmn1uUsohOpYnVfgC6/jyw==}
     dependencies:
@@ -593,7 +602,7 @@ packages:
   /@types/keyv@3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 20.19.27
+      '@types/node': 25.0.3
     dev: true
 
   /@types/node@14.18.63:
@@ -604,7 +613,7 @@ packages:
     resolution: {integrity: sha512-N2clP5pJhB2YnZJ3PIHFk5RkygRX5WO/5f0WC08tp0wd+sv0rsJk3MqWn3CbNmT2J505a5336jaQj4ph1AdMug==}
     dependencies:
       undici-types: 6.21.0
-    dev: true
+    dev: false
 
   /@types/node@25.0.3:
     resolution: {integrity: sha512-W609buLVRVmeW693xKfzHeIV6nJGGz98uCPfeXI1ELMLXVeKYZ9m15fAMSaUPBHYLGFsVRcMmSCksQOrZV9BYA==}
@@ -629,7 +638,7 @@ packages:
   /@types/responselike@1.0.3:
     resolution: {integrity: sha512-H/+L+UkTV33uf49PH5pCAUBVPNj2nDBXTN+qS1dOwyyg24l3CcicicCA7ca+HMvJBZcFgl5r8e+RR6elsb4Lyw==}
     dependencies:
-      '@types/node': 20.19.27
+      '@types/node': 25.0.3
     dev: true
 
   /@types/tern@0.23.9:
@@ -1867,7 +1876,7 @@ packages:
 
   /undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
-    dev: true
+    dev: false
 
   /undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}

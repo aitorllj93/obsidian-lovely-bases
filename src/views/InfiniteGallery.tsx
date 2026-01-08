@@ -8,22 +8,35 @@ import {
 } from '@/components/InfiniteDragScroll';
 import { ReactViewProps } from "@/types";
 import { getImageResourcePath } from "@/lib/links";
+import { cn } from "@/lib/utils";
 
 export const INFINITE_GALLERY_TYPE_ID = 'infinite-gallery';
 
-type Image = {
+type Item = {
 	id: string;
-	src: string;
-	alt: string;
+	image?: string;
+	title: string;
 	file: TFile;
 }
 
-const useImages = (app: App, data: ReactViewProps['data'], imageProperty: BasesPropertyId): Image[] => {
+type Config = {
+	cardSize: number; // from 50 to 800
+	imageProperty: BasesPropertyId;
+	imageFit: 'cover' | 'contain';
+	aspectRatio: number; // from 0.25 to 2.5
+	shape: 'square' | 'circle' | 'rounded' | 'squircle';
+}
+
+const useItems = (app: App, data: ReactViewProps['data'], imageProperty: BasesPropertyId): Item[] => {
 	return useMemo(() => {
 		return data.groupedData.flatMap((group) => {
 			return group.entries.map((entry) => {
 				const imageUrl = entry.getValue(imageProperty).toString();
-				if (!imageUrl || imageUrl === 'null') return null;
+				if (!imageUrl || imageUrl === 'null') return {
+					id: entry.file.path,
+					title: entry.file.name,
+					file: entry.file,
+				};
 
 				const imageSrc =
 					imageUrl.startsWith('http') ? imageUrl :
@@ -31,10 +44,12 @@ const useImages = (app: App, data: ReactViewProps['data'], imageProperty: BasesP
 
 				if (!imageSrc) return null;
 
+				const title = entry.file.basename.replace(/\.[^.]+$/, '');
+
 				return {
 					id: entry.file.path,
-					src: imageSrc,
-					alt: entry.file.name,
+					image: imageSrc,
+					title,
 					file: entry.file,
 				};
 			}).filter(Boolean);
@@ -42,17 +57,42 @@ const useImages = (app: App, data: ReactViewProps['data'], imageProperty: BasesP
 	}, [data, imageProperty]);
 };
 
-type GalleryImageProps = {
-	image: Image;
+type GalleryItemProps = {
+	item: Item;
+	imageFit: 'cover' | 'contain';
 	app: App;
 	containerEl: HTMLElement;
+	cardSize: number;
+	shape: 'square' | 'circle' | 'rounded' | 'squircle';
 }
 
 const DRAG_THRESHOLD = 5;
 
-const GalleryImage = memo(({ image, app, containerEl }: GalleryImageProps) => {
+const getTitleSizeClass = (cardSize: number) => {
+	if (cardSize < 100) return 'text-sm';
+	if (cardSize < 200) return 'text-base';
+	if (cardSize < 300) return 'text-lg';
+	if (cardSize < 400) return 'text-xl';
+	if (cardSize < 500) return 'text-2xl';
+	if (cardSize < 600) return 'text-3xl';
+	if (cardSize < 700) return 'text-4xl';
+	return 'text-5xl';
+}
+
+const getShapeClass = (shape: 'square' | 'circle' | 'rounded' | 'squircle') => {
+	if (shape === 'square') return 'rounded-sm';
+	if (shape === 'circle') return 'rounded-full';
+	if (shape === 'rounded') return 'rounded-lg';
+	if (shape === 'squircle') return 'rounded-[50%] corner-squircle ';
+	return 'rounded-xl';
+}
+
+const GalleryItem = memo(({ imageFit, item, app, containerEl, cardSize, shape }: GalleryItemProps) => {
 	const dragStartPos = useRef<{ x: number; y: number } | null>(null);
 	const linkRef = useRef<HTMLAnchorElement>(null);
+
+	const titleSize = getTitleSizeClass(cardSize);
+	const shapeClass = getShapeClass(shape);
 
 	const onPointerDown = (event: React.PointerEvent) => {
 		dragStartPos.current = { x: event.clientX, y: event.clientY };
@@ -72,7 +112,7 @@ const GalleryImage = memo(({ image, app, containerEl }: GalleryImageProps) => {
 		}
 
 		evt.preventDefault();
-		const path = image.file.path;
+		const path = item.file.path;
 		const modEvent = Keymap.isModEvent(evt);
 		void app.workspace.openLinkText(path, '', modEvent);
 	};
@@ -83,7 +123,7 @@ const GalleryImage = memo(({ image, app, containerEl }: GalleryImageProps) => {
 		  source: 'bases',
 		  hoverParent: containerEl,
 		  targetEl: linkRef.current,
-		  linktext: image.file.path,
+		  linktext: item.file.path,
 		});
 	};
 
@@ -97,54 +137,81 @@ const GalleryImage = memo(({ image, app, containerEl }: GalleryImageProps) => {
 				ref={linkRef}
 				className="pointer-events-none absolute h-full w-full select-none"
 				draggable={false}>
-				<img
-					src={image.src}
-					alt={image.alt}
+				{item.image && <img
+					src={item.image}
+					alt={item.title}
 					draggable={false}
 					loading="lazy"
-					className="pointer-events-none absolute h-full w-full rounded-sm object-cover"
-				/>
+					className={
+						cn(
+							"pointer-events-none absolute h-full w-full",
+							shapeClass,
+							imageFit === 'cover' ? 'object-cover' : 'object-contain'
+						)
+					}
+				/>}
+				{!item.image && <div className={
+					cn(
+						"pointer-events-none absolute h-full w-full rounded-sm bg-card flex justify-center",
+						shapeClass,
+					)
+				}>
+					<h3 className={
+						cn(
+							"font-medium text-card-foreground px-4",
+							titleSize
+						)
+					}>{item.title}</h3>
+				</div>}
 			</a>
 	  </GridItem>
 	)
 }, (prevProps, nextProps) => {
 	return (
-		prevProps.image.id === nextProps.image.id &&
-		prevProps.image.src === nextProps.image.src
+		prevProps.item.id === nextProps.item.id &&
+		prevProps.item.title === nextProps.item.title
 	);
 });
 
-GalleryImage.displayName = "GalleryImage";
+GalleryItem.displayName = "GalleryItem";
 
 const InfiniteGallery = ({ app, config, containerEl, data }: ReactViewProps) => {
-    const imageProperty = (String(config.get('imageProperty')) || 'note.cover') as BasesPropertyId;
-	const images = useImages(app, data, imageProperty);
+    const imageProperty = (String(config.get('imageProperty')) ?? 'note.cover') as Config['imageProperty'];
+	const cardSize = (config.get('cardSize') ?? 200) as Config['cardSize'];
+	const imageFit = (config.get('imageFit') ?? 'cover') as Config['imageFit'];
+	const aspectRatio = (config.get('aspectRatio') ?? 1.5) as Config['aspectRatio'];
+	const shape = (config.get('shape') ?? 'square') as Config['shape'];
+
+	const items = useItems(app, data, imageProperty);
 
 	// Cell dimensions matching original Tailwind classes
 	// w-36 = 144px, h-54 = 216px (mobile)
 	// md:w-64 = 256px, md:h-96 = 384px (desktop)
 	// gap-x-14 = 56px (mobile), md:gap-x-28 = 112px (desktop)
-	const cellWidth = 256;
-	const cellHeight = 384;
-	const gapX = 112;
+	const cellWidth = cardSize;
+	const cellHeight = cardSize * aspectRatio;
+	const gapX = cardSize / 2;
 	const gapY = 0; // Masonry doesn't use vertical gap, uses offset instead
-	const columns = 6;
+	const columns = Math.floor(containerEl.clientWidth / cellWidth);
 
 	return (
 		<div className="lovely-bases h-full w-full">
 			<DraggableContainer variant="masonry">
 				<VirtualGrid
-					items={images}
+					items={items}
 					columns={columns}
 					cellWidth={cellWidth}
 					cellHeight={cellHeight}
 					gapX={gapX}
 					gapY={gapY}
-					renderItem={(image) => (
-						<GalleryImage
-							image={image}
+					renderItem={(item) => (
+						<GalleryItem
+							item={item}
 							app={app}
 							containerEl={containerEl}
+							cardSize={cardSize}
+							imageFit={imageFit}
+							shape={shape}
 						/>
 					)}
 				/>

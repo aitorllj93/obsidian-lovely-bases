@@ -1,6 +1,7 @@
 @layer theme, base, components, utilities;
 @import "tailwindcss/theme" layer(theme);
 @import "tailwindcss/utilities" layer(utilities);
+@plugin "@toolwind/corner-shape";
 
 :root {
   --radius: var(--radius-m);

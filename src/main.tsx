@@ -19,11 +19,51 @@ export default class LovelyBasesPlugin extends Plugin {
 				),
 			options: () => ([
 			  {
+				type: 'slider',
+				displayName: 'Card size',
+				min: 50,
+				max: 800,
+				key: 'cardSize',
+				default: 100,
+			  },
+			  {
 				type: 'property',
-				displayName: 'Image property to display',
+				displayName: 'Image property',
 				key: 'imageProperty',
 				default: 'note.cover',
 			  },
+			  {
+				type: 'dropdown',
+				displayName: 'Image fit',
+				key: 'imageFit',
+				default: 'cover',
+				options: {
+					cover: 'Cover',
+					contain: 'Contain',
+				}
+			  },
+			  {
+				type: 'slider',
+				displayName: 'Aspect ratio',
+				min: 0.25,
+				max: 2.5,
+				key: 'aspectRatio',
+				default: 1.5,
+				step: 0.05
+			  },
+			  {
+				type: 'dropdown',
+				displayName: 'Shape',
+				key: 'shape',
+				default: 'square',
+				options: {
+					square: 'Square',
+					circle: 'Circle',
+					rounded: 'Rounded',
+					// TODO: Enable this once Obsidian's webview supports it
+					// squircle: 'Squircle',
+				}
+			  }
 		  ])
 		});
 	}
