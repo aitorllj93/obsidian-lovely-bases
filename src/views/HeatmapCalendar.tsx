@@ -22,6 +22,7 @@ const colors = {
 		'bg-primary/70',
 		'bg-primary',
 	],
+	semaphor: ['bg-card', 'bg-palette-red', 'bg-palette-orange', 'bg-palette-yellow', 'bg-palette-green', 'bg-palette-cyan'],
 	red: ['bg-card', 'bg-palette-red/10', 'bg-palette-red/30', 'bg-palette-red/50', 'bg-palette-red/70', 'bg-palette-red'],
 	orange: ['bg-card', 'bg-palette-orange/10', 'bg-palette-orange/30', 'bg-palette-orange/50', 'bg-palette-orange/70', 'bg-palette-orange'],
 	yellow: ['bg-card', 'bg-palette-yellow/10', 'bg-palette-yellow/30', 'bg-palette-yellow/50', 'bg-palette-yellow/70', 'bg-palette-yellow'],

@@ -159,6 +159,7 @@ export default class LovelyBasesPlugin extends Plugin {
 			default: 'primary',
 			options: {
 				primary: 'Primary',
+				semaphor: 'Semaphor',
 				red: 'Red',
 				orange: 'Orange',
 				yellow: 'Yellow',
