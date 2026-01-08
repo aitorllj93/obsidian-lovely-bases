@@ -52,31 +52,47 @@ BRAT will automatically check for updates and notify you when new versions are a
 
 ## 🎨 Available Views
 
-### Infinite Drag Scroll View
+### Infinite Gallery
 
-A beautiful, draggable grid interface for navigating through your notes' images with smooth animations and intuitive controls.
+An immersive, infinite virtualized grid for exploring your notes visually. It handles large collections smoothly with momentum-based navigation and multiple artistic layouts.
 
 #### Features
 
-- **Drag Navigation**: Click and drag to navigate through the grid
-- **Wheel Scroll Support**: Use your mouse wheel or trackpad to scroll vertically
-- **Multiple Layout Variants**: Choose from different visual styles:
-  - **Default**: Clean, uniform grid layout
-  - **Masonry**: Staggered layout with alternating heights
-  - **Polaroid**: Photo album style with borders and subtle rotations
-- **Customizable Image Properties**: Configure which property to use for displaying images (default: `note.cover`)
-  - Supports both local file paths and external URLs
-  - Local images are automatically resolved to their full paths
+- **Infinite Virtual Grid**: Seamlessly navigate through any number of notes without performance lag.
+- **Momentum Drag & Scroll**: Fluid, natural-feeling navigation with momentum and smooth wheel support.
+- **Artistic Layouts**:
+  - **Default**: A clean, balanced grid.
+  - **Masonry**: A dynamic, staggered layout.
+  - **Polaroid**: A classic photo-album aesthetic with borders and playful rotations.
+- **Geometric Shapes**: Custom card shapes including **Square**, **Circle** and **Rounded**.
 
 #### Configuration
 
-- **Image property to display**: Specify which property contains the image URL (default: `note.cover`)
+- **Layout**: Choose between 'Default', 'Masonry', or 'Polaroid'.
+- **Card Size**: Adjust the base width of the cards.
+- **Aspect Ratio**: Fine-tune the height-to-width ratio of your gallery items.
+- **Image Property**: Select which note property to use for the image (default: `note.cover`).
+- **Image Fit**: Choose between 'Cover' (fill) or 'Contain' (letterboxed).
+- **Shape**: Select the corner style for your cards (Square, Rounded, Squircle, or Circle).
 
-#### Navigation
+### Linear Calendar
 
-- **Drag**: Click and drag to navigate through the grid
-- **Scroll**: Use your mouse wheel or trackpad to scroll vertically
-- **Click**: Click on any image to open its associated note
+A sleek, horizontal timeline view that displays your notes as events across a calendar, perfect for visualizing schedules, projects, or journals.
+
+#### Features
+
+- **Adjustable Focus**: Switch between **Annual**, **Semestral** (6 months), and **Trimestral** (3 months) views.
+- **Event Visualization**: Notes are displayed as bars spanning from their start to end dates.
+- **Auto-Stacking**: Overlapping events are automatically stacked vertically for clear visibility.
+- **Color Coding**: Automatically uses the `note.color` property to style the event bars.
+- **Interactive**: Click on any event bar to immediately open the associated note.
+
+#### Configuration
+
+- **Focus**: Choose the time span to display ('Anual', 'Semestral', or 'Trimestral').
+- **Start Date Property**: The property used for the event's start date (required).
+- **End Date Property**: The property used for the event's end date (optional, defaults to start date).
+- **Reference Date**: The date around which the calendar centers (optional, defaults to today).
 
 ## 📋 Requirements
 
@@ -112,9 +128,12 @@ pnpm run dev
 ```
 obsidian-linear-base/
 ├── src/
-│   ├── components/          # React components
+│   ├── components/          # Presentational React components
 │   │   ├── InfiniteDragScroll.tsx
-│   │   └── InfiniteDragScrollView.tsx
+│   │   └── LinearCalendar.tsx
+│   ├── views/               # View logic and Obsidian integration
+│   │   ├── InfiniteGallery.tsx
+│   │   └── LinearCalendar.tsx
 │   ├── lib/                 # Utility functions
 │   ├── main.tsx             # Plugin entry point
 │   └── main.css             # Styles (Tailwind CSS)
