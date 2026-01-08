@@ -3,6 +3,7 @@ import { Plugin } from "obsidian";
 import { ReactView } from "@/lib/view-class";
 
 import InfiniteGallery, { INFINITE_GALLERY_TYPE_ID } from "@/views/InfiniteGallery";
+import LinearCalendar, { LINEAR_CALENDAR_TYPE_ID } from "@/views/LinearCalendar";
 
 export default class LovelyBasesPlugin extends Plugin {
 
@@ -76,6 +77,50 @@ export default class LovelyBasesPlugin extends Plugin {
 				}
 			  }
 		  ])
+		});
+
+		this.registerBasesView(LINEAR_CALENDAR_TYPE_ID, {
+			name: "Linear Calendar",
+			icon: 'lucide-calendar-days',
+			factory: (controller, containerEl) =>
+				new ReactView(
+					LINEAR_CALENDAR_TYPE_ID,
+					LinearCalendar,
+					controller,
+					containerEl
+				),
+			options: () => ([
+				{
+					type: 'dropdown',
+					displayName: 'Enfoque', // Spanish as per screenshot
+					key: 'focus',
+					default: 'Anual',
+					options: {
+						Anual: 'Anual',
+						Semestral: 'Semestral',
+						Trimestral: 'Trimestral',
+					}
+				},
+				{
+					type: 'property',
+					displayName: 'Start Date Property',
+					key: 'startDateProperty',
+					default: 'note.created', // Default guess
+				},
+				{
+					type: 'property',
+					displayName: 'End Date Property',
+					key: 'endDateProperty',
+					default: '',
+				},
+				{
+					type: 'text',
+					displayName: 'Reference Date (YYYY-MM-DD)',
+					key: 'date',
+					default: '',
+					placeholder: 'YYYY-MM-DD',
+				},
+			])
 		});
 	}
 }
