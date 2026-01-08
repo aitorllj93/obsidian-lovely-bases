@@ -5,6 +5,7 @@ import {
 	motion,
 	MotionValue,
 	useMotionValue,
+	useTransform,
 } from "motion/react";
 import {
 	memo,
@@ -61,8 +62,8 @@ type VirtualItem = {
 	virtualCol: number;
 	virtualRow: number;
 	realIndex: number;
-	x: number;
-	y: number;
+	baseX: number; // Grid position without scroll offset
+	baseY: number; // Grid position without scroll offset
 	key: string;
 };
 
@@ -135,16 +136,14 @@ const useVirtualGrid = ({
 					gridY += masonryOffset;
 				}
 
-				// Convert to screen position by adding scroll offset
-				const screenX = gridX + scrollX;
-				const screenY = gridY + scrollY;
-
+				// Store base grid position (without scroll offset)
+				// The scroll offset will be applied reactively via useTransform
 				visibleItems.push({
 					virtualCol,
 					virtualRow,
 					realIndex,
-					x: screenX,
-					y: screenY,
+					baseX: gridX,
+					baseY: gridY,
 					key: `${virtualCol}-${virtualRow}`,
 				});
 			}
@@ -366,6 +365,49 @@ export const GridItem = memo(
 
 GridItem.displayName = "GridItem";
 
+// Component that uses useTransform for reactive positioning without re-renders
+type VirtualGridItemWrapperProps = {
+	scrollX: MotionValue<number>;
+	scrollY: MotionValue<number>;
+	baseX: number;
+	baseY: number;
+	width: number;
+	height: number;
+	children: React.ReactNode;
+};
+
+const VirtualGridItemWrapper = memo(({
+	scrollX,
+	scrollY,
+	baseX,
+	baseY,
+	width,
+	height,
+	children,
+}: VirtualGridItemWrapperProps) => {
+	// These transforms update reactively without causing React re-renders
+	const x = useTransform(scrollX, (sx) => baseX + sx);
+	const y = useTransform(scrollY, (sy) => baseY + sy);
+
+	return (
+		<motion.div
+			className="pointer-events-auto"
+			style={{
+				position: "absolute",
+				x,
+				y,
+				width,
+				height,
+				willChange: "transform",
+			}}
+		>
+			{children}
+		</motion.div>
+	);
+});
+
+VirtualGridItemWrapper.displayName = "VirtualGridItemWrapper";
+
 type VirtualGridProps<T> = {
 	items: T[];
 	columns: number;
@@ -471,25 +513,25 @@ export const VirtualGrid = <T,>({
 		buffer: 3,
 	});
 
+	if (!scrollContext) return null;
+
 	return (
 		<div
 			ref={containerRef}
 			className={cn("absolute inset-0", className)}
 		>
-			{visibleItems.map(({ key, realIndex, x, y }) => (
-				<div
+			{visibleItems.map(({ key, realIndex, baseX, baseY }) => (
+				<VirtualGridItemWrapper
 					key={key}
-					className="pointer-events-auto"
-					style={{
-						position: "absolute",
-						transform: `translate3d(${x}px, ${y}px, 0)`,
-						width: cellWidth,
-						height: cellHeight,
-						willChange: "transform",
-					}}
+					scrollX={scrollContext.scrollX}
+					scrollY={scrollContext.scrollY}
+					baseX={baseX}
+					baseY={baseY}
+					width={cellWidth}
+					height={cellHeight}
 				>
 					{renderItem(items[realIndex], realIndex)}
-				</div>
+				</VirtualGridItemWrapper>
 			))}
 		</div>
 	);
