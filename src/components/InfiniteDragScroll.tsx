@@ -125,9 +125,15 @@ import {
   export const GridItem = ({
 	children,
 	className,
+	onPointerDown,
+	onClick,
+	onMouseOver,
   }: {
 	children: React.ReactNode;
 	className?: string;
+	onPointerDown?: React.PointerEventHandler;
+	onClick?: React.MouseEventHandler;
+	onMouseOver?: React.MouseEventHandler;
   }) => {
 	const variant = useContext(GridVariantContext);
 
@@ -154,6 +160,9 @@ import {
 		variants={rowVariants}
 		initial="initial"
 		animate="animate"
+		onPointerDown={onPointerDown}
+		onClick={onClick}
+		onMouseOver={onMouseOver}
 	  >
 		{children}
 	  </motion.div>
