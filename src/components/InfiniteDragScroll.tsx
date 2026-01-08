@@ -3,208 +3,534 @@ import {
 	animate,
 	cubicBezier,
 	motion,
+	MotionValue,
 	useMotionValue,
-	wrap,
-  } from "motion/react";
-  import {
+} from "motion/react";
+import {
 	memo,
 	useContext,
 	useEffect,
+	useMemo,
 	useRef,
 	useState,
 	createContext,
-  } from "react";
-  import { cva } from "class-variance-authority";
-  import { cn } from "../lib/utils";
+	useCallback,
+} from "react";
+import { cva } from "class-variance-authority";
+import { cn } from "../lib/utils";
 
-  //Types
-  type variants = "default" | "masonry" | "polaroid";
+//Types
+type variants = "default" | "masonry" | "polaroid";
 
-  // Create Context
-  const GridVariantContext = createContext<variants | undefined>(undefined);
+// Create Contexts
+const GridVariantContext = createContext<variants | undefined>(undefined);
 
-  //Motion Variants
-  const rowVariants = {
-	initial: { opacity: 0, scale: 0.3 },
-	animate: () => ({
-	  opacity: 1,
-	  scale: 1,
-	  transition: {
-		delay: Math.random() + 1.5,
-		duration: 1.4,
-		ease: cubicBezier(0.18, 0.71, 0.11, 1),
-	  },
-	}),
-  };
+type ScrollContextType = {
+	scrollX: MotionValue<number>;
+	scrollY: MotionValue<number>;
+};
 
-  export const DraggableContainer = ({
+const ScrollContext = createContext<ScrollContextType | undefined>(undefined);
+
+// Memoized grid item styles outside component
+const gridItemStyles = cva(
+	"overflow-hidden hover:cursor-pointer w-full h-full",
+	{
+		variants: {
+			variant: {
+				default: "rounded-sm",
+				masonry: "rounded-sm",
+				polaroid:
+					"border-10 border-b-28 border-white shadow-xl even:rotate-3 odd:-rotate-2 hover:rotate-0 transition-transform ease-out duration-300",
+			},
+		},
+		defaultVariants: {
+			variant: "default",
+		},
+	}
+);
+
+// Helper function to wrap index to valid range
+const wrapIndex = (index: number, total: number): number => {
+	if (total === 0) return 0;
+	return ((index % total) + total) % total;
+};
+
+// Hook to calculate visible items in virtual grid
+type VirtualItem = {
+	virtualCol: number;
+	virtualRow: number;
+	realIndex: number;
+	x: number;
+	y: number;
+	key: string;
+};
+
+type UseVirtualGridParams = {
+	totalItems: number;
+	columns: number;
+	cellWidth: number;
+	cellHeight: number;
+	gapX: number;
+	gapY: number;
+	scrollX: number;
+	scrollY: number;
+	viewportWidth: number;
+	viewportHeight: number;
+	variant?: variants;
+	buffer?: number;
+};
+
+const useVirtualGrid = ({
+	totalItems,
+	columns,
+	cellWidth,
+	cellHeight,
+	gapX,
+	gapY,
+	scrollX,
+	scrollY,
+	viewportWidth,
+	viewportHeight,
+	variant,
+	buffer = 2,
+}: UseVirtualGridParams): VirtualItem[] => {
+	return useMemo(() => {
+		if (totalItems === 0 || viewportWidth === 0 || viewportHeight === 0) return [];
+
+		// Cell spacing including gap
+		const cellSpacingX = cellWidth + gapX;
+		const cellSpacingY = cellHeight + gapY;
+
+		// For masonry, account for the offset
+		const masonryOffset = variant === "masonry" || variant === "polaroid" ? cellHeight * 0.6 : 0;
+		const effectiveCellSpacingY = cellSpacingY + (masonryOffset > 0 ? masonryOffset / 2 : 0);
+
+		// Calculate visible range of columns (infinite in both directions)
+		const startCol = Math.floor(-scrollX / cellSpacingX) - buffer;
+		const endCol = Math.ceil((-scrollX + viewportWidth) / cellSpacingX) + buffer;
+
+		// Calculate visible range of rows (infinite in both directions)
+		const startRow = Math.floor(-scrollY / effectiveCellSpacingY) - buffer;
+		const endRow = Math.ceil((-scrollY + viewportHeight) / effectiveCellSpacingY) + buffer;
+
+		const visibleItems: VirtualItem[] = [];
+
+		// Iterate through ALL visible columns and rows (infinite grid)
+		for (let virtualRow = startRow; virtualRow <= endRow; virtualRow++) {
+			for (let virtualCol = startCol; virtualCol <= endCol; virtualCol++) {
+				// Wrap column to [0, columns-1] for index calculation
+				const wrappedCol = wrapIndex(virtualCol, columns);
+
+				// Calculate the virtual index in the infinite grid
+				const virtualIndex = virtualRow * columns + wrappedCol;
+				const realIndex = wrapIndex(virtualIndex, totalItems);
+
+				// Calculate position in grid coordinates
+				let gridX = virtualCol * cellSpacingX;
+				let gridY = virtualRow * effectiveCellSpacingY;
+
+				// Apply masonry offset for columns with even wrapped index
+				if ((variant === "masonry" || variant === "polaroid") && wrappedCol % 2 === 0) {
+					gridY += masonryOffset;
+				}
+
+				// Convert to screen position by adding scroll offset
+				const screenX = gridX + scrollX;
+				const screenY = gridY + scrollY;
+
+				visibleItems.push({
+					virtualCol,
+					virtualRow,
+					realIndex,
+					x: screenX,
+					y: screenY,
+					key: `${virtualCol}-${virtualRow}`,
+				});
+			}
+		}
+
+		return visibleItems;
+	}, [
+		totalItems,
+		columns,
+		cellWidth,
+		cellHeight,
+		gapX,
+		gapY,
+		scrollX,
+		scrollY,
+		viewportWidth,
+		viewportHeight,
+		variant,
+		buffer,
+	]);
+};
+
+export const DraggableContainer = ({
 	className,
 	children,
 	variant,
-  }: {
+}: {
 	className?: string;
 	children: React.ReactNode;
 	variant?: variants;
-  }) => {
-	const ref = useRef<HTMLDivElement | null>(null);
+}) => {
+	const containerRef = useRef<HTMLDivElement | null>(null);
 
-	const x = useMotionValue(0);
-	const y = useMotionValue(0);
+	const scrollX = useMotionValue(0);
+	const scrollY = useMotionValue(0);
 
 	const [isDragging, setIsDragging] = useState(false);
-	const handleIsDragging = () => setIsDragging(true);
-	const handleIsNotDragging = () => setIsDragging(false);
+
+	// For tracking drag velocity
+	const dragState = useRef({
+		startX: 0,
+		startY: 0,
+		startScrollX: 0,
+		startScrollY: 0,
+		lastX: 0,
+		lastY: 0,
+		lastTime: 0,
+		velocityX: 0,
+		velocityY: 0,
+	});
+
+	const onPointerDown = useCallback((e: React.PointerEvent) => {
+		setIsDragging(true);
+		const state = dragState.current;
+		state.startX = e.clientX;
+		state.startY = e.clientY;
+		state.startScrollX = scrollX.get();
+		state.startScrollY = scrollY.get();
+		state.lastX = e.clientX;
+		state.lastY = e.clientY;
+		state.lastTime = Date.now();
+		state.velocityX = 0;
+		state.velocityY = 0;
+		(e.target as HTMLElement).setPointerCapture(e.pointerId);
+	}, [scrollX, scrollY]);
+
+	const onPointerMove = useCallback((e: React.PointerEvent) => {
+		if (!isDragging) return;
+
+		const state = dragState.current;
+		const now = Date.now();
+		const dt = now - state.lastTime;
+
+		const currentX = state.startScrollX + (e.clientX - state.startX);
+		const currentY = state.startScrollY + (e.clientY - state.startY);
+
+		// Calculate velocity (pixels per second)
+		if (dt > 0) {
+			const instantVelX = ((e.clientX - state.lastX) / dt) * 1000;
+			const instantVelY = ((e.clientY - state.lastY) / dt) * 1000;
+
+			// Time-dependent smoothing factor
+			// Decays faster with longer intervals between events
+			const smoothingFactor = Math.min(dt / 100, 1);
+			const alpha = 0.3 + 0.4 * smoothingFactor;
+
+			state.velocityX = state.velocityX * (1 - alpha) + instantVelX * alpha;
+			state.velocityY = state.velocityY * (1 - alpha) + instantVelY * alpha;
+		}
+
+		state.lastX = e.clientX;
+		state.lastY = e.clientY;
+		state.lastTime = now;
+
+		scrollX.set(currentX);
+		scrollY.set(currentY);
+	}, [isDragging, scrollX, scrollY]);
+
+	const onPointerUp = useCallback((e: React.PointerEvent) => {
+		if (!isDragging) return;
+		setIsDragging(false);
+		(e.target as HTMLElement).releasePointerCapture(e.pointerId);
+
+		const state = dragState.current;
+		const now = Date.now();
+		const timeSinceLastMove = now - state.lastTime;
+
+		// Decay velocity if user paused before releasing
+		// After ~150ms of no movement, velocity should be near zero
+		const decayFactor = Math.exp(-timeSinceLastMove / 50);
+		const velocityX = state.velocityX * decayFactor;
+		const velocityY = state.velocityY * decayFactor;
+
+		const currentX = scrollX.get();
+		const currentY = scrollY.get();
+
+		// Apply momentum using same physics as original:
+		// timeConstant: 200, power: 0.28
+		// Motion's formula: target = current + velocity * power * timeConstant / 1000
+		const timeConstant = 200;
+		const power = 0.28;
+		const momentumFactor = (power * timeConstant) / 1000;
+
+		const targetX = currentX + velocityX * momentumFactor;
+		const targetY = currentY + velocityY * momentumFactor;
+
+		// Animate with deceleration curve
+		// Duration based on velocity magnitude
+		const velocityMag = Math.sqrt(velocityX ** 2 + velocityY ** 2);
+
+		// Don't animate if velocity is negligible
+		if (velocityMag < 50) return;
+
+		const duration = Math.min(Math.max(velocityMag / 1000, 0.3), 1.2);
+
+		animate(scrollX, targetX, {
+			type: "tween",
+			duration,
+			ease: [0.32, 0.72, 0, 1], // Custom ease similar to iOS momentum
+		});
+		animate(scrollY, targetY, {
+			type: "tween",
+			duration,
+			ease: [0.32, 0.72, 0, 1],
+		});
+	}, [isDragging, scrollX, scrollY]);
 
 	useEffect(() => {
-	  const container = ref.current?.getBoundingClientRect();
-	  if (!container) return;
+		const handleWheelScroll = (event: WheelEvent) => {
+			if (!isDragging) {
+				const targetY = scrollY.get() - event.deltaY * 2.7;
+				animate(scrollY, targetY, {
+					type: "tween",
+					duration: 1.2,
+					ease: cubicBezier(0.18, 0.71, 0.11, 1),
+				});
+			}
+		};
 
-	  const { width, height } = container;
-
-	  const xDrag = x.on("change", (latest) => {
-		const wrappedX = wrap(-(width / 2), 0, latest);
-		x.set(wrappedX);
-	  });
-
-	  const yDrag = y.on("change", (latest) => {
-		const wrappedY = wrap(-(height / 2), 0, latest);
-		y.set(wrappedY);
-	  });
-
-	  const handleWheelScroll = (event: WheelEvent) => {
-		if (!isDragging) {
-		  animate(y, y.get() - event.deltaY * 2.7, {
-			type: "tween",
-			duration: 1.2,
-			ease: cubicBezier(0.18, 0.71, 0.11, 1),
-		  });
-		}
-	  };
-
-	  window.addEventListener("wheel", handleWheelScroll);
-	  return () => {
-		xDrag();
-		yDrag();
-		window.removeEventListener("wheel", handleWheelScroll);
-	  };
-	}, [x, y, isDragging]);
+		window.addEventListener("wheel", handleWheelScroll, { passive: true });
+		return () => {
+			window.removeEventListener("wheel", handleWheelScroll);
+		};
+	}, [scrollY, isDragging]);
 
 	return (
-	  <GridVariantContext.Provider value={variant}>
-		<div className="h-dvh overflow-hidden">
-		  <motion.div
-			className="h-dvh overflow-hidden"
-		  >
-			<motion.div
-			  className={cn(
-				"grid h-fit w-fit cursor-grab grid-cols-[repeat(2,1fr)]  active:cursor-grabbing will-change-transform",
-				className,
-			  )}
-			  drag
-			  dragMomentum={true}
-			  dragTransition={{
-				timeConstant: 200,
-				power: 0.28,
-				restDelta: 0,
-				bounceStiffness: 0,
-			  }}
-			  onMouseDown={handleIsDragging}
-			  onMouseUp={handleIsNotDragging}
-			  onMouseLeave={handleIsNotDragging}
-			  style={{ x, y }}
-			  ref={ref}
-			>
-			  {children}
-			</motion.div>
-		  </motion.div>
-		</div>
-	  </GridVariantContext.Provider>
+		<GridVariantContext.Provider value={variant}>
+			<ScrollContext.Provider value={{ scrollX, scrollY }}>
+				<div
+					ref={containerRef}
+					className={cn(
+						"h-dvh w-full overflow-hidden relative cursor-grab active:cursor-grabbing touch-none select-none",
+						className
+					)}
+					onPointerDown={onPointerDown}
+					onPointerMove={onPointerMove}
+					onPointerUp={onPointerUp}
+					onPointerCancel={onPointerUp}
+					onPointerLeave={onPointerUp}
+				>
+					{/* Content layer */}
+					<div className="absolute inset-0 pointer-events-none">
+						{children}
+					</div>
+				</div>
+			</ScrollContext.Provider>
+		</GridVariantContext.Provider>
 	);
-  };
+};
 
-  export const GridItem = ({
-	children,
-	className,
-	onPointerDown,
-	onClick,
-	onMouseOver,
-  }: {
-	children: React.ReactNode;
-	className?: string;
-	onPointerDown?: React.PointerEventHandler;
-	onClick?: React.MouseEventHandler;
-	onMouseOver?: React.MouseEventHandler;
-  }) => {
-	const variant = useContext(GridVariantContext);
-
-	const gridItemStyles = cva(
-	  "overflow-hidden hover:cursor-pointer w-full h-full will-change-transform",
-	  {
-		variants: {
-		  variant: {
-			default: "rounded-sm",
-			masonry: "even:mt-[60%] rounded-sm ",
-			polaroid:
-			  "border-10 border-b-28 border-white shadow-xl even:rotate-3 odd:-rotate-2 hover:rotate-0 transition-transform ease-out duration-300 even:mt-[60%]",
-		  },
-		},
-		defaultVariants: {
-		  variant: "default",
-		},
-	  },
-	);
-
-	return (
-	  <motion.div
-		className={cn(gridItemStyles({ variant, className }))}
-		variants={rowVariants}
-		initial="initial"
-		animate="animate"
-		onPointerDown={onPointerDown}
-		onClick={onClick}
-		onMouseOver={onMouseOver}
-	  >
-		{children}
-	  </motion.div>
-	);
-  };
-
-  export const GridBody = memo(
+export const GridItem = memo(
 	({
-	  children,
-	  className,
+		children,
+		className,
+		onPointerDown,
+		onClick,
+		onMouseOver,
 	}: {
-	  children: React.ReactNode;
-	  className?: string;
+		children: React.ReactNode;
+		className?: string;
+		onPointerDown?: React.PointerEventHandler;
+		onClick?: React.MouseEventHandler;
+		onMouseOver?: React.MouseEventHandler;
 	}) => {
-	  const variant = useContext(GridVariantContext);
+		const variant = useContext(GridVariantContext);
 
-	  const gridBodyStyles = cva("grid grid-cols-[repeat(6,1fr)] h-fit w-fit", {
-		variants: {
-		  variant: {
-			default: "gap-14 p-7 md:gap-28 md:p-14",
-			masonry: "gap-x-14 px-7 md:gap-x-28 md:px-14",
-			polaroid: "gap-x-14 px-7 md:gap-x-28 md:px-14",
-		  },
-		},
-		defaultVariants: {
-		  variant: "default",
-		},
-	  });
-
-	  return (
-		<>
-		  {Array.from({ length: 4 }).map((_, index) => (
+		return (
 			<div
-			  key={index}
-			  className={cn(gridBodyStyles({ variant, className }))}
+				className={cn(gridItemStyles({ variant }), className)}
+				onPointerDown={onPointerDown}
+				onClick={onClick}
+				onMouseOver={onMouseOver}
 			>
-			  {children}
+				{children}
 			</div>
-		  ))}
-		</>
-	  );
-	},
-  );
+		);
+	}
+);
 
-  GridBody.displayName = "GridBody";
+GridItem.displayName = "GridItem";
+
+type VirtualGridProps<T> = {
+	items: T[];
+	columns: number;
+	cellWidth: number;
+	cellHeight: number;
+	gapX: number;
+	gapY: number;
+	renderItem: (item: T, index: number) => React.ReactNode;
+	className?: string;
+};
+
+export const VirtualGrid = <T,>({
+	items,
+	columns,
+	cellWidth,
+	cellHeight,
+	gapX,
+	gapY,
+	renderItem,
+	className,
+}: VirtualGridProps<T>) => {
+	const scrollContext = useContext(ScrollContext);
+	const variant = useContext(GridVariantContext);
+	const containerRef = useRef<HTMLDivElement>(null);
+
+	// Use refs to track scroll position without causing re-renders on every frame
+	const scrollXRef = useRef(0);
+	const scrollYRef = useRef(0);
+	const [, forceUpdate] = useState(0);
+	const rafRef = useRef<number | null>(null);
+	const lastUpdateRef = useRef(0);
+
+	const [viewportWidth, setViewportWidth] = useState(
+		typeof window !== "undefined" ? window.innerWidth : 1920
+	);
+	const [viewportHeight, setViewportHeight] = useState(
+		typeof window !== "undefined" ? window.innerHeight : 1080
+	);
+
+	// Subscribe to scroll changes with throttling
+	useEffect(() => {
+		if (!scrollContext) return;
+
+		const scheduleUpdate = () => {
+			const now = Date.now();
+			// Throttle updates to ~60fps max
+			if (now - lastUpdateRef.current > 16) {
+				lastUpdateRef.current = now;
+				forceUpdate((n) => n + 1);
+			} else if (!rafRef.current) {
+				rafRef.current = requestAnimationFrame(() => {
+					rafRef.current = null;
+					lastUpdateRef.current = Date.now();
+					forceUpdate((n) => n + 1);
+				});
+			}
+		};
+
+		const unsubscribeX = scrollContext.scrollX.on("change", (latest) => {
+			scrollXRef.current = latest;
+			scheduleUpdate();
+		});
+
+		const unsubscribeY = scrollContext.scrollY.on("change", (latest) => {
+			scrollYRef.current = latest;
+			scheduleUpdate();
+		});
+
+		return () => {
+			unsubscribeX();
+			unsubscribeY();
+			if (rafRef.current) {
+				cancelAnimationFrame(rafRef.current);
+			}
+		};
+	}, [scrollContext]);
+
+	// Update viewport dimensions
+	useEffect(() => {
+		const updateViewport = () => {
+			setViewportWidth(window.innerWidth);
+			setViewportHeight(window.innerHeight);
+		};
+
+		updateViewport();
+		window.addEventListener("resize", updateViewport);
+		return () => window.removeEventListener("resize", updateViewport);
+	}, []);
+
+	// Calculate visible items using current ref values
+	const visibleItems = useVirtualGrid({
+		totalItems: items.length,
+		columns,
+		cellWidth,
+		cellHeight,
+		gapX,
+		gapY,
+		scrollX: scrollXRef.current,
+		scrollY: scrollYRef.current,
+		viewportWidth,
+		viewportHeight,
+		variant,
+		buffer: 3,
+	});
+
+	return (
+		<div
+			ref={containerRef}
+			className={cn("absolute inset-0", className)}
+		>
+			{visibleItems.map(({ key, realIndex, x, y }) => (
+				<div
+					key={key}
+					className="pointer-events-auto"
+					style={{
+						position: "absolute",
+						transform: `translate3d(${x}px, ${y}px, 0)`,
+						width: cellWidth,
+						height: cellHeight,
+					}}
+				>
+					{renderItem(items[realIndex], realIndex)}
+				</div>
+			))}
+		</div>
+	);
+};
+
+// Keep GridBody for backward compatibility
+export const GridBody = memo(
+	({
+		children,
+		className,
+	}: {
+		children: React.ReactNode;
+		className?: string;
+	}) => {
+		const variant = useContext(GridVariantContext);
+
+		const gridBodyStyles = cva("grid grid-cols-[repeat(6,1fr)] h-fit w-fit", {
+			variants: {
+				variant: {
+					default: "gap-14 p-7 md:gap-28 md:p-14",
+					masonry: "gap-x-14 px-7 md:gap-x-28 md:px-14",
+					polaroid: "gap-x-14 px-7 md:gap-x-28 md:px-14",
+				},
+			},
+			defaultVariants: {
+				variant: "default",
+			},
+		});
+
+		return (
+			<>
+				{Array.from({ length: 4 }).map((_, index) => (
+					<div
+						key={index}
+						className={cn(gridBodyStyles({ variant, className }))}
+					>
+						{children}
+					</div>
+				))}
+			</>
+		);
+	},
+);
+
+GridBody.displayName = "GridBody";

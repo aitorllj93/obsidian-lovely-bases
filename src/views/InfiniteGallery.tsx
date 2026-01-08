@@ -1,9 +1,9 @@
-import { App, BasesPropertyId, Keymap, normalizePath, TFile } from "obsidian";
-import { useMemo, useRef } from "react";
+import { App, BasesPropertyId, Keymap, TFile } from "obsidian";
+import { useMemo, useRef, memo } from "react";
 
 import {
 	DraggableContainer,
-	GridBody,
+	VirtualGrid,
 	GridItem
 } from '@/components/InfiniteDragScroll';
 import { ReactViewProps } from "@/types";
@@ -48,9 +48,9 @@ type GalleryImageProps = {
 	containerEl: HTMLElement;
 }
 
-const DRAG_THRESHOLD = 5; // píxeles de movimiento para considerar que fue drag
+const DRAG_THRESHOLD = 5;
 
-const GalleryImage = ({ image, app, containerEl }: GalleryImageProps) => {
+const GalleryImage = memo(({ image, app, containerEl }: GalleryImageProps) => {
 	const dragStartPos = useRef<{ x: number; y: number } | null>(null);
 	const linkRef = useRef<HTMLAnchorElement>(null);
 
@@ -62,12 +62,10 @@ const GalleryImage = ({ image, app, containerEl }: GalleryImageProps) => {
 		const evt = event.nativeEvent;
 		if (evt.button !== 0 && evt.button !== 1) return;
 
-		// Comparar posición actual con la inicial para detectar drag
 		if (dragStartPos.current) {
 			const dx = Math.abs(event.clientX - dragStartPos.current.x);
 			const dy = Math.abs(event.clientY - dragStartPos.current.y);
 			if (dx > DRAG_THRESHOLD || dy > DRAG_THRESHOLD) {
-				// Fue un drag, no abrir el link
 				dragStartPos.current = null;
 				return;
 			}
@@ -91,8 +89,7 @@ const GalleryImage = ({ image, app, containerEl }: GalleryImageProps) => {
 
 	return (
 		<GridItem
-			key={image.id}
-			className="relative h-54 w-36 md:h-96 md:w-64"
+			className="relative w-full h-full"
 			onPointerDown={onPointerDown}
 			onClick={onImageClick}
 			onMouseOver={onImageMouseOver}>
@@ -104,27 +101,56 @@ const GalleryImage = ({ image, app, containerEl }: GalleryImageProps) => {
 					src={image.src}
 					alt={image.alt}
 					draggable={false}
-					className="pointer-events-none absolute h-full w-full object-cover"
+					loading="lazy"
+					className="pointer-events-none absolute h-full w-full rounded-sm object-cover"
 				/>
 			</a>
 	  </GridItem>
 	)
-}
+}, (prevProps, nextProps) => {
+	return (
+		prevProps.image.id === nextProps.image.id &&
+		prevProps.image.src === nextProps.image.src
+	);
+});
+
+GalleryImage.displayName = "GalleryImage";
 
 const InfiniteGallery = ({ app, config, containerEl, data }: ReactViewProps) => {
     const imageProperty = (String(config.get('imageProperty')) || 'note.cover') as BasesPropertyId;
 	const images = useImages(app, data, imageProperty);
 
+	// Cell dimensions matching original Tailwind classes
+	// w-36 = 144px, h-54 = 216px (mobile)
+	// md:w-64 = 256px, md:h-96 = 384px (desktop)
+	// gap-x-14 = 56px (mobile), md:gap-x-28 = 112px (desktop)
+	const cellWidth = 256;
+	const cellHeight = 384;
+	const gapX = 112;
+	const gapY = 0; // Masonry doesn't use vertical gap, uses offset instead
+	const columns = 6;
+
 	return (
-		<div className="lovely-bases">
-		<DraggableContainer variant="masonry">
-		 <GridBody>
-		   {images.map((image) => (
-				<GalleryImage key={image.id} image={image} app={app} containerEl={containerEl} />
-		   ))}
-		 </GridBody>
-	   </DraggableContainer></div>
-	 );
+		<div className="lovely-bases h-full w-full">
+			<DraggableContainer variant="masonry">
+				<VirtualGrid
+					items={images}
+					columns={columns}
+					cellWidth={cellWidth}
+					cellHeight={cellHeight}
+					gapX={gapX}
+					gapY={gapY}
+					renderItem={(image) => (
+						<GalleryImage
+							image={image}
+							app={app}
+							containerEl={containerEl}
+						/>
+					)}
+				/>
+			</DraggableContainer>
+		</div>
+	);
 };
 
 export default InfiniteGallery;
