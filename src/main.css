@@ -1,0 +1,86 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme" layer(theme);
+@import "tailwindcss/utilities" layer(utilities);
+
+:root {
+  --radius: var(--radius-m);
+
+  --background: var(--color-base-00);
+  --foreground: var(--color-base-100);
+
+  --card: var(--background-secondary);
+  --card-foreground: var(--color-base-100);
+  --popover: var(--background-secondary-alt);
+  --popover-foreground: var(--color-base-100);
+
+  --primary: var(--interactive-accent);
+  --primary-foreground: var(--text-on-accent);
+
+  --secondary: var(--background-modifier-hover);
+  --secondary-foreground: var(--text-normal);
+
+  --muted: var(--color-base-20);
+  --muted-foreground: var(--text-muted);
+
+  --accent: var(--interactive-accent-hover);
+  --accent-foreground: var(--text-on-accent);
+
+  --destructive: var(--color-red);
+  --destructive-foreground: var(--color-base-00);
+
+  --border: var(--background-modifier-border);
+  --input: var(--background-modifier-border);
+  --ring: var(--interactive-accent);
+
+
+  --chart-1: var(--color-purple);
+  --chart-2: var(--color-cyan);
+  --chart-3: var(--color-yellow);
+  --chart-4: var(--color-pink);
+  --chart-5: var(--color-orange);
+
+  --sidebar: var(--background-secondary);
+  --sidebar-foreground: var(--color-base-100);
+  --sidebar-primary: var(--interactive-accent);
+  --sidebar-primary-foreground: var(--text-on-accent);
+  --sidebar-accent: var(--background-modifier-hover);
+  --sidebar-accent-foreground: var(--color-base-100);
+  --sidebar-border: var(--background-modifier-border);
+  --sidebar-ring: var(--interactive-accent);
+}
+
+@theme inline {
+	--radius: var(--radius-m);
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-destructive-foreground: var(--destructive-foreground);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+	--color-chart-1: var(--chart-1);
+	--color-chart-2: var(--chart-2);
+	--color-chart-3: var(--chart-3);
+	--color-chart-4: var(--chart-4);
+	--color-chart-5: var(--chart-5);
+	--color-sidebar: var(--sidebar);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-ring: var(--sidebar-ring);
+}
