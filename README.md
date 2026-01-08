@@ -94,6 +94,24 @@ A sleek, horizontal timeline view that displays your notes as events across a ca
 - **End Date Property**: The property used for the event's end date (optional, defaults to start date).
 - **Reference Date**: The date around which the calendar centers (optional, defaults to today).
 
+### Heatmap Calendar
+
+A GitHub-style activity tracker that visualizes the frequency of notes or events over time, perfect for habit tracking or monitoring daily productivity.
+
+#### Features
+
+- **Activity Visualization**: A grid-based heatmap showing activity levels through color intensity across the year.
+- **Automatic Grouping**: Supports displaying data grouped by different categories.
+- **Multiple Color Schemes**: Choose from variety of palettes including **Red**, **Green**, **Blue**, **Purple**, and more.
+- **Interactive**: Click on any cell to immediately open the associated note.
+
+#### Configuration
+
+- **Date Property**: The property used to determine the date of the entry (required).
+- **Track Property**: The numeric property used to calculate the intensity of the heatmap (required).
+- **Color Scheme**: Select the color palette for the cells (e.g., 'primary', 'green', 'red').
+- **Reference Date**: The date used as the end point for the calendar display (optional, defaults to today).
+
 ## 📋 Requirements
 
 - Obsidian with Bases SDK support (latest version recommended, min 1.9)
@@ -130,10 +148,12 @@ obsidian-linear-base/
 ├── src/
 │   ├── components/          # Presentational React components
 │   │   ├── InfiniteDragScroll.tsx
-│   │   └── LinearCalendar.tsx
+│   │   ├── LinearCalendar.tsx
+│   │   └── HeatmapCalendar.tsx
 │   ├── views/               # View logic and Obsidian integration
 │   │   ├── InfiniteGallery.tsx
-│   │   └── LinearCalendar.tsx
+│   │   ├── LinearCalendar.tsx
+│   │   └── HeatmapCalendar.tsx
 │   ├── lib/                 # Utility functions
 │   ├── main.tsx             # Plugin entry point
 │   └── main.css             # Styles (Tailwind CSS)
