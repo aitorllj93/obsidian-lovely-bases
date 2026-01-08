@@ -169,6 +169,12 @@ export default class LovelyBasesPlugin extends Plugin {
 				purple: 'Purple',
 				magenta: 'Magenta',
 			}
+		},
+		{
+			type: 'toggle',
+			displayName: 'Reverse Colors',
+			key: 'reverseColors',
+			default: false,
 		}
       ])
     })

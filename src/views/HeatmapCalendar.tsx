@@ -31,13 +31,20 @@ const colors = {
 	blue: ['bg-card', 'bg-palette-blue/10', 'bg-palette-blue/30', 'bg-palette-blue/50', 'bg-palette-blue/70', 'bg-palette-blue'],
 	purple: ['bg-card', 'bg-palette-purple/10', 'bg-palette-purple/30', 'bg-palette-purple/50', 'bg-palette-purple/70', 'bg-palette-purple'],
 	magenta: ['bg-card', 'bg-palette-magenta/10', 'bg-palette-magenta/30', 'bg-palette-magenta/50', 'bg-palette-magenta/70', 'bg-palette-magenta'],
-} as const;
+};
 
 const HeatmapCalendarView = ({ app, config, data }: ReactViewProps) => {
     const dateProperty = config.get('dateProperty') as Config['dateProperty'];
     const trackProperty = config.get('trackProperty') as Config['trackProperty'];
 	const colorScheme = (config.get('colorScheme') ?? 'primary') as keyof typeof colors;
+	const reverseColors = (config.get('reverseColors') ?? false) as boolean;
     const dateStr = config.get('date') as string;
+
+	let classNames = colors[colorScheme] as string[];
+	if (reverseColors) {
+		// we need to keep the first color as bg-card and reverse the rest
+		classNames = [classNames[0], ...classNames.slice(1).reverse()];
+	}
 
     const referenceDate = useMemo(() => {
         if (dateStr) {
@@ -102,9 +109,7 @@ const HeatmapCalendarView = ({ app, config, data }: ReactViewProps) => {
       {groups.map(g => (
         <HeatmapCalendarComponent
 		    key={g.key}
-			classNames={[
-				...colors[colorScheme],
-			] as string[]}
+			classNames={classNames}
             data={g.entries}
             date={referenceDate}
             onClick={handleEventClick}
