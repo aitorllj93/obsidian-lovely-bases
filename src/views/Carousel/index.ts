@@ -8,7 +8,7 @@ const CAROUSEL_ID = 'carousel';
 const CAROUSEL_VIEW: BaseViewDef = {
   id: CAROUSEL_ID,
   name: "Carousel",
-  icon: "lucide-carousel",
+  icon: "lucide-gallery-horizontal",
   factory: (controller, containerEl) =>
     new ReactBasesView(CAROUSEL_ID, CarouselView, controller, containerEl),
 

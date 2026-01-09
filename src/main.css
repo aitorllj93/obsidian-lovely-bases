@@ -117,6 +117,9 @@
 	--color-palette-magenta: var(--color-pink);
 
   /** Tailwind overrides */
+  --font-serif: var(--font-text);
+  --font-sans: var(--font-text);
+  --font-mono: var(--font-monospace);
   --font-weight-medium: var(--normal-weight);
   --text-base: var(--font-ui-medium);
   --text-xs: var(--font-ui-smaller);

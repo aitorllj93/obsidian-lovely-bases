@@ -1,4 +1,4 @@
-import { type App, type BasesEntry, type BasesPropertyId, type BasesViewConfig, normalizePath, TFile, type Value } from "obsidian";
+import { type App, type BasesEntry, type BasesPropertyId, type BasesViewConfig, type FrontMatterCache, normalizePath, TFile, type Value } from "obsidian";
 
 
 export type Property = {
@@ -26,11 +26,40 @@ export const getProperty = (entry: BasesEntry, config: BasesViewConfig, property
   }
 }
 
+export const isLink = (raw: string): boolean => {
+  return raw.startsWith("[") && raw.endsWith("]");
+}
+
 export const parseWikilink = (raw: string): string => {
   const inner = raw.replace(/^\[\[|\]\]$/g, "");
   return inner.split("|")[0].trim();
 }
 
+
+export const resolveFileFrontmatter = (
+  app: App,
+  rawLink: string,
+  sourcePath: string,
+): FrontMatterCache | null => {
+  const link = parseWikilink(rawLink);
+
+  const dest = app.metadataCache.getFirstLinkpathDest(link, sourcePath);
+  if (!(dest instanceof TFile)) return null;
+
+  const frontmatter = app.metadataCache.getFileCache(dest)?.frontmatter;
+
+  return frontmatter;
+}
+
+export const resolveFrontMatterValue = <T = unknown>(
+  app: App,
+  rawLink: string,
+  sourcePath: string,
+  key: string,
+): T | null => {
+  const frontmatter = resolveFileFrontmatter(app, rawLink, sourcePath);
+  return frontmatter?.[key] as T | null;
+}
 
 export const resolveAttachment = (
   app: App,

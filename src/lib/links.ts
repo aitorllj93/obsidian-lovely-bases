@@ -25,7 +25,9 @@ export function getImageResourcePath(app: App, rawLink: string, sourcePath: stri
   return app.vault.adapter.getResourcePath(normalizePath(file.path)) ?? null;
 }
 
-export function getImageForEntry(app: App, entry: BasesEntry, propertyId: BasesPropertyId): string | null {
+export function getImageForEntry(app: App, entry: BasesEntry, propertyId: BasesPropertyId | undefined): string | null {
+  if (!propertyId) return null;
+
   const imageUrl = entry.getValue(propertyId)?.toString();
   let imageSrc: string | undefined = undefined;
 
