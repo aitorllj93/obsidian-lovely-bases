@@ -54,6 +54,8 @@ BRAT will automatically check for updates and notify you when new versions are a
 
 ### Infinite Gallery
 
+<img src="docs/assets/screenshots/infinite-gallery-polaroid.webp" alt="Infinite Gallery View">
+
 An immersive, infinite virtualized grid for exploring your notes visually. It handles large collections smoothly with momentum-based navigation and multiple artistic layouts.
 
 #### Features
@@ -76,6 +78,8 @@ An immersive, infinite virtualized grid for exploring your notes visually. It ha
 - **Shape**: Select the corner style for your cards (Square, Rounded, Squircle, or Circle).
 
 ### Facet Cards
+
+<img src="docs/assets/screenshots/facet-cards.webp" alt="Facet Cards View">
 
 A structured, property-rich card view that gives you more control over how your note data is displayed. Perfect for databases, catalogs, or property-heavy notes.
 
@@ -100,6 +104,8 @@ A structured, property-rich card view that gives you more control over how your 
 
 ### Linear Calendar
 
+<img src="docs/assets/screenshots/linear-calendar.webp" alt="Linear Calendar View">
+
 A sleek, horizontal timeline view that displays your notes as events across a calendar, perfect for visualizing schedules, projects, or journals.
 
 #### Features
@@ -118,6 +124,8 @@ A sleek, horizontal timeline view that displays your notes as events across a ca
 - **Reference Date**: The date around which the calendar centers (optional, defaults to today).
 
 ### Heatmap Calendar
+
+<img src="docs/assets/screenshots/heatmap.webp" alt="Heatmap Calendar View">
 
 A GitHub-style activity tracker that visualizes the frequency of notes or events over time, perfect for habit tracking or monitoring daily productivity.
 
