@@ -31,4 +31,9 @@ export class ReactBasesView extends BasesView {
 			</React.StrictMode>
 		);
 	}
+
+  public onunload(): void {
+    this.root?.unmount();
+		this.parentEl.empty();
+  }
 }
