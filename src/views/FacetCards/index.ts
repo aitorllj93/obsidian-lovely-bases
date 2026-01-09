@@ -8,7 +8,7 @@ const FACET_CARDS_ID = "facet-cards";
 const FACET_CARDS_VIEW: BaseViewDef = {
 	id: FACET_CARDS_ID,
 	name: "Facet Cards",
-	icon: "lucide-layout-panel-left",
+	icon: "lucide-layout-grid",
 	factory: (controller, containerEl) =>
 		new ReactBasesView(FACET_CARDS_ID, FacetCardsView, controller, containerEl),
 	options: () => [
@@ -22,12 +22,6 @@ const FACET_CARDS_VIEW: BaseViewDef = {
 				vertical: "Vertical",
 			},
 		},
-    {
-      type: "toggle",
-      displayName: "Reverse Image and Content",
-      key: "reverseContent",
-      default: false,
-    },
 		{
 			type: "slider",
 			displayName: "Card size",
@@ -36,49 +30,67 @@ const FACET_CARDS_VIEW: BaseViewDef = {
 			key: "cardSize",
 			default: 100,
 		},
-		{
-			type: "property",
-			displayName: "Image Property",
-			key: "imageProperty",
-			default: "note.cover",
-		},
-		{
-			type: "dropdown",
-			displayName: "Image Fit",
-			key: "imageFit",
-			default: "cover",
-			options: {
-				cover: "Cover",
-				contain: "Contain",
-			},
-		},
-		{
-			type: "slider",
-			displayName: "Image aspect ratio",
-			min: 0.25,
-			max: 2.5,
-			key: "imageAspectRatio",
-			default: 1.5,
-			step: 0.05,
-		},
-		{
-			type: "toggle",
-			displayName: "Show Property Titles",
-			key: "showPropertyTitles",
-			default: true,
-		},
     {
-      type: "toggle",
-      displayName: "Show Title",
-      key: "showTitle",
-      default: true,
+      type: 'group',
+      displayName: 'Image',
+      items: [
+        {
+          type: "property",
+          displayName: "Image Property",
+          key: "imageProperty",
+          default: "note.cover",
+        },
+        {
+          type: "dropdown",
+          displayName: "Image Fit",
+          key: "imageFit",
+          default: "cover",
+          options: {
+            cover: "Cover",
+            contain: "Contain",
+          },
+        },
+        {
+          type: "slider",
+          displayName: "Image aspect ratio",
+          min: 0.25,
+          max: 2.5,
+          key: "imageAspectRatio",
+          default: 1.5,
+          step: 0.05,
+        },
+        {
+          type: "toggle",
+          displayName: "Reverse Image and Content",
+          key: "reverseContent",
+          default: false,
+        },
+      ]
     },
-		{
-			type: "property",
-			displayName: "Hover Property",
-			key: "hoverProperty",
-			default: "",
-		},
+    {
+      type: 'group',
+      displayName: 'Content',
+      items: [
+        {
+          type: "toggle",
+          displayName: "Show Property Titles",
+          key: "showPropertyTitles",
+          default: true,
+        },
+        {
+          type: "toggle",
+          displayName: "Show Title",
+          key: "showTitle",
+          default: true,
+        },
+        {
+          type: "property",
+          displayName: "Hover Property",
+          key: "hoverProperty",
+          default: "",
+        },
+      ]
+    },
 		// {
 		// 	type: "dropdown",
 		// 	displayName: "Hover Style",

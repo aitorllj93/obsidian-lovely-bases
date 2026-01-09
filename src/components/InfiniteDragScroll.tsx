@@ -46,7 +46,7 @@ const gridItemStyles = cva(
 				default: "rounded-sm",
 				masonry: "rounded-sm",
 				polaroid:
-					"border-10 border-b-28 border-card shadow-xl even:rotate-3 odd:-rotate-2 hover:rotate-0 transition-transform ease-out duration-300",
+					"border-10 border-b-28 border-(--background-secondary) shadow-xl even:rotate-3 odd:-rotate-2 hover:rotate-0 transition-transform ease-out duration-300",
 			},
 		},
 		defaultVariants: {
