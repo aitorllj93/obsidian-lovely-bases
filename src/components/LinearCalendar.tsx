@@ -1,6 +1,7 @@
-import { TFile } from "obsidian";
-import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import type { TFile } from "obsidian";
+
+import { cn } from "@/lib/utils";
 
 export type CalendarItem = {
     id: string;
@@ -119,7 +120,7 @@ export const LinearCalendar = ({ items, focus, referenceDate, onEventClick }: Li
                     <div className="w-32 shrink-0 font-bold p-2">{currentYear}</div>
                     <div className="grow flex relative">
                          {Array.from({ length: 31 }, (_, i) => (
-                            <div key={i} className="flex-1 text-center text-sm p-1 min-w-[30px] border-l border-border/80">
+                            <div key={`day-${i.toString()}`} className="flex-1 text-center text-sm p-1 min-w-[30px] border-l border-border/80">
                                 {String(i + 1).padStart(2, '0')}
                             </div>
                         ))}
@@ -177,7 +178,7 @@ export const LinearCalendar = ({ items, focus, referenceDate, onEventClick }: Li
 
                                         return (
                                             <div
-                                                key={event.id + '-' + monthIndex}
+                                                key={`${event.id}-${monthIndex}`}
                                                 className={
                                                   cn(
                                                     "absolute h-[20px] rounded-sm text-[10px] text-white overflow-hidden whitespace-nowrap px-1 cursor-pointer hover:brightness-110 shadow-sm transition-all pt-0.5",

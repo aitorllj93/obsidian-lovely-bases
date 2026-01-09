@@ -1,24 +1,28 @@
-import React from "react";
+import { cva } from "class-variance-authority";
 import {
 	animate,
 	cubicBezier,
+	type MotionValue,
 	motion,
-	MotionValue,
 	useMotionValue,
 	useTransform,
 } from "motion/react";
 import {
+	createContext,
+	type MouseEventHandler,
 	memo,
+	type PointerEvent,
+	type PointerEventHandler,
+	type ReactNode,
+	useCallback,
 	useContext,
 	useEffect,
 	useMemo,
 	useRef,
 	useState,
-	createContext,
-	useCallback,
 } from "react";
-import { cva } from "class-variance-authority";
-import { cn } from "../lib/utils";
+
+import { cn } from "@/lib/utils";
 
 //Types
 type variants = "default" | "masonry" | "polaroid";
@@ -48,7 +52,7 @@ const gridItemStyles = cva(
 		defaultVariants: {
 			variant: "default",
 		},
-	}
+	},
 );
 
 // Helper function to wrap index to valid range
@@ -97,23 +101,28 @@ const useVirtualGrid = ({
 	buffer = 2,
 }: UseVirtualGridParams): VirtualItem[] => {
 	return useMemo(() => {
-		if (totalItems === 0 || viewportWidth === 0 || viewportHeight === 0) return [];
+		if (totalItems === 0 || viewportWidth === 0 || viewportHeight === 0)
+			return [];
 
 		// Cell spacing including gap
 		const cellSpacingX = cellWidth + gapX;
 		const cellSpacingY = cellHeight + gapY;
 
 		// For masonry, account for the offset
-		const masonryOffset = variant === "masonry" || variant === "polaroid" ? cellHeight * 0.6 : 0;
-		const effectiveCellSpacingY = cellSpacingY + (masonryOffset > 0 ? masonryOffset / 2 : 0);
+		const masonryOffset =
+			variant === "masonry" || variant === "polaroid" ? cellHeight * 0.6 : 0;
+		const effectiveCellSpacingY =
+			cellSpacingY + (masonryOffset > 0 ? masonryOffset / 2 : 0);
 
 		// Calculate visible range of columns (infinite in both directions)
 		const startCol = Math.floor(-scrollX / cellSpacingX) - buffer;
-		const endCol = Math.ceil((-scrollX + viewportWidth) / cellSpacingX) + buffer;
+		const endCol =
+			Math.ceil((-scrollX + viewportWidth) / cellSpacingX) + buffer;
 
 		// Calculate visible range of rows (infinite in both directions)
 		const startRow = Math.floor(-scrollY / effectiveCellSpacingY) - buffer;
-		const endRow = Math.ceil((-scrollY + viewportHeight) / effectiveCellSpacingY) + buffer;
+		const endRow =
+			Math.ceil((-scrollY + viewportHeight) / effectiveCellSpacingY) + buffer;
 
 		const visibleItems: VirtualItem[] = [];
 
@@ -128,11 +137,14 @@ const useVirtualGrid = ({
 				const realIndex = wrapIndex(virtualIndex, totalItems);
 
 				// Calculate position in grid coordinates
-				let gridX = virtualCol * cellSpacingX;
+				const gridX = virtualCol * cellSpacingX;
 				let gridY = virtualRow * effectiveCellSpacingY;
 
 				// Apply masonry offset for columns with even wrapped index
-				if ((variant === "masonry" || variant === "polaroid") && wrappedCol % 2 === 0) {
+				if (
+					(variant === "masonry" || variant === "polaroid") &&
+					wrappedCol % 2 === 0
+				) {
 					gridY += masonryOffset;
 				}
 
@@ -172,7 +184,7 @@ export const DraggableContainer = ({
 	variant,
 }: {
 	className?: string;
-	children: React.ReactNode;
+	children: ReactNode;
 	variant?: variants;
 }) => {
 	const containerRef = useRef<HTMLDivElement | null>(null);
@@ -195,101 +207,110 @@ export const DraggableContainer = ({
 		velocityY: 0,
 	});
 
-	const onPointerDown = useCallback((e: React.PointerEvent) => {
-		setIsDragging(true);
-		const state = dragState.current;
-		state.startX = e.clientX;
-		state.startY = e.clientY;
-		state.startScrollX = scrollX.get();
-		state.startScrollY = scrollY.get();
-		state.lastX = e.clientX;
-		state.lastY = e.clientY;
-		state.lastTime = Date.now();
-		state.velocityX = 0;
-		state.velocityY = 0;
-		(e.target as HTMLElement).setPointerCapture(e.pointerId);
-	}, [scrollX, scrollY]);
+	const onPointerDown = useCallback(
+		(e: PointerEvent) => {
+			setIsDragging(true);
+			const state = dragState.current;
+			state.startX = e.clientX;
+			state.startY = e.clientY;
+			state.startScrollX = scrollX.get();
+			state.startScrollY = scrollY.get();
+			state.lastX = e.clientX;
+			state.lastY = e.clientY;
+			state.lastTime = Date.now();
+			state.velocityX = 0;
+			state.velocityY = 0;
+			(e.target as HTMLElement).setPointerCapture(e.pointerId);
+		},
+		[scrollX, scrollY],
+	);
 
-	const onPointerMove = useCallback((e: React.PointerEvent) => {
-		if (!isDragging) return;
+	const onPointerMove = useCallback(
+		(e: PointerEvent) => {
+			if (!isDragging) return;
 
-		const state = dragState.current;
-		const now = Date.now();
-		const dt = now - state.lastTime;
+			const state = dragState.current;
+			const now = Date.now();
+			const dt = now - state.lastTime;
 
-		const currentX = state.startScrollX + (e.clientX - state.startX);
-		const currentY = state.startScrollY + (e.clientY - state.startY);
+			const currentX = state.startScrollX + (e.clientX - state.startX);
+			const currentY = state.startScrollY + (e.clientY - state.startY);
 
-		// Calculate velocity (pixels per second)
-		if (dt > 0) {
-			const instantVelX = ((e.clientX - state.lastX) / dt) * 1000;
-			const instantVelY = ((e.clientY - state.lastY) / dt) * 1000;
+			// Calculate velocity (pixels per second)
+			if (dt > 0) {
+				const instantVelX = ((e.clientX - state.lastX) / dt) * 1000;
+				const instantVelY = ((e.clientY - state.lastY) / dt) * 1000;
 
-			// Time-dependent smoothing factor
-			// Decays faster with longer intervals between events
-			const smoothingFactor = Math.min(dt / 100, 1);
-			const alpha = 0.3 + 0.4 * smoothingFactor;
+				// Time-dependent smoothing factor
+				// Decays faster with longer intervals between events
+				const smoothingFactor = Math.min(dt / 100, 1);
+				const alpha = 0.3 + 0.4 * smoothingFactor;
 
-			state.velocityX = state.velocityX * (1 - alpha) + instantVelX * alpha;
-			state.velocityY = state.velocityY * (1 - alpha) + instantVelY * alpha;
-		}
+				state.velocityX = state.velocityX * (1 - alpha) + instantVelX * alpha;
+				state.velocityY = state.velocityY * (1 - alpha) + instantVelY * alpha;
+			}
 
-		state.lastX = e.clientX;
-		state.lastY = e.clientY;
-		state.lastTime = now;
+			state.lastX = e.clientX;
+			state.lastY = e.clientY;
+			state.lastTime = now;
 
-		scrollX.set(currentX);
-		scrollY.set(currentY);
-	}, [isDragging, scrollX, scrollY]);
+			scrollX.set(currentX);
+			scrollY.set(currentY);
+		},
+		[isDragging, scrollX, scrollY],
+	);
 
-	const onPointerUp = useCallback((e: React.PointerEvent) => {
-		if (!isDragging) return;
-		setIsDragging(false);
-		(e.target as HTMLElement).releasePointerCapture(e.pointerId);
+	const onPointerUp = useCallback(
+		(e: PointerEvent) => {
+			if (!isDragging) return;
+			setIsDragging(false);
+			(e.target as HTMLElement).releasePointerCapture(e.pointerId);
 
-		const state = dragState.current;
-		const now = Date.now();
-		const timeSinceLastMove = now - state.lastTime;
+			const state = dragState.current;
+			const now = Date.now();
+			const timeSinceLastMove = now - state.lastTime;
 
-		// Decay velocity if user paused before releasing
-		// After ~150ms of no movement, velocity should be near zero
-		const decayFactor = Math.exp(-timeSinceLastMove / 50);
-		const velocityX = state.velocityX * decayFactor;
-		const velocityY = state.velocityY * decayFactor;
+			// Decay velocity if user paused before releasing
+			// After ~150ms of no movement, velocity should be near zero
+			const decayFactor = Math.exp(-timeSinceLastMove / 50);
+			const velocityX = state.velocityX * decayFactor;
+			const velocityY = state.velocityY * decayFactor;
 
-		const currentX = scrollX.get();
-		const currentY = scrollY.get();
+			const currentX = scrollX.get();
+			const currentY = scrollY.get();
 
-		// Apply momentum using same physics as original:
-		// timeConstant: 200, power: 0.28
-		// Motion's formula: target = current + velocity * power * timeConstant / 1000
-		const timeConstant = 200;
-		const power = 0.28;
-		const momentumFactor = (power * timeConstant) / 1000;
+			// Apply momentum using same physics as original:
+			// timeConstant: 200, power: 0.28
+			// Motion's formula: target = current + velocity * power * timeConstant / 1000
+			const timeConstant = 200;
+			const power = 0.28;
+			const momentumFactor = (power * timeConstant) / 1000;
 
-		const targetX = currentX + velocityX * momentumFactor;
-		const targetY = currentY + velocityY * momentumFactor;
+			const targetX = currentX + velocityX * momentumFactor;
+			const targetY = currentY + velocityY * momentumFactor;
 
-		// Animate with deceleration curve
-		// Duration based on velocity magnitude
-		const velocityMag = Math.sqrt(velocityX ** 2 + velocityY ** 2);
+			// Animate with deceleration curve
+			// Duration based on velocity magnitude
+			const velocityMag = Math.sqrt(velocityX ** 2 + velocityY ** 2);
 
-		// Don't animate if velocity is negligible
-		if (velocityMag < 50) return;
+			// Don't animate if velocity is negligible
+			if (velocityMag < 50) return;
 
-		const duration = Math.min(Math.max(velocityMag / 1000, 0.3), 1.2);
+			const duration = Math.min(Math.max(velocityMag / 1000, 0.3), 1.2);
 
-		animate(scrollX, targetX, {
-			type: "tween",
-			duration,
-			ease: [0.32, 0.72, 0, 1], // Custom ease similar to iOS momentum
-		});
-		animate(scrollY, targetY, {
-			type: "tween",
-			duration,
-			ease: [0.32, 0.72, 0, 1],
-		});
-	}, [isDragging, scrollX, scrollY]);
+			animate(scrollX, targetX, {
+				type: "tween",
+				duration,
+				ease: [0.32, 0.72, 0, 1], // Custom ease similar to iOS momentum
+			});
+			animate(scrollY, targetY, {
+				type: "tween",
+				duration,
+				ease: [0.32, 0.72, 0, 1],
+			});
+		},
+		[isDragging, scrollX, scrollY],
+	);
 
 	useEffect(() => {
 		const container = containerRef.current;
@@ -350,7 +371,7 @@ export const DraggableContainer = ({
 					ref={containerRef}
 					className={cn(
 						"h-dvh w-full overflow-hidden relative cursor-grab active:cursor-grabbing touch-none select-none",
-						className
+						className,
 					)}
 					onPointerDown={onPointerDown}
 					onPointerMove={onPointerMove}
@@ -359,9 +380,7 @@ export const DraggableContainer = ({
 					onPointerLeave={onPointerUp}
 				>
 					{/* Content layer */}
-					<div className="absolute inset-0 pointer-events-none">
-						{children}
-					</div>
+					<div className="absolute inset-0 pointer-events-none">{children}</div>
 				</div>
 			</ScrollContext.Provider>
 		</GridVariantContext.Provider>
@@ -376,11 +395,11 @@ export const GridItem = memo(
 		onClick,
 		onMouseOver,
 	}: {
-		children: React.ReactNode;
+		children: ReactNode;
 		className?: string;
-		onPointerDown?: React.PointerEventHandler;
-		onClick?: React.MouseEventHandler;
-		onMouseOver?: React.MouseEventHandler;
+		onPointerDown?: PointerEventHandler;
+		onClick?: MouseEventHandler;
+		onMouseOver?: MouseEventHandler;
 	}) => {
 		const variant = useContext(GridVariantContext);
 
@@ -394,7 +413,7 @@ export const GridItem = memo(
 				{children}
 			</div>
 		);
-	}
+	},
 );
 
 GridItem.displayName = "GridItem";
@@ -407,38 +426,40 @@ type VirtualGridItemWrapperProps = {
 	baseY: number;
 	width: number;
 	height: number;
-	children: React.ReactNode;
+	children: ReactNode;
 };
 
-const VirtualGridItemWrapper = memo(({
-	scrollX,
-	scrollY,
-	baseX,
-	baseY,
-	width,
-	height,
-	children,
-}: VirtualGridItemWrapperProps) => {
-	// These transforms update reactively without causing React re-renders
-	const x = useTransform(scrollX, (sx) => baseX + sx);
-	const y = useTransform(scrollY, (sy) => baseY + sy);
+const VirtualGridItemWrapper = memo(
+	({
+		scrollX,
+		scrollY,
+		baseX,
+		baseY,
+		width,
+		height,
+		children,
+	}: VirtualGridItemWrapperProps) => {
+		// These transforms update reactively without causing React re-renders
+		const x = useTransform(scrollX, (sx) => baseX + sx);
+		const y = useTransform(scrollY, (sy) => baseY + sy);
 
-	return (
-		<motion.div
-			className="pointer-events-auto"
-			style={{
-				position: "absolute",
-				x,
-				y,
-				width,
-				height,
-				willChange: "transform",
-			}}
-		>
-			{children}
-		</motion.div>
-	);
-});
+		return (
+			<motion.div
+				className="pointer-events-auto"
+				style={{
+					position: "absolute",
+					x,
+					y,
+					width,
+					height,
+					willChange: "transform",
+				}}
+			>
+				{children}
+			</motion.div>
+		);
+	},
+);
 
 VirtualGridItemWrapper.displayName = "VirtualGridItemWrapper";
 
@@ -449,7 +470,7 @@ type VirtualGridProps<T> = {
 	cellHeight: number;
 	gapX: number;
 	gapY: number;
-	renderItem: (item: T, index: number) => React.ReactNode;
+	renderItem: (item: T, index: number) => ReactNode;
 	className?: string;
 };
 
@@ -475,10 +496,10 @@ export const VirtualGrid = <T,>({
 	const lastUpdateRef = useRef(0);
 
 	const [viewportWidth, setViewportWidth] = useState(
-		typeof window !== "undefined" ? window.innerWidth : 1920
+		typeof window !== "undefined" ? window.innerWidth : 1920,
 	);
 	const [viewportHeight, setViewportHeight] = useState(
-		typeof window !== "undefined" ? window.innerHeight : 1080
+		typeof window !== "undefined" ? window.innerHeight : 1080,
 	);
 
 	// Subscribe to scroll changes with throttling
@@ -550,10 +571,7 @@ export const VirtualGrid = <T,>({
 	if (!scrollContext) return null;
 
 	return (
-		<div
-			ref={containerRef}
-			className={cn("absolute inset-0", className)}
-		>
+		<div ref={containerRef} className={cn("absolute inset-0", className)}>
 			{visibleItems.map(({ key, realIndex, baseX, baseY }) => (
 				<VirtualGridItemWrapper
 					key={key}
@@ -573,13 +591,7 @@ export const VirtualGrid = <T,>({
 
 // Keep GridBody for backward compatibility
 export const GridBody = memo(
-	({
-		children,
-		className,
-	}: {
-		children: React.ReactNode;
-		className?: string;
-	}) => {
+	({ children, className }: { children: ReactNode; className?: string }) => {
 		const variant = useContext(GridVariantContext);
 
 		const gridBodyStyles = cva("grid grid-cols-[repeat(6,1fr)] h-fit w-fit", {
@@ -599,7 +611,7 @@ export const GridBody = memo(
 			<>
 				{Array.from({ length: 4 }).map((_, index) => (
 					<div
-						key={index}
+						key={`grid-body-${index.toString()}`}
 						className={cn(gridBodyStyles({ variant, className }))}
 					>
 						{children}

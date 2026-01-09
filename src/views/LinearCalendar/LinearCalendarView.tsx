@@ -1,7 +1,8 @@
-import { BasesPropertyId } from "obsidian";
+import type { BasesPropertyId } from "obsidian";
 import { useMemo } from "react";
-import { ReactViewProps } from "@/types";
-import { LinearCalendar as LinearCalendarComponent, CalendarItem } from "@/components/LinearCalendar";
+
+import { type CalendarItem, LinearCalendar } from "@/components/LinearCalendar";
+import type { ReactBaseViewProps } from "@/types";
 
 export const LINEAR_CALENDAR_TYPE_ID = 'linear-calendar';
 
@@ -12,7 +13,7 @@ type Config = {
     date?: string;
 }
 
-const LinearCalendar = ({ app, config, data }: ReactViewProps) => {
+const LinearCalendarView = ({ app, config, data }: ReactBaseViewProps) => {
     const focus = (config.get('focus') ?? 'Anual') as Config['focus'];
     const startDateProperty = config.get('startDateProperty') as Config['startDateProperty'];
     const endDateProperty = config.get('endDateProperty') as Config['endDateProperty'];
@@ -21,7 +22,7 @@ const LinearCalendar = ({ app, config, data }: ReactViewProps) => {
     const referenceDate = useMemo(() => {
         if (dateStr) {
             const parsed = new Date(dateStr);
-            if (!isNaN(parsed.getTime())) return parsed;
+            if (!Number.isNaN(parsed.getTime())) return parsed;
         }
         return new Date();
     }, [dateStr]);
@@ -35,14 +36,14 @@ const LinearCalendar = ({ app, config, data }: ReactViewProps) => {
                 if (!startVal) return null;
 
                 const startDate = new Date(startVal.toString());
-                if (isNaN(startDate.getTime())) return null;
+                if (Number.isNaN(startDate.getTime())) return null;
 
                 let endDate = startDate;
                 if (endDateProperty) {
                     const endVal = entry.getValue(endDateProperty);
                     if (endVal) {
                         const parsedEnd = new Date(endVal.toString());
-                        if (!isNaN(parsedEnd.getTime())) {
+                        if (!Number.isNaN(parsedEnd.getTime())) {
                             endDate = parsedEnd;
                         }
                     }
@@ -67,7 +68,7 @@ const LinearCalendar = ({ app, config, data }: ReactViewProps) => {
     };
 
     return (
-        <LinearCalendarComponent
+        <LinearCalendar
             items={items}
             focus={focus}
             referenceDate={referenceDate}
@@ -76,4 +77,4 @@ const LinearCalendar = ({ app, config, data }: ReactViewProps) => {
     );
 };
 
-export default LinearCalendar;
+export default LinearCalendarView;

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { format, addDays, startOfWeek, endOfWeek, eachDayOfInterval, isSameDay, startOfYear, differenceInWeeks, startOfMonth, addMonths } from "date-fns";
-import { TFile } from "obsidian";
+import { addDays, addMonths, differenceInWeeks, eachDayOfInterval, endOfWeek, format, isSameDay, startOfMonth, startOfWeek, startOfYear  } from "date-fns";
+import type { TFile } from "obsidian";
+import { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -24,7 +24,6 @@ export const HeatmapCalendar = ({ data, date = new Date(), classNames = ["bg-[#e
   const [occurrences, setOccurrences] = useState<Occurrence[]>([]);
   const startDate = startOfYear(date);
   const weeks = 53;
-  const daysInWeek = 7;
 
   // Process data prop
   useEffect(() => {
@@ -57,7 +56,7 @@ export const HeatmapCalendar = ({ data, date = new Date(), classNames = ["bg-[#e
 
       weeksArray.push(
         <div key={`w-${currentWeekStart.toISOString()}`} className="flex flex-col gap-1">
-          {weekDays.map((day, index) => {
+          {weekDays.map((day) => {
             const occurrence = occurrences.find((c) => c.dateObj && isSameDay(c.dateObj, day));
             const className = occurrence ? getClassName(occurrence.count) : classNames[0];
 
@@ -65,9 +64,9 @@ export const HeatmapCalendar = ({ data, date = new Date(), classNames = ["bg-[#e
               <div
                 key={`d-${day.toISOString()}`}
                 className={cn(
-					`w-3 h-3 rounded-[4px]`,
-					className
-				)}
+                  `w-3 h-3 rounded-[4px]`,
+                  className
+                )}
                 title={`${format(day, "PPP")}: ${occurrence?.count || 0} occurrences`}
                 onClick={() => occurrence && onClick?.(occurrence)}
               />
@@ -115,7 +114,7 @@ export const HeatmapCalendar = ({ data, date = new Date(), classNames = ["bg-[#e
     <div className="p-4 flex flex-col items-center">
       <div className="flex">
         <div className="flex flex-col justify-between mt-5.5 mr-2">
-          {dayLabels.map((day, index) => (
+          {dayLabels.map((day) => (
             <span key={`daylabel-${day}`} className="text-xs text-gray-500 h-3">
               {day}
             </span>
@@ -129,7 +128,7 @@ export const HeatmapCalendar = ({ data, date = new Date(), classNames = ["bg-[#e
       <div className="mt-4 justify-center flex gap-2 text-xs items-center">
         <span>Less</span>
         {classNames.map((className, index) => (
-          <div key={`color-${index}`} className={
+          <div key={`color-${index.toString()}`} className={
             cn('w-3 h-3 rounded-[4px]', className)
           } />
         ))}

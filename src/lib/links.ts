@@ -1,4 +1,4 @@
-import { App, normalizePath, TFile } from "obsidian";
+import { type App, type BasesEntry, type BasesPropertyId, normalizePath, TFile } from "obsidian";
 
 function parseWikilink(raw: string) {
   const inner = raw.replace(/^\[\[|\]\]$/g, "");
@@ -23,4 +23,16 @@ export function getImageResourcePath(app: App, rawLink: string, sourcePath: stri
   const file = resolveAttachment(app, rawLink, sourcePath);
   if (!file) return null;
   return app.vault.adapter.getResourcePath(normalizePath(file.path)) ?? null;
+}
+
+export function getImageForEntry(app: App, entry: BasesEntry, propertyId: BasesPropertyId): string | null {
+  const imageUrl = entry.getValue(propertyId)?.toString();
+  let imageSrc: string | undefined = undefined;
+
+  if (imageUrl && imageUrl !== 'null') {
+    imageSrc = imageUrl.startsWith('http')
+      ? imageUrl
+      : getImageResourcePath(app, imageUrl, entry.file.path) ?? undefined;
+  }
+  return imageSrc;
 }

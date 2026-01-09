@@ -1,32 +1,33 @@
-import { BasesView, QueryController } from "obsidian";
+import { BasesView, type QueryController } from "obsidian";
 import React from "react";
-import { createRoot, Root } from "react-dom/client";
+import { createRoot, type Root } from "react-dom/client";
 
-import { ReactViewProps } from "@/types";
+import type { ReactBaseViewProps } from "@/types";
 
-export class ReactView extends BasesView {
-	private containerEl: HTMLElement;
+export class ReactBasesView extends BasesView {
+	// private containerEl: HTMLElement;
 	private root: Root;
 
 	constructor(
 		public readonly type: string,
-		private readonly Component: React.ComponentType<ReactViewProps>,
+		// biome-ignore lint/correctness/noUnusedPrivateClassMembers: Used on onDataUpdated
+		private readonly Component: React.ComponentType<ReactBaseViewProps>,
 		controller: QueryController,
-		parentEl: HTMLElement
+		private readonly parentEl: HTMLElement
 	) {
 		super(controller);
-		this.containerEl = parentEl.createDiv(`bases-${this.type}-view-container`);
+		// this.containerEl = parentEl.createDiv(`bases-${this.type}-view-container`);
 	}
 
 	public onDataUpdated(): void {
 		const { Component } = this;
 		this.root?.unmount();
-		this.containerEl.empty();
-		this.root = createRoot(this.containerEl);
+		this.parentEl.empty();
+		this.root = createRoot(this.parentEl);
 
 		this.root.render(
 			<React.StrictMode>
-				<Component app={this.app} containerEl={this.containerEl} config={this.config} data={this.data} />
+				<Component app={this.app} containerEl={this.parentEl} config={this.config} data={this.data} />
 			</React.StrictMode>
 		);
 	}
