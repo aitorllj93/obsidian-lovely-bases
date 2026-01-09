@@ -38,7 +38,7 @@ BRAT will automatically check for updates and notify you when new versions are a
 
 ### Manual Installation
 
-1. Download the latest release from the [Releases](https://github.com/aitorllj93/obsidian-linear-base/releases) page
+1. Download the latest release from the [Releases](https://github.com/aitorllj93/obsidian-lovely-bases/releases) page
 2. Extract the files to your vault's `.obsidian/plugins/lovely-bases/` folder
 3. Reload Obsidian
 4. Enable the plugin in Settings → Community plugins
@@ -159,8 +159,8 @@ A GitHub-style activity tracker that visualizes the frequency of notes or events
 
 ```bash
 # Clone the repository
-git clone https://github.com/aitorllj93/obsidian-linear-base.git
-cd obsidian-linear-base
+git clone https://github.com/aitorllj93/obsidian-lovely-bases.git
+cd obsidian-lovely-bases
 
 # Install dependencies
 pnpm install
