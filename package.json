@@ -35,7 +35,6 @@
 		"typescript": "5.9.3"
 	},
 	"dependencies": {
-		"@heroicons/react": "^2.2.0",
 		"@tanstack/react-virtual": "^3.13.18",
 		"@toolwind/corner-shape": "0.0.8-3",
 		"class-variance-authority": "^0.7.1",

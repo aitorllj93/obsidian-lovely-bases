@@ -172,29 +172,6 @@ pnpm run build
 pnpm run dev
 ```
 
-### Project Structure
-
-```
-obsidian-linear-base/
-├── src/
-│   ├── components/          # Presentational React components
-│   │   ├── InfiniteDragScroll.tsx
-│   │   ├── LinearCalendar.tsx
-│   │   ├── HeatmapCalendar.tsx
-│   │   └── Card/                # Flexible card component system
-│   ├── views/               # View logic and Obsidian integration
-│   │   ├── InfiniteGallery.tsx
-│   │   ├── LinearCalendar.tsx
-│   │   ├── HeatmapCalendar.tsx
-│   │   └── FacetCards/          # Property-rich card view logic
-│   ├── lib/                 # Utility functions
-│   ├── main.tsx             # Plugin entry point
-│   └── main.css             # Styles (Tailwind CSS)
-├── build/                   # Compiled output
-├── manifest.json            # Plugin manifest
-└── package.json             # Dependencies
-```
-
 ### Building
 
 ```bash
@@ -224,7 +201,6 @@ This project is licensed under the MIT License.
 - Built with [React](https://react.dev/)
 - Animations powered by [Motion](https://motion.dev/)
 - Styling with [Tailwind CSS](https://tailwindcss.com/)
-- Icons from [Heroicons](https://heroicons.com/)
 
 ---
 
