@@ -75,6 +75,29 @@ An immersive, infinite virtualized grid for exploring your notes visually. It ha
 - **Image Fit**: Choose between 'Cover' (fill) or 'Contain' (letterboxed).
 - **Shape**: Select the corner style for your cards (Square, Rounded, Squircle, or Circle).
 
+### Facet Cards
+
+A structured, property-rich card view that gives you more control over how your note data is displayed. Perfect for databases, catalogs, or property-heavy notes.
+
+#### Features
+
+- **Flexible Layouts**: Choose between **Vertical** (image on top) or **Horizontal** (image on the side) layouts.
+- **Rich Media Integration**: Display images from any note property with precise control over aspect ratio and fit.
+- **Property-Focused**: Dedicated space for displaying multiple note properties with optional labels.
+- **Interactive Effects**: Enhance your cards with hover-activated overlays for extra information.
+- **Highly Responsive**: Automatically scales and adapts to any screen size while maintaining performance.
+
+#### Configuration
+
+- **Layout**: Switch between 'Horizontal' or 'Vertical' card styles.
+- **Reverse Content**: Flip the position of the image and the content (useful for alternating designs).
+- **Card Size**: Control the base width of each card in the grid.
+- **Image Property**: Select the property that contains your note's featured image.
+- **Image Fit**: Choose between 'Cover' (fill) or 'Contain' (fit within).
+- **Aspect Ratio**: Fine-tune the proportions of your images.
+- **Show Property Titles**: Toggle whether to show the names of the displayed properties.
+- **Show Title**: Toggle the visibility of the note's main title.
+
 ### Linear Calendar
 
 A sleek, horizontal timeline view that displays your notes as events across a calendar, perfect for visualizing schedules, projects, or journals.
@@ -149,11 +172,13 @@ obsidian-linear-base/
 │   ├── components/          # Presentational React components
 │   │   ├── InfiniteDragScroll.tsx
 │   │   ├── LinearCalendar.tsx
-│   │   └── HeatmapCalendar.tsx
+│   │   ├── HeatmapCalendar.tsx
+│   │   └── Card/                # Flexible card component system
 │   ├── views/               # View logic and Obsidian integration
 │   │   ├── InfiniteGallery.tsx
 │   │   ├── LinearCalendar.tsx
-│   │   └── HeatmapCalendar.tsx
+│   │   ├── HeatmapCalendar.tsx
+│   │   └── FacetCards/          # Property-rich card view logic
 │   ├── lib/                 # Utility functions
 │   ├── main.tsx             # Plugin entry point
 │   └── main.css             # Styles (Tailwind CSS)
