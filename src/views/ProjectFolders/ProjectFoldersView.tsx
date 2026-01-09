@@ -83,6 +83,8 @@ const useFolders = (
 							title: getTitle(entry),
 							onClick: (event: React.MouseEvent) => {
 								event.preventDefault();
+                event.stopPropagation();
+
 								const modEvent = Keymap.isModEvent(event.nativeEvent);
 								void app.workspace.openLinkText(entry.file.path, "", modEvent);
 							},

@@ -52,6 +52,25 @@ BRAT will automatically check for updates and notify you when new versions are a
 
 ## 🎨 Available Views
 
+### Project Folders
+
+<img src="docs/assets/screenshots/project-folders.webp" alt="Project Folders View">
+
+A tactile, organization-focused view that groups your notes into beautiful 3D interactive folders. Perfect for managing projects, areas, or any hierarchical collection.
+
+#### Features
+
+- **Interactive 3D Folders**: Folders that dynamically open and tilt on hover, providing a playful and organic feel.
+- **File Previews**: Up to 5 notes from each group are displayed as cards popping out of the folder when you move over it.
+- **Visual Metadata**: Automatically extracts icons and colors from the frontmatter of the note representing the folder.
+- **Smart Grouping**: Leverages your Base's grouping settings to automatically organize notes into relevant categories.
+- **Custom Gradients**: Generates beautiful, color-matched gradients for each folder based on its assigned color.
+
+#### Configuration
+
+- **Image Property**: Select which property to use for the images displayed on the file preview cards.
+- **Group By**: This view relies on the **Group by** setting of your Obsidian Base to define the folders.
+
 ### Infinite Gallery
 
 <img src="docs/assets/screenshots/infinite-gallery-polaroid.webp" alt="Infinite Gallery View">
@@ -162,25 +181,6 @@ A GitHub-style activity tracker that visualizes the frequency of notes or events
 - **Track Property**: The numeric property used to calculate the intensity of the heatmap (required).
 - **Color Scheme**: Select the color palette for the cells (e.g., 'primary', 'green', 'red').
 - **Reference Date**: The date used as the end point for the calendar display (optional, defaults to today).
-
-### Project Folders
-
-<img src="docs/assets/screenshots/project-folders.webp" alt="Project Folders View">
-
-A tactile, organization-focused view that groups your notes into beautiful 3D interactive folders. Perfect for managing projects, areas, or any hierarchical collection.
-
-#### Features
-
-- **Interactive 3D Folders**: Folders that dynamically open and tilt on hover, providing a playful and organic feel.
-- **File Previews**: Up to 5 notes from each group are displayed as cards popping out of the folder when you move over it.
-- **Visual Metadata**: Automatically extracts icons and colors from the frontmatter of the note representing the folder.
-- **Smart Grouping**: Leverages your Base's grouping settings to automatically organize notes into relevant categories.
-- **Custom Gradients**: Generates beautiful, color-matched gradients for each folder based on its assigned color.
-
-#### Configuration
-
-- **Image Property**: Select which property to use for the images displayed on the file preview cards.
-- **Group By**: This view relies on the **Group by** setting of your Obsidian Base to define the folders.
 
 ## 📋 Requirements
 
