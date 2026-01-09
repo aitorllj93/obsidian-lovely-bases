@@ -1,7 +1,8 @@
-import type { App, BasesQueryResult, BasesViewConfig, BasesViewFactory, ViewOption } from "obsidian";
+import type { App, BasesQueryResult, BasesViewConfig, BasesViewFactory, Component, ViewOption } from "obsidian";
 
 export type ReactBaseViewProps = {
 	app: App;
+  component: Component;
 	config: BasesViewConfig;
 	containerEl: HTMLElement;
 	data: BasesQueryResult;

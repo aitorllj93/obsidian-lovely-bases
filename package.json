@@ -1,6 +1,6 @@
 {
   "name": "lovely-bases",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Beautiful, visual bases views for Obsidian",
   "main": "main.js",
   "scripts": {

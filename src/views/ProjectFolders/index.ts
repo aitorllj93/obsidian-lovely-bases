@@ -17,6 +17,12 @@ const PROJECT_FOLDERS_VIEW: BaseViewDef = {
       displayName: "Image property",
       key: "imageProperty",
     },
+    {
+      type: "toggle",
+      displayName: "Colorize files",
+      key: "colorizeFiles",
+      default: false,
+    },
   ]
 };
 

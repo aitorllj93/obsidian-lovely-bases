@@ -1,9 +1,12 @@
 import { type ClassValue, clsx } from "clsx";
+import type { TFile } from "obsidian";
 import type React from "react";
 import { forwardRef, type MouseEventHandler, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
+import Markdown from "@/components/Obsidian/Markdown";
 import { desaturate, gradientColors, saturate } from "@/lib/colors";
+
 
 import LucideIcon from "../LucideIcon";
 
@@ -20,6 +23,7 @@ function cn(...inputs: ClassValue[]) {
 
 export type File = {
 	id: string;
+	file: TFile;
 	image: string;
 	title: string;
 	onClick?: MouseEventHandler<HTMLDivElement>;
@@ -29,19 +33,21 @@ export type File = {
 
 type FileCardProps = {
 	image: string;
+  file: TFile;
 	title: string;
 	delay: number;
 	isVisible: boolean;
 	index: number;
 	totalCount: number;
 	onClick: MouseEventHandler<HTMLDivElement>;
-	backgroundColor: string;
+	backgroundColor?: string;
 };
 
 const FileCard = forwardRef<HTMLDivElement, FileCardProps>(
 	(
 		{
 			image,
+      file,
 			title,
 			delay,
 			isVisible,
@@ -77,9 +83,10 @@ const FileCard = forwardRef<HTMLDivElement, FileCardProps>(
 			>
 				<div
 					className={cn(
-						"w-full h-full rounded overflow-hidden shadow-xl border border-white/5 relative",
+						"w-full h-full rounded overflow-hidden shadow-xl border border-border relative drop-shadow-lg",
 						"transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
 						"group-hover/card:-translate-y-6 group-hover/card:shadow-2xl group-hover/card:shadow-accent/40 group-hover/card:ring-2 group-hover/card:ring-accent group-hover/card:scale-150",
+            !backgroundColor && "bg-background",
 					)}
           style={{
             backgroundColor,
@@ -92,10 +99,22 @@ const FileCard = forwardRef<HTMLDivElement, FileCardProps>(
 							className="w-full h-full object-cover"
 						/>
 					) : (
-						<div className="w-full h-full" style={{ backgroundColor }} />
+						<div className={
+              cn(
+                "w-full h-full text-[8px] px-[3px]",
+                backgroundColor ? "text-white" : "text-foreground",
+              )
+            }>
+              <Markdown maxLength={100} file={file} />
+            </div>
 					)}
 					<div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent" />
-					<p className="absolute bottom-1.5 left-1.5 right-1.5 text-xs text-white line-clamp-2 drop-shadow-md backdrop-blur-md">
+					<p className={
+            cn(
+              "absolute bottom-0 m-0 px-[3px] text-xs truncate drop-shadow-md backdrop-blur-md",
+              backgroundColor ? "text-white" : "text-foreground",
+            )
+          }>
 						{title}
 					</p>
 				</div>
@@ -106,6 +125,7 @@ const FileCard = forwardRef<HTMLDivElement, FileCardProps>(
 FileCard.displayName = "FileCard";
 
 interface AnimatedFolderProps {
+  colorizeFiles: boolean;
 	title: string;
   icon: string | null;
 	files: File[];
@@ -115,6 +135,7 @@ interface AnimatedFolderProps {
 }
 
 const AnimatedFolder: React.FC<AnimatedFolderProps> = ({
+  colorizeFiles,
 	title,
   icon,
 	files,
@@ -209,11 +230,12 @@ const AnimatedFolder: React.FC<AnimatedFolderProps> = ({
 				>
 					{previewFiles.map((file, index) => (
 						<FileCard
-							backgroundColor={fileColor}
+							backgroundColor={colorizeFiles ? fileColor : undefined}
 							key={file.id}
 							ref={(el) => {
 								cardRefs.current[index] = el;
 							}}
+              file={file.file}
 							image={file.image}
 							title={file.title}
 							delay={index * 50}
@@ -286,10 +308,11 @@ export type Folder = {
 };
 
 type Props = {
+  colorizeFiles: boolean;
 	folders: Folder[];
 };
 
-function ProjectFolders({ folders }: Props) {
+function ProjectFolders({ folders, colorizeFiles }: Props) {
 	return (
 		<section className="max-w-7xl mx-auto px-6 pt-16 pb-32">
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 justify-items-center">
@@ -300,6 +323,7 @@ function ProjectFolders({ folders }: Props) {
 						style={{ animationDelay: `${200 + index * 100}ms` }}
 					>
 						<AnimatedFolder
+              colorizeFiles={colorizeFiles}
 							onClick={folder.onClick}
 							title={folder.title}
               icon={folder.icon}

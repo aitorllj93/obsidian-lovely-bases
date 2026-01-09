@@ -79,6 +79,7 @@ const useFolders = (
 					...group.entries.map((entry) => {
 						return {
 							id: entry.file.path,
+              file: entry.file,
 							image: getImage(app, entry, imageProperty),
 							title: getTitle(entry),
 							onClick: (event: React.MouseEvent) => {
@@ -98,13 +99,15 @@ const useFolders = (
 };
 
 const ProjectFoldersView = ({ app, config, data }: ReactBaseViewProps) => {
+  const colorizeFiles = config.get("colorizeFiles") as boolean;
 	const folders = useFolders(app, data, config);
+
 	return (
 		<div
 			className="lovely-bases"
 			style={{ height: "100%", width: "100%", overflowY: "auto" }}
 		>
-			<ProjectFolders folders={folders} />
+			<ProjectFolders folders={folders} colorizeFiles={colorizeFiles} />
 		</div>
 	);
 };
