@@ -112,7 +112,7 @@ export const HeatmapCalendar = ({ data, date = new Date(), classNames = ["bg-[#e
 
   return (
     <div className="p-4 flex flex-col items-center">
-      <div className="flex">
+      <div className="flex max-w-full">
         <div className="flex flex-col justify-between mt-5.5 mr-2">
           {dayLabels.map((day) => (
             <span key={`daylabel-${day}`} className="text-xs text-gray-500 h-3">
