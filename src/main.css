@@ -29,7 +29,7 @@
   --background: var(--background-primary);
   --foreground: var(--text-normal);
 
-  --card: var(--background-secondary);
+  --card: var(--bases-cards-background, var(--background-secondary));
   --card-foreground: var(--text-normal);
   --popover: var(--background-secondary-alt);
   --popover-foreground: var(--text-normal);
@@ -71,6 +71,7 @@
 }
 
 @theme inline {
+  /** ShadCN variables */
 	--radius: var(--radius-m);
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
@@ -114,4 +115,13 @@
 	--color-palette-blue: var(--color-blue);
 	--color-palette-purple: var(--color-purple);
 	--color-palette-magenta: var(--color-pink);
+
+  /** Tailwind overrides */
+  --font-weight-medium: var(--normal-weight);
+  --text-base: var(--font-ui-medium);
+  --text-xs: var(--font-ui-smaller);
+}
+
+.value-list-element:not(:has(.tag)) {
+  color: var(--pill-color);
 }

@@ -6,58 +6,81 @@ import { cn } from "@/lib/utils";
 
 import type { ItemProperty } from "./types";
 
-type PropertyListProps = {
+const EMPTY_PLACEHOLDER = "—";
+
+type PropertyItemProps = {
+	app: App;
+	property: ItemProperty;
+	showTitle: boolean;
+};
+
+const PropertyItem = ({ app, property, showTitle }: PropertyItemProps) => {
+	return (
+		<div className="flex flex-col gap-0.5">
+			{showTitle && (
+				<span
+					className={cn(
+						"font-medium text-muted-foreground text-xs tracking-wide p-[0_var(--size-4-2)]",
+					)}
+				>
+					{property.displayName}
+				</span>
+			)}
+			<div className={cn("p-(--input-padding)")}>
+				{!property.isEmpty ? (
+					<PropertyValue
+						renderContext={app.renderContext}
+						as="div"
+						className="text-foreground text-sm line-clamp-1"
+						value={property.value}
+					/>
+				) : (
+					<span className="text-muted-foreground text-xs tracking-wide">
+						{EMPTY_PLACEHOLDER}
+					</span>
+				)}
+			</div>
+		</div>
+	);
+};
+
+type Props = {
 	app: App;
 	properties: ItemProperty[];
 	showTitles: boolean;
-	cardSize: number;
-}
+};
 
-  const PropertyList = memo(({ app, properties, showTitles, cardSize }: PropertyListProps) => {
-	// Determine text size based on card size
-	const textSizeClass = cardSize < 300 ? 'text-xs' : cardSize < 400 ? 'text-sm' : 'text-base';
-	const titleSizeClass = cardSize < 300 ? 'text-xs' : cardSize < 400 ? 'text-xs' : 'text-sm';
-
-	return (
-	  <div className="flex flex-col gap-2 overflow-y-auto">
-		{properties.map(prop => {
-		  if (!prop.value) return null;
-
-		  return (
-			<div key={prop.id} className="flex flex-col gap-0.5">
-			  {showTitles && (
-				<span className={cn(
-				  "font-medium text-muted-foreground tracking-wide p-[0_var(--size-4-2)]",
-				  titleSizeClass
-				)}>
-				  {prop.displayName}
-				</span>
-			  )}
-			  <div className={cn(
-				"p-(--input-padding)",
-				textSizeClass
-			  )}>
-				<PropertyValue
-				  renderContext={app.renderContext}
-				  as="div"
-				  className="text-foreground line-clamp-3"
-				  value={prop.value}
-				/>
-			  </div>
+const PropertyList = memo(
+	({ app, properties, showTitles }: Props) => {
+		return (
+			<div className="flex flex-col gap-2 overflow-y-auto">
+				{properties.map((property) => {
+					return (
+						<PropertyItem
+							key={property.id}
+							app={app}
+							property={property}
+							showTitle={showTitles}
+						/>
+					);
+				})}
 			</div>
-		  );
-		})}
-	  </div>
-	);
-  }, (prevProps, nextProps) => {
-	return prevProps.properties.every((prop, index) => {
-	  return prop.value.toString() === nextProps.properties[index].value.toString() &&
-		prop.displayName === nextProps.properties[index].displayName
-	}) &&
-	  prevProps.showTitles === nextProps.showTitles &&
-	  prevProps.cardSize === nextProps.cardSize;
-  });
+		);
+	},
+	(prevProps, nextProps) => {
+		return (
+			prevProps.properties.every((prop, index) => {
+				return (
+					prop.value.toString() ===
+						nextProps.properties[index].value.toString() &&
+					prop.displayName === nextProps.properties[index].displayName
+				);
+			}) &&
+			prevProps.showTitles === nextProps.showTitles
+		);
+	},
+);
 
-  PropertyList.displayName = "PropertyList";
+PropertyList.displayName = "PropertyList";
 
-  export default PropertyList;
+export default PropertyList;

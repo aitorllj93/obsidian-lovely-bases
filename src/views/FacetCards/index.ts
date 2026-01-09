@@ -51,7 +51,7 @@ const FACET_CARDS_VIEW: BaseViewDef = {
 			displayName: "Image aspect ratio",
 			min: 0.25,
 			max: 2.5,
-			key: "aspectRatio",
+			key: "imageAspectRatio",
 			default: 1.5,
 			step: 0.05,
 		},

@@ -1,4 +1,4 @@
-import { type App, type BasesEntry, type BasesPropertyId, normalizePath, TFile, type Value } from "obsidian";
+import { type App, type BasesEntry, type BasesPropertyId, type BasesViewConfig, normalizePath, TFile, type Value } from "obsidian";
 
 
 export type Property = {
@@ -12,17 +12,17 @@ export const getTitle = (entry: BasesEntry): string => {
   return entry.file.basename.replace(/\.[^.]+$/, '');
 }
 
-export const getProperty = (entry: BasesEntry, propertyId: BasesPropertyId): Property => {
+export const getProperty = (entry: BasesEntry, config: BasesViewConfig, propertyId: BasesPropertyId): Property => {
   const value = entry.getValue(propertyId);
-  if (value === null || value === undefined) {
-    return null;
-  }
+  const displayName = config.getDisplayName(propertyId) as string;
+
+  const isEmpty = value === null || value === undefined || value.toString() === 'null';
 
   return {
     id: propertyId,
-    displayName: propertyId,
+    displayName,
     value,
-    isEmpty: value === null || value === undefined,
+    isEmpty,
   }
 }
 

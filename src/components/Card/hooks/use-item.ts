@@ -1,4 +1,4 @@
-import type { App, BasesEntry, BasesPropertyId } from "obsidian";
+import type { App, BasesEntry, BasesPropertyId, BasesViewConfig } from "obsidian";
 import { useMemo } from "react";
 
 import { getImage, getProperty, getTitle } from "@/lib/properties";
@@ -7,6 +7,7 @@ import type { CardItem } from "../types";
 
 type UseItemProps = {
   app: App;
+  config: BasesViewConfig;
   entry: BasesEntry;
   propertiesToDisplay: {
     id: BasesPropertyId;
@@ -19,12 +20,12 @@ type UseItemProps = {
   imageProperty?: BasesPropertyId;
 }
 
-export const useItem = ({ app, entry, propertiesToDisplay, hoverPropertyDisplay, imageProperty }: UseItemProps): CardItem => {
+export const useItem = ({ app, config, entry, propertiesToDisplay, hoverPropertyDisplay, imageProperty }: UseItemProps): CardItem => {
   return useMemo(() => {
     const title = getTitle(entry);
     const image = getImage(app, entry, imageProperty);
-    const properties = propertiesToDisplay.map(prop => getProperty(entry, prop.id));
-    const hoverProperty = hoverPropertyDisplay ? getProperty(entry, hoverPropertyDisplay.id) : null;
+    const properties = propertiesToDisplay.map(prop => getProperty(entry, config, prop.id));
+    const hoverProperty = hoverPropertyDisplay ? getProperty(entry, config, hoverPropertyDisplay.id) : null;
 
 
     return {
@@ -36,5 +37,5 @@ export const useItem = ({ app, entry, propertiesToDisplay, hoverPropertyDisplay,
       properties,
       hoverProperty,
     };
-  }, [entry, imageProperty, propertiesToDisplay, hoverPropertyDisplay, app]);
+  }, [entry, imageProperty, propertiesToDisplay, hoverPropertyDisplay, app, config]);
 }
