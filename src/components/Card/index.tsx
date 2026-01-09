@@ -92,13 +92,13 @@ const Card = memo(
 				/>
 
 				{!reverseContent ? (
-          <Image layout={layout} imageAspectRatio={imageAspectRatio} item={item} imageFit={imageFit} />
+          <Image cardSize={cardSize} layout={layout} imageAspectRatio={imageAspectRatio} item={item} imageFit={imageFit} />
         ) : (
           <Content layout={layout} cardSize={cardSize} item={item} showPropertyTitles={showPropertyTitles} app={app} showTitle={showTitle} />
         )}
 
         {reverseContent ? (
-          <Image layout={layout} imageAspectRatio={imageAspectRatio} item={item} imageFit={imageFit} />
+          <Image cardSize={cardSize} layout={layout} imageAspectRatio={imageAspectRatio} item={item} imageFit={imageFit} />
         ) : (
           <Content layout={layout} cardSize={cardSize} item={item} showPropertyTitles={showPropertyTitles} app={app} showTitle={showTitle} />
         )}
