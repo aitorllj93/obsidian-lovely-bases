@@ -8,7 +8,6 @@ export const useElementWidth = <T extends HTMLElement>() => {
     const el = ref.current;
     if (!el) return;
 
-    // Medición inmediata (evita el primer render a 0)
     const initial = el.getBoundingClientRect().width;
     if (initial) setWidth(initial);
 

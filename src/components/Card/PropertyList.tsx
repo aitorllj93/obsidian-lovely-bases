@@ -1,20 +1,28 @@
-import type { App } from "obsidian";
+import type { BasesPropertyId } from "obsidian";
 import { memo } from "react";
 
-import PropertyValue from "@/components/Obsidian/PropertyValue";
-import { cn } from "@/lib/utils";
 
-import type { ItemProperty } from "./types";
+import PropertyValue from "@/components/Obsidian/PropertyValue";
+import { useApp } from "@/contexts/app";
+import { useConfigOrder } from "@/hooks/use-config-order";
+import { useConfigValue } from "@/hooks/use-config-value";
+import { useEntryProperty } from "@/hooks/use-property";
+import { cn } from "@/lib/utils";
 
 const EMPTY_PLACEHOLDER = "—";
 
 type PropertyItemProps = {
-	app: App;
-	property: ItemProperty;
-	showTitle: boolean;
+  entryId: string;
+	propertyId: BasesPropertyId;
 };
 
-const PropertyItem = ({ app, property, showTitle }: PropertyItemProps) => {
+const PropertyItem = ({ entryId, propertyId }: PropertyItemProps) => {
+  const property = useEntryProperty(entryId, propertyId);
+  const showTitle = useConfigValue<boolean>("showPropertyTitles", true);
+  const renderContext = useApp().renderContext;
+
+  if (!property) return null;
+
 	return (
 		<div className="flex flex-col gap-0.5">
 			{showTitle && (
@@ -29,7 +37,7 @@ const PropertyItem = ({ app, property, showTitle }: PropertyItemProps) => {
 			<div className={cn("p-(--input-padding)")}>
 				{!property.isEmpty ? (
 					<PropertyValue
-						renderContext={app.renderContext}
+						renderContext={renderContext}
 						as="div"
 						className="text-foreground text-sm line-clamp-1"
 						value={property.value}
@@ -45,22 +53,22 @@ const PropertyItem = ({ app, property, showTitle }: PropertyItemProps) => {
 };
 
 type Props = {
-	app: App;
-	properties: ItemProperty[];
-	showTitles: boolean;
+  entryId: string;
 };
 
 const PropertyList = memo(
-	({ app, properties, showTitles }: Props) => {
+	({ entryId }: Props) => {
+
+    const configOrder = useConfigOrder();
+
 		return (
 			<div className="flex flex-col gap-2 overflow-y-auto">
-				{properties.map((property) => {
+				{configOrder.map((property) => {
 					return (
 						<PropertyItem
-							key={property.id}
-							app={app}
-							property={property}
-							showTitle={showTitles}
+              key={property}
+              entryId={entryId}
+              propertyId={property}
 						/>
 					);
 				})}
@@ -68,16 +76,7 @@ const PropertyList = memo(
 		);
 	},
 	(prevProps, nextProps) => {
-		if (prevProps.properties.length !== nextProps.properties.length) return false;
-		if (prevProps.showTitles !== nextProps.showTitles) return false;
-
-		return prevProps.properties.every((prop, index) => {
-			const next = nextProps.properties[index];
-			return (
-				prop.value.toString() === next.value.toString() &&
-				prop.displayName === next.displayName
-			);
-		});
+		return prevProps.entryId === nextProps.entryId;
 	},
 );
 

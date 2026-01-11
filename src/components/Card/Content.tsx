@@ -1,32 +1,21 @@
 
-import type { App } from "obsidian";
-
 import PropertyList from "./PropertyList";
 import Title from "./Title";
-import type { CardItem } from "./types";
-
 
 type Props = {
-  layout: "horizontal" | "vertical";
-  cardSize: number;
-  item: CardItem;
-  showPropertyTitles: boolean;
-  showTitle: boolean;
-  app: App;
+  entryId: string;
 }
 
-const Content = ({ layout, cardSize, item, showPropertyTitles, showTitle, app }: Props) => {
+const Content = ({ entryId }: Props) => {
   return (
     <div
       className="flex flex-col flex-1 min-h-0 min-w-0 h-full overflow-hidden"
     >
-      {showTitle && <Title layout={layout} cardSize={cardSize} item={item} />}
+      <Title entryId={entryId} />
 
       <div className="flex-1 min-h-0">
         <PropertyList
-          app={app}
-          properties={item.properties}
-          showTitles={showPropertyTitles}
+          entryId={entryId}
         />
       </div>
     </div>

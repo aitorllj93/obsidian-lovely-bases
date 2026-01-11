@@ -2,14 +2,17 @@ import { BasesView, type QueryController } from "obsidian";
 import React from "react";
 import { createRoot, type Root } from "react-dom/client";
 
-import type { ReactBaseViewProps } from "@/types";
 import { ObsidianProvider } from "@/components/Obsidian/Context";
+import { AppProvider } from "@/contexts/app";
+import { ConfigProvider } from "@/contexts/config";
+import type { ReactBaseViewProps } from "@/types";
+import { ContainerElProvider } from "@/contexts/container-el";
 
 export class ReactBasesView extends BasesView {
 	private containerEl: HTMLElement;
 	private root: Root;
 
-  private isEmbedded: boolean;
+	private isEmbedded: boolean;
 
 	constructor(
 		public readonly type: string,
@@ -20,7 +23,9 @@ export class ReactBasesView extends BasesView {
 	) {
 		super(controller);
 		this.containerEl = parentEl.createDiv(`bases-${this.type}-view-container`);
-    this.isEmbedded = !!this.containerEl.closest(".internal-embed, .markdown-embed, .cm-embed-block, .markdown-embed-content");
+		this.isEmbedded = !!this.containerEl.closest(
+			".internal-embed, .markdown-embed, .cm-embed-block, .markdown-embed-content",
+		);
 	}
 
 	public onDataUpdated(): void {
@@ -43,14 +48,20 @@ export class ReactBasesView extends BasesView {
 						isEmbedded: this.isEmbedded,
 					}}
 				>
-					<Component
-						app={this.app}
-						component={this}
-						containerEl={this.parentEl}
-						config={this.config}
-						data={this.data}
-            isEmbedded={this.isEmbedded}
-					/>
+					<AppProvider value={this.app}>
+						<ConfigProvider value={this.config}>
+							<ContainerElProvider value={this.parentEl}>
+								<Component
+									app={this.app}
+									component={this}
+									containerEl={this.parentEl}
+									config={this.config}
+									data={this.data}
+									isEmbedded={this.isEmbedded}
+								/>
+							</ContainerElProvider>
+						</ConfigProvider>
+					</AppProvider>
 				</ObsidianProvider>
 			</React.StrictMode>,
 		);

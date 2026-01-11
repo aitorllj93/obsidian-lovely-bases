@@ -1,34 +1,31 @@
-import { motion, useAnimation } from "motion/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, useAnimation } from "motion/react";
+import type { BasesEntry } from "obsidian";
+import { type ComponentType, forwardRef, useEffect, useRef, useState } from "react";
+
 import { cn } from "@/lib/utils";
-import { ComponentType, forwardRef, useEffect, useRef, useState } from "react";
 
-// Define the type for a single item in the carousel
-export interface CarouselItem {
-	id: string | number;
-	imageSrc: string;
-	title: string;
-	count: number;
-	countLabel: string;
-}
-
-type Props<
-	T extends {
-		id: string;
-	} = {
-		id: string;
-	},
-> = {
+type Props = {
 	title?: string;
 	subtitle?: string;
-	items: T[];
-	component: ComponentType<T>;
-	cardSize: number;
-	cardHeight: number;
+	items: BasesEntry[];
+	component: ComponentType<{
+		className?: string;
+		entryId: string;
+	}>;
+	minItemWidth?: number;
+	minItemHeight?: number;
 };
 
 const Carousel = forwardRef<HTMLDivElement, Props>(
-	({ cardSize = 280, cardHeight, component: Component, title, subtitle, items }, ref) => {
+	({
+    minItemWidth = 240,
+    minItemHeight = 320,
+    component: Component,
+    title,
+    subtitle,
+    items
+  }, ref) => {
 		const controls = useAnimation();
 		const carouselRef = useRef<HTMLDivElement>(null);
 		const [isAtStart, setIsAtStart] = useState(true);
@@ -77,7 +74,7 @@ const Carousel = forwardRef<HTMLDivElement, Props>(
 				}
 				window.removeEventListener("resize", checkScrollPosition);
 			};
-		}, [items]);
+		}, []);
 
 		return (
 			<section
@@ -111,14 +108,18 @@ const Carousel = forwardRef<HTMLDivElement, Props>(
 						>
 							{items.map((item, index) => (
 							<motion.div
-								key={item.id}
+								key={item.file.path}
 								className="shrink-0"
-								style={{ width: cardSize, height: cardHeight }}
+								style={{ width: minItemWidth, height: minItemHeight }}
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.5, delay: index * 0.1 }}
 							>
-								<Component {...item} />
+                <Component
+                  key={item.file.path}
+                  entryId={item.file.path}
+                  className="mb-3"
+                />
 							</motion.div>
 							))}
 						</div>

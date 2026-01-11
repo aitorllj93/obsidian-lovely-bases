@@ -1,70 +1,35 @@
-import { type App, Keymap } from "obsidian";
 import { memo, useRef, useState } from "react";
 
+import { useConfigValue } from "@/hooks/use-config-value";
+import { useEntryHover } from "@/hooks/use-entry-hover";
+import { useEntryOpen } from "@/hooks/use-entry-open";
 import { cn } from "@/lib/utils";
 
 import Content from "./Content";
 import HoverOverlay from "./HoverOverlay";
 import Image from "./Image";
-import type { CardItem } from "./types";
-
 
 type Props = {
-  className?: string;
-	layout: "horizontal" | "vertical";
-	item: CardItem;
-	cardSize: number;
-	imageFit: "cover" | "contain";
-	imageAspectRatio: number;
-	showPropertyTitles: boolean;
-  showTitle: boolean;
-	hoverStyle: "overlay" | "tooltip" | "none";
-	app: App;
-	containerEl: HTMLElement;
-  reverseContent: boolean;
+	className?: string;
+	entryId: string;
 };
 
 const Card = memo(
-	({
-		className,
-		layout,
-		item,
-		cardSize,
-		imageFit,
-		imageAspectRatio,
-		showPropertyTitles,
-    showTitle,
-		hoverStyle,
-		app,
-		containerEl,
-    reverseContent,
-	}: Props) => {
+	({ className, entryId }: Props) => {
 		const [isHovered, setIsHovered] = useState(false);
 		const dragStartPos = useRef<{ x: number; y: number } | null>(null);
 		const linkRef = useRef<HTMLAnchorElement>(null);
+		const handleEntryOpen = useEntryOpen(entryId);
+		const handleEntryHover = useEntryHover(entryId, linkRef);
+
+		const layout = useConfigValue<"vertical" | "horizontal">(
+			"layout",
+			"vertical",
+		);
+		const reverseContent = useConfigValue<boolean>("reverseContent", false);
 
 		const onPointerDown = (event: React.PointerEvent) => {
 			dragStartPos.current = { x: event.clientX, y: event.clientY };
-		};
-
-		const onClick = (event: React.MouseEvent) => {
-			const evt = event.nativeEvent;
-			if (evt.button !== 0 && evt.button !== 1) return;
-
-			evt.preventDefault();
-			const path = item.file.path;
-			const modEvent = Keymap.isModEvent(evt);
-			void app.workspace.openLinkText(path, "", modEvent);
-		};
-
-		const onMouseOver = (event: React.MouseEvent) => {
-			app.workspace.trigger("hover-link", {
-				event: event.nativeEvent,
-				source: "bases",
-				hoverParent: containerEl,
-				targetEl: linkRef.current,
-				linktext: item.file.path,
-			});
 		};
 
 		const onMouseEnter = () => setIsHovered(true);
@@ -75,11 +40,11 @@ const Card = memo(
 				className={cn(
 					"relative h-full bg-(--bases-cards-background) rounded shadow-md overflow-hidden transition-shadow hover:shadow-lg cursor-pointer border border-border",
 					layout === "horizontal" ? "flex flex-row" : "flex flex-col",
-          className,
+					className,
 				)}
 				onPointerDown={onPointerDown}
-				onClick={onClick}
-				onMouseOver={onMouseOver}
+				onClick={handleEntryOpen}
+				onMouseOver={handleEntryHover}
 				onMouseEnter={onMouseEnter}
 				onMouseLeave={onMouseLeave}
 			>
@@ -92,48 +57,25 @@ const Card = memo(
 				/>
 
 				{!reverseContent ? (
-          <Image cardSize={cardSize} layout={layout} imageAspectRatio={imageAspectRatio} item={item} imageFit={imageFit} />
-        ) : (
-          <Content layout={layout} cardSize={cardSize} item={item} showPropertyTitles={showPropertyTitles} app={app} showTitle={showTitle} />
-        )}
-
-        {reverseContent ? (
-          <Image cardSize={cardSize} layout={layout} imageAspectRatio={imageAspectRatio} item={item} imageFit={imageFit} />
-        ) : (
-          <Content layout={layout} cardSize={cardSize} item={item} showPropertyTitles={showPropertyTitles} app={app} showTitle={showTitle} />
-        )}
-
-				{isHovered && item.hoverProperty && hoverStyle !== "none" && (
-					<HoverOverlay
-						renderContext={app.renderContext}
-						property={item.hoverProperty}
-						style={hoverStyle}
-            showTitle={showPropertyTitles}
-					/>
+					<Image entryId={entryId} />
+				) : (
+					<Content entryId={entryId} />
 				)}
+
+				{reverseContent ? (
+					<Image entryId={entryId} />
+				) : (
+					<Content entryId={entryId} />
+				)}
+
+				{isHovered && <HoverOverlay entryId={entryId} />}
 			</div>
 		);
 	},
 	(prevProps, nextProps) => {
 		return (
-			prevProps.item.id === nextProps.item.id &&
-			prevProps.cardSize === nextProps.cardSize &&
-			prevProps.showPropertyTitles === nextProps.showPropertyTitles &&
-			prevProps.showTitle === nextProps.showTitle &&
-			prevProps.imageFit === nextProps.imageFit &&
-			prevProps.imageAspectRatio === nextProps.imageAspectRatio &&
-			prevProps.layout === nextProps.layout &&
-			prevProps.reverseContent === nextProps.reverseContent &&
-			prevProps.hoverStyle === nextProps.hoverStyle &&
-			prevProps.item.hoverProperty === nextProps.item.hoverProperty &&
-			prevProps.item.properties.length === nextProps.item.properties.length &&
-			prevProps.item.properties.every((prop, index) => {
-				const next = nextProps.item.properties[index];
-				return (
-					prop.value.toString() === next.value.toString() &&
-					prop.displayName === next.displayName
-				);
-			})
+			prevProps.entryId === nextProps.entryId &&
+			prevProps.className === nextProps.className
 		);
 	},
 );

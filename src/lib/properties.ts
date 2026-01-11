@@ -92,23 +92,3 @@ export const getImage = (app: App, entry: BasesEntry, propertyId: BasesPropertyI
   }
   return imageSrc;
 }
-
-
-export function formatPropertyValue(value: unknown): string {
-  if (value === null || value === undefined) return '';
-  if (Array.isArray(value)) {
-    return value.map(v => formatPropertyValue(v)).join(', ');
-  }
-  if (value instanceof Date) {
-    return value.toLocaleDateString();
-  }
-  if (typeof value === 'object' && value.toString) {
-    // Handle Obsidian's property value objects
-    const strValue = value.toString();
-    if (strValue !== '[object Object]') {
-      return strValue;
-    }
-    return JSON.stringify(value);
-  }
-  return String(value);
-}

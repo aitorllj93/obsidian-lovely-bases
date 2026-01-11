@@ -1,33 +1,34 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
+import type { BasesEntry } from "obsidian";
 import { type ComponentType, useLayoutEffect, useMemo } from "react";
+
 import { useElementWidth } from "./hooks/use-element-width";
 
-function chunkIntoRows<T>(items: T[], columns: number): T[][] {
+function chunkIntoRows(items: BasesEntry[], columns: number): BasesEntry[][] {
 	if (columns <= 0) return [];
-	const rows: T[][] = [];
+	const rows: BasesEntry[][] = [];
 	for (let i = 0; i < items.length; i += columns) {
 		rows.push(items.slice(i, i + columns));
 	}
 	return rows;
 }
 
-type Props<T extends {
-  id: string;
-} = {
-  id: string;
-}> = {
-	component: ComponentType<T>;
-	items: T[];
-	minCardWidth?: number;
+type Props = {
+	component: ComponentType<{
+		className?: string;
+		entryId: string;
+	}>;
+	items: BasesEntry[];
+	minItemWidth?: number;
 	gap?: number;
 	padding?: number;
 	estimateRowHeight?: number;
 };
 
 const VirtualGrid = ({
-  component: Component,
+	component: Component,
 	items,
-	minCardWidth = 240, // ancho mínimo deseado por card
+	minItemWidth = 240,
 	gap = 16,
 	padding = 0,
 	estimateRowHeight = 320,
@@ -37,8 +38,8 @@ const VirtualGrid = ({
 	const columnCount = useMemo(() => {
 		const inner = Math.max(0, width - padding * 2);
 		if (inner === 0) return 1;
-		return Math.max(1, Math.floor((inner + gap) / (minCardWidth + gap)));
-	}, [width, padding, gap, minCardWidth]);
+		return Math.max(1, Math.floor((inner + gap) / (minItemWidth + gap)));
+	}, [width, padding, gap, minItemWidth]);
 
 	const rows = useMemo(
 		() => chunkIntoRows(items, columnCount),
@@ -50,7 +51,7 @@ const VirtualGrid = ({
 		getScrollElement: () => scrollRef.current,
 		estimateSize: () => estimateRowHeight,
 		overscan: 6,
-    gap,
+		gap,
 	});
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: needed to measure the height of the rows
@@ -64,7 +65,7 @@ const VirtualGrid = ({
 			style={{
 				height: "100%",
 				overflow: "auto",
-        opacity: width === null ? 0 : 1,
+				opacity: width === null ? 0 : 1,
 				padding,
 			}}
 		>
@@ -80,7 +81,6 @@ const VirtualGrid = ({
 					return (
 						<div
 							key={vRow.key}
-							// 👇 esto hace que TanStack Virtual mida el alto real de la fila
 							ref={virtualizer.measureElement}
 							data-index={vRow.index}
 							style={{
@@ -96,7 +96,11 @@ const VirtualGrid = ({
 							}}
 						>
 							{rowItems.map((item) => (
-								<Component key={item.id} {...item} />
+								<Component
+									key={item.file.path}
+									entryId={item.file.path}
+									className="mb-3"
+								/>
 							))}
 						</div>
 					);

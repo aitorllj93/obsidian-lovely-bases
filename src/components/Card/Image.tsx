@@ -1,26 +1,31 @@
 
+import type { BasesPropertyId } from "obsidian";
+
+import { useConfigValue } from "@/hooks/use-config-value";
+import { useEntryImage } from "@/hooks/use-image";
+import { useEntryTitle } from "@/hooks/use-title";
 import { cn } from "@/lib/utils";
 
-import type { CardItem } from "./types";
-
 type Props = {
-	layout: "horizontal" | "vertical";
-	imageAspectRatio: number;
-	item: CardItem;
-	imageFit: "cover" | "contain";
-  cardSize: number;
+	entryId: string;
 };
 
-const Image = ({
-	layout,
-	imageAspectRatio,
-	item,
-	imageFit,
-  cardSize,
-}: Props) => {
+const Image = ({ entryId }: Props) => {
+	const imageProperty = useConfigValue<BasesPropertyId | undefined>(
+		"imageProperty",
+	);
+	const cardSize = useConfigValue<number>("cardSize", 400);
+	const layout = useConfigValue<"horizontal" | "vertical">(
+		"layout",
+		"vertical",
+	);
+	const imageAspectRatio = useConfigValue<number>("imageAspectRatio", 1.5);
+	const imageFit = useConfigValue<"cover" | "contain">("imageFit", "cover");
+
+	const image = useEntryImage(entryId, imageProperty);
+	const title = useEntryTitle(entryId);
+
 	if (layout === "horizontal") {
-		// En horizontal, usamos position absolute para que la imagen no afecte la altura
-		// El contenido define la altura, la imagen se adapta
 		return (
 			<div
 				className="relative shrink-0 bg-(--bases-cards-cover-background)"
@@ -30,10 +35,10 @@ const Image = ({
 				}}
 			>
 				<div className="absolute inset-0">
-					{item.image ? (
+					{image ? (
 						<img
-							src={item.image}
-							alt={item.title}
+							src={image}
+							alt={title}
 							draggable={false}
 							loading="lazy"
 							className={cn(
@@ -54,14 +59,14 @@ const Image = ({
 		<div
 			className="relative w-full flex-none bg-(--bases-cards-cover-background)"
 			style={{
-        aspectRatio: 1 / imageAspectRatio,
-        height: cardSize * imageAspectRatio,
-      }}
+				aspectRatio: 1 / imageAspectRatio,
+				height: cardSize * imageAspectRatio,
+			}}
 		>
-			{item.image ? (
+			{image ? (
 				<img
-					src={item.image}
-					alt={item.title}
+					src={image}
+					alt={title}
 					draggable={false}
 					loading="lazy"
 					className={cn(
