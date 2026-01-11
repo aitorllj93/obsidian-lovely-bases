@@ -1,13 +1,6 @@
 
-import { useSyncExternalStore } from 'react';
-
-import { useEntriesStore } from '@/contexts/entries-store';
+import { useEntrySelector } from './use-entry-selector';
 
 export function useEntry(id: string) {
-  const store = useEntriesStore();
-  return useSyncExternalStore(
-    store.subscribe,
-    () => store.getEntry(id),
-    () => store.getEntry(id)
-  );
+  return useEntrySelector(id, (entry) => entry);
 }

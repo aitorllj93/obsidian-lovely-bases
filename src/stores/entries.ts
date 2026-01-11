@@ -1,47 +1,55 @@
-import type { App, BasesEntry, BasesPropertyId, BasesViewConfig } from "obsidian";
-
-import { entry } from "@/lib/obsidian";
-
-type NotesState = {
-  byId: Map<string, BasesEntry>;
-};
+import type { BasesEntry } from "obsidian";
 
 type Listener = () => void;
 
 type CreateEntriesStoreProps = {
   initialEntries?: Iterable<BasesEntry>;
-  app: App;
-  config: BasesViewConfig;
 }
 
-export function createEntriesStore({ initialEntries, app, config }: CreateEntriesStoreProps) {
-  const state: NotesState = { byId: new Map() };
-  if (initialEntries) for (const e of initialEntries) state.byId.set(e.file.path, e);
+export function createEntriesStore({ initialEntries }: CreateEntriesStoreProps) {
+  const byId = new Map<string, BasesEntry>();
+  if (initialEntries) for (const e of initialEntries) byId.set(e.file.path, e);
 
-  const listeners = new Set<Listener>();
+  const globalListeners = new Set<Listener>();
+  const entryListeners = new Map<string, Set<Listener>>();
 
   const api = {
     getEntry(id: string) {
-      return state.byId.get(id);
+      return byId.get(id);
     },
-    getImage(id: string, propertyId: BasesPropertyId) {
-      return entry.getImage(state.byId.get(id), app, propertyId);
-    },
-    getProperty(id: string, propertyId: BasesPropertyId) {
-      return entry.getLabeledProperty(state.byId.get(id), config, propertyId);
-    },
+
     getSnapshot() {
-      return state;
+      return byId;
     },
+
     subscribe(fn: Listener) {
-      listeners.add(fn);
-      return () => listeners.delete(fn);
+      globalListeners.add(fn);
+      return () => globalListeners.delete(fn);
     },
+
+    subscribeToEntry(id: string, fn: Listener) {
+      let listeners = entryListeners.get(id);
+      if (!listeners) {
+        listeners = new Set();
+        entryListeners.set(id, listeners);
+      }
+      listeners.add(fn);
+      return () => {
+        listeners.delete(fn);
+        if (listeners.size === 0) entryListeners.delete(id);
+      };
+    },
+
     upsert(entry: BasesEntry) {
-      const prev = state.byId.get(entry.file.path);
+      const prev = byId.get(entry.file.path);
       if (prev && prev.file.stat.mtime === entry.file.stat.mtime) return;
-      state.byId.set(entry.file.path, entry);
-      for (const l of listeners) l();
+
+      byId.set(entry.file.path, entry);
+
+      const listeners = entryListeners.get(entry.file.path);
+      if (listeners) for (const l of listeners) l();
+
+      for (const l of globalListeners) l();
     },
   };
 

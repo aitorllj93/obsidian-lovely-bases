@@ -1,14 +1,14 @@
 
 import type { BasesPropertyId } from 'obsidian';
-import { useSyncExternalStore } from 'react';
 
-import { useEntriesStore } from '@/contexts/entries-store';
+import { useApp } from '@/contexts/app';
+import { getImage } from '@/lib/obsidian/entry';
+import { useEntrySelector } from './use-entry-selector';
 
 export function useEntryImage(id: string, propertyId?: BasesPropertyId) {
-  const store = useEntriesStore();
-  return useSyncExternalStore(
-    store.subscribe,
-    () => propertyId ? store.getImage(id, propertyId) : null,
-    () => propertyId ? store.getImage(id, propertyId) : null
-  );
+  const app = useApp();
+  return useEntrySelector(id, (entry) => {
+    if (!propertyId || !entry) return null;
+    return getImage(entry, app, propertyId);
+  });
 }
