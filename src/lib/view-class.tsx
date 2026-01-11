@@ -3,16 +3,11 @@ import React from "react";
 import { createRoot, type Root } from "react-dom/client";
 
 import { ObsidianProvider } from "@/components/Obsidian/Context";
-import { AppProvider } from "@/contexts/app";
-import { ConfigProvider } from "@/contexts/config";
 import type { ReactBaseViewProps } from "@/types";
-import { ContainerElProvider } from "@/contexts/container-el";
 
 export class ReactBasesView extends BasesView {
 	private containerEl: HTMLElement;
 	private root: Root;
-
-	private isEmbedded: boolean;
 
 	constructor(
 		public readonly type: string,
@@ -23,9 +18,6 @@ export class ReactBasesView extends BasesView {
 	) {
 		super(controller);
 		this.containerEl = parentEl.createDiv(`bases-${this.type}-view-container`);
-		this.isEmbedded = !!this.containerEl.closest(
-			".internal-embed, .markdown-embed, .cm-embed-block, .markdown-embed-content",
-		);
 	}
 
 	public onDataUpdated(): void {
@@ -36,39 +28,47 @@ export class ReactBasesView extends BasesView {
 			this.root = createRoot(this.containerEl);
 		}
 
-		this.root.render(
-			<React.StrictMode>
-				<ObsidianProvider
-					value={{
-						app: this.app,
-						component: this,
-						config: this.config,
-						containerEl: this.parentEl,
-						data: this.data,
-						isEmbedded: this.isEmbedded,
-					}}
-				>
-					<AppProvider value={this.app}>
-						<ConfigProvider value={this.config}>
-							<ContainerElProvider value={this.parentEl}>
-								<Component
-									app={this.app}
-									component={this}
-									containerEl={this.parentEl}
-									config={this.config}
-									data={this.data}
-									isEmbedded={this.isEmbedded}
-								/>
-							</ContainerElProvider>
-						</ConfigProvider>
-					</AppProvider>
-				</ObsidianProvider>
-			</React.StrictMode>,
+		const isDevelopment = process.env.NODE_ENV === "development";
+    const isEmbedded = this.isEmbedded();
+
+		const content = (
+			<ObsidianProvider
+				value={{
+					app: this.app,
+					component: this,
+					containerEl: this.parentEl,
+					isEmbedded,
+				}}
+			>
+				<Component
+					app={this.app}
+					component={this}
+					containerEl={this.parentEl}
+					config={this.config}
+					data={this.data}
+					isEmbedded={isEmbedded}
+				/>
+			</ObsidianProvider>
 		);
+
+		this.root.render(isDevelopment ? <React.StrictMode>{content}</React.StrictMode> : content);
 	}
 
 	public onunload(): void {
 		this.root?.unmount();
 		this.containerEl.empty();
 	}
+
+  private isEmbedded(): boolean {
+    const leafContent = this.containerEl.closest<HTMLElement>(".workspace-leaf-content");
+    const leafType = leafContent?.dataset?.type;
+
+    if (leafType) {
+      return leafType !== 'bases';
+    }
+
+    return !!this.containerEl.closest(
+			".internal-embed, .markdown-embed, .cm-embed-block, .markdown-embed-content",
+		);
+  }
 }

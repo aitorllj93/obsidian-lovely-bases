@@ -1,25 +1,34 @@
+import type { BasesEntry, BasesViewConfig } from "obsidian";
+import { memo } from "react";
 
 import PropertyList from "./PropertyList";
 import Title from "./Title";
+import type { CardConfig } from "./types";
 
 type Props = {
-  entryId: string;
+  entry: BasesEntry;
+  cardConfig: CardConfig;
+  config: BasesViewConfig;
 }
 
-const Content = ({ entryId }: Props) => {
+const Content = memo(({ entry, cardConfig, config }: Props) => {
   return (
     <div
       className="flex flex-col flex-1 min-h-0 min-w-0 h-full overflow-hidden"
     >
-      <Title entryId={entryId} />
+      <Title entry={entry} cardConfig={cardConfig} />
 
       <div className="flex-1 min-h-0">
         <PropertyList
-          entryId={entryId}
+          entry={entry}
+          cardConfig={cardConfig}
+          config={config}
         />
       </div>
     </div>
   )
-};
+});
+
+Content.displayName = "Content";
 
 export default Content;

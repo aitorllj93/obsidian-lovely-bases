@@ -29,6 +29,7 @@ const FACET_CARDS_VIEW: BaseViewDef = {
 			max: 800,
 			key: "cardSize",
 			default: 100,
+      step: 10
 		},
     {
       type: 'group',

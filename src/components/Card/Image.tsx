@@ -1,29 +1,22 @@
+import type { BasesEntry } from "obsidian";
+import { memo } from "react";
 
-import type { BasesPropertyId } from "obsidian";
-
-import { useConfigValue } from "@/hooks/use-config-value";
 import { useEntryImage } from "@/hooks/use-image";
 import { useEntryTitle } from "@/hooks/use-title";
 import { cn } from "@/lib/utils";
 
+import type { CardConfig } from "./types";
+
 type Props = {
-	entryId: string;
+	entry: BasesEntry;
+	cardConfig: CardConfig;
 };
 
-const Image = ({ entryId }: Props) => {
-	const imageProperty = useConfigValue<BasesPropertyId | undefined>(
-		"imageProperty",
-	);
-	const cardSize = useConfigValue<number>("cardSize", 400);
-	const layout = useConfigValue<"horizontal" | "vertical">(
-		"layout",
-		"vertical",
-	);
-	const imageAspectRatio = useConfigValue<number>("imageAspectRatio", 1.5);
-	const imageFit = useConfigValue<"cover" | "contain">("imageFit", "cover");
+const Image = memo(({ entry, cardConfig }: Props) => {
+	const { imageProperty, cardSize, layout, imageAspectRatio, imageFit } = cardConfig;
 
-	const image = useEntryImage(entryId, imageProperty);
-	const title = useEntryTitle(entryId);
+	const image = useEntryImage(entry, imageProperty);
+	const title = useEntryTitle(entry);
 
 	if (layout === "horizontal") {
 		return (
@@ -79,6 +72,8 @@ const Image = ({ entryId }: Props) => {
 			)}
 		</div>
 	);
-};
+});
+
+Image.displayName = "Image";
 
 export default Image;

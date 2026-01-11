@@ -1,15 +1,19 @@
-import { useConfigValue } from "@/hooks/use-config-value";
+import type { BasesEntry } from "obsidian";
+import { memo } from "react";
+
 import { useEntryTitle } from "@/hooks/use-title";
 import { cn } from "@/lib/utils";
 
+import type { CardConfig } from "./types";
+
 type Props = {
-	entryId: string;
+	entry: BasesEntry;
+	cardConfig: CardConfig;
 };
 
-const Title = ({ entryId }: Props) => {
-	const title = useEntryTitle(entryId);
-	const cardSize = useConfigValue<number>("cardSize", 400);
-	const showTitle = useConfigValue<boolean>("showTitle", true);
+const Title = memo(({ entry, cardConfig }: Props) => {
+	const title = useEntryTitle(entry);
+	const { cardSize, showTitle } = cardConfig;
 	const textSize =
 		cardSize < 300 ? "text-base" : cardSize < 400 ? "text-lg" : "text-xl";
 
@@ -25,6 +29,8 @@ const Title = ({ entryId }: Props) => {
 			{title}
 		</h3>
 	);
-};
+});
+
+Title.displayName = "Title";
 
 export default Title;

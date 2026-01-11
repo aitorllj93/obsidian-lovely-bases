@@ -1,7 +1,9 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
-import type { BasesEntry } from "obsidian";
-import { type ComponentType, useLayoutEffect, useMemo } from "react";
+import type { BasesEntry, BasesViewConfig } from "obsidian";
+import { memo, useLayoutEffect, useMemo } from "react";
 
+import Card, { cardConfigEqual } from "../Card";
+import type { CardConfig } from "../Card/types";
 import { useElementWidth } from "./hooks/use-element-width";
 
 function chunkIntoRows(items: BasesEntry[], columns: number): BasesEntry[][] {
@@ -14,10 +16,8 @@ function chunkIntoRows(items: BasesEntry[], columns: number): BasesEntry[][] {
 }
 
 type Props = {
-	component: ComponentType<{
-		className?: string;
-		entryId: string;
-	}>;
+  cardConfig: CardConfig;
+  config: BasesViewConfig;
 	items: BasesEntry[];
 	minItemWidth?: number;
 	gap?: number;
@@ -25,14 +25,15 @@ type Props = {
 	estimateRowHeight?: number;
 };
 
-const VirtualGrid = ({
-	component: Component,
+function VirtualGridInner({
+	cardConfig,
+	config,
 	items,
 	minItemWidth = 240,
 	gap = 16,
 	padding = 0,
 	estimateRowHeight = 320,
-}: Props) => {
+}: Props) {
 	const [scrollRef, width] = useElementWidth<HTMLDivElement>();
 
 	const columnCount = useMemo(() => {
@@ -41,10 +42,9 @@ const VirtualGrid = ({
 		return Math.max(1, Math.floor((inner + gap) / (minItemWidth + gap)));
 	}, [width, padding, gap, minItemWidth]);
 
-	const rows = useMemo(
-		() => chunkIntoRows(items, columnCount),
-		[items, columnCount],
-	);
+	const rows = useMemo(() => {
+		return chunkIntoRows(items, columnCount);
+	}, [items, columnCount]);
 
 	const virtualizer = useVirtualizer({
 		count: rows.length,
@@ -65,7 +65,7 @@ const VirtualGrid = ({
 			style={{
 				height: "100%",
 				overflow: "auto",
-				opacity: width === null ? 0 : 1,
+				opacity: width === 0 ? 0 : 1,
 				padding,
 			}}
 		>
@@ -75,7 +75,7 @@ const VirtualGrid = ({
 					position: "relative",
 				}}
 			>
-				{virtualizer.getVirtualItems().map((vRow) => {
+				{scrollRef.current ? virtualizer.getVirtualItems().map((vRow) => {
 					const rowItems = rows[vRow.index] ?? [];
 
 					return (
@@ -96,18 +96,50 @@ const VirtualGrid = ({
 							}}
 						>
 							{rowItems.map((item) => (
-								<Component
+								<Card
 									key={item.file.path}
-									entryId={item.file.path}
+									entry={item}
 									className="mb-3"
+									cardConfig={cardConfig}
+									config={config}
 								/>
 							))}
 						</div>
 					);
-				})}
+				}) : null}
 			</div>
 		</div>
 	);
-};
+}
+
+function itemsEqual(a: BasesEntry[], b: BasesEntry[]): boolean {
+	if (a === b) return true;
+	if (a.length !== b.length) return false;
+	return a.length === 0 || a[0] === b[0];
+}
+
+const VirtualGrid = memo(VirtualGridInner, (prevProps, nextProps) => {
+	if (
+		prevProps.items === nextProps.items &&
+		prevProps.cardConfig === nextProps.cardConfig &&
+		prevProps.config === nextProps.config &&
+		prevProps.minItemWidth === nextProps.minItemWidth &&
+		prevProps.gap === nextProps.gap &&
+		prevProps.padding === nextProps.padding &&
+		prevProps.estimateRowHeight === nextProps.estimateRowHeight
+	) {
+		return true;
+	}
+
+	return (
+		itemsEqual(prevProps.items, nextProps.items) &&
+		prevProps.minItemWidth === nextProps.minItemWidth &&
+		prevProps.gap === nextProps.gap &&
+		prevProps.padding === nextProps.padding &&
+		prevProps.estimateRowHeight === nextProps.estimateRowHeight &&
+		cardConfigEqual(prevProps.cardConfig, nextProps.cardConfig) &&
+		prevProps.config === nextProps.config
+	);
+}) as typeof VirtualGridInner;
 
 export default VirtualGrid;

@@ -1,16 +1,11 @@
 
-import type { App } from "obsidian";
-import { createContext, useContext } from "react";
 
-
-const AppContext = createContext<App | undefined>(undefined);
-
-export const AppProvider = AppContext.Provider;
+import { useObsidian } from "@/components/Obsidian/Context";
 
 export const useApp = () => {
-  const context = useContext(AppContext);
+  const context = useObsidian();
   if (!context) {
-    throw new Error("useApp must be used within an AppProvider");
+    throw new Error("useApp must be used within an ObsidianProvider");
   }
-  return context;
+  return context.app;
 };

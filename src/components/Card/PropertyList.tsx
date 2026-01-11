@@ -1,74 +1,87 @@
-import type { BasesPropertyId } from "obsidian";
+import type { BasesEntry, BasesPropertyId, BasesViewConfig } from "obsidian";
 import { memo } from "react";
 
 
 import PropertyValue from "@/components/Obsidian/PropertyValue";
 import { useApp } from "@/contexts/app";
-import { useConfigOrder } from "@/hooks/use-config-order";
-import { useConfigValue } from "@/hooks/use-config-value";
 import { useEntryProperty } from "@/hooks/use-property";
 import { cn } from "@/lib/utils";
+
+import type { CardConfig } from "./types";
 
 const EMPTY_PLACEHOLDER = "—";
 
 type PropertyItemProps = {
-  entryId: string;
+  entry: BasesEntry;
 	propertyId: BasesPropertyId;
+	showPropertyTitles: boolean;
+	config: BasesViewConfig;
 };
 
-const PropertyItem = ({ entryId, propertyId }: PropertyItemProps) => {
-  const property = useEntryProperty(entryId, propertyId);
-  const showTitle = useConfigValue<boolean>("showPropertyTitles", true);
-  const renderContext = useApp().renderContext;
+const PropertyItem = memo(
+	({ entry, propertyId, showPropertyTitles, config }: PropertyItemProps) => {
+		const property = useEntryProperty(entry, config, propertyId);
+		const renderContext = useApp().renderContext;
 
-  if (!property) return null;
+		if (!property) return null;
 
-	return (
-		<div className="flex flex-col gap-0.5">
-			{showTitle && (
-				<span
-					className={cn(
-						"font-medium text-muted-foreground text-xs tracking-wide p-[0_var(--size-4-2)]",
-					)}
-				>
-					{property.displayName}
-				</span>
-			)}
-			<div className={cn("p-(--input-padding)")}>
-				{!property.isEmpty ? (
-					<PropertyValue
-						renderContext={renderContext}
-						as="div"
-						className="text-foreground text-sm line-clamp-1"
-						value={property.value}
-					/>
-				) : (
-					<span className="text-muted-foreground text-xs tracking-wide">
-						{EMPTY_PLACEHOLDER}
+		return (
+			<div className="flex flex-col gap-0.5">
+				{showPropertyTitles && (
+					<span
+						className={cn(
+							"font-medium text-muted-foreground text-xs tracking-wide p-[0_var(--size-4-2)]",
+						)}
+					>
+						{property.displayName}
 					</span>
 				)}
+				<div className={cn("p-(--input-padding)")}>
+					{!property.isEmpty ? (
+						<PropertyValue
+							renderContext={renderContext}
+							as="div"
+							className="text-foreground text-sm line-clamp-1"
+							value={property.value}
+						/>
+					) : (
+						<span className="text-muted-foreground text-xs tracking-wide">
+							{EMPTY_PLACEHOLDER}
+						</span>
+					)}
+				</div>
 			</div>
-		</div>
-	);
-};
+		);
+	},
+	(prevProps, nextProps) =>
+		prevProps.entry === nextProps.entry &&
+		prevProps.propertyId === nextProps.propertyId &&
+		prevProps.showPropertyTitles === nextProps.showPropertyTitles &&
+		prevProps.config === nextProps.config,
+);
+
+PropertyItem.displayName = "PropertyItem";
 
 type Props = {
-  entryId: string;
+  entry: BasesEntry;
+  cardConfig: CardConfig;
+  config: BasesViewConfig;
 };
 
 const PropertyList = memo(
-	({ entryId }: Props) => {
-
-    const configOrder = useConfigOrder();
+	({ entry, cardConfig, config }: Props) => {
+		const { properties, showPropertyTitles } = cardConfig;
 
 		return (
 			<div className="flex flex-col gap-2 overflow-y-auto">
-				{configOrder.map((property) => {
+				{properties.map((property) => {
 					return (
 						<PropertyItem
-              key={property}
-              entryId={entryId}
-              propertyId={property}
+							key={property}
+							entry={entry}
+							propertyId={property}
+							showPropertyTitles={showPropertyTitles}
+							config={config}
 						/>
 					);
 				})}
@@ -76,7 +89,11 @@ const PropertyList = memo(
 		);
 	},
 	(prevProps, nextProps) => {
-		return prevProps.entryId === nextProps.entryId;
+		return (
+			prevProps.entry === nextProps.entry &&
+			prevProps.cardConfig === nextProps.cardConfig &&
+			prevProps.config === nextProps.config
+		);
 	},
 );
 

@@ -1,14 +1,14 @@
 
-import type { BasesPropertyId } from 'obsidian';
+import type { BasesEntry, BasesPropertyId } from 'obsidian';
+import { useMemo } from 'react';
 
 import { useApp } from '@/contexts/app';
 import { getImage } from '@/lib/obsidian/entry';
-import { useEntrySelector } from './use-entry-selector';
 
-export function useEntryImage(id: string, propertyId?: BasesPropertyId) {
+export function useEntryImage(entry: BasesEntry | undefined, propertyId?: BasesPropertyId) {
   const app = useApp();
-  return useEntrySelector(id, (entry) => {
+  return useMemo(() => {
     if (!propertyId || !entry) return null;
     return getImage(entry, app, propertyId);
-  });
+  }, [entry, app, propertyId]);
 }

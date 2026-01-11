@@ -1,6 +1,7 @@
 
-import { useEntrySelector } from './use-entry-selector';
+import type { BasesEntry } from 'obsidian';
+import { useMemo } from 'react';
 
-export function useEntryTitle(id: string) {
-  return useEntrySelector(id, (entry) => entry?.file.basename ?? "");
+export function useEntryTitle(entry: BasesEntry | undefined) {
+  return useMemo(() => entry?.file.basename ?? "", [entry]);
 }

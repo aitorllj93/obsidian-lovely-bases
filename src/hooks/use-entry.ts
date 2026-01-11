@@ -1,6 +1,6 @@
 
-import { useEntrySelector } from './use-entry-selector';
+import type { BasesEntry } from 'obsidian';
 
-export function useEntry(id: string) {
-  return useEntrySelector(id, (entry) => entry);
+export function useEntry(entry: BasesEntry | undefined): BasesEntry | undefined {
+  return entry;
 }

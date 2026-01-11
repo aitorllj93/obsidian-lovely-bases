@@ -11,5 +11,5 @@ export function shallowEqual<T>(a: T, b: T): boolean {
   const keysA = Object.keys(a);
   const keysB = Object.keys(b);
   if (keysA.length !== keysB.length) return false;
-  return keysA.every(key => Object.is((a as any)[key], (b as any)[key]));
+  return keysA.every(key => Object.is((a as unknown)[key], (b as unknown)[key]));
 }

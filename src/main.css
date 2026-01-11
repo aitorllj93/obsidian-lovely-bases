@@ -141,3 +141,18 @@
   --bases-view-padding: var(--size-4-3);
   --bases-embed-padding: var(--size-4-1) 1px;
 }
+
+/* Ensure virtualizer containers have proper height for scrolling */
+:global(.bases-view[data-view-type="facet-cards"],
+.bases-view[data-view-type="infinite-gallery"]) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+:global(.bases-facet-cards-view-container,
+.bases-infinite-gallery-view-container) {
+  flex: 1 1 0%;
+  min-height: 0;
+  overflow: hidden;
+}

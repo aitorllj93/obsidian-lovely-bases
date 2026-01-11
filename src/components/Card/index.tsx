@@ -1,6 +1,6 @@
+import type { BasesEntry, BasesViewConfig } from "obsidian";
 import { memo, useRef, useState } from "react";
 
-import { useConfigValue } from "@/hooks/use-config-value";
 import { useEntryHover } from "@/hooks/use-entry-hover";
 import { useEntryOpen } from "@/hooks/use-entry-open";
 import { cn } from "@/lib/utils";
@@ -8,25 +8,40 @@ import { cn } from "@/lib/utils";
 import Content from "./Content";
 import HoverOverlay from "./HoverOverlay";
 import Image from "./Image";
+import type { CardConfig } from "./types";
+
+export function cardConfigEqual(a: CardConfig, b: CardConfig): boolean {
+	return (
+		a.layout === b.layout &&
+		a.cardSize === b.cardSize &&
+		a.imageAspectRatio === b.imageAspectRatio &&
+		a.imageFit === b.imageFit &&
+		a.imageProperty === b.imageProperty &&
+		a.reverseContent === b.reverseContent &&
+		a.showTitle === b.showTitle &&
+		a.showPropertyTitles === b.showPropertyTitles &&
+		a.hoverProperty === b.hoverProperty &&
+		a.hoverStyle === b.hoverStyle &&
+		a.properties.length === b.properties.length &&
+		a.properties.every((p, i) => p === b.properties[i])
+	);
+}
 
 type Props = {
 	className?: string;
-	entryId: string;
+	entry: BasesEntry;
+	cardConfig: CardConfig;
+	config: BasesViewConfig;
 };
 
 const Card = memo(
-	({ className, entryId }: Props) => {
+	({ className, entry, cardConfig, config }: Props) => {
 		const [isHovered, setIsHovered] = useState(false);
 		const dragStartPos = useRef<{ x: number; y: number } | null>(null);
 		const linkRef = useRef<HTMLAnchorElement>(null);
+		const entryId = entry.file.path;
 		const handleEntryOpen = useEntryOpen(entryId);
 		const handleEntryHover = useEntryHover(entryId, linkRef);
-
-		const layout = useConfigValue<"vertical" | "horizontal">(
-			"layout",
-			"vertical",
-		);
-		const reverseContent = useConfigValue<boolean>("reverseContent", false);
 
 		const onPointerDown = (event: React.PointerEvent) => {
 			dragStartPos.current = { x: event.clientX, y: event.clientY };
@@ -39,7 +54,7 @@ const Card = memo(
 			<div
 				className={cn(
 					"relative h-full bg-(--bases-cards-background) rounded shadow-md overflow-hidden transition-shadow hover:shadow-lg cursor-pointer border border-border",
-					layout === "horizontal" ? "flex flex-row" : "flex flex-col",
+					cardConfig.layout === "horizontal" ? "flex flex-row" : "flex flex-col",
 					className,
 				)}
 				onPointerDown={onPointerDown}
@@ -56,26 +71,28 @@ const Card = memo(
 					draggable={false}
 				/>
 
-				{!reverseContent ? (
-					<Image entryId={entryId} />
+				{!cardConfig.reverseContent ? (
+					<Image entry={entry} cardConfig={cardConfig} />
 				) : (
-					<Content entryId={entryId} />
+					<Content entry={entry} cardConfig={cardConfig} config={config} />
 				)}
 
-				{reverseContent ? (
-					<Image entryId={entryId} />
+				{cardConfig.reverseContent ? (
+					<Image entry={entry} cardConfig={cardConfig} />
 				) : (
-					<Content entryId={entryId} />
+					<Content entry={entry} cardConfig={cardConfig} config={config} />
 				)}
 
-				{isHovered && <HoverOverlay entryId={entryId} />}
+				{isHovered && <HoverOverlay entry={entry} cardConfig={cardConfig} config={config} />}
 			</div>
 		);
 	},
 	(prevProps, nextProps) => {
 		return (
-			prevProps.entryId === nextProps.entryId &&
-			prevProps.className === nextProps.className
+			prevProps.entry === nextProps.entry &&
+			prevProps.className === nextProps.className &&
+			cardConfigEqual(prevProps.cardConfig, nextProps.cardConfig) &&
+			prevProps.config === nextProps.config
 		);
 	},
 );

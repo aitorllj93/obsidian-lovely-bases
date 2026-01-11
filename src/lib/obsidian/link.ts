@@ -1,5 +1,6 @@
 import { type App, normalizePath, TFile } from "obsidian";
 
+const resourcePathCache = new Map<string, string | null>();
 
 export const isLink = (raw: string): boolean => {
   return raw.startsWith("[") && raw.endsWith("]");
@@ -22,9 +23,25 @@ export const getFile = (
   return dest instanceof TFile ? dest : null;
 }
 
-
 export const getResourcePath = (app: App, rawLink: string, sourcePath: string): string | null => {
+  // Crear clave única para el cache: rawLink + sourcePath
+  const cacheKey = `${rawLink}|${sourcePath}`;
+
+  // Verificar cache primero
+  if (resourcePathCache.has(cacheKey)) {
+    return resourcePathCache.get(cacheKey) ?? null;
+  }
+
+  // Calcular y cachear resultado
   const file = getFile(app, rawLink, sourcePath);
-  if (!file) return null;
-  return app.vault.adapter.getResourcePath(normalizePath(file.path)) ?? null;
+  const result = file ? (app.vault.adapter.getResourcePath(normalizePath(file.path)) ?? null) : null;
+
+  // Limitar tamaño del cache para evitar memory leaks (mantener solo los últimos 1000)
+  if (resourcePathCache.size > 1000) {
+    const firstKey = resourcePathCache.keys().next().value;
+    resourcePathCache.delete(firstKey);
+  }
+
+  resourcePathCache.set(cacheKey, result);
+  return result;
 }

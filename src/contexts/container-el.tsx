@@ -1,15 +1,10 @@
 
-import { createContext, useContext } from "react";
-
-
-const ContainerElContext = createContext<HTMLElement | undefined>(undefined);
-
-export const ContainerElProvider = ContainerElContext.Provider;
+import { useObsidian } from "@/components/Obsidian/Context";
 
 export const useContainerEl = () => {
-  const context = useContext(ContainerElContext);
+  const context = useObsidian();
   if (!context) {
-    throw new Error("useContainerEl must be used within a ContainerElProvider");
+    throw new Error("useContainerEl must be used within a ObsidianProvider");
   }
-  return context;
+  return context.containerEl;
 };

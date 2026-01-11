@@ -5,14 +5,17 @@ import { type ComponentType, forwardRef, useEffect, useRef, useState } from "rea
 
 import { cn } from "@/lib/utils";
 
-type Props = {
+type Props<P extends Record<string, unknown> = Record<string, unknown>> = {
 	title?: string;
 	subtitle?: string;
 	items: BasesEntry[];
-	component: ComponentType<{
-		className?: string;
-		entryId: string;
-	}>;
+	component: ComponentType<
+		{
+			className?: string;
+			entry: BasesEntry;
+		} & P
+	>;
+	componentProps?: P;
 	minItemWidth?: number;
 	minItemHeight?: number;
 };
@@ -22,6 +25,7 @@ const Carousel = forwardRef<HTMLDivElement, Props>(
     minItemWidth = 240,
     minItemHeight = 320,
     component: Component,
+    componentProps,
     title,
     subtitle,
     items
@@ -117,8 +121,9 @@ const Carousel = forwardRef<HTMLDivElement, Props>(
 							>
                 <Component
                   key={item.file.path}
-                  entryId={item.file.path}
+                  entry={item}
                   className="mb-3"
+                  {...componentProps}
                 />
 							</motion.div>
 							))}
