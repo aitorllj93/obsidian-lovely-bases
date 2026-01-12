@@ -1,5 +1,7 @@
 export const DEFAULT_LAYOUT = "vertical";
 export const DEFAULT_IMAGE_ASPECT_RATIO = 1.5;
+export const DEFAULT_IMAGE_FIT = "cover";
+export const DEFAULT_ITEM_RENDERING = "custom";
 export const DEFAULT_CARD_SIZE = 400;
 export const DEFAULT_SHOW_PROPERTY_TITLES = true;
 export const DEFAULT_SHOW_TITLE = true;

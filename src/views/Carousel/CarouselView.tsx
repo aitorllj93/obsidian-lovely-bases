@@ -1,36 +1,12 @@
-import type { BasesPropertyId } from "obsidian";
+
 
 import Card from "@/components/Card";
-import {
-	DEFAULT_CARD_SIZE,
-	DEFAULT_HOVER_STYLE,
-	DEFAULT_IMAGE_ASPECT_RATIO,
-	DEFAULT_LAYOUT,
-	DEFAULT_REVERSE_CONTENT,
-	DEFAULT_SHOW_PROPERTY_TITLES,
-	DEFAULT_SHOW_TITLE,
-} from "@/components/Card/constants";
+import { getCardConfig } from "@/components/Card/config/get-config";
 import type { CardConfig } from "@/components/Card/types";
 import Carousel from "@/components/Carousel";
 import type { ReactBaseViewProps } from "@/types";
 
 const PADDING = 32;
-
-function getCardConfig(config: ReactBaseViewProps["config"]): CardConfig {
-	return {
-		layout: (config.get("layout") as CardConfig["layout"]) ?? DEFAULT_LAYOUT,
-		cardSize: (config.get("cardSize") as number) ?? DEFAULT_CARD_SIZE,
-		imageAspectRatio: (config.get("imageAspectRatio") as number) ?? DEFAULT_IMAGE_ASPECT_RATIO,
-		imageFit: (config.get("imageFit") as CardConfig["imageFit"]) ?? "cover",
-		imageProperty: config.get("imageProperty") as BasesPropertyId | undefined,
-		reverseContent: (config.get("reverseContent") as boolean) ?? DEFAULT_REVERSE_CONTENT,
-		showTitle: (config.get("showTitle") as boolean) ?? DEFAULT_SHOW_TITLE,
-		showPropertyTitles: (config.get("showPropertyTitles") as boolean) ?? DEFAULT_SHOW_PROPERTY_TITLES,
-		properties: config.getOrder(),
-		hoverProperty: config.get("hoverProperty") as BasesPropertyId | undefined,
-		hoverStyle: (config.get("hoverStyle") as CardConfig["hoverStyle"]) ?? DEFAULT_HOVER_STYLE,
-	};
-}
 
 function estimateCardHeight(cardConfig: CardConfig, padding = PADDING): number {
 	const TITLE_HEIGHT = 30;

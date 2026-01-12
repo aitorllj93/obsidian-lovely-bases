@@ -9,23 +9,7 @@ import Content from "./Content";
 import HoverOverlay from "./HoverOverlay";
 import Image from "./Image";
 import type { CardConfig } from "./types";
-
-export function cardConfigEqual(a: CardConfig, b: CardConfig): boolean {
-	return (
-		a.layout === b.layout &&
-		a.cardSize === b.cardSize &&
-		a.imageAspectRatio === b.imageAspectRatio &&
-		a.imageFit === b.imageFit &&
-		a.imageProperty === b.imageProperty &&
-		a.reverseContent === b.reverseContent &&
-		a.showTitle === b.showTitle &&
-		a.showPropertyTitles === b.showPropertyTitles &&
-		a.hoverProperty === b.hoverProperty &&
-		a.hoverStyle === b.hoverStyle &&
-		a.properties.length === b.properties.length &&
-		a.properties.every((p, i) => p === b.properties[i])
-	);
-}
+import { compareCardConfig } from "./config/get-config";
 
 type Props = {
 	className?: string;
@@ -91,8 +75,7 @@ const Card = memo(
 		return (
 			prevProps.entry === nextProps.entry &&
 			prevProps.className === nextProps.className &&
-			cardConfigEqual(prevProps.cardConfig, nextProps.cardConfig) &&
-			prevProps.config === nextProps.config
+			compareCardConfig(prevProps.cardConfig, nextProps.cardConfig)
 		);
 	},
 );

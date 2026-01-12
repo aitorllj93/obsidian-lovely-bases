@@ -12,6 +12,13 @@ type Props = {
 }
 
 const Content = memo(({ entry, cardConfig, config }: Props) => {
+
+  const shouldDisplayContent = cardConfig.showTitle || cardConfig.properties.length > 0;
+
+  if (!shouldDisplayContent) {
+    return null;
+  }
+
   return (
     <div
       className="flex flex-col flex-1 min-h-0 min-w-0 h-full overflow-hidden"
