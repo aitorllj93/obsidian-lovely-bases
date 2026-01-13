@@ -4,6 +4,11 @@ import type { CardConfig } from "@/components/Card/types";
 import Carousel from "@/components/Carousel";
 import type { ReactBaseViewProps } from "@/types";
 
+export type CarouselConfig = CardConfig & {
+	title?: string;
+	subtitle?: string;
+};
+
 const PADDING = 32;
 
 function estimateCardHeight(cardConfig: CardConfig, padding = PADDING): number {

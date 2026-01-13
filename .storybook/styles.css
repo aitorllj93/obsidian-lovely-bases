@@ -68,3 +68,8 @@ h3 {
   padding: 4px 8px;
   margin: 8px 0 0 0;
 }
+
+body {
+  scrollbar-color: var(--color-base-50) transparent;
+  scrollbar-width: thin;
+}

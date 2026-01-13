@@ -1,7 +1,6 @@
+import type { FacetCardsConfig } from "@/views/FacetCards/FacetCardsView";
 
-import { aBasesViewConfig } from "@/__mocks__/aBasesViewConfig"
-
-export const APPLICATIONS_BASE_CONFIG = aBasesViewConfig({
+export const APPLICATIONS_BASE_CONFIG: FacetCardsConfig = {
   layout: 'vertical',
   shape: 'rounded',
   hoverProperty: undefined,
@@ -14,4 +13,4 @@ export const APPLICATIONS_BASE_CONFIG = aBasesViewConfig({
   reverseContent: false,
   showPropertyTitles: false,
   showTitle: false,
-})
+}

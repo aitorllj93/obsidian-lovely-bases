@@ -1,6 +1,6 @@
-import { aBasesViewConfig } from "@/__mocks__/aBasesViewConfig"
+import type { FacetCardsConfig } from "@/views/FacetCards/FacetCardsView";
 
-export const MOVIES_BASE_CONFIG = aBasesViewConfig({
+export const MOVIES_BASE_CONFIG: FacetCardsConfig = {
   layout: 'vertical',
   shape: 'square',
   hoverProperty: undefined,
@@ -13,4 +13,4 @@ export const MOVIES_BASE_CONFIG = aBasesViewConfig({
   reverseContent: false,
   showPropertyTitles: false,
   showTitle: false,
-})
+}

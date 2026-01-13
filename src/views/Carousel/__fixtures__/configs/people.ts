@@ -1,6 +1,6 @@
-import { aBasesViewConfig } from "@/__mocks__/aBasesViewConfig"
+import type { FacetCardsConfig } from "@/views/FacetCards/FacetCardsView";
 
-export const PEOPLE_BASE_CONFIG = aBasesViewConfig({
+export const PEOPLE_BASE_CONFIG: FacetCardsConfig = {
   layout: 'vertical',
   shape: 'circle',
   hoverProperty: undefined,
@@ -13,4 +13,4 @@ export const PEOPLE_BASE_CONFIG = aBasesViewConfig({
   reverseContent: false,
   showPropertyTitles: false,
   showTitle: false,
-})
+}

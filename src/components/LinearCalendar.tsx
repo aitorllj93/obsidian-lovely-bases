@@ -14,7 +14,7 @@ export type CalendarItem = {
 
 export type LinearCalendarProps = {
     items: CalendarItem[];
-    focus: 'Anual' | 'Semestral' | 'Trimestral';
+    focus: 'full' | 'half' | 'quarter';
     referenceDate: Date;
     onEventClick: (item: CalendarItem) => void;
 }
@@ -31,19 +31,19 @@ export const LinearCalendar = ({ items, focus, referenceDate, onEventClick }: Li
         const monthIndex = referenceDate.getMonth(); // 0-11
         const allMonths = Array.from({ length: 12 }, (_, i) => i);
 
-        if (focus === 'Semestral') {
-            const isSecondSemester = monthIndex >= 6;
-            const start = isSecondSemester ? 6 : 0;
+        if (focus === 'half') {
+            const isSecondHalf = monthIndex >= 6;
+            const start = isSecondHalf ? 6 : 0;
             return allMonths.slice(start, start + 6);
         }
 
-        if (focus === 'Trimestral') {
+        if (focus === 'quarter') {
             const quarter = Math.floor(monthIndex / 3);
             const start = quarter * 3;
             return allMonths.slice(start, start + 3);
         }
 
-        // Anual
+        // full
         return allMonths;
     };
 

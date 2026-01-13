@@ -6,17 +6,17 @@ import type { ReactBaseViewProps } from "@/types";
 
 export const LINEAR_CALENDAR_TYPE_ID = 'linear-calendar';
 
-type Config = {
-    focus: 'Anual' | 'Semestral' | 'Trimestral';
+export type LinearCalendarConfig = {
+    focus: 'full' | 'half' | 'quarter';
     startDateProperty: BasesPropertyId;
     endDateProperty?: BasesPropertyId;
     date?: string;
 }
 
 const LinearCalendarView = ({ app, config, data }: ReactBaseViewProps) => {
-    const focus = (config.get('focus') ?? 'Anual') as Config['focus'];
-    const startDateProperty = config.get('startDateProperty') as Config['startDateProperty'];
-    const endDateProperty = config.get('endDateProperty') as Config['endDateProperty'];
+    const focus = (config.get('focus') ?? 'full') as LinearCalendarConfig['focus'];
+    const startDateProperty = config.get('startDateProperty') as LinearCalendarConfig['startDateProperty'];
+    const endDateProperty = config.get('endDateProperty') as LinearCalendarConfig['endDateProperty'];
     const dateStr = config.get('date') as string;
 
     const referenceDate = useMemo(() => {

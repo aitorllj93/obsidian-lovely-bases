@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { MOVIES_ENTRIES } from "@/__fixtures__/entries";
-import { aBasesQueryResult, aReactBaseViewProps } from "@/__mocks__";
-import { Providers, ViewWrapper } from "@/stories/decorators";
+import { createViewRenderer, Providers, ViewWrapper } from "@/stories/decorators";
 
 import {
   FULL_BASE_CONFIG,
@@ -10,11 +9,13 @@ import {
   QUARTER_BASE_CONFIG,
 } from "./__fixtures__/configs";
 
-import LinearCalendarView from "./LinearCalendarView";
+import LinearCalendarView, { type LinearCalendarConfig } from "./LinearCalendarView";
+
+const View = createViewRenderer<LinearCalendarConfig>(LinearCalendarView);
 
 const meta = {
   title: "Views/Linear Calendar",
-  component: LinearCalendarView,
+  component: View,
   tags: ["autodocs"],
   decorators: [Providers, ViewWrapper],
   parameters: {
@@ -25,50 +26,55 @@ const meta = {
         component: `
 ### Features
 
-- **Adjustable Focus**: Switch between **Annual**, **Semestral** (6 months), and **Trimestral** (3 months) views.
+- **Adjustable Focus**: Switch between **Full**, **Half** (6 months), and **Quarter** (3 months) views.
 - **Event Visualization**: Notes are displayed as bars spanning from their start to end dates.
 - **Auto-Stacking**: Overlapping events are automatically stacked vertically for clear visibility.
 - **Color Coding**: Automatically uses the \`note.color\` property to style the event bars.
 - **Interactive**: Click on any event bar to immediately open the associated note.
 
-### Configuration
-
-- **Focus**: Choose the time span to display ('Anual', 'Semestral', or 'Trimestral').
-- **Start Date Property**: The property used for the event's start date (required).
-- **End Date Property**: The property used for the event's end date (optional, defaults to start date).
-- **Reference Date**: The date around which the calendar centers (optional, defaults to today).`,
+### Configuration`,
       },
     },
   },
-} satisfies Meta<typeof LinearCalendarView>;
+  argTypes: {
+    data: {
+      table: {
+        disable: true,
+      },
+    },
+    groupedData: {
+      table: {
+        disable: true,
+      },
+    },
+    focus: { control: "select", options: ["full", "half", "quarter"], name: "Focus", description: "The time span to display ('full', 'half', or 'quarter').", table: { defaultValue: { summary: "full" } } },
+    startDateProperty: { control: "text", name: "Start Date Property", description: "The property used for the event's start date (required)." },
+    endDateProperty: { control: "text", name: "End Date Property", description: "The property used for the event's end date (optional, defaults to start date)." },
+    date: { control: "text", name: "Reference Date", description: "The date around which the calendar centers (optional, defaults to today)." },
+  },
+} satisfies Meta<typeof View>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
 export const Full: Story = {
-  args: aReactBaseViewProps({
-    data: aBasesQueryResult({
-      data: MOVIES_ENTRIES,
-    }),
-    config: FULL_BASE_CONFIG,
-  }),
+  args: {
+    data: MOVIES_ENTRIES,
+    ...FULL_BASE_CONFIG,
+  },
 };
 
 export const Half: Story = {
-  args: aReactBaseViewProps({
-    data: aBasesQueryResult({
-      data: MOVIES_ENTRIES,
-    }),
-    config: HALF_BASE_CONFIG,
-  }),
+  args: {
+    data: MOVIES_ENTRIES,
+    ...HALF_BASE_CONFIG,
+  },
 };
 
 export const Quarter: Story = {
-  args: aReactBaseViewProps({
-    data: aBasesQueryResult({
-      data: MOVIES_ENTRIES,
-    }),
-    config: QUARTER_BASE_CONFIG,
-  }),
+  args: {
+    data: MOVIES_ENTRIES,
+    ...QUARTER_BASE_CONFIG,
+  },
 };

@@ -1,6 +1,7 @@
-import { aBasesViewConfig } from "@/__mocks__/aBasesViewConfig";
 
-export const DEFAULT_BASE_CONFIG = aBasesViewConfig({
+import type { ProjectFoldersConfig } from "../../ProjectFoldersView";
+
+export const DEFAULT_BASE_CONFIG: ProjectFoldersConfig = {
   imageProperty: 'note.cover',
   colorizeFiles: false,
-});
+}

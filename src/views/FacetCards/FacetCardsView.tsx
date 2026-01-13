@@ -9,6 +9,8 @@ export const FACET_CARDS_TYPE_ID = "facet-cards";
 
 const PADDING = 12;
 
+export type FacetCardsConfig = CardConfig;
+
 function estimateCardHeight(cardConfig: CardConfig, padding = PADDING): number {
 	const TITLE_HEIGHT = 30;
 	const PROPERTY_TITLE_HEIGHT = 15;

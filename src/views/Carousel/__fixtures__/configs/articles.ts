@@ -1,7 +1,6 @@
+import type { FacetCardsConfig } from "@/views/FacetCards/FacetCardsView";
 
-import { aBasesViewConfig } from "@/__mocks__/aBasesViewConfig"
-
-export const ARTICLES_BASE_CONFIG = aBasesViewConfig({
+export const ARTICLES_BASE_CONFIG: FacetCardsConfig = {
   layout: 'horizontal',
   shape: 'square',
   hoverProperty: 'note.url',
@@ -18,4 +17,4 @@ export const ARTICLES_BASE_CONFIG = aBasesViewConfig({
   reverseContent: true,
   showPropertyTitles: false,
   showTitle: true,
-})
+}

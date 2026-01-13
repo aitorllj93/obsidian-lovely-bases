@@ -1,27 +1,32 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import { MOVIES_ENTRIES } from "@/__fixtures__/entries";
+import {
+  createViewRenderer,
+  Providers,
+  ViewWrapper,
+} from "@/stories/decorators";
 
-import { MOVIES_ENTRIES } from '@/__fixtures__/entries';
+import {
+  COLORIZED_FILES_BASE_CONFIG,
+  DEFAULT_BASE_CONFIG,
+} from "./__fixtures__/configs";
 
-import Providers from '@/stories/decorators/Providers';
-import ViewWrapper from '@/stories/decorators/ViewWrapper';
+import ProjectFoldersView, {
+  type ProjectFoldersConfig,
+} from "./ProjectFoldersView";
 
-import { COLORIZED_FILES_BASE_CONFIG, DEFAULT_BASE_CONFIG } from './__fixtures__/configs';
-import ProjectFoldersView from './ProjectFoldersView';
-import { aBasesQueryResult, aReactBaseViewProps } from '@/__mocks__';
-
+const View = createViewRenderer<ProjectFoldersConfig>(ProjectFoldersView);
 
 const meta = {
-  title: 'Views/Project Folders',
-  component: ProjectFoldersView,
-  tags: ['autodocs'],
-  decorators: [
-    Providers,
-    ViewWrapper,
-  ],
+  title: "Views/Project Folders",
+  component: View,
+  tags: ["autodocs"],
+  decorators: [Providers, ViewWrapper],
   parameters: {
     docs: {
-      subtitle: 'A tactile, organization-focused view that groups your notes into beautiful 3D interactive folders. Perfect for managing projects, areas, or any hierarchical collection.',
+      subtitle:
+        "A tactile, organization-focused view that groups your notes into beautiful 3D interactive folders. Perfect for managing projects, areas, or any hierarchical collection.",
       description: {
         component: `### Features
 
@@ -31,33 +36,35 @@ const meta = {
 - **Smart Grouping**: Leverages your Base's grouping settings to automatically organize notes into relevant categories.
 - **Custom Gradients**: Generates beautiful, color-matched gradients for each folder based on its assigned color.
 
-### Configuration
-
-- **Image Property**: Select which property to use for the images displayed on the file preview cards.
-- **Group By**: This view relies on the **Group by** setting of your Obsidian Base to define the folders.`
-      }
-    }
-  }
-} satisfies Meta<typeof ProjectFoldersView>;
+### Configuration`,
+      },
+    },
+  },
+  argTypes: {
+    data: {
+      table: {
+        disable: true,
+      },
+    },
+    imageProperty: { control: "text", name: "Image Property", description: "The property that contains the image to display on the folders." },
+    colorizeFiles: { control: "boolean", name: "Colorize Files", description: "Whether to colorize the files based on the folder color.", table: { defaultValue: { summary: "false" } } },
+  },
+} satisfies Meta<typeof View>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: aReactBaseViewProps({
-    data: aBasesQueryResult({
-      data: MOVIES_ENTRIES,
-    }),
-    config: DEFAULT_BASE_CONFIG,
-  }),
+  args: {
+    data: MOVIES_ENTRIES,
+    ...DEFAULT_BASE_CONFIG,
+  },
 };
 
 export const ColorizedFiles: Story = {
-  args: aReactBaseViewProps({
-    data: aBasesQueryResult({
-      data: MOVIES_ENTRIES,
-    }),
-    config: COLORIZED_FILES_BASE_CONFIG,
-  }),
+  args: {
+    data: MOVIES_ENTRIES,
+    ...COLORIZED_FILES_BASE_CONFIG,
+  },
 };

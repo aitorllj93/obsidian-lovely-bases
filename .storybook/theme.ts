@@ -27,7 +27,7 @@ export default create({
 
   inputBg: '#F2F0E5',
   inputBorder: '#BEC97E',
-  inputTextColor: '#BEC97E',
+  inputTextColor: '#282726',
 
   booleanBg: '#E6E4D9',
   booleanSelectedBg: '#BEC97E',

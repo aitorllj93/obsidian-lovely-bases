@@ -6,9 +6,10 @@ import type { ReactBaseViewProps } from "@/types";
 
 export const HEATMAP_CALENDAR_TYPE_ID = "heatmap-calendar";
 
-type Config = {
+export type HeatmapCalendarConfig = {
 	dateProperty: BasesPropertyId;
 	trackProperty: BasesPropertyId;
+  colorScheme?: keyof typeof colors;
 	date?: string;
 };
 
@@ -96,8 +97,8 @@ const colors = {
 };
 
 const HeatmapCalendarView = ({ app, config, data }: ReactBaseViewProps) => {
-	const dateProperty = config.get("dateProperty") as Config["dateProperty"] | undefined;
-	const trackProperty = config.get("trackProperty") as Config["trackProperty"] | undefined;
+	const dateProperty = config.get("dateProperty") as HeatmapCalendarConfig["dateProperty"] | undefined;
+	const trackProperty = config.get("trackProperty") as HeatmapCalendarConfig["trackProperty"] | undefined;
 	const colorScheme = (config.get("colorScheme") ??
 		"primary") as keyof typeof colors;
 	const reverseColors = (config.get("reverseColors") ?? false) as boolean;
