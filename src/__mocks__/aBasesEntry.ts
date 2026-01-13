@@ -14,6 +14,9 @@ export const aBasesEntry = (
     getValue(propertyId) {
       const [source, property] = propertyId.split('.');
       const sourceData = source === 'file' ? file : fm;
+      if (source === 'file' && property === 'name') {
+        return aValue(file.basename);
+      }
       return aValue(sourceData[property])
     },
     ...overrides,

@@ -13,6 +13,7 @@ import LinearCalendarView from './LinearCalendarView';
 const meta = {
   title: 'Views/Linear Calendar',
   component: LinearCalendarView,
+  tags: ['autodocs'],
   decorators: [
     Providers,
     ViewWrapper,

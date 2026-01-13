@@ -35,13 +35,7 @@ export const HeatmapCalendar = ({ data, date = new Date(), classNames = ["bg-[#e
   }, [data]);
 
   // Get className based on occurrence count
-  const getClassName = (count: number) => {
-    if (count === 0) return classNames[0];
-    if (count === 1) return classNames[1];
-    if (count === 2) return classNames[2];
-    if (count === 3) return classNames[3];
-    return classNames[4] || classNames[classNames.length - 1]; // Fallback to last color
-  };
+  const getClassName = (count: number) => classNames[count] || classNames[classNames.length - 1];
 
   // Render weeks
   const renderWeeks = () => {

@@ -13,6 +13,7 @@ import ProjectFoldersView from './ProjectFoldersView';
 const meta = {
   title: 'Views/Project Folders',
   component: ProjectFoldersView,
+  tags: ['autodocs'],
   decorators: [
     Providers,
     ViewWrapper,

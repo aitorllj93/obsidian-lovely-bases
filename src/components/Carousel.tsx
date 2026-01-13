@@ -1,21 +1,18 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, useAnimation } from "motion/react";
-import type { BasesEntry } from "obsidian";
-import { type ComponentType, forwardRef, useEffect, useRef, useState } from "react";
+import type { BasesEntry, BasesViewConfig } from "obsidian";
+import { forwardRef, useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
+import Card from "./Card";
+import type { CardConfig } from "./Card/types";
 
-type Props<P extends Record<string, unknown> = Record<string, unknown>> = {
+type Props = {
+  cardConfig: CardConfig;
+  config: BasesViewConfig;
 	title?: string;
 	subtitle?: string;
 	items: BasesEntry[];
-	component: ComponentType<
-		{
-			className?: string;
-			entry: BasesEntry;
-		} & P
-	>;
-	componentProps?: P;
 	minItemWidth?: number;
 	minItemHeight?: number;
 };
@@ -24,8 +21,8 @@ const Carousel = forwardRef<HTMLDivElement, Props>(
 	({
     minItemWidth = 240,
     minItemHeight = 320,
-    component: Component,
-    componentProps,
+    cardConfig,
+    config,
     title,
     subtitle,
     items
@@ -114,16 +111,17 @@ const Carousel = forwardRef<HTMLDivElement, Props>(
 							<motion.div
 								key={item.file.path}
 								className="shrink-0"
-								style={{ width: minItemWidth, height: minItemHeight }}
+								style={{ width: cardConfig.cardSize, height: '100%' }}
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.5, delay: index * 0.1 }}
 							>
-                <Component
+                <Card
+                  className="mb-3"
                   key={item.file.path}
                   entry={item}
-                  className="mb-3"
-                  {...componentProps}
+                  config={config}
+                  {...cardConfig}
                 />
 							</motion.div>
 							))}

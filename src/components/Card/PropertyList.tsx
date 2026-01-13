@@ -41,7 +41,7 @@ const PropertyItem = memo(
 						<PropertyValue
 							renderContext={renderContext}
 							as="div"
-							className="text-foreground text-sm line-clamp-1"
+							className="text-foreground text-sm line-clamp-3"
 							value={property.value}
 						/>
 					) : (

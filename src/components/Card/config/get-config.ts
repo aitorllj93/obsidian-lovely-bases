@@ -9,6 +9,7 @@ import {
 	DEFAULT_IMAGE_ASPECT_RATIO,
 	DEFAULT_LAYOUT,
 	DEFAULT_REVERSE_CONTENT,
+	DEFAULT_SHAPE,
 	DEFAULT_SHOW_PROPERTY_TITLES,
 	DEFAULT_SHOW_TITLE,
 } from "./constants";
@@ -16,6 +17,7 @@ import {
 export function getCardConfig(config: BasesViewConfig): CardConfig {
 	return {
 		layout: (config.get("layout") as CardConfig["layout"]) ?? DEFAULT_LAYOUT,
+    shape: (config.get("shape") as CardConfig["shape"]) ?? DEFAULT_SHAPE,
 		cardSize: (config.get("cardSize") as number) ?? DEFAULT_CARD_SIZE,
 		imageAspectRatio: (config.get("imageAspectRatio") as number) ?? DEFAULT_IMAGE_ASPECT_RATIO,
 		imageFit: (config.get("imageFit") as CardConfig["imageFit"]) ?? "cover",
@@ -32,6 +34,7 @@ export function getCardConfig(config: BasesViewConfig): CardConfig {
 export function compareCardConfig(a: CardConfig, b: CardConfig): boolean {
 	return (
 		a.layout === b.layout &&
+    a.shape === b.shape &&
 		a.cardSize === b.cardSize &&
 		a.imageAspectRatio === b.imageAspectRatio &&
 		a.imageFit === b.imageFit &&

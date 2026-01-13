@@ -19,6 +19,7 @@ export type CardItem = {
 
 export type CardConfig = {
 	layout: "vertical" | "horizontal";
+	shape: "square" | "circle" | "rounded";
 	cardSize: number;
 	imageAspectRatio: number;
 	imageFit: "cover" | "contain";

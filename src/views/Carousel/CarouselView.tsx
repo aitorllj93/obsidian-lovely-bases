@@ -1,6 +1,4 @@
 
-
-import Card from "@/components/Card";
 import { getCardConfig } from "@/components/Card/config/get-config";
 import type { CardConfig } from "@/components/Card/types";
 import Carousel from "@/components/Carousel";
@@ -50,8 +48,8 @@ const CarouselView = ({ data, config }: ReactBaseViewProps) => {
 				title={title}
 				subtitle={subtitle}
 				items={data.data}
-				component={Card}
-				componentProps={{ cardConfig, config }}
+				cardConfig={cardConfig}
+				config={config}
 				minItemWidth={cardConfig.cardSize}
 				minItemHeight={cardHeight}
 			/>

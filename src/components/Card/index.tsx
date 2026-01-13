@@ -10,16 +10,38 @@ import HoverOverlay from "./HoverOverlay";
 import Image from "./Image";
 import type { CardConfig } from "./types";
 import { compareCardConfig } from "./config/get-config";
+import { cva } from "class-variance-authority";
+import { DEFAULT_LAYOUT, DEFAULT_SHAPE } from "./config/constants";
 
-type Props = {
+type Props = CardConfig & {
 	className?: string;
 	entry: BasesEntry;
-	cardConfig: CardConfig;
 	config: BasesViewConfig;
 };
 
+const cardVariants = cva(
+	"relative h-full bg-(--bases-cards-background) shadow-md overflow-hidden transition-shadow hover:shadow-lg cursor-pointer border border-border",
+	{
+		variants: {
+      layout: {
+        horizontal: "flex flex-row",
+        vertical: "flex flex-col",
+      },
+			shape: {
+				square: "rounded",
+				circle: "rounded-full",
+				rounded: "rounded-[20%]",
+			},
+		},
+		defaultVariants: {
+			shape: DEFAULT_SHAPE,
+      layout: DEFAULT_LAYOUT,
+		},
+	},
+);
+
 const Card = memo(
-	({ className, entry, cardConfig, config }: Props) => {
+	({ className, entry, config, ...cardConfig }: Props) => {
 		const [isHovered, setIsHovered] = useState(false);
 		const dragStartPos = useRef<{ x: number; y: number } | null>(null);
 		const linkRef = useRef<HTMLAnchorElement>(null);
@@ -30,17 +52,23 @@ const Card = memo(
 		const onPointerDown = (event: React.PointerEvent) => {
 			dragStartPos.current = { x: event.clientX, y: event.clientY };
 		};
-
 		const onMouseEnter = () => setIsHovered(true);
 		const onMouseLeave = () => setIsHovered(false);
+
+    const classes = cardVariants({
+      layout: cardConfig.layout,
+      shape: cardConfig.shape,
+    });
 
 		return (
 			<div
 				className={cn(
-					"relative h-full bg-(--bases-cards-background) rounded shadow-md overflow-hidden transition-shadow hover:shadow-lg cursor-pointer border border-border",
-					cardConfig.layout === "horizontal" ? "flex flex-row" : "flex flex-col",
+					classes,
 					className,
 				)}
+        style={{
+          width: cardConfig.cardSize,
+        }}
 				onPointerDown={onPointerDown}
 				onClick={handleEntryOpen}
 				onMouseOver={handleEntryHover}
@@ -75,7 +103,7 @@ const Card = memo(
 		return (
 			prevProps.entry === nextProps.entry &&
 			prevProps.className === nextProps.className &&
-			compareCardConfig(prevProps.cardConfig, nextProps.cardConfig)
+			compareCardConfig(prevProps, nextProps)
 		);
 	},
 );

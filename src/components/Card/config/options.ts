@@ -7,6 +7,7 @@ import {
   DEFAULT_REVERSE_CONTENT,
   DEFAULT_SHOW_PROPERTY_TITLES,
   DEFAULT_SHOW_TITLE,
+  DEFAULT_SHAPE,
 } from "./constants";
 
 export const CARD_CONFIG_OPTIONS: GroupOption["items"] = [
@@ -18,6 +19,17 @@ export const CARD_CONFIG_OPTIONS: GroupOption["items"] = [
     options: {
       horizontal: "Horizontal",
       vertical: "Vertical",
+    },
+  },
+  {
+    type: "dropdown",
+    displayName: "Shape",
+    key: "shape",
+    default: DEFAULT_SHAPE,
+    options: {
+      square: "Square",
+      circle: "Circle",
+      rounded: "Rounded",
     },
   },
   {

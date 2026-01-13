@@ -58,4 +58,13 @@
   --color-blue: var(--color-blue-400);
   --color-purple: var(--color-purple-400);
   --color-pink: var(--color-pink-400);
+
+  --bases-cards-background: var(--color-paper);
+  --input-padding: 4px 8px;
+}
+
+h3 {
+  font-size: 20px;
+  padding: 4px 8px;
+  margin: 8px 0 0 0;
 }

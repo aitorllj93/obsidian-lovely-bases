@@ -1,4 +1,5 @@
 export const DEFAULT_LAYOUT = "vertical";
+export const DEFAULT_SHAPE = "square";
 export const DEFAULT_IMAGE_ASPECT_RATIO = 1.5;
 export const DEFAULT_IMAGE_FIT = "cover";
 export const DEFAULT_ITEM_RENDERING = "custom";

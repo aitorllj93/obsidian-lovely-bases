@@ -3,8 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 // biome-ignore lint/correctness/noUnusedImports: React is needed for JSX type checking in this context
 import React from 'react';
 
-import { MOVIES_BASE_CONFIG } from '../../__fixtures__/configs/movies';
-import { MOVIES_ENTRIES } from '../../__fixtures__/entries/movies';
+import { GREEN_HEATMAP_BASE_CONFIG, SEMAPHOR_HEATMAP_BASE_CONFIG } from '../../__fixtures__/configs/heatmap';
+import { GROUPED_OCCURRENCES, OCCURRENCES } from '../../__fixtures__/entries/occurrences';
 import Providers from '../../stories/decorators/Providers';
 import ViewWrapper from '../../stories/decorators/ViewWrapper';
 import HeatmapCalendarView from './HeatmapCalendarView';
@@ -12,6 +12,7 @@ import HeatmapCalendarView from './HeatmapCalendarView';
 
 const meta = {
   title: 'Views/Heatmap Calendar',
+  tags: ['autodocs'],
   component: HeatmapCalendarView,
   decorators: [
     Providers,
@@ -23,12 +24,13 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Movies: Story = {
+export const Semaphor: Story = {
   args: {
     data: {
-      data: MOVIES_ENTRIES,
+      data: OCCURRENCES,
+      groupedData: GROUPED_OCCURRENCES,
     },
-    config: MOVIES_BASE_CONFIG,
+    config: SEMAPHOR_HEATMAP_BASE_CONFIG,
     isEmbedded: false,
   },
 };

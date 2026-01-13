@@ -1,0 +1,324 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+import Logo from './assets/logo.png';
+import Github from "./assets/github.svg";
+import Discord from "./assets/discord.svg";
+import Youtube from "./assets/youtube.svg";
+import Tutorials from "./assets/tutorials.svg";
+import Styling from "./assets/styling.png";
+import Context from "./assets/context.png";
+import Assets from "./assets/assets.png";
+import ProjectFolders from "./assets/screenshots/project-folders.webp";
+import InfiniteGallery from "./assets/screenshots/infinite-gallery-polaroid.webp";
+import FacetCards from "./assets/screenshots/facet-cards.webp";
+import LinearCalendar from "./assets/screenshots/linear-calendar.webp";
+import HeatmapCalendar from "./assets/screenshots/heatmap.webp";
+import Theming from "./assets/theming.png";
+import AddonLibrary from "./assets/addon-library.png";
+
+export const RightArrow = () => <svg
+    viewBox="0 0 14 14"
+    width="8px"
+    height="14px"
+    style={{
+      marginLeft: '4px',
+      display: 'inline-block',
+      shapeRendering: 'inherit',
+      verticalAlign: 'middle',
+      fill: 'currentColor',
+      'path fill': 'currentColor'
+    }}
+>
+  <path d="m11.1 7.35-5.5 5.5a.5.5 0 0 1-.7-.7L10.04 7 4.9 1.85a.5.5 0 1 1 .7-.7l5.5 5.5c.2.2.2.5 0 .7Z" />
+</svg>
+
+<Meta title="Getting Started" />
+
+<div className="sb-container">
+  <div className='sb-section-title'>
+    <img src={Logo} alt="Lovely Bases logo" className="sb-logo" style={{ marginInline: 'auto', maxWidth: '40vw' }} />
+
+    Beautiful, visual bases views for Obsidian. Transform your Obsidian Bases into stunning, interactive visual experiences with smooth animations and intuitive navigation.
+
+    ## Features
+
+    - **Multiple Base Views**: Choose from a variety of beautiful, customizable views for your Obsidian Bases
+    - **Smooth Animations**: Powered by Motion (formerly Framer Motion) for fluid, performant animations
+    - **Obsidian Theme Integration**: Automatically adapts to your Obsidian theme colors
+    - **Responsive Design**: Optimized for both desktop and mobile devices
+    - **Customizable**: Each view offers configuration options to suit your needs
+
+    ## Installation
+
+    ### From Obsidian
+
+    > **Note**: This plugin is not yet registered in the Obsidian Community Plugins repository. Please use BRAT or manual installation methods below.
+
+    1. Open Obsidian Settings
+    2. Go to **Community plugins**
+    3. Click **Browse** and search for "Lovely Bases"
+    4. Click **Install**
+    5. Enable the plugin in the **Installed plugins** section
+
+    ### Using BRAT
+
+    [BRAT](https://github.com/TfTHacker/obsidian42-brat) (Beta Reviewer's Auto-update Tool) allows you to install and automatically update beta plugins directly from their GitHub repositories.
+
+    1. Install and enable the **BRAT** plugin from the Community plugins section
+    2. Open the Command Palette (`Ctrl/Cmd + P`)
+    3. Run the command: **BRAT: Add a beta plugin for testing**
+    4. Enter the repository URL: `aitorllj93/obsidian-lovely-bases`
+    5. Click **Add Plugin**
+    6. Go to Settings → Community plugins
+    7. Find **Lovely Bases** in the list and enable it
+
+    BRAT will automatically check for updates and notify you when new versions are available.
+
+    ### Manual Installation
+
+    1. Download the latest release from the [Releases](https://github.com/aitorllj93/obsidian-lovely-bases/releases) page
+    2. Extract the files to your vault's `.obsidian/plugins/lovely-bases/` folder
+    3. Reload Obsidian
+    4. Enable the plugin in Settings → Community plugins
+
+
+    ## Usage
+
+    1. Open an Obsidian Base in your vault
+    2. Click on the **View options** button (three dots) in the Base
+    3. Select your preferred view from the view type dropdown
+    4. Configure the view settings as needed
+
+  </div>
+</div>
+<div className="sb-container">
+  <div className='sb-section-title'>
+    # Available Views
+  </div>
+
+  <div className="sb-section">
+    <div className="sb-features-grid">
+      <div className="sb-grid-item">
+        <img src={ProjectFolders} alt="A screenshot showing the Project Folders view" />
+        <h4 className="sb-section-item-heading">Project Folders</h4>
+          <p className="sb-section-item-paragraph">Display your data grouped in fancy folders.</p>
+        <a
+          href="/?path=/docs/views-project-folders--docs"
+        >See it in action<RightArrow /></a>
+      </div>
+      <div className="sb-grid-item">
+        <img src={InfiniteGallery} alt="A screenshot showing the Infinite Gallery view" />
+        <h4 className="sb-section-item-heading">Infinite Gallery</h4>
+        <p className="sb-section-item-paragraph">Display your data in a beautiful, infinite gallery.</p>
+        <a
+          href="/?path=/docs/views-infinite-gallery--docs"
+        >See it in action<RightArrow /></a>
+      </div>
+      <div className="sb-grid-item">
+        <img src={FacetCards} alt="A screenshot showing the Facet Cards view" />
+        <h4 className="sb-section-item-heading">Facet Cards</h4>
+        <p className="sb-section-item-paragraph">Display your data in a beautiful, facetted gallery.</p>
+        <a
+          href="/?path=/docs/views-facet-cards--docs"
+        >See it in action<RightArrow /></a>
+      </div>
+      <div className="sb-grid-item">
+        <img src={LinearCalendar} alt="A screenshot showing the Linear Calendar view" />
+        <h4 className="sb-section-item-heading">Linear Calendar</h4>
+        <p className="sb-section-item-paragraph">Display your data in a beautiful, linear calendar.</p>
+        <a
+          href="/?path=/docs/views-linear-calendar--docs"
+        >See it in action<RightArrow /></a>
+      </div>
+      <div className="sb-grid-item">
+        <img src={HeatmapCalendar} alt="A screenshot showing the Heatmap Calendar view" />
+        <h4 className="sb-section-item-heading">Heatmap Calendar</h4>
+        <p className="sb-section-item-paragraph">Display your data in a beautiful, heatmap calendar.</p>
+        <a
+          href="/?path=/docs/views-heatmap-calendar--docs"
+        >See it in action<RightArrow /></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div className="sb-section sb-socials">
+    <div className="sb-section-item">
+      <img src={Github} alt="Github logo" className="sb-explore-image"/>
+      Join our contributors building the future of Obsidian Bases.
+
+      <a
+        href="https://github.com/storybookjs/storybook"
+        target="_blank"
+      >Star on GitHub<RightArrow /></a>
+    </div>
+    <div className="sb-section-item">
+      <img src={Discord} alt="Discord logo" className="sb-explore-image"/>
+      <div>
+        Get support and chat with frontend developers.
+
+        <a
+          href="https://discord.gg/storybook"
+          target="_blank"
+        >Join Discord server<RightArrow /></a>
+      </div>
+    </div>
+</div>
+
+<style>
+  {`
+  .sb-container {
+    margin-bottom: 48px;
+  }
+
+  .sb-section {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  img {
+    object-fit: cover;
+  }
+
+  .sb-section-title {
+    margin-bottom: 32px;
+  }
+
+  .sb-section a:not(h1 a, h2 a, h3 a) {
+    font-size: 14px;
+  }
+
+  .sb-section-item, .sb-grid-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sb-section-item-heading {
+    padding-top: 20px !important;
+    padding-bottom: 5px !important;
+    margin: 0 !important;
+  }
+  .sb-section-item-paragraph {
+    margin: 0;
+    padding-bottom: 10px;
+  }
+
+  .sb-chevron {
+    margin-left: 5px;
+  }
+
+  .sb-features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 32px 20px;
+  }
+
+  .sb-socials {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sb-socials p {
+    margin-bottom: 10px;
+  }
+
+  .sb-explore-image {
+    max-height: 32px;
+    align-self: flex-start;
+  }
+
+  .sb-addon {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: #EEF3F8;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    background: #EEF3F8;
+    height: 180px;
+    margin-bottom: 48px;
+    overflow: hidden;
+  }
+
+  .sb-addon-text {
+    padding-left: 48px;
+    max-width: 240px;
+  }
+
+  .sb-addon-text h4 {
+    padding-top: 0px;
+  }
+
+  .sb-addon-img {
+    position: absolute;
+    left: 345px;
+    top: 0;
+    height: 100%;
+    width: 200%;
+    overflow: hidden;
+  }
+
+  .sb-addon-img img {
+    width: 650px;
+    transform: rotate(-15deg);
+    margin-left: 40px;
+    margin-top: -72px;
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0);
+    backface-visibility: hidden;
+  }
+
+  @media screen and (max-width: 800px) {
+    .sb-addon-img {
+      left: 300px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .sb-section {
+      flex-direction: column;
+    }
+
+    .sb-features-grid {
+      grid-template-columns: repeat(1, 1fr);
+    }
+
+    .sb-socials {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .sb-addon {
+      height: 280px;
+      align-items: flex-start;
+      padding-top: 32px;
+      overflow: hidden;
+    }
+
+    .sb-addon-text {
+      padding-left: 24px;
+    }
+
+    .sb-addon-img {
+      right: 0;
+      left: 0;
+      top: 130px;
+      bottom: 0;
+      overflow: hidden;
+      height: auto;
+      width: 124%;
+    }
+
+    .sb-addon-img img {
+      width: 1200px;
+      transform: rotate(-12deg);
+      margin-left: 0;
+      margin-top: 48px;
+      margin-bottom: -40px;
+      margin-left: -24px;
+    }
+  }
+  `}
+</style>

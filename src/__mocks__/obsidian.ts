@@ -37,6 +37,10 @@ export class StringValue {
   toString(): string {
     return this.value;
   }
+
+  renderTo(el: HTMLElement) {
+    el.textContent = this.value;
+  }
 }
 
 export class NumberValue {
@@ -60,6 +64,10 @@ export class ListValue {
 
   toString(): string {
     return this.values.map(value => value.toString()).join(',');
+  }
+
+  renderTo(el: HTMLElement) {
+    el.textContent = this.values.map(value => value.toString()).join(',');
   }
 }
 

@@ -17,7 +17,8 @@ export const aBasesViewConfig = <T extends Record<string, unknown>>(
       throw new Error('Not implemented')
     },
     getDisplayName(propertyId) {
-      return propertyId
+      const [source, property] = propertyId.split('.');
+      return property;
     },
     getOrder() {
       return order;

@@ -94,17 +94,19 @@ function PureVirtualGrid({
                     width: "100%",
                     transform: `translateY(${vRow.start}px)`,
                     display: "grid",
-                    gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
+                    gridTemplateColumns: `repeat(${columnCount}, minmax(0, ${cardConfig.cardSize}px))`,
                     gap,
                     boxSizing: "border-box",
+                    justifyContent: 'space-evenly',
                   }}
                 >
                   {rowItems.map((item) => (
                     <Card
+                      className="mx-auto"
                       key={item.file.path}
                       entry={item}
-                      cardConfig={cardConfig}
                       config={config}
+                      {...cardConfig}
                     />
                   ))}
                 </div>

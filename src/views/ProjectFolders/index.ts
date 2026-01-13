@@ -23,6 +23,7 @@ const PROJECT_FOLDERS_VIEW: BaseViewDef = {
       key: "colorizeFiles",
       default: false,
     },
+    // ON Click: Open search (On click on topic: open search for that topic)
   ]
 };
 

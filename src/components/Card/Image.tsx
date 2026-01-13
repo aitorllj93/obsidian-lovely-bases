@@ -50,7 +50,7 @@ const Image = memo(({ entry, cardConfig }: Props) => {
 	// En vertical, aspect-ratio define la altura, flex-none evita que crezca o encoja
 	return (
 		<div
-			className="relative w-full flex-none bg-(--bases-cards-cover-background)"
+			className="mx-auto relative w-full flex-none bg-(--bases-cards-cover-background)"
 			style={{
 				aspectRatio: 1 / imageAspectRatio,
 				height: cardSize * imageAspectRatio,
@@ -66,6 +66,10 @@ const Image = memo(({ entry, cardConfig }: Props) => {
 						"pointer-events-none h-full w-full",
 						imageFit === "cover" ? "object-cover" : "object-contain",
 					)}
+          style={{
+            aspectRatio: 1 / imageAspectRatio,
+            height: cardSize * imageAspectRatio,
+          }}
 				/>
 			) : (
 				<div className="h-full w-full" />
