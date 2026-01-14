@@ -19,7 +19,7 @@ type Item = {
 	file: TFile;
 };
 
-type Config = {
+export type InfiniteGalleryConfig = {
 	layout: "default" | "masonry" | "polaroid";
 	cardSize: number; // from 50 to 800
 	imageProperty: BasesPropertyId;
@@ -72,6 +72,7 @@ type GalleryItemProps = {
 	containerEl: HTMLElement;
 	cardSize: number;
 	shape: "square" | "circle" | "rounded" | "squircle";
+  tabIndex?: number;
 };
 
 const DRAG_THRESHOLD = 5;
@@ -96,7 +97,7 @@ const getShapeClass = (shape: "square" | "circle" | "rounded" | "squircle") => {
 };
 
 const GalleryItem = memo(
-	({ imageFit, item, app, containerEl, cardSize, shape }: GalleryItemProps) => {
+	({ imageFit, item, app, containerEl, cardSize, shape, tabIndex }: GalleryItemProps) => {
 		const dragStartPos = useRef<{ x: number; y: number } | null>(null);
 		const linkRef = useRef<HTMLAnchorElement>(null);
 
@@ -142,6 +143,7 @@ const GalleryItem = memo(
 				onPointerDown={onPointerDown}
 				onClick={onImageClick}
 				onMouseOver={onImageMouseOver}
+        tabIndex={tabIndex}
 			>
 				{/** biome-ignore lint/a11y/useValidAnchor: as seen in Obsidian examples */}
 				<a
@@ -199,14 +201,14 @@ const InfiniteGalleryView = ({
 	containerEl,
 	data,
 }: ReactBaseViewProps) => {
-	const layout = (config.get("layout") ?? "masonry") as Config["layout"];
+	const layout = (config.get("layout") ?? "masonry") as InfiniteGalleryConfig["layout"];
 	const imageProperty = (String(config.get("imageProperty")) ??
-		"note.cover") as Config["imageProperty"];
-	const cardSize = (config.get("cardSize") ?? 200) as Config["cardSize"];
-	const imageFit = (config.get("imageFit") ?? "cover") as Config["imageFit"];
+		"note.cover") as InfiniteGalleryConfig["imageProperty"];
+	const cardSize = (config.get("cardSize") ?? 200) as InfiniteGalleryConfig["cardSize"];
+	const imageFit = (config.get("imageFit") ?? "cover") as InfiniteGalleryConfig["imageFit"];
 	const aspectRatio = (config.get("aspectRatio") ??
-		1.5) as Config["aspectRatio"];
-	const shape = (config.get("shape") ?? "square") as Config["shape"];
+		1.5) as InfiniteGalleryConfig["aspectRatio"];
+	const shape = (config.get("shape") ?? "square") as InfiniteGalleryConfig["shape"];
 
 	const items = useItems(app, data, imageProperty);
 
@@ -222,8 +224,9 @@ const InfiniteGalleryView = ({
 
 	// Memoized render function to prevent unnecessary re-renders during scroll
 	const renderItem = useCallback(
-		(item: Item) => (
+		(item: Item, index: number) => (
 			<GalleryItem
+        tabIndex={index === 0 ? 0 : undefined}
 				item={item}
 				app={app}
 				containerEl={containerEl}

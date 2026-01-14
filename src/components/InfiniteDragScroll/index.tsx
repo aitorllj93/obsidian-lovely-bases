@@ -394,12 +394,14 @@ export const GridItem = memo(
 		onPointerDown,
 		onClick,
 		onMouseOver,
+		tabIndex,
 	}: {
 		children: ReactNode;
 		className?: string;
 		onPointerDown?: PointerEventHandler;
 		onClick?: MouseEventHandler;
 		onMouseOver?: MouseEventHandler;
+    tabIndex?: number;
 	}) => {
 		const variant = useContext(GridVariantContext);
 
@@ -409,6 +411,7 @@ export const GridItem = memo(
 				onPointerDown={onPointerDown}
 				onClick={onClick}
 				onMouseOver={onMouseOver}
+				tabIndex={tabIndex}
 			>
 				{children}
 			</div>

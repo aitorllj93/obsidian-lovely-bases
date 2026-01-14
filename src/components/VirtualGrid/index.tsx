@@ -87,6 +87,7 @@ function PureVirtualGrid({
                   key={vRow.key}
                   ref={virtualizer.measureElement}
                   data-index={vRow.index}
+                  tabIndex={vRow.index === 0 ? 0 : undefined}
                   style={{
                     position: "absolute",
                     top: 0,
