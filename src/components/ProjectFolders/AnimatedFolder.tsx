@@ -31,6 +31,11 @@ const AnimatedFolder: React.FC<Props> = ({
 
 	const previewFiles = files.slice(0, 5);
 
+	// Reset cardRefs array when files change to prevent memory leaks
+	if (cardRefs.current.length !== previewFiles.length) {
+		cardRefs.current = new Array(previewFiles.length).fill(null);
+	}
+
 	const backBg =
 		gradient ||
 		"linear-gradient(135deg, var(--folder-back) 0%, var(--folder-tab) 100%)";
