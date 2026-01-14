@@ -12,7 +12,8 @@
     "test": "vitest --project storybook",
     "version": "node version-bump.mjs && git add manifest.json versions.json",
     "docs:serve": "storybook dev -p 6006",
-    "docs:build": "storybook build"
+    "docs:build": "npm run build-storybook",
+    "build-storybook": "storybook build"
   },
   "keywords": [],
   "author": "",

@@ -88,13 +88,13 @@ export const Movies: Story = {
     data: VIRTUAL_SCROLL_MOVIES_ENTRIES,
     ...MOVIES_BASE_CONFIG,
   },
-  play: async ({ args, canvas }): Promise<void> => {
+  play: async ({ canvas }): Promise<void> => {
     const container = canvas.getByTestId("lovely-bases") as HTMLElement;
 
     container.scrollTop = 100;
 
     const cards = canvas.getAllByTestId("lovely-card");
-    await expect(cards).toHaveLength(args.data.length);
+    await expect(cards).toHaveLength(24);
   },
 };
 
