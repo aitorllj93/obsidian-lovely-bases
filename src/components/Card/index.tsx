@@ -1,3 +1,4 @@
+import { cva } from "class-variance-authority";
 import type { BasesEntry, BasesViewConfig } from "obsidian";
 import { memo, useRef, useState } from "react";
 
@@ -6,12 +7,11 @@ import { useEntryOpen } from "@/hooks/use-entry-open";
 import { cn } from "@/lib/utils";
 
 import Content from "./Content";
+import { DEFAULT_LAYOUT, DEFAULT_SHAPE } from "./config/constants";
+import { compareCardConfig } from "./config/get-config";
 import HoverOverlay from "./HoverOverlay";
 import Image from "./Image";
 import type { CardConfig } from "./types";
-import { compareCardConfig } from "./config/get-config";
-import { cva } from "class-variance-authority";
-import { DEFAULT_LAYOUT, DEFAULT_SHAPE } from "./config/constants";
 
 type Props = CardConfig & {
 	className?: string;
