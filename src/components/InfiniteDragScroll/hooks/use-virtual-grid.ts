@@ -39,7 +39,7 @@ export const useVirtualGrid = ({
   buffer = 2,
 }: UseVirtualGridParams): VirtualItem[] => {
   return useMemo(() => {
-    if (totalItems === 0 || viewportWidth === 0 || viewportHeight === 0)
+    if (totalItems === 0 || viewportWidth === 0 || viewportHeight === 0 || columns === 0)
       return [];
 
     // Cell spacing including gap
@@ -94,7 +94,7 @@ export const useVirtualGrid = ({
           realIndex,
           baseX: gridX,
           baseY: gridY,
-          key: `${virtualCol}-${virtualRow}`,
+          key: `${realIndex}-${virtualCol}-${virtualRow}`,
         });
       }
     }

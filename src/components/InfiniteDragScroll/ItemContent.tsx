@@ -141,7 +141,12 @@ const ItemContent = memo(
 	(prevProps, nextProps) => {
 		return (
 			prevProps.item.file.path === nextProps.item.file.path &&
-			prevProps.item.file.name === nextProps.item.file.name
+			prevProps.item.file.name === nextProps.item.file.name &&
+			prevProps.imageProperty === nextProps.imageProperty &&
+			prevProps.imageFit === nextProps.imageFit &&
+			prevProps.cardSize === nextProps.cardSize &&
+			prevProps.shape === nextProps.shape &&
+			prevProps.tabIndex === nextProps.tabIndex
 		);
 	},
 );

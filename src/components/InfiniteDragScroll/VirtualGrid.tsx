@@ -41,13 +41,10 @@ export const VirtualGrid = ({
 	const [, forceUpdate] = useState(0);
 	const rafRef = useRef<number | null>(null);
 	const lastUpdateRef = useRef(0);
+	const isMountedRef = useRef(true);
 
-	const [viewportWidth, setViewportWidth] = useState(
-		typeof window !== "undefined" ? window.innerWidth : 1920,
-	);
-	const [viewportHeight, setViewportHeight] = useState(
-		typeof window !== "undefined" ? window.innerHeight : 1080,
-	);
+	const [viewportWidth, setViewportWidth] = useState(0);
+	const [viewportHeight, setViewportHeight] = useState(0);
 
 	// Subscribe to scroll changes with throttling
 	useEffect(() => {
@@ -62,8 +59,10 @@ export const VirtualGrid = ({
 			} else if (!rafRef.current) {
 				rafRef.current = requestAnimationFrame(() => {
 					rafRef.current = null;
-					lastUpdateRef.current = Date.now();
-					forceUpdate((n) => n + 1);
+					if (isMountedRef.current) {
+						lastUpdateRef.current = Date.now();
+						forceUpdate((n) => n + 1);
+					}
 				});
 			}
 		};
@@ -79,6 +78,7 @@ export const VirtualGrid = ({
 		});
 
 		return () => {
+			isMountedRef.current = false;
 			unsubscribeX();
 			unsubscribeY();
 			if (rafRef.current) {
@@ -87,16 +87,29 @@ export const VirtualGrid = ({
 		};
 	}, [scrollContext]);
 
-	// Update viewport dimensions
+	// Update viewport dimensions based on container size
 	useEffect(() => {
+		const container = containerRef.current;
+		if (!container) return;
+
 		const updateViewport = () => {
-			setViewportWidth(window.innerWidth);
-			setViewportHeight(window.innerHeight);
+			setViewportWidth(container.clientWidth);
+			setViewportHeight(container.clientHeight);
 		};
 
+		// Initial update
 		updateViewport();
-		window.addEventListener("resize", updateViewport);
-		return () => window.removeEventListener("resize", updateViewport);
+
+		// Use ResizeObserver to react to container size changes
+		const resizeObserver = new ResizeObserver(() => {
+			updateViewport();
+		});
+
+		resizeObserver.observe(container);
+
+		return () => {
+			resizeObserver.disconnect();
+		};
 	}, []);
 
 	// Calculate visible items using current ref values

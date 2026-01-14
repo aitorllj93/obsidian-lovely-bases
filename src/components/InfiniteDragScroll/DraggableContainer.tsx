@@ -33,8 +33,22 @@ export const DraggableContainer = ({ children, className, variant }: Props) => {
 		velocityY: 0,
 	});
 
+	// Refs to track active animations for cancellation
+	const animationXRef = useRef<ReturnType<typeof animate> | null>(null);
+	const animationYRef = useRef<ReturnType<typeof animate> | null>(null);
+
 	const onPointerDown = useCallback(
 		(e: PointerEvent) => {
+			// Cancel any active momentum animations
+			if (animationXRef.current) {
+				animationXRef.current.stop();
+				animationXRef.current = null;
+			}
+			if (animationYRef.current) {
+				animationYRef.current.stop();
+				animationYRef.current = null;
+			}
+
 			setIsDragging(true);
 			const state = dragState.current;
 			state.startX = e.clientX;
@@ -124,15 +138,15 @@ export const DraggableContainer = ({ children, className, variant }: Props) => {
 
 			const duration = Math.min(Math.max(velocityMag / 1000, 0.3), 1.2);
 
-			animate(scrollX, targetX, {
+			animationXRef.current = animate(scrollX, targetX, {
 				type: "tween",
 				duration,
-				ease: [0.32, 0.72, 0, 1], // Custom ease similar to iOS momentum
+				ease: cubicBezier(0.32, 0.72, 0, 1), // Custom ease similar to iOS momentum
 			});
-			animate(scrollY, targetY, {
+			animationYRef.current = animate(scrollY, targetY, {
 				type: "tween",
 				duration,
-				ease: [0.32, 0.72, 0, 1],
+				ease: cubicBezier(0.32, 0.72, 0, 1),
 			});
 		},
 		[isDragging, scrollX, scrollY],
@@ -153,7 +167,7 @@ export const DraggableContainer = ({ children, className, variant }: Props) => {
 				if (event.shiftKey && hasVerticalDelta && !hasHorizontalDelta) {
 					event.preventDefault();
 					const targetX = scrollX.get() - event.deltaY * 2.7;
-					animate(scrollX, targetX, {
+					animationXRef.current = animate(scrollX, targetX, {
 						type: "tween",
 						duration: 1.2,
 						ease: cubicBezier(0.18, 0.71, 0.11, 1),
@@ -165,7 +179,7 @@ export const DraggableContainer = ({ children, className, variant }: Props) => {
 				if (hasHorizontalDelta) {
 					event.preventDefault();
 					const targetX = scrollX.get() - event.deltaX * 2.7;
-					animate(scrollX, targetX, {
+					animationXRef.current = animate(scrollX, targetX, {
 						type: "tween",
 						duration: 1.2,
 						ease: cubicBezier(0.18, 0.71, 0.11, 1),
@@ -174,8 +188,9 @@ export const DraggableContainer = ({ children, className, variant }: Props) => {
 
 				// Manejar scroll vertical (puede ser simultáneo con horizontal para scroll diagonal)
 				if (hasVerticalDelta) {
+					event.preventDefault();
 					const targetY = scrollY.get() - event.deltaY * 2.7;
-					animate(scrollY, targetY, {
+					animationYRef.current = animate(scrollY, targetY, {
 						type: "tween",
 						duration: 1.2,
 						ease: cubicBezier(0.18, 0.71, 0.11, 1),
