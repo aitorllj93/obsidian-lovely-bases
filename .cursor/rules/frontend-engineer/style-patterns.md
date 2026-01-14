@@ -1,8 +1,7 @@
 ---
-alwaysApply: true
+description: "This rule provides styling instructions to apply to the components"
+alwaysApply: false
 ---
-
-# Tailwind CSS + Obsidian Integration
 
 Guide for styling with Tailwind CSS v4 integrated with Obsidian variables.
 
@@ -38,37 +37,6 @@ Obsidian variables are mapped to semantic variables (mostly shadcn ones):
 <button className="bg-primary text-primary-foreground">
 ```
 
-## Scoping Class
-
-**IMPORTANT**: The root container of each view must have the `lovely-bases` class:
-
-```tsx
-const MyView = () => {
-	return (
-		<div className="lovely-bases" style={{ width: "100%"; height: "100%"; }}>
-			{/* Content */}
-		</div>
-	);
-};
-```
-
-This ensures plugin styles don't affect other parts of Obsidian.
-
-## Class Merging with cn()
-
-Use `cn()` from `@/lib/utils` to combine classes conditionally:
-
-```typescript
-import { cn } from "@/lib/utils";
-
-<div className={cn(
-	"base-classes flex items-center",
-	isActive && "bg-primary",
-	variant === "large" && "text-lg",
-	className,
-)} />
-```
-
 ## Palette Colors
 
 Obsidian colors available (prefixed with `palette-` to avoid collisions):
@@ -94,46 +62,20 @@ Fonts mapped from Obsidian:
 <code className="font-mono">Code (--font-monospace)</code>
 ```
 
-## Formatting with Biome
+## Class Merging with cn()
 
-### Configuration
+Use `cn()` from `@/lib/utils` to combine classes conditionally:
 
-- **Indentation**: Spaces
-- **Quotes**: Double (`"`)
-- **Imports**: Auto-organized
+```typescript
+import { cn } from "@/lib/utils";
 
-## Common Style Patterns
-
-### Card
-
-```tsx
-<div className="bg-(--bases-cards-background) rounded shadow-md overflow-hidden transition-shadow hover:shadow-lg cursor-pointer border border-border" />
+<div className={cn(
+	"base-classes flex items-center",
+	isActive && "bg-primary",
+	variant === "large" && "text-lg",
+	className,
+)} />
 ```
-
-### Responsive grid
-
-```tsx
-<div
-	style={{
-		display: "grid",
-		gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
-		gap: 16,
-	}}
-/>
-```
-
-### Embed states
-
-```tsx
-<div
-	style={{
-		height: "100%",
-		width: "100%",
-		...(isEmbedded ? { maxHeight: "60vh" } : {}),
-	}}
-/>
-```
-
 ## Class Variance Authority (CVA)
 
 For component variants, use `class-variance-authority`:
@@ -162,3 +104,11 @@ const buttonVariants = cva(
 	},
 );
 ```
+
+## Formatting with Biome
+
+### Configuration
+
+- **Indentation**: Spaces
+- **Quotes**: Double (`"`)
+- **Imports**: Auto-organized

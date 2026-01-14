@@ -1,10 +1,11 @@
 ---
-alwaysApply: true
+description: "This rule provides instruction for registering new views in the Obsidian plugin"
+alwaysApply: false
 ---
 
-# Obsidian Bases Plugin Architecture
+# Registering new Views
 
-This project is an Obsidian plugin that extends "Bases Views" with custom visual views.
+This project allows to extend "Bases Views" with custom visual views.
 
 ## View Structure
 
@@ -42,14 +43,30 @@ const MY_VIEW: BaseViewDef = {
 export default MY_VIEW;
 ```
 
+**IMPORTANT**: The root container of each view must have the Container component. This ensures plugin styles don't affect other parts of Obsidian.
+
 ```typescript
 // src/views/MyView/MyViewView.tsx
+import { Container } from "@/components/Obsidian/Container";
+import MyComponent from "@/components/MyComponent";
 import type { ReactBaseViewProps } from "@/types";
 
-const MyViewView = ({ data, isEmbedded }: ReactBaseViewProps) => {
+export type MyViewConfig = {
+  aspectRatio: number;
+}
+
+const getMyViewConfig = (config: BasesViewConfig): MyViewConfig => {
+  return {
+    aspectRatio: (config.get('aspectRatio') ?? 1.5) as MyViewConfig['aspectRatio']
+  }
+}
+
+const MyViewView = ({ config, data, isEmbedded }: ReactBaseViewProps) => {
+  const viewConfig = getMyViewConfig(config);
+
 	return (
-		<div className="lovely-bases" style={{ height: "100%", width: "100%" }}>
-			{/* Content */}
+		<Container isEmbedded={isEmbedded}>
+      <MyComponent data={data.data} myComponentConfig={viewConfig} />
 		</div>
 	);
 };
@@ -68,40 +85,6 @@ const VIEWS: BaseViewDef[] = [
 	// ... other views
 	MY_VIEW,
 ];
-```
-
-## Obsidian Bases API
-
-### Main types
-
-- `BasesEntry`: Represents a note/entry with properties
-- `BasesViewConfig`: View configuration (user options)
-- `BasesPropertyId`: Property identifier (string)
-- `App`: Obsidian application instance
-- `TFile`: Obsidian file
-
-### Data access
-
-```typescript
-// Get property value
-const value = entry.getValue(propertyId);
-
-// Get property display name
-const displayName = config.getDisplayName(propertyId);
-
-// Get image (resolves internal and external paths)
-import { getResourcePath } from "@/lib/obsidian/link";
-const imageSrc = getResourcePath(app, imageUrl, entry.file.path);
-```
-
-## Path Alias
-
-The project uses `@/*` as alias for `src/*`:
-
-```typescript
-import { cn } from "@/lib/utils";
-import { useConfigValue } from "@/hooks/use-config-value";
-import type { ReactBaseViewProps } from "@/types";
 ```
 
 ## View Options (ViewOption)
