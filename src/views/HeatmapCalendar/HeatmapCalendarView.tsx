@@ -2,6 +2,8 @@ import type { BasesPropertyId } from "obsidian";
 import { useMemo } from "react";
 
 import { HeatmapCalendar, type Occurrence } from "@/components/HeatmapCalendar";
+import { Container } from "@/components/Obsidian/Container";
+import { useObsidian } from "@/components/Obsidian/Context";
 import type { ReactBaseViewProps } from "@/types";
 
 export const HEATMAP_CALENDAR_TYPE_ID = "heatmap-calendar";
@@ -96,7 +98,8 @@ const colors = {
 	],
 };
 
-const HeatmapCalendarView = ({ app, config, data }: ReactBaseViewProps) => {
+const HeatmapCalendarView = ({ config, data, isEmbedded }: ReactBaseViewProps) => {
+  const { app } = useObsidian();
 	const dateProperty = config.get("dateProperty") as HeatmapCalendarConfig["dateProperty"] | undefined;
 	const trackProperty = config.get("trackProperty") as HeatmapCalendarConfig["trackProperty"] | undefined;
 	const colorScheme = (config.get("colorScheme") ??
@@ -178,7 +181,7 @@ const HeatmapCalendarView = ({ app, config, data }: ReactBaseViewProps) => {
 	};
 
 	return (
-		<div className="lovely-bases h-full w-full select-none">
+    <Container isEmbedded={isEmbedded} style={{ userSelect: 'none' }}>
 			{groups.map((g) => (
 				<HeatmapCalendar
 					key={g.key}
@@ -188,7 +191,7 @@ const HeatmapCalendarView = ({ app, config, data }: ReactBaseViewProps) => {
 					onClick={handleEventClick}
 				/>
 			))}
-		</div>
+		</Container>
 	);
 };
 

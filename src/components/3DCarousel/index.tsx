@@ -8,10 +8,11 @@ import {
   useMotionValue,
   useTransform,
 } from "motion/react"
-import { type App, type BasesEntry, Keymap } from "obsidian"
+import { type BasesEntry, Keymap } from "obsidian"
 import { memo, useEffect, useLayoutEffect, useState } from "react"
 
 import Icon from "@/components/Entries/Icon"
+import { useObsidian } from "../Obsidian/Context"
 
 export const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect
@@ -152,11 +153,11 @@ const Carousel = memo(
 
 
 type Props = {
-  app: App
   items: BasesEntry[];
 }
 
-function ThreeDCarousel({ app, items = [] }: Props) {
+function ThreeDCarousel({ items = [] }: Props) {
+  const { app } = useObsidian();
   const controls = useAnimation()
 
   const handleClick = (event: React.MouseEvent, entry: BasesEntry) => {

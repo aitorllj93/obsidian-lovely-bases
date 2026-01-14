@@ -1,6 +1,7 @@
 
 import type { BasesPropertyId } from "obsidian";
 
+import { Container } from "@/components/Obsidian/Container";
 import ProjectFolders from "@/components/ProjectFolders";
 import { useFolders } from "@/components/ProjectFolders/hooks/use-folders";
 import type { ReactBaseViewProps } from "@/types";
@@ -12,19 +13,16 @@ export type ProjectFoldersConfig = {
   colorProperty?: BasesPropertyId;
 };
 
-const ProjectFoldersView = ({ app, config, data }: ReactBaseViewProps) => {
+const ProjectFoldersView = ({ config, data, isEmbedded }: ReactBaseViewProps) => {
   const colorizeFiles = config.get(
     "colorizeFiles",
   ) as ProjectFoldersConfig["colorizeFiles"];
-  const folders = useFolders(app, data, config);
+  const folders = useFolders(data, config);
 
   return (
-    <div
-      className="lovely-bases"
-      style={{ height: "100%", width: "100%", overflowY: "auto" }}
-    >
+    <Container isEmbedded={isEmbedded} style={{ overflowY: "auto" }}>
       <ProjectFolders folders={folders} colorizeFiles={colorizeFiles} />
-    </div>
+    </Container>
   );
 };
 

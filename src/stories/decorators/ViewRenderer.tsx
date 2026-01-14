@@ -15,12 +15,9 @@ export const createViewRenderer = <T extends Record<string, unknown> = Record<st
   Component: React.ComponentType<ReactBaseViewProps>,
 ) => {
   return ({ data = [], groupedData = [], properties = [], ...config }: ViewRenderer<T>) => {
-    const { app, component, containerEl, isEmbedded } = useObsidian();
+    const { isEmbedded } = useObsidian();
 
     const props: ReactBaseViewProps = {
-      app,
-      component,
-      containerEl,
       isEmbedded,
       data: aBasesQueryResult({
         data,

@@ -2,6 +2,8 @@ import type { BasesPropertyId } from "obsidian";
 import { useMemo } from "react";
 
 import { type CalendarItem, LinearCalendar } from "@/components/LinearCalendar";
+import { Container } from "@/components/Obsidian/Container";
+import { useObsidian } from "@/components/Obsidian/Context";
 import type { ReactBaseViewProps } from "@/types";
 
 export const LINEAR_CALENDAR_TYPE_ID = 'linear-calendar';
@@ -13,7 +15,8 @@ export type LinearCalendarConfig = {
     date?: string;
 }
 
-const LinearCalendarView = ({ app, config, data }: ReactBaseViewProps) => {
+const LinearCalendarView = ({ config, data, isEmbedded }: ReactBaseViewProps) => {
+  const { app } = useObsidian();
     const focus = (config.get('focus') ?? 'full') as LinearCalendarConfig['focus'];
     const startDateProperty = config.get('startDateProperty') as LinearCalendarConfig['startDateProperty'];
     const endDateProperty = config.get('endDateProperty') as LinearCalendarConfig['endDateProperty'];
@@ -68,12 +71,14 @@ const LinearCalendarView = ({ app, config, data }: ReactBaseViewProps) => {
     };
 
     return (
+      <Container isEmbedded={isEmbedded} style={{ userSelect: 'none' }}>
         <LinearCalendar
             items={items}
             focus={focus}
             referenceDate={referenceDate}
             onEventClick={handleEventClick}
         />
+      </Container>
     );
 };
 

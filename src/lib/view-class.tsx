@@ -41,9 +41,6 @@ export class ReactBasesView extends BasesView {
 				}}
 			>
 				<Component
-					app={this.app}
-					component={this}
-					containerEl={this.parentEl}
 					config={this.config}
 					data={this.data}
 					isEmbedded={isEmbedded}

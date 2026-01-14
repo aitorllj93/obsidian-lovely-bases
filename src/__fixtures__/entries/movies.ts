@@ -110,5 +110,3 @@ export const VIRTUAL_SCROLL_MOVIES_ENTRIES: BasesEntry[] = []
 Array.from({ length: 25 }, (_) => VIRTUAL_SCROLL_MOVIES_ENTRIES.push(
   ...MOVIES_ENTRIES,
 ));
-
-console.log(VIRTUAL_SCROLL_MOVIES_ENTRIES);

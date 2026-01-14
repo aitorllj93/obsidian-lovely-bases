@@ -2,6 +2,7 @@
 import { getCardConfig } from "@/components/Card/config/get-config";
 import type { CardConfig } from "@/components/Card/types";
 import Carousel from "@/components/Carousel";
+import { Container } from "@/components/Obsidian/Container";
 import type { ReactBaseViewProps } from "@/types";
 
 export type CarouselConfig = CardConfig & {
@@ -37,7 +38,7 @@ function estimateCardHeight(cardConfig: CardConfig, padding = PADDING): number {
 		: verticalImageHeight + contentHeight;
 }
 
-const CarouselView = ({ data, config }: ReactBaseViewProps) => {
+const CarouselView = ({ data, config, isEmbedded }: ReactBaseViewProps) => {
 	const cardConfig = getCardConfig(config);
 	const cardHeight = estimateCardHeight(cardConfig, PADDING);
 
@@ -45,9 +46,9 @@ const CarouselView = ({ data, config }: ReactBaseViewProps) => {
 	const subtitle = config.get("subtitle") as string | undefined;
 
 	return (
-		<div
-			className="lovely-bases"
-			style={{ height: "100%", width: "100%", overflowY: "auto" }}
+		<Container
+      isEmbedded={isEmbedded}
+      style={{ overflowY: "auto" }}
 		>
 			<Carousel
 				title={title}
@@ -58,7 +59,7 @@ const CarouselView = ({ data, config }: ReactBaseViewProps) => {
 				minItemWidth={cardConfig.cardSize}
 				minItemHeight={cardHeight}
 			/>
-		</div>
+		</Container>
 	);
 };
 

@@ -1,6 +1,7 @@
-import { type App, type BasesPropertyId, type BasesQueryResult, type BasesViewConfig, Keymap, TFile } from "obsidian";
+import { type BasesPropertyId, type BasesQueryResult, type BasesViewConfig, Keymap, TFile } from "obsidian";
 import { useMemo } from "react";
 
+import { useObsidian } from "@/components/Obsidian/Context";
 import { accent, linear } from "@/lib/colors";
 import { getImage, getTitle, isLink, parseWikilink } from "@/lib/properties";
 
@@ -8,10 +9,10 @@ import type { Folder } from "../types";
 
 
 export const useFolders = (
-  app: App,
   data: BasesQueryResult,
   config: BasesViewConfig,
 ): Folder[] => {
+  const { app } = useObsidian();
   const accentColor = accent();
   const imageProperty = config.get("imageProperty") as BasesPropertyId;
   const colorConfigProperty = (config.get("colorProperty") ?? "note.color") as BasesPropertyId;

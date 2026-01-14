@@ -2,17 +2,19 @@
 type Props = {
   children: React.ReactNode;
   isEmbedded: boolean;
-  embeddedStyles?: React.CSSProperties;
+  style?: React.CSSProperties;
+  embeddedStyle?: React.CSSProperties;
 }
 
-export function Container({ children, isEmbedded, embeddedStyles }: Props) {
+export function Container({ children, isEmbedded, style, embeddedStyle }: Props) {
   return (
     <div
       className="lovely-bases"
       style={{
         height: "100%",
         width: "100%",
-        ...(isEmbedded ? { ...embeddedStyles } : {}),
+        ...(style ?? {}),
+        ...(isEmbedded ? { ...embeddedStyle } : {}),
       }}
     >
       {children}

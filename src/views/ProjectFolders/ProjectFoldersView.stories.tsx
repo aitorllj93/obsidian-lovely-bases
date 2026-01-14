@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { APPLICATION_ENTRIES, ARTICLE_ENTRIES, BOOK_ENTRIES, MOVIES_ENTRIES, PERSON_ENTRIES } from "@/__fixtures__/entries";
+import { aBasesEntryGroup } from "@/__mocks__";
 import {
   createViewRenderer,
   Providers,
@@ -15,7 +16,6 @@ import {
 import ProjectFoldersView, {
   type ProjectFoldersConfig,
 } from "./ProjectFoldersView";
-import { aBasesEntryGroup } from "@/__mocks__";
 
 const View = createViewRenderer<ProjectFoldersConfig>(ProjectFoldersView);
 
