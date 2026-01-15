@@ -27,6 +27,7 @@ const meta = {
   tags: ["autodocs"],
   decorators: [Providers, ViewWrapper],
   parameters: {
+    layout: 'fullscreen',
     docs: {
       icon: PROJECT_FOLDERS_VIEW.icon,
       subtitle:

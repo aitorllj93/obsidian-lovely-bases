@@ -30,6 +30,7 @@ const meta = {
   tags: ["autodocs"],
   decorators: [Providers, ScrollViewWrapper],
   parameters: {
+    layout: 'fullscreen',
     docs: {
       icon: FACET_CARDS_VIEW.icon,
       subtitle:

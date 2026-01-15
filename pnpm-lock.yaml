@@ -49,6 +49,9 @@ devDependencies:
   '@storybook/addon-docs':
     specifier: ^10.1.11
     version: 10.1.11(@types/react@19.2.7)(esbuild@0.27.2)(storybook@10.1.11)(vite@7.3.1)
+  '@storybook/addon-themes':
+    specifier: ^10.1.11
+    version: 10.1.11(storybook@10.1.11)
   '@storybook/addon-vitest':
     specifier: ^10.1.11
     version: 10.1.11(@vitest/browser-playwright@4.0.17)(react-dom@19.2.3)(react@19.2.3)(storybook@10.1.11)(vitest@4.0.17)
@@ -1030,6 +1033,15 @@ packages:
       - rollup
       - vite
       - webpack
+    dev: true
+
+  /@storybook/addon-themes@10.1.11(storybook@10.1.11):
+    resolution: {integrity: sha512-tUX5C1ms+W4GFK8UBWd3Fq4irkLc3h092BqW90tZghcoOmGY/sfKR+PlcLhoaTs/kkHQSSHPrz8HSFR1AXVbHA==}
+    peerDependencies:
+      storybook: ^10.1.11
+    dependencies:
+      storybook: 10.1.11(@testing-library/dom@10.4.1)(prettier@3.7.4)(react-dom@19.2.3)(react@19.2.3)
+      ts-dedent: 2.2.0
     dev: true
 
   /@storybook/addon-vitest@10.1.11(@vitest/browser-playwright@4.0.17)(react-dom@19.2.3)(react@19.2.3)(storybook@10.1.11)(vitest@4.0.17):

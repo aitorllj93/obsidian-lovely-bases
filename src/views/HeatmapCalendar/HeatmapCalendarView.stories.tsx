@@ -26,6 +26,7 @@ const meta = {
   component: View,
   decorators: [Providers, ViewWrapper],
   parameters: {
+    layout: 'fullscreen',
     docs: {
       icon: HEATMAP_CALENDAR_VIEW.icon,
       subtitle:

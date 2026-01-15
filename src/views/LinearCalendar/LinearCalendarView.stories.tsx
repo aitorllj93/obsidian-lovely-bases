@@ -30,6 +30,7 @@ const meta = {
   tags: ["autodocs"],
   decorators: [Providers, ViewWrapper],
   parameters: {
+    layout: 'fullscreen',
     docs: {
       icon: LINEAR_CALENDAR_VIEW.icon,
       subtitle:

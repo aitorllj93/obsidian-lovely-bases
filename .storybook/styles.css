@@ -5,6 +5,7 @@
 @import "../src/main.css";
 
 :root {
+  --scrollbar-color: var(--color-base-50);
 
   /** Override Obsidian variables */
   --interactive-accent: var(--color-red-400);
@@ -56,7 +57,7 @@
   --sidebar-accent: var(--background-modifier-hover);
   --sidebar-accent-foreground: var(--color-base-100);
   --sidebar-border: var(--background-modifier-border);
-  --sidebar-ring: var(--color-purple-500);
+  --sidebar-ring: var(--interactive-accent);
 
   --color-red: var(--color-red-400);
   --color-orange: var(--color-orange-400);
@@ -68,13 +69,65 @@
   --color-pink: var(--color-pink-400);
 }
 
+.obsidian {
+  --interactive-accent: #8A5CF4;
+  --primary: #8A5CF4;
+}
+
+.dark {
+  --scrollbar-color: var(--color-base-900);
+  --bases-cards-background: var(--color-base-900);
+
+  --background: var(--color-base-900);
+  --foreground: var(--color-base-50);
+
+  --card: rgba(255, 255, 255, 0.067);
+  --card-foreground: var(--color-base-50);
+  --popover: rgba(255, 255, 255, 0.067);
+  --popover-foreground: var(--color-base-50);
+
+  --primary-foreground: var(--color-base-50);
+
+  --secondary-foreground: var(--color-base-50);
+
+  --muted: var(--color-base-300);
+  --muted-foreground: var(--color-base-50);
+
+  --accent-foreground: var(--color-base-50);
+
+  --destructive-foreground: var(--color-base-50);
+
+  --border: var(--background-modifier-border, var(--color-base-800));
+  --input: var(--background-modifier-border, var(--color-base-800));
+  --ring: var(--interactive-accent, hsl( 5, 61%, calc(54% + 6%) ));
+
+  --sidebar: rgba(255, 255, 255, 0.067);
+  --sidebar-foreground: var(--color-base-50);
+  --sidebar-primary: var(--interactive-accent);
+  --sidebar-primary-foreground: var(--color-base-50);
+  --sidebar-accent: var(--background-modifier-hover);
+  --sidebar-accent-foreground: var(--color-base-50);
+  --sidebar-border: var(--background-modifier-border);
+  --sidebar-ring: var(--interactive-accent);
+}
+
+.obsidian.dark {
+  --bases-cards-background: #1E1E1E;
+  --background: #1E1E1E;
+}
+
 h3 {
   font-size: 20px;
   padding: 4px 8px;
   margin: 8px 0 0 0;
 }
 
-body {
-  scrollbar-color: var(--color-base-50) transparent;
+.dark h3 {
+  color: var(--color-base-50);
+}
+
+body, .dark, .obsidian {
+  scrollbar-color: var(--scrollbar-color) transparent;
   scrollbar-width: thin;
 }
+

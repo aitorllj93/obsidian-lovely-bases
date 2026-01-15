@@ -24,6 +24,7 @@ const meta = {
   tags: ["autodocs"],
   decorators: [Providers, ViewWrapper],
   parameters: {
+    layout: 'fullscreen',
     docs: {
       icon: INFINITE_GALLERY_VIEW.icon,
       subtitle:

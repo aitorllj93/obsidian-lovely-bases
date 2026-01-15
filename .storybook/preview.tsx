@@ -6,7 +6,8 @@ import {
   Stories,
   Subtitle,
 } from '@storybook/addon-docs/blocks';
-import type { Preview } from "@storybook/react-vite";
+import { withThemeByClassName } from '@storybook/addon-themes';
+import type { Preview, ReactRenderer } from "@storybook/react-vite";
 import React from 'react';
 import { Title } from './blocks/Title';
 
@@ -24,6 +25,17 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    decorators: [
+      withThemeByClassName<ReactRenderer>({
+        themes: {
+          'Flexoki Light': '',
+          'Flexoki Dark': 'dark',
+          'Obsidian Light': 'obsidian',
+          'Obsidian Dark': 'obsidian dark',
+        },
+        defaultTheme: 'light',
+      })
+    ],
     docs: {
       toc: {
         title: 'Table of Contents',
