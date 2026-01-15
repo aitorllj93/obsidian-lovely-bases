@@ -111,7 +111,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Full: Story = {
+export const FullExample: Story = {
   args: {
     data: OCCURRENCES,
     groupedData: [aBasesEntryGroup('', GROUPED_OCCURRENCES[1].entries)],
@@ -143,8 +143,8 @@ export const CustomDuration: Story = {
         story: `You can display a shorter period of time by specifying the start and end dates.
 
 \`\`\`yml
-startDate: 2025-01-01
-endDate: 2025-12-31
+startDate: ${global.moment(THIRTEEN_WEEKS_HEATMAP_BASE_CONFIG.startDate).format('YYYY-MM-DD')}
+endDate: ${global.moment(THIRTEEN_WEEKS_HEATMAP_BASE_CONFIG.endDate).format('YYYY-MM-DD')}
 \`\`\`
 `,
       },

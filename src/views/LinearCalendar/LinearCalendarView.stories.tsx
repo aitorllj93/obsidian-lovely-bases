@@ -12,8 +12,8 @@ import LINEAR_CALENDAR_VIEW from ".";
 import {
   DEFAULT_BASE_CONFIG,
   FULL_BASE_CONFIG,
-  HALF_BASE_CONFIG,
-  QUARTER_BASE_CONFIG,
+  COLORS_ICONS_BASE_CONFIG,
+  ALT_VISUALIZATIONS_BASE_CONFIG,
 } from "./__fixtures__/configs";
 
 import LinearCalendarView, {
@@ -111,7 +111,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Full: Story = {
+export const FullExample: Story = {
   args: {
     data: PLANS_ENTRIES,
     groupedData: [aBasesEntryGroup('', PLANS_ENTRIES)],
@@ -121,6 +121,13 @@ export const Full: Story = {
 };
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: "By default, the linear calendar displays the data for the active year. You can change that by changing the `date` property.",
+      },
+    }
+  },
   args: {
     data: PLANS_ENTRIES,
     groupedData: [aBasesEntryGroup('', PLANS_ENTRIES)],
@@ -129,20 +136,46 @@ export const Default: Story = {
   },
 };
 
-export const HalfYear: Story = {
+export const AltVisualizations: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `You can display quarter of year or half of year by changing the \`focus\` property.
+
+\`\`\`yml
+focus: "half"
+\`\`\`
+`,
+      },
+    }
+  },
   args: {
     data: PLANS_ENTRIES,
     groupedData: [aBasesEntryGroup('', PLANS_ENTRIES)],
     onEntryClick: fn(),
-    ...HALF_BASE_CONFIG,
+    ...ALT_VISUALIZATIONS_BASE_CONFIG,
   },
 };
 
-export const QuarterOfYear: Story = {
+
+export const ColorsAndIcons: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `Enable colors and icons by setting the \`colorProperty\` and \`iconProperty\` properties and including the right values in your data.
+
+\`\`\`yml
+colorProperty: "note.color"
+iconProperty: "note.icon"
+\`\`\`
+`,
+      },
+    },
+  },
   args: {
     data: PLANS_ENTRIES,
     groupedData: [aBasesEntryGroup('', PLANS_ENTRIES)],
     onEntryClick: fn(),
-    ...QUARTER_BASE_CONFIG,
+    ...COLORS_ICONS_BASE_CONFIG,
   },
 };
