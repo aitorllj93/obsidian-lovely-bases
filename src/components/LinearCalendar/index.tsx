@@ -13,6 +13,7 @@ export type CalendarItem = {
   startDate: Date;
   endDate: Date;
   color?: string;
+  icon?: string;
 };
 
 type Props = {

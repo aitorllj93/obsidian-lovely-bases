@@ -16,24 +16,33 @@ const LINEAR_CALENDAR_VIEW: BaseViewDef = {
       type: "dropdown",
       displayName: "Focus",
       key: "focus",
-      default: "Anual",
+      default: "full",
       options: {
-        Anual: "Anual",
-        Semestral: "Semestral",
-        Trimestral: "Trimestral",
+        full: "Full",
+        half: "Half",
+        quarter: "Quarter",
       },
     },
     {
       type: "property",
       displayName: "Start Date Property",
       key: "startDateProperty",
-      default: "note.created", // Default guess
+      default: "note.created",
     },
     {
       type: "property",
       displayName: "End Date Property",
       key: "endDateProperty",
-      default: "",
+    },
+    {
+      type: "property",
+      displayName: "Color Property",
+      key: "colorProperty",
+    },
+    {
+      type: "property",
+      displayName: "Icon Property",
+      key: "iconProperty",
     },
     {
       type: "text",

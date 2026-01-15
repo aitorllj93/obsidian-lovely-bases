@@ -8,6 +8,7 @@ import {
 } from "@/stories/decorators";
 
 import {
+  DEFAULT_BASE_CONFIG,
   FULL_BASE_CONFIG,
   HALF_BASE_CONFIG,
   QUARTER_BASE_CONFIG,
@@ -83,6 +84,16 @@ const meta = {
       description:
         "The property used for the event's end date (optional, defaults to start date).",
     },
+    colorProperty: {
+      control: "text",
+      name: "Color Property",
+      description: "The property used for the event's color (optional, defaults to note.color).",
+    },
+    iconProperty: {
+      control: "text",
+      name: "Icon Property",
+      description: "The property used for the event's icon (optional, defaults to note.icon).",
+    },
     date: {
       control: "text",
       name: "Reference Date",
@@ -105,7 +116,16 @@ export const Full: Story = {
   },
 };
 
-export const Half: Story = {
+export const Default: Story = {
+  args: {
+    data: PLANS_ENTRIES,
+    groupedData: [aBasesEntryGroup('', PLANS_ENTRIES)],
+    onEntryClick: fn(),
+    ...DEFAULT_BASE_CONFIG,
+  },
+};
+
+export const HalfYear: Story = {
   args: {
     data: PLANS_ENTRIES,
     groupedData: [aBasesEntryGroup('', PLANS_ENTRIES)],
@@ -114,7 +134,7 @@ export const Half: Story = {
   },
 };
 
-export const Quarter: Story = {
+export const QuarterOfYear: Story = {
   args: {
     data: PLANS_ENTRIES,
     groupedData: [aBasesEntryGroup('', PLANS_ENTRIES)],

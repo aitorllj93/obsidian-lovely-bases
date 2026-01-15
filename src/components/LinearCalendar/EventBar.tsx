@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import type { EntryClickEventHandler } from "@/types";
 
 import type { StackedEvent } from "./utils";
+import LucideIcon from "../Obsidian/LucideIcon";
 
 type Props = {
   event: StackedEvent;
@@ -38,9 +39,14 @@ export const EventBar = ({
       }}
     >
       {/* Show title if width is reasonably large */}
-      {widthPercent > 3 && (
-        <span className="drop-shadow-md">{event.title}</span>
-      )}
+      {(event.icon || widthPercent > 3) ? (
+        <span className="drop-shadow-md">
+        {event.icon && <LucideIcon name={event.icon} className="w-4 h-4 text-white inline-block mr-1" />}
+          {widthPercent > 3 ?
+            event.title :
+            null}
+        </span>
+      ) : null}
     </div>
   );
 };
