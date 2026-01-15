@@ -12,7 +12,9 @@ import { Title } from './blocks/Title';
 
 import "./styles.css";
 
+import moment from "moment";
 
+global.moment = moment;
 
 const preview: Preview = {
   parameters: {

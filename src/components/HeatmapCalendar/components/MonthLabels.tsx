@@ -1,6 +1,7 @@
 import {
   addMonths,
   differenceInWeeks,
+  FORMATS,
   format,
   startOfMonth,
   startOfWeek,
@@ -31,7 +32,7 @@ export const MonthLabels = ({ startDate, weeks }: Props) => {
           className="text-xs text-gray-500 absolute"
           style={{ left: `${leftPosition}px` }}
         >
-          {format(monthStart, "MMM")}
+          {format(monthStart, FORMATS.MONTH_SHORT)}
         </span>,
       );
     }

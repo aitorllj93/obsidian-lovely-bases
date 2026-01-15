@@ -1,3 +1,6 @@
+
+import { fn } from "storybook/test";
+
 import type { ReactBaseViewProps } from "@/types";
 
 import { aBasesQueryResult } from "./aBasesQueryResult";
@@ -8,6 +11,8 @@ export const aReactBaseViewProps = (overrides: Partial<ReactBaseViewProps> = {})
     data: aBasesQueryResult(),
     config: aBasesViewConfig(),
     isEmbedded: false,
+    onEntryClick: fn(),
+    onEntryHover: fn(),
     ...overrides,
   };
 }

@@ -1,9 +1,9 @@
-import { format } from "date-fns";
+import { FORMATS, format } from "@/lib/date";
 import type { CalendarItem } from "./index";
 
 export const getMonthName = (monthIndex: number) => {
   const date = new Date(2000, monthIndex, 1);
-  return format(date, "MMMM");
+  return format(date, FORMATS.MONTH_LONG);
 };
 
 export const daysInMonth = (monthIndex: number, year: number) => {

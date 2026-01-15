@@ -1,5 +1,5 @@
 
-import { addDays, eachDayOfInterval, endOfWeek, format, isSameDay, startOfWeek } from "@/lib/date";
+import { addDays, eachDayOfInterval, endOfWeek, FORMATS, format, isSameDay, startOfWeek } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import type { EntryClickEventHandler } from "@/types";
 
@@ -50,7 +50,7 @@ export const HeatmapGrid = ({
               <div
                 key={`d-${day.toISOString()}`}
                 className={cn(`w-3 h-3 rounded-[4px]`, className)}
-                title={`${format(day, "PPP")}: ${occurrence?.count || 0}`}
+                title={`${format(day, FORMATS.DATE_LONG)}: ${occurrence?.count || 0}`}
                 onClick={(evt) => onEntryClick?.(occurrence.file.path, evt)}
               />
             );

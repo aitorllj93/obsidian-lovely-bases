@@ -1,72 +1,62 @@
-import {
-  addDays as _addDays,
-  addMonths as _addMonths,
-  differenceInWeeks as _differenceInWeeks,
-  eachDayOfInterval as _eachDayOfInterval,
-  endOfWeek as _endOfWeek,
-  format as _format,
-  isSameDay as _isSameDay,
-  startOfMonth as _startOfMonth,
-  startOfWeek as _startOfWeek,
-  subWeeks as _subWeeks,
-} from "date-fns";
 
-import { de, enGB, enUS, es, fr, it, pt, ru } from 'date-fns/locale';
+const moment = window.moment;
 
-const LOCALE_MAP = {
-  'es': es,
-  'es-ES': es,
-  'en-US': enUS,
-  'en-GB': enGB,
-  'fr': fr,
-  'de': de,
-  'it': it,
-  'pt': pt,
-  'ru': ru,
-};
-
-function getDateFnsLocale(lang = navigator.language) {
-  return LOCALE_MAP[lang] ?? LOCALE_MAP[lang.split('-')[0]] ?? enUS;
+export const FORMATS = {
+  DAY_OF_WEEK_SHORT: "ddd",
+  MONTH_SHORT: "MMM",
+  MONTH_LONG: "MMMM",
+  DATE_LONG: "LL",
 }
 
-const locale = getDateFnsLocale();
-
 export function addDays(date: Date, days: number) {
-  return _addDays(date, days);
+  return moment(date).add(days, 'days').toDate();
 }
 
 export function addMonths(date: Date, months: number) {
-  return _addMonths(date, months);
+  return moment(date).add(months, 'months').toDate();
 }
 
 export function differenceInWeeks(date1: Date, date2: Date) {
-  return _differenceInWeeks(date1, date2);
+  return moment(date1).diff(moment(date2), 'weeks');
 }
 
-export function eachDayOfInterval(interval: { start: Date; end: Date }) {
-  return _eachDayOfInterval(interval);
+export function eachDayOfInterval(interval: { start: Date; end: Date }): Date[] {
+  const days: Date[] = [];
+  const current = moment(interval.start).startOf("day");
+  const end = moment(interval.end).startOf("day");
+
+  while (current.isSameOrBefore(end)) {
+    days.push(current.toDate());
+    current.add(1, "day");
+  }
+
+  return days;
 }
 
 export function endOfWeek(date: Date) {
-  return _endOfWeek(date, { locale });
+  return moment(date).endOf('week').toDate();
 }
 
 export function format(date: Date, format: string) {
-  return _format(date, format, { locale });
+  return moment(date).format(format);
 }
 
 export function isSameDay(date1: Date, date2: Date) {
-  return _isSameDay(date1, date2);
+  return moment(date1).isSame(moment(date2), 'day');
 }
 
 export function startOfMonth(date: Date) {
-  return _startOfMonth(date);
+  return moment(date).startOf('month').toDate();
 }
 
 export function startOfWeek(date: Date) {
-  return _startOfWeek(date, { locale });
+  return moment(date).startOf('week').toDate();
+}
+
+export function startOfYear(date: Date) {
+  return moment(date).startOf('year').toDate();
 }
 
 export function subWeeks(date: Date, weeks: number) {
-  return _subWeeks(date, weeks);
+  return moment(date).subtract(weeks, 'weeks').toDate();
 }

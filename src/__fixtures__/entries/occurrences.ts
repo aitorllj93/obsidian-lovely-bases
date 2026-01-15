@@ -1,10 +1,10 @@
 
-import { addDays, startOfYear } from "date-fns";
 import type { BasesEntry, BasesEntryGroup } from "obsidian";
 
 import { aBasesEntry } from "@/__mocks__/aBasesEntry";
 import { aBasesEntryGroup } from "@/__mocks__/aBasesEntryGroup";
 import { aFile } from "@/__mocks__/aFile";
+import { addDays, startOfYear } from "@/lib/date";
 
 const today = new Date();
 const startDate = startOfYear(today);
