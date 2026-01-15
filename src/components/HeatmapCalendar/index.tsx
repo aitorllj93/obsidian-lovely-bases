@@ -1,144 +1,64 @@
 "use client";
 
-import { addDays, addMonths, differenceInWeeks, eachDayOfInterval, endOfWeek, format, isSameDay, startOfMonth, startOfWeek, startOfYear  } from "date-fns";
+import { startOfYear } from "date-fns";
 import type { TFile } from "obsidian";
-import { useEffect, useState } from "react";
-
-import { cn } from "@/lib/utils";
+import { DayLabels } from "./components/DayLabels";
+import { HeatmapGrid } from "./components/HeatmapGrid";
+import { Legend } from "./components/Legend";
+import { MonthLabels } from "./components/MonthLabels";
+import { useHeatmapData } from "./hooks/useHeatmapData";
 import { COLOR_SCHEMES } from "./utils";
 
 export type Occurrence = {
   date: string; // ISO date string (e.g., "2025-09-13")
   dateObj?: Date;
   count: number;
-  file: TFile
-}
+  file: TFile;
+};
 
-type HeatmapCalendarProps = {
+type Props = {
   data: Occurrence[];
   date?: Date;
   classNames?: string[];
   colorScheme?: keyof typeof COLOR_SCHEMES;
   reverseColors?: boolean;
   onClick?: (item: Occurrence) => void;
-}
+};
 
-export const HeatmapCalendar = ({ data, date = new Date(), colorScheme = 'primary', reverseColors = false, onClick }: HeatmapCalendarProps) => {
-  const [occurrences, setOccurrences] = useState<Occurrence[]>([]);
+export const HeatmapCalendar = ({
+  data,
+  date = new Date(),
+  colorScheme = "primary",
+  reverseColors = false,
+  onClick,
+}: Props) => {
   const startDate = startOfYear(date);
   const weeks = 53;
 
+  const occurrences = useHeatmapData(data);
 
-
-	let classNames = COLOR_SCHEMES[colorScheme] as string[];
-	if (reverseColors) {
-		// we need to keep the first color as bg-card and reverse the rest
-		classNames = [classNames[0], ...classNames.slice(1).reverse()];
-	}
-
-  // Process data prop
-  useEffect(() => {
-    setOccurrences(data.map((item) => {
-      const [year, month, day] = item.date.split('-').map(Number);
-      const dateObj = new Date(year, month - 1, day);
-      return { ...item, dateObj };
-    }));
-  }, [data]);
-
-  // Get className based on occurrence count
-  const getClassName = (count: number) => classNames[count] || classNames[classNames.length - 1];
-
-  // Render weeks
-  const renderWeeks = () => {
-    const weeksArray = [];
-    let currentWeekStart = startOfWeek(startDate, { weekStartsOn: 0 });
-
-    for (let i = 0; i < weeks; i++) {
-      const weekDays = eachDayOfInterval({
-        start: currentWeekStart,
-        end: endOfWeek(currentWeekStart, { weekStartsOn: 0 }),
-      });
-
-      weeksArray.push(
-        <div key={`w-${currentWeekStart.toISOString()}`} className="flex flex-col gap-1">
-          {weekDays.map((day) => {
-            const occurrence = occurrences.find((c) => c.dateObj && isSameDay(c.dateObj, day));
-            const className = occurrence ? getClassName(occurrence.count) : classNames[0];
-
-            return (
-              <div
-                key={`d-${day.toISOString()}`}
-                className={cn(
-                  `w-3 h-3 rounded-[4px]`,
-                  className
-                )}
-                title={`${format(day, "PPP")}: ${occurrence?.count || 0} occurrences`}
-                onClick={() => occurrence && onClick?.(occurrence)}
-              />
-            );
-          })}
-        </div>
-      );
-      currentWeekStart = addDays(currentWeekStart, 7);
-    }
-
-    return weeksArray;
-  };
-
-  // Render month labels positioned correctly above the weeks
-  const renderMonthLabels = () => {
-    const firstWeekStart = startOfWeek(startDate, { weekStartsOn: 0 });
-    const months = [];
-
-    for (let i = 0; i < 12; i++) {
-      const monthStart = startOfMonth(addMonths(startDate, i));
-      // Calculate which week column this month starts in
-      const weekIndex = differenceInWeeks(monthStart, firstWeekStart);
-
-      // Only show if it's within our 53 weeks range
-      if (weekIndex >= 0 && weekIndex < weeks) {
-        // Position: each week column is 12px (w-3) + 4px gap = 16px
-        const leftPosition = weekIndex * 16;
-        months.push(
-          <span
-            key={`monthlabel-${i}`}
-            className="text-xs text-gray-500 absolute"
-            style={{ left: `${leftPosition}px` }}
-          >
-            {format(monthStart, "MMM")}
-          </span>
-        );
-      }
-    }
-    return months;
-  };
-
-  const dayLabels = Array.from({ length: 7 }, (_, i) => format(new Date(2000, 0, i + 1), 'EEE'));
+  let classNames = COLOR_SCHEMES[colorScheme] as string[];
+  if (reverseColors) {
+    // we need to keep the first color as bg-card and reverse the rest
+    classNames = [classNames[0], ...classNames.slice(1).reverse()];
+  }
 
   return (
     <div className="p-4 flex flex-col items-center">
       <div className="flex max-w-full">
-        <div className="flex flex-col justify-between mt-5.5 mr-2">
-          {dayLabels.map((day) => (
-            <span key={`daylabel-${day}`} className="text-xs text-gray-500 h-3">
-              {day}
-            </span>
-          ))}
-        </div>
+        <DayLabels />
         <div>
-          <div className="relative h-5 mb-2">{renderMonthLabels()}</div>
-          <div className="flex gap-1">{renderWeeks()}</div>
+          <MonthLabels startDate={startDate} weeks={weeks} />
+          <HeatmapGrid
+            occurrences={occurrences}
+            startDate={startDate}
+            weeks={weeks}
+            classNames={classNames}
+            onClick={onClick}
+          />
         </div>
       </div>
-      <div className="mt-4 justify-center flex gap-2 text-xs items-center">
-        <span>Less</span>
-        {classNames.map((className, index) => (
-          <div key={`color-${index.toString()}`} className={
-            cn('w-3 h-3 rounded-[4px]', className)
-          } />
-        ))}
-        <span>More</span>
-      </div>
+      <Legend classNames={classNames} />
     </div>
   );
 };
