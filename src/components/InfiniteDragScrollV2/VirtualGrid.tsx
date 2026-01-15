@@ -1,5 +1,5 @@
-import type { BasesEntry } from "obsidian";
-import { useEffect, useRef, useState } from "react";
+import  { type BasesEntry, Platform } from "obsidian";
+import { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -54,6 +54,7 @@ export const VirtualGrid = ({
 	}, []);
 
 	// Calculate visible items using safe virtualization hook
+	// Use buffer of 1 to minimize memory usage on mobile
 	const visibleItems = useVirtualGrid({
 		totalItems: items.length,
 		columns,
@@ -66,7 +67,7 @@ export const VirtualGrid = ({
 		viewportWidth,
 		viewportHeight,
 		variant,
-		buffer: 3,
+		buffer: Platform.isMobile ? 1 : 3,
 	});
 
 	if (!ItemContentComponent) {

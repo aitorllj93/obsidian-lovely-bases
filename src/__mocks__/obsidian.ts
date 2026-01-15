@@ -31,6 +31,11 @@ import type { Value } from 'obsidian';
 
 export { MockTFile as TFile } from './aFile'
 
+// biome-ignore lint/complexity/noStaticOnlyClass: Mock para Storybook, necesita compatibilidad con tipos de Obsidian
+export class Platform {
+  static isMobile = false;
+}
+
 // Clases Value mockeadas
 // Estas se usan con `new` en el código, así que necesitan implementación real
 export class StringValue {

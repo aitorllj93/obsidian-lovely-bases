@@ -25,7 +25,6 @@ const InfiniteDragScrollV2 = ({ items, itemConfig, variant }: Props) => {
 	// Reactive state for layout calculations
 	const [columns, setColumns] = useState(1);
 	const [viewportDimensions, setViewportDimensions] = useState({ width: 0, height: 0 });
-	const [scrollPosition, setScrollPosition] = useState({ x: 0, y: 0 });
 
 	// Single ResizeObserver for all dimension tracking
 	useEffect(() => {
@@ -78,7 +77,7 @@ const InfiniteDragScrollV2 = ({ items, itemConfig, variant }: Props) => {
 	}, [containerEl, cellWidth, gapX]);
 
 	return (
-		<DragContainer onScrollChange={setScrollPosition}>
+		<DragContainer>
 			{(scrollPos) => (
 				<VirtualGrid
 					items={items}

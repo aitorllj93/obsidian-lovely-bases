@@ -1,10 +1,12 @@
+import { Platform } from "obsidian";
 import { useMemo } from "react";
 
 import type { Variants, VirtualItem } from "../types";
 
 // Safety constants to prevent memory leaks
-const MAX_VISIBLE_ITEMS = 200;
-const MAX_BUFFER = 5;
+// Reduced for mobile compatibility - even 50 items is enough for smooth scrolling
+const MAX_VISIBLE_ITEMS = Platform.isMobile ? 50 : 200;
+const MAX_BUFFER = Platform.isMobile ? 2 : 5; // Reduced from 5 to prevent excessive rendering on mobile
 
 // Helper function to wrap index to valid range
 const wrapIndex = (index: number, total: number): number => {
@@ -75,9 +77,6 @@ export const useVirtualGrid = ({
 			for (let virtualCol = startCol; virtualCol <= endCol; virtualCol++) {
 				// Safety check: prevent runaway loops
 				if (visibleItems.length >= MAX_VISIBLE_ITEMS) {
-					console.warn(
-						`InfiniteDragScrollV2: Reached maximum visible items (${MAX_VISIBLE_ITEMS}). This may indicate a configuration issue.`,
-					);
 					return visibleItems;
 				}
 
