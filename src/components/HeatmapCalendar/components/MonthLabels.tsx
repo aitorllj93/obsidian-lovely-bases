@@ -14,8 +14,9 @@ type Props = {
 export const MonthLabels = ({ startDate, weeks }: Props) => {
   const firstWeekStart = startOfWeek(startDate);
   const months = [];
+  const maxMonths = weeks * 7;
 
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i <= maxMonths; i++) {
     const monthStart = startOfMonth(addMonths(startDate, i));
     // Calculate which week column this month starts in
     const weekIndex = differenceInWeeks(monthStart, firstWeekStart);

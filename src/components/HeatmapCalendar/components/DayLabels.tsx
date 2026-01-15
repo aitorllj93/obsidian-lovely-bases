@@ -1,8 +1,9 @@
-import { format } from "@/lib/date";
+import { addDays, format, startOfWeek } from "@/lib/date";
 
 export const DayLabels = () => {
+  const firstDayOfWeek = startOfWeek(new Date());
   const dayLabels = Array.from({ length: 7 }, (_, i) =>
-    format(new Date(2000, 0, i + 1), "EEE"),
+    format(addDays(firstDayOfWeek, i), "EEE"),
   );
 
   return (

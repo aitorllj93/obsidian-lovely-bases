@@ -6,14 +6,22 @@ export const DEFAULT_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
   dateProperty: 'file.name',
   trackProperty: 'note.dietQuality',
   colorScheme: 'primary',
-  date: new Date().getFullYear().toString(),
+  date: new Date().toString(),
 };
 
 export const FULL_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
   dateProperty: 'file.name',
   trackProperty: 'note.dietQuality',
   colorScheme: 'semaphor',
-  date: new Date().getFullYear().toString(),
+  date: '2027'
+};
+
+export const THIRTEEN_WEEKS_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
+  dateProperty: 'file.name',
+  trackProperty: 'note.dietQuality',
+  colorScheme: 'green',
+  date: '2027',
+  weeks: 13,
 };
 
 export const RED_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {

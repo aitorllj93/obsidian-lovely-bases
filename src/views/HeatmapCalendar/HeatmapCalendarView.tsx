@@ -4,100 +4,19 @@ import { useMemo } from "react";
 import { HeatmapCalendar, type Occurrence } from "@/components/HeatmapCalendar";
 import { Container } from "@/components/Obsidian/Container";
 import { useObsidian } from "@/components/Obsidian/Context";
-import type { ReactBaseViewProps } from "@/types";
 import { useConfig } from "@/hooks/use-config";
+import type { ReactBaseViewProps } from "@/types";
+import type { COLOR_SCHEMES } from "@/components/HeatmapCalendar/utils";
 
 export const HEATMAP_CALENDAR_TYPE_ID = "heatmap-calendar";
 
 export type HeatmapCalendarConfig = {
 	dateProperty: BasesPropertyId;
 	trackProperty: BasesPropertyId;
-  colorScheme?: keyof typeof colors;
+  colorScheme?: keyof typeof COLOR_SCHEMES;
   reverseColors?: boolean;
 	date?: string;
-};
-
-const colors = {
-	primary: [
-		"bg-card",
-		"bg-primary/10",
-		"bg-primary/30",
-		"bg-primary/50",
-		"bg-primary/70",
-		"bg-primary",
-	],
-	semaphor: [
-		"bg-card",
-		"bg-palette-red",
-		"bg-palette-orange",
-		"bg-palette-yellow",
-		"bg-palette-green",
-		"bg-palette-cyan",
-	],
-	red: [
-		"bg-card",
-		"bg-palette-red/10",
-		"bg-palette-red/30",
-		"bg-palette-red/50",
-		"bg-palette-red/70",
-		"bg-palette-red",
-	],
-	orange: [
-		"bg-card",
-		"bg-palette-orange/10",
-		"bg-palette-orange/30",
-		"bg-palette-orange/50",
-		"bg-palette-orange/70",
-		"bg-palette-orange",
-	],
-	yellow: [
-		"bg-card",
-		"bg-palette-yellow/10",
-		"bg-palette-yellow/30",
-		"bg-palette-yellow/50",
-		"bg-palette-yellow/70",
-		"bg-palette-yellow",
-	],
-	green: [
-		"bg-card",
-		"bg-palette-green/10",
-		"bg-palette-green/30",
-		"bg-palette-green/50",
-		"bg-palette-green/70",
-		"bg-palette-green",
-	],
-	cyan: [
-		"bg-card",
-		"bg-palette-cyan/10",
-		"bg-palette-cyan/30",
-		"bg-palette-cyan/50",
-		"bg-palette-cyan/70",
-		"bg-palette-cyan",
-	],
-	blue: [
-		"bg-card",
-		"bg-palette-blue/10",
-		"bg-palette-blue/30",
-		"bg-palette-blue/50",
-		"bg-palette-blue/70",
-		"bg-palette-blue",
-	],
-	purple: [
-		"bg-card",
-		"bg-palette-purple/10",
-		"bg-palette-purple/30",
-		"bg-palette-purple/50",
-		"bg-palette-purple/70",
-		"bg-palette-purple",
-	],
-	magenta: [
-		"bg-card",
-		"bg-palette-magenta/10",
-		"bg-palette-magenta/30",
-		"bg-palette-magenta/50",
-		"bg-palette-magenta/70",
-		"bg-palette-magenta",
-	],
+  weeks?: number;
 };
 
 const HeatmapCalendarView = ({ config, data, isEmbedded }: ReactBaseViewProps) => {
@@ -107,7 +26,8 @@ const HeatmapCalendarView = ({ config, data, isEmbedded }: ReactBaseViewProps) =
     trackProperty: undefined,
     colorScheme: 'primary',
     reverseColors: false,
-    date: new Date().getFullYear().toString(),
+    date: new Date().toISOString(),
+    weeks: 53,
   });
 
 	const referenceDate = useMemo(() => {
@@ -186,6 +106,7 @@ const HeatmapCalendarView = ({ config, data, isEmbedded }: ReactBaseViewProps) =
 					reverseColors={viewConfig.reverseColors}
 					data={g.entries}
 					date={referenceDate}
+          weeks={viewConfig.weeks}
 					onClick={handleEventClick}
 				/>
 			))}
