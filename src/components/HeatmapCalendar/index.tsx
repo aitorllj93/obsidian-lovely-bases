@@ -2,7 +2,11 @@
 
 import type { TFile } from "obsidian";
 
-import { startOfWeek, subWeeks } from "@/lib/date";
+import {
+  differenceInWeeks,
+  endOfWeek,
+  startOfWeek,
+} from "@/lib/date";
 import type { EntryClickEventHandler } from "@/types";
 
 import { DayLabels } from "./components/DayLabels";
@@ -21,23 +25,27 @@ export type Occurrence = {
 
 type Props = {
   data: Occurrence[];
-  date?: Date;
+  startDate?: Date;
+  endDate?: Date;
   classNames?: string[];
   colorScheme?: keyof typeof COLOR_SCHEMES;
   reverseColors?: boolean;
   onEntryClick?: EntryClickEventHandler;
-  weeks?: number;
 };
 
 export const HeatmapCalendar = ({
   data,
-  date = new Date(),
+  startDate = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000),
+  endDate = new Date(),
   colorScheme = "primary",
   reverseColors = false,
   onEntryClick,
-  weeks = 53,
 }: Props) => {
-  const startDate = startOfWeek(subWeeks(date, weeks - 1));
+  const displayStartDate = startOfWeek(startDate);
+  const displayEndDate = endOfWeek(endDate);
+  const weeks = Math.ceil(
+    differenceInWeeks(displayEndDate, displayStartDate) + 1,
+  );
 
   const occurrences = useHeatmapData(data);
 
@@ -52,10 +60,10 @@ export const HeatmapCalendar = ({
       <div className="flex max-w-full">
         <DayLabels />
         <div>
-          <MonthLabels startDate={startDate} weeks={weeks} />
+          <MonthLabels startDate={displayStartDate} weeks={weeks} />
           <HeatmapGrid
             occurrences={occurrences}
-            startDate={startDate}
+            startDate={displayStartDate}
             weeks={weeks}
             classNames={classNames}
             onEntryClick={onEntryClick}

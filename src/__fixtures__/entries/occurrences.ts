@@ -4,14 +4,14 @@ import type { BasesEntry, BasesEntryGroup } from "obsidian";
 import { aBasesEntry } from "@/__mocks__/aBasesEntry";
 import { aBasesEntryGroup } from "@/__mocks__/aBasesEntryGroup";
 import { aFile } from "@/__mocks__/aFile";
-import { subtractDays } from "@/lib/date";
+import { subDays } from "@/lib/date";
 
 const startDate = new Date();
 
 const randomOccurrence = (startDate: Date, index: number) => {
   return aBasesEntry({
     file: aFile({
-      basename: subtractDays(startDate, index).toISOString().split('T')[0],
+      basename: subDays(startDate, index).toISOString().split('T')[0],
     }),
   }, {
     dietQuality: Math.floor(Math.random() * 6),

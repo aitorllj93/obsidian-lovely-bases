@@ -25,9 +25,14 @@ const HEATMAP_CALENDAR_VIEW: BaseViewDef = {
     },
     {
       type: "text",
-      displayName: "Reference Date (YYYY-MM-DD)",
-      key: "date",
-      default: "",
+      displayName: "Start Date (YYYY-MM-DD)",
+      key: "startDate",
+      placeholder: "YYYY-MM-DD",
+    },
+    {
+      type: "text",
+      displayName: "End Date (YYYY-MM-DD)",
+      key: "endDate",
       placeholder: "YYYY-MM-DD",
     },
     {

@@ -1,20 +1,21 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import { fn } from "storybook/test";
 import { GROUPED_OCCURRENCES, OCCURRENCES } from "@/__fixtures__/entries";
 import {
   createViewRenderer,
   Providers,
   ViewWrapper,
 } from "@/stories/decorators";
-
 import HEATMAP_CALENDAR_VIEW from ".";
-
-import { DEFAULT_HEATMAP_BASE_CONFIG, FULL_HEATMAP_BASE_CONFIG, REVERSE_COLORS_HEATMAP_BASE_CONFIG, THIRTEEN_WEEKS_HEATMAP_BASE_CONFIG } from "./__fixtures__/configs/heatmap";
-
+import {
+  DEFAULT_HEATMAP_BASE_CONFIG,
+  FULL_HEATMAP_BASE_CONFIG,
+  REVERSE_COLORS_HEATMAP_BASE_CONFIG,
+  THIRTEEN_WEEKS_HEATMAP_BASE_CONFIG,
+} from "./__fixtures__/configs/heatmap";
 import HeatmapCalendarView, {
   type HeatmapCalendarConfig,
 } from "./HeatmapCalendarView";
-import { fn } from "storybook/test";
 
 const View = createViewRenderer<HeatmapCalendarConfig>(HeatmapCalendarView);
 
@@ -72,11 +73,19 @@ const meta = {
         "magenta",
       ],
     },
-    date: {
+    startDate: {
       control: "text",
-      name: "Reference Date",
+      name: "Start Date",
       description:
-        "The date used as the end point for the calendar display (optional, defaults to today).",
+        "The start date for the calendar display (format: YYYY-MM-DD).",
+      table: { defaultValue: { summary: '1 year ago' } },
+    },
+    endDate: {
+      control: "text",
+      name: "End Date",
+      description:
+        "The end date for the calendar display (format: YYYY-MM-DD).",
+      table: { defaultValue: { summary: 'today' } },
     },
     data: {
       table: {
@@ -84,6 +93,11 @@ const meta = {
       },
     },
     groupedData: {
+      table: {
+        disable: true,
+      },
+    },
+    onEntryClick: {
       table: {
         disable: true,
       },
@@ -113,7 +127,7 @@ export const Default: Story = {
   },
 };
 
-export const CustomWeeks: Story = {
+export const CustomDuration: Story = {
   args: {
     data: OCCURRENCES,
     groupedData: GROUPED_OCCURRENCES,
