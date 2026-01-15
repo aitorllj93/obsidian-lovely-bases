@@ -1,9 +1,8 @@
 import type { BasesEntry, BasesPropertyId, BasesViewConfig } from "obsidian";
 import { memo } from "react";
 
-
+import { useObsidian } from "@/components/Obsidian/Context";
 import PropertyValue from "@/components/Obsidian/PropertyValue";
-import { useApp } from "@/contexts/app";
 import { useEntryProperty } from "@/hooks/use-property";
 import { cn } from "@/lib/utils";
 
@@ -21,7 +20,7 @@ type PropertyItemProps = {
 const PropertyItem = memo(
 	({ entry, propertyId, showPropertyTitles, config }: PropertyItemProps) => {
 		const property = useEntryProperty(entry, config, propertyId);
-		const renderContext = useApp().renderContext;
+		const { renderContext } = useObsidian().app;
 
 		if (!property) return null;
 

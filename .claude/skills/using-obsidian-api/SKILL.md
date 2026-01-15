@@ -47,13 +47,13 @@ const layout = useConfigValue<"vertical" | "horizontal">("layout", "vertical");
 const entry = useEntry(entryId);
 
 // Get entry property
-const property = useProperty(entryId, propertyId);
+const property = useEntryProperty(entryId, propertyId);
 
 // Get entry image
-const imageSrc = useImage(entryId);
+const imageSrc = useEntryImage(entryId);
 
 // Get entry title
-const title = useTitle(entryId);
+const title = useEntryTitle(entryId);
 
 // Handler to open entry
 const handleOpen = useEntryOpen(entryId);

@@ -43,14 +43,14 @@ Define and use reusable hooks to wrap Obsidian features in `src/hooks` to simpli
 // Get config value with default
 const layout = useConfigValue<"vertical" | "horizontal">("layout", "vertical");
 
-// Get entry data
-const entry = useEntry(entryId);
-
 // Get entry property
-const property = useProperty(entryId, propertyId);
+const property = useEntryProperty(entryId, propertyId);
 
 // Get entry image
-const imageSrc = useImage(entryId);
+const imageSrc = useEntryImage(entryId);
+
+// Get entry title
+const title = useEntryTitle(entryId);
 
 // Get entry title
 const title = useTitle(entryId);

@@ -1,8 +1,8 @@
 import type { BasesEntry, BasesViewConfig } from "obsidian";
 import { memo } from "react";
 
+import { useObsidian } from "@/components/Obsidian/Context";
 import PropertyValue from "@/components/Obsidian/PropertyValue";
-import { useApp } from "@/contexts/app";
 import { useEntryProperty } from "@/hooks/use-property";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +19,7 @@ const OverlayContent = ({
 	property,
 	showPropertyTitles,
 }: OverlayContentProps) => {
-  const renderContext = useApp().renderContext;
+  const { renderContext } = useObsidian().app;
 
 	return (
 		<div className="flex flex-col gap-0.5">

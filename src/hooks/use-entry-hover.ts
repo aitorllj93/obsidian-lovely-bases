@@ -1,12 +1,10 @@
 
 import { useCallback } from "react";
 
-import { useApp } from "@/contexts/app";
-import { useContainerEl } from "@/contexts/container-el";
+import { useObsidian } from "@/components/Obsidian/Context";
 
 export function useEntryHover(entryId: string, linkRef: React.RefObject<HTMLAnchorElement>) {
-  const app = useApp();
-  const containerEl = useContainerEl();
+  const { app, containerEl } = useObsidian();
 
   return useCallback((event: React.MouseEvent) => {
     app.workspace.trigger("hover-link", {

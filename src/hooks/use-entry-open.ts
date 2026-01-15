@@ -3,10 +3,10 @@
 import { Keymap } from "obsidian";
 import { useCallback } from "react";
 
-import { useApp } from "@/contexts/app";
+import { useObsidian } from "@/components/Obsidian/Context";
 
 export function useEntryOpen(entryId: string) {
-  const app = useApp();
+  const { app } = useObsidian();
 
   return useCallback((event: React.MouseEvent | React.KeyboardEvent) => {
     const evt = event.nativeEvent;

@@ -49,20 +49,17 @@ export default MY_VIEW;
 // src/views/MyView/MyViewView.tsx
 import { Container } from "@/components/Obsidian/Container";
 import MyComponent from "@/components/MyComponent";
+import { useConfig } from "@/hooks/use-config";
 import type { ReactBaseViewProps } from "@/types";
 
 export type MyViewConfig = {
   aspectRatio: number;
 }
 
-const getMyViewConfig = (config: BasesViewConfig): MyViewConfig => {
-  return {
-    aspectRatio: (config.get('aspectRatio') ?? 1.5) as MyViewConfig['aspectRatio']
-  }
-}
-
 const MyViewView = ({ config, data, isEmbedded }: ReactBaseViewProps) => {
-  const viewConfig = getMyViewConfig(config);
+  const viewConfig = useConfig<MyViewConfig>(config, {
+    aspectRatio: 1.5
+  });
 
 	return (
 		<Container isEmbedded={isEmbedded}>

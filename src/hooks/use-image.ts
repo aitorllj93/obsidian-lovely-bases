@@ -2,11 +2,11 @@
 import type { BasesEntry, BasesPropertyId } from 'obsidian';
 import { useMemo } from 'react';
 
-import { useApp } from '@/contexts/app';
+import { useObsidian } from '@/components/Obsidian/Context';
 import { getImage } from '@/lib/obsidian/entry';
 
 export function useEntryImage(entry: BasesEntry | undefined, propertyId?: BasesPropertyId) {
-  const app = useApp();
+  const { app } = useObsidian();
   return useMemo(() => {
     if (!propertyId || !entry) return null;
     return getImage(entry, app, propertyId);
