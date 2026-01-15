@@ -1,7 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { MOVIES_ENTRIES } from "@/__fixtures__/entries";
-import { createViewRenderer, Providers, ViewWrapper } from "@/stories/decorators";
+import { PLANS_ENTRIES } from "@/__fixtures__/entries";
+import {
+  createViewRenderer,
+  Providers,
+  ViewWrapper,
+} from "@/stories/decorators";
 
 import {
   FULL_BASE_CONFIG,
@@ -9,7 +13,10 @@ import {
   QUARTER_BASE_CONFIG,
 } from "./__fixtures__/configs";
 
-import LinearCalendarView, { type LinearCalendarConfig } from "./LinearCalendarView";
+import LinearCalendarView, {
+  type LinearCalendarConfig,
+} from "./LinearCalendarView";
+import { aBasesEntryGroup } from "@/__mocks__";
 
 const View = createViewRenderer<LinearCalendarConfig>(LinearCalendarView);
 
@@ -47,10 +54,30 @@ const meta = {
         disable: true,
       },
     },
-    focus: { control: "select", options: ["full", "half", "quarter"], name: "Focus", description: "The time span to display ('full', 'half', or 'quarter').", table: { defaultValue: { summary: "full" } } },
-    startDateProperty: { control: "text", name: "Start Date Property", description: "The property used for the event's start date (required)." },
-    endDateProperty: { control: "text", name: "End Date Property", description: "The property used for the event's end date (optional, defaults to start date)." },
-    date: { control: "text", name: "Reference Date", description: "The date around which the calendar centers (optional, defaults to today)." },
+    focus: {
+      control: "select",
+      options: ["full", "half", "quarter"],
+      name: "Focus",
+      description: "The time span to display ('full', 'half', or 'quarter').",
+      table: { defaultValue: { summary: "full" } },
+    },
+    startDateProperty: {
+      control: "text",
+      name: "Start Date Property",
+      description: "The property used for the event's start date (required).",
+    },
+    endDateProperty: {
+      control: "text",
+      name: "End Date Property",
+      description:
+        "The property used for the event's end date (optional, defaults to start date).",
+    },
+    date: {
+      control: "text",
+      name: "Reference Date",
+      description:
+        "The date around which the calendar centers (optional, defaults to today).",
+    },
   },
 } satisfies Meta<typeof View>;
 
@@ -60,21 +87,24 @@ type Story = StoryObj<typeof meta>;
 
 export const Full: Story = {
   args: {
-    data: MOVIES_ENTRIES,
+    data: PLANS_ENTRIES,
+    groupedData: [aBasesEntryGroup('', PLANS_ENTRIES)],
     ...FULL_BASE_CONFIG,
   },
 };
 
 export const Half: Story = {
   args: {
-    data: MOVIES_ENTRIES,
+    data: PLANS_ENTRIES,
+    groupedData: [aBasesEntryGroup('', PLANS_ENTRIES)],
     ...HALF_BASE_CONFIG,
   },
 };
 
 export const Quarter: Story = {
   args: {
-    data: MOVIES_ENTRIES,
+    data: PLANS_ENTRIES,
+    groupedData: [aBasesEntryGroup('', PLANS_ENTRIES)],
     ...QUARTER_BASE_CONFIG,
   },
 };
