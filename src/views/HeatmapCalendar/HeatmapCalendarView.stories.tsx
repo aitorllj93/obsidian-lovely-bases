@@ -16,6 +16,7 @@ import {
 import HeatmapCalendarView, {
   type HeatmapCalendarConfig,
 } from "./HeatmapCalendarView";
+import { aBasesEntryGroup } from "@/__mocks__";
 
 const View = createViewRenderer<HeatmapCalendarConfig>(HeatmapCalendarView);
 
@@ -112,34 +113,66 @@ type Story = StoryObj<typeof meta>;
 export const Full: Story = {
   args: {
     data: OCCURRENCES,
-    groupedData: GROUPED_OCCURRENCES,
+    groupedData: [aBasesEntryGroup('', GROUPED_OCCURRENCES[1].entries)],
     onEntryClick: fn(),
     ...FULL_HEATMAP_BASE_CONFIG,
   },
 };
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: "By default, the heatmap calendar displays the data for the last year",
+      },
+    }
+  },
   args: {
     data: OCCURRENCES,
-    groupedData: GROUPED_OCCURRENCES,
+    groupedData: [aBasesEntryGroup('', GROUPED_OCCURRENCES[0].entries)],
     onEntryClick: fn(),
     ...DEFAULT_HEATMAP_BASE_CONFIG,
   },
 };
 
 export const CustomDuration: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `You can display a shorter period of time by specifying the start and end dates.
+
+\`\`\`yml
+startDate: 2025-01-01
+endDate: 2025-12-31
+\`\`\`
+`,
+      },
+    }
+  },
   args: {
     data: OCCURRENCES,
-    groupedData: GROUPED_OCCURRENCES,
+    groupedData: [aBasesEntryGroup('', GROUPED_OCCURRENCES[0].entries)],
     onEntryClick: fn(),
     ...THIRTEEN_WEEKS_HEATMAP_BASE_CONFIG,
   },
 };
 
 export const ReverseColors: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `Reverse the colors to accentuate the lowest values.
+
+\`\`\`yml
+reverseColors: true
+\`\`\`
+`,
+      },
+    }
+  },
   args: {
     data: OCCURRENCES,
-    groupedData: GROUPED_OCCURRENCES,
+    groupedData: [aBasesEntryGroup('', GROUPED_OCCURRENCES[0].entries)],
     onEntryClick: fn(),
     ...REVERSE_COLORS_HEATMAP_BASE_CONFIG,
   },

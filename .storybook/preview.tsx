@@ -35,7 +35,7 @@ const preview: Preview = {
           <Primary />
           <Description />
           <Controls />
-          <Stories />
+          <Stories includePrimary={false} />
         </>
       ),
     },
