@@ -8,6 +8,8 @@ import {
   ViewWrapper,
 } from "@/stories/decorators";
 
+import PROJECT_FOLDERS_VIEW from ".";
+
 import {
   COLORIZED_FILES_BASE_CONFIG,
   DEFAULT_BASE_CONFIG,
@@ -26,6 +28,7 @@ const meta = {
   decorators: [Providers, ViewWrapper],
   parameters: {
     docs: {
+      icon: PROJECT_FOLDERS_VIEW.icon,
       subtitle:
         "A tactile, organization-focused view that groups your notes into beautiful 3D interactive folders. Perfect for managing projects, areas, or any hierarchical collection.",
       description: {

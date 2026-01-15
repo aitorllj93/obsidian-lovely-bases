@@ -7,6 +7,8 @@ import {
   ViewWrapper,
 } from "@/stories/decorators";
 
+import HEATMAP_CALENDAR_VIEW from ".";
+
 import { SEMAPHOR_HEATMAP_BASE_CONFIG } from "./__fixtures__/configs/heatmap";
 
 import HeatmapCalendarView, {
@@ -22,6 +24,7 @@ const meta = {
   decorators: [Providers, ViewWrapper],
   parameters: {
     docs: {
+      icon: HEATMAP_CALENDAR_VIEW.icon,
       subtitle:
         "A GitHub-style activity tracker that visualizes the frequency of notes or events over time, perfect for habit tracking or monitoring daily productivity.",
       description: {

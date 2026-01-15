@@ -5,10 +5,10 @@ import {
   Primary,
   Stories,
   Subtitle,
-  Title,
 } from '@storybook/addon-docs/blocks';
 import type { Preview } from "@storybook/react-vite";
 import React from 'react';
+import { Title } from './blocks/Title';
 
 import "./styles.css";
 

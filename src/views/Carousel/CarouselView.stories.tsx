@@ -10,6 +10,8 @@ import {
 } from "@/__fixtures__/entries";
 import { createViewRenderer, Providers, ViewWrapper } from "@/stories/decorators";
 
+import CAROUSEL_VIEW from '.';
+
 import {
   APPLICATIONS_BASE_CONFIG,
   ARTICLES_BASE_CONFIG,
@@ -32,6 +34,7 @@ const meta = {
   ],
   parameters: {
     docs: {
+      icon: CAROUSEL_VIEW.icon,
       subtitle: `A dynamic, horizontal scrolling experience that showcases your notes in a continuous flow. Perfect for highlight reels, featured notes, or visual storytelling.`,
       description: {
         component: `### Features

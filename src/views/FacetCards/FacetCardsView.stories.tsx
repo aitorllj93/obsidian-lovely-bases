@@ -10,6 +10,8 @@ import {
 } from "@/__fixtures__/entries";
 import { createViewRenderer, Providers, ScrollViewWrapper } from "@/stories/decorators";
 
+import FACET_CARDS_VIEW from ".";
+
 import {
   APPLICATIONS_BASE_CONFIG,
   ARTICLES_BASE_CONFIG,
@@ -29,6 +31,7 @@ const meta = {
   decorators: [Providers, ScrollViewWrapper],
   parameters: {
     docs: {
+      icon: FACET_CARDS_VIEW.icon,
       subtitle:
         "A structured, property-rich card view that gives you more control over how your note data is displayed. Perfect for databases, catalogs, or property-heavy notes.",
       description: {

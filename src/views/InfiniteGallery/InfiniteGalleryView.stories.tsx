@@ -7,6 +7,8 @@ import {
 import { aBasesEntryGroup } from "@/__mocks__";
 import { createViewRenderer, Providers, ViewWrapper } from "@/stories/decorators";
 
+import INFINITE_GALLERY_VIEW from ".";
+
 import {
   MASONRY_BASE_CONFIG,
   POLAROID_BASE_CONFIG,
@@ -23,6 +25,7 @@ const meta = {
   decorators: [Providers, ViewWrapper],
   parameters: {
     docs: {
+      icon: INFINITE_GALLERY_VIEW.icon,
       subtitle:
         "An immersive, infinite virtualized grid for exploring your notes visually. It handles large collections smoothly with momentum-based navigation and multiple artistic layouts.",
       description: {
