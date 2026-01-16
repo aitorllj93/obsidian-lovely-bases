@@ -66,7 +66,7 @@ const DescriptionOverlay = ({
   const opacity = interpolate(progress, [0, 0.05], [0, 1], { extrapolateRight: 'clamp' }) * fadeOut;
   return (
     <div className="sb-unstyled absolute bottom-0 left-0 right-0">
-    <div className="backdrop-blur-md relative px-6 py-8 text-white z-10 bg-paper/30"
+    <div className="backdrop-blur-md relative px-6 py-8 text-white z-50 bg-paper/30"
       style={{
         opacity,
       }}
@@ -394,12 +394,10 @@ export const Reel = () => {
 
   return (
     <div
-      className="reel-player-wrapper"
+      className="reel-player-wrapper border-border border-dashed border-2 rounded-md"
       style={{
         margin: '24px 0',
-        borderRadius: '12px',
         overflow: 'hidden',
-        boxShadow: '0 4px 24px rgba(0, 0, 0, 0.15)',
       }}
     >
       {/* Scoped styles - only affect content inside .reel-player-wrapper */}

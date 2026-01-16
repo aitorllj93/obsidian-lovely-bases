@@ -12,7 +12,9 @@ export const ExtraNotes = () => {
   if (extraNotes.length === 0) return null;
 
   return (
-    <div className="bg-info-background border border-info-border rounded-md p-3">
+    <div className="bg-info-background border border-info-border rounded-md p-3" style={{
+      margin: '24px 0',
+    }}>
       <h3 className="text-lg font-bold text-info-foreground! flex items-center">
         <LucideIcon name="info" className="w-5 h-5 inline-block mr-2" />
         Things to know
@@ -24,7 +26,7 @@ export const ExtraNotes = () => {
             <p className="m-0!">{issue.description}</p>
           </div>
         ))}
-    </div>
+      </div>
     </div>
   );
 };

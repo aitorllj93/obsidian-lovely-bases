@@ -75,8 +75,8 @@ const preview: Preview = {
           <Title />
           <Status />
           <Subtitle />
-          <ExtraNotes />
           <Reel />
+          <ExtraNotes />
           <Description />
           <Controls />
           <Stories includePrimary={false} />
