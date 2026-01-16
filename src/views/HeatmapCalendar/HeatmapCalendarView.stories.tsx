@@ -51,20 +51,110 @@ const meta = {
     },
   },
   argTypes: {
+    // Data Properties
     dateProperty: {
       control: "text",
       name: "Date Property",
       description:
         "The property used to determine the date of the entry (required).",
+      table: {
+        category: "Data Properties",
+      },
     },
     trackProperty: {
       control: "text",
       name: "Track Property",
       description:
         "The property used to calculate the intensity of the heatmap (required).",
+      table: {
+        category: "Data Properties",
+      },
     },
+    trackType: {
+      control: "select",
+      name: "Track Type",
+      description: "How to interpret the tracked property value.",
+      options: ["number", "boolean", "text", "list"],
+      table: {
+        category: "Data Properties",
+      },
+    },
+    // Date Range
+    startDate: {
+      control: "text",
+      name: "Start Date",
+      description:
+        "The start date for the calendar display (format: YYYY-MM-DD).",
+      table: {
+        category: "Date Range",
+        defaultValue: { summary: '1 year ago' },
+      },
+    },
+    endDate: {
+      control: "text",
+      name: "End Date",
+      description:
+        "The end date for the calendar display (format: YYYY-MM-DD).",
+      table: {
+        category: "Date Range",
+        defaultValue: { summary: 'today' },
+      },
+    },
+    // Display
+    layout: {
+      control: "select",
+      name: "Layout",
+      description: "Orientation of the heatmap grid.",
+      options: ["horizontal", "vertical"],
+      table: {
+        category: "Display",
+        defaultValue: { summary: "horizontal" },
+      },
+    },
+    viewMode: {
+      control: "select",
+      name: "View Mode",
+      description: "Display style: week grid (GitHub) or month grid (calendar).",
+      options: ["week-grid", "month-grid"],
+      table: {
+        category: "Display",
+        defaultValue: { summary: "week-grid" },
+      },
+    },
+    showDayLabels: {
+      control: "boolean",
+      name: "Show Day Labels",
+      table: {
+        category: "Display",
+        defaultValue: { summary: "true" },
+      },
+    },
+    showMonthLabels: {
+      control: "boolean",
+      name: "Show Month Labels",
+      table: {
+        category: "Display",
+        defaultValue: { summary: "true" },
+      },
+    },
+    showYearLabels: {
+      control: "boolean",
+      name: "Show Year Labels",
+      table: {
+        category: "Display",
+        defaultValue: { summary: "false" },
+      },
+    },
+    showLegend: {
+      control: "boolean",
+      name: "Show Legend",
+      table: {
+        category: "Display",
+        defaultValue: { summary: "true" },
+      },
+    },
+    // Colors
     colorScheme: {
-      table: { defaultValue: { summary: "primary" } },
       control: "select",
       name: "Color Scheme",
       description:
@@ -81,81 +171,54 @@ const meta = {
         "purple",
         "magenta",
       ],
+      table: {
+        category: "Colors",
+        defaultValue: { summary: "primary" },
+      },
     },
-    startDate: {
-      control: "text",
-      name: "Start Date",
-      description:
-        "The start date for the calendar display (format: YYYY-MM-DD).",
-      table: { defaultValue: { summary: '1 year ago' } },
-    },
-    endDate: {
-      control: "text",
-      name: "End Date",
-      description:
-        "The end date for the calendar display (format: YYYY-MM-DD).",
-      table: { defaultValue: { summary: 'today' } },
-    },
-    layout: {
-      control: "select",
-      name: "Layout",
-      description: "Orientation of the heatmap grid.",
-      options: ["horizontal", "vertical"],
-      table: { defaultValue: { summary: "horizontal" } },
-    },
-    viewMode: {
-      control: "select",
-      name: "View Mode",
-      description: "Display style: week grid (GitHub) or month grid (calendar).",
-      options: ["week-grid", "month-grid"],
-      table: { defaultValue: { summary: "week-grid" } },
-    },
-    showDayLabels: {
+    reverseColors: {
       control: "boolean",
-      name: "Show Day Labels",
-      table: { defaultValue: { summary: "true" } },
-    },
-    showMonthLabels: {
-      control: "boolean",
-      name: "Show Month Labels",
-      table: { defaultValue: { summary: "true" } },
-    },
-    showYearLabels: {
-      control: "boolean",
-      name: "Show Year Labels",
-      table: { defaultValue: { summary: "false" } },
-    },
-    showLegend: {
-      control: "boolean",
-      name: "Show Legend",
-      table: { defaultValue: { summary: "true" } },
-    },
-    minValue: {
-      control: "number",
-      name: "Min Value",
-      description: "Minimum value for the color scale.",
-    },
-    maxValue: {
-      control: "number",
-      name: "Max Value",
-      description: "Maximum value for the color scale.",
-    },
-    trackType: {
-      control: "select",
-      name: "Track Type",
-      description: "How to interpret the tracked property value.",
-      options: ["number", "boolean", "text", "list"],
+      name: "Reverse Colors",
+      description: "Reverse the color scale to accentuate lowest values.",
+      table: {
+        category: "Colors",
+        defaultValue: { summary: "false" },
+      },
     },
     customColors: {
       control: "object",
       name: "Custom Colors",
       description: "Array of hex colors for custom color scale.",
+      table: {
+        category: "Colors",
+      },
     },
     overflowColor: {
       control: "text",
-      name: "Overflow Color",
+      name: "Overflow Warning Color",
       description: "Color to show when value exceeds max.",
+      table: {
+        category: "Colors",
+      },
     },
+    // Value Range
+    minValue: {
+      control: "number",
+      name: "Min Value",
+      description: "Minimum value for the color scale.",
+      table: {
+        category: "Value Range",
+      },
+    },
+    maxValue: {
+      control: "number",
+      name: "Max Value",
+      description: "Maximum value for the color scale.",
+      table: {
+        category: "Value Range",
+      },
+    },
+    // Internal props (disabled)
     data: {
       table: {
         disable: true,
