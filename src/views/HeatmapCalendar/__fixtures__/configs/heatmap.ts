@@ -15,6 +15,8 @@ export const FULL_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
   trackProperty: "note.dietQuality",
   colorScheme: "semaphor",
   reverseColors: false,
+  minValue: 0,
+  maxValue: 5,
   startDate: format(subYears(new Date(), 1), FORMATS.DATE_ISO),
   endDate: format(new Date(), FORMATS.DATE_ISO),
 };
@@ -107,4 +109,38 @@ export const MAGENTA_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
   reverseColors: false,
   startDate: format(subYears(new Date(), 1), FORMATS.DATE_ISO),
   endDate: format(new Date(), FORMATS.DATE_ISO),
+};
+
+export const VERTICAL_LAYOUT_CONFIG: HeatmapCalendarConfig = {
+  ...DEFAULT_HEATMAP_BASE_CONFIG,
+  layout: "vertical",
+};
+
+export const MONTH_GRID_CONFIG: HeatmapCalendarConfig = {
+  ...DEFAULT_HEATMAP_BASE_CONFIG,
+  viewMode: "month-grid",
+};
+
+export const BOOLEAN_TRACKING_CONFIG: HeatmapCalendarConfig = {
+  ...DEFAULT_HEATMAP_BASE_CONFIG,
+  trackProperty: "note.completed",
+  trackType: "boolean",
+  showDayLabels: false,
+  showMonthLabels: false,
+};
+
+export const CUSTOM_RANGE_CONFIG: HeatmapCalendarConfig = {
+  ...DEFAULT_HEATMAP_BASE_CONFIG,
+  minValue: 1,
+  maxValue: 5,
+};
+
+export const CUSTOM_COLORS_CONFIG: HeatmapCalendarConfig = {
+  ...DEFAULT_HEATMAP_BASE_CONFIG,
+  showDayLabels: false,
+  showMonthLabels: false,
+  showLegend: false,
+  customColors: ["#ebedf0", "#c6e48b",  "#196127"],
+  maxValue: 8,
+  overflowColor: "#ff4444",
 };

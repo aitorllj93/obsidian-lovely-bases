@@ -184,6 +184,51 @@ function hslToRgb(h: number, s: number, l: number) {
   };
 }
 
+function toHex(n: number): string {
+  return Math.round(n).toString(16).padStart(2, "0");
+}
+
+function rgbToHex(r: number, g: number, b: number): string {
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+function hexToRgb(hex: string): {
+  r: number;
+  g: number;
+  b: number;
+  a?: number;
+} {
+  if (!isHexColor(hex)) {
+    throw new Error(`Invalid hex color: ${hex}`);
+  }
+
+	// Remove # if present
+	const cleanHex = hex.replace(/^#/, "");
+
+	// Handle 3-character hex codes (e.g., #fff -> #ffffff)
+	if (cleanHex.length === 3) {
+		const r = cleanHex[0];
+		const g = cleanHex[1];
+		const b = cleanHex[2];
+		return {
+			r: Number.parseInt(r + r, 16),
+			g: Number.parseInt(g + g, 16),
+			b: Number.parseInt(b + b, 16),
+		};
+	}
+
+	// Handle 6-character hex codes
+	const result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(cleanHex);
+	if (!result) {
+		throw new Error(`Invalid hex color: ${hex}`);
+	}
+	return {
+		r: Number.parseInt(result[1], 16),
+		g: Number.parseInt(result[2], 16),
+		b: Number.parseInt(result[3], 16),
+	};
+};
+
 function formatColor({ r, g, b, a, format, hasAlpha }: { r: number, g: number, b: number, a: number, format: string, hasAlpha: boolean }) {
   if (format === "hex") {
     const hex =
@@ -235,3 +280,49 @@ export function saturate(color, amount = 0.1) {
   const rgb = hslToRgb(h, clamp(s * (1 + amount)), l);
   return formatColor({ ...rgb, a: c.a, format: c.format, hasAlpha: c.hasAlpha });
 }
+
+export function isHexColor(str: string): boolean {
+  const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+  return hexColorRegex.test(str.trim());
+}
+
+export function interpolateColor (
+	color1: string,
+	color2: string,
+	t: number,
+): string {
+  const { r: r1, g: g1, b: b1 } = hexToRgb(color1);
+  const { r: r2, g: g2, b: b2 } = hexToRgb(color2);
+  const r = r1 + (r2 - r1) * t;
+  const g = g1 + (g2 - g1) * t;
+  const b = b1 + (b2 - b1) * t;
+  return rgbToHex(r, g, b);
+}
+
+export function generateColorScale(
+	colors: string[],
+	steps: number = 6,
+): string[] {
+	if (colors.length >= steps) return colors.slice(0, steps);
+
+	if (colors.length === 1) {
+		return generateColorScale(["#ebedf0", colors[0]], steps);
+	}
+
+	const result: string[] = [];
+	for (let i = 0; i < steps; i++) {
+		const position = i / (steps - 1);
+		const colorIndex = position * (colors.length - 1);
+		const lowerIndex = Math.floor(colorIndex);
+		const upperIndex = Math.ceil(colorIndex);
+
+		if (lowerIndex === upperIndex) {
+			result.push(colors[lowerIndex]);
+		} else {
+			// Linear interpolation between colors
+			const t = colorIndex - lowerIndex;
+			result.push(interpolateColor(colors[lowerIndex], colors[upperIndex], t));
+		}
+	}
+	return result;
+};

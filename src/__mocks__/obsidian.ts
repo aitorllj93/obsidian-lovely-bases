@@ -39,6 +39,9 @@ export class Platform {
 // Clases Value mockeadas
 // Estas se usan con `new` en el código, así que necesitan implementación real
 export class StringValue {
+
+  static type = 'string';
+
 	constructor(public value: string) {}
 
   toString(): string {
@@ -51,6 +54,9 @@ export class StringValue {
 }
 
 export class NumberValue {
+
+  static type = 'number';
+
 	constructor(public value: number) {}
 
   toString(): string {
@@ -59,14 +65,24 @@ export class NumberValue {
 }
 
 export class BooleanValue {
+
+  static type = 'boolean';
+
 	constructor(public value: boolean) {}
 
   toString(): string {
     return this.value.toString();
   }
+
+  isTruthy(): boolean {
+    return this.value;
+  }
 }
 
 export class ListValue {
+
+  static type = 'list';
+
 	constructor(public values: Value[]) {}
 
   toString(): string {

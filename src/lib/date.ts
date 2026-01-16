@@ -6,6 +6,7 @@ export const FORMATS = {
   MONTH_LONG: "MMMM",
   DATE_LONG: "LL",
   DATE_ISO: "YYYY-MM-DD",
+  YEAR: "YYYY",
 };
 
 export function addDays(date: Date, days: number) {
@@ -50,6 +51,10 @@ export function isSameDay(date1: Date, date2: Date) {
 
 export function startOfMonth(date: Date) {
   return moment(date).startOf("month").toDate();
+}
+
+export function endOfMonth(date: Date) {
+  return moment(date).endOf("month").toDate();
 }
 
 export function startOfWeek(date: Date) {

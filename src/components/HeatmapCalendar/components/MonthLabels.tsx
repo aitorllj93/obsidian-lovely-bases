@@ -8,35 +8,79 @@ import {
 } from "@/lib/date";
 
 type Props = {
-  startDate: Date;
-  weeks: number;
+	startDate: Date;
+	weeks: number;
+	endDate?: Date;
+	layout?: "horizontal" | "vertical";
 };
 
-export const MonthLabels = ({ startDate, weeks }: Props) => {
-  const firstWeekStart = startOfWeek(startDate);
-  const months = [];
-  const maxMonths = weeks * 7;
+export const MonthLabels = ({ startDate, weeks, endDate, layout = "horizontal" }: Props) => {
+	const firstWeekStart = startOfWeek(startDate);
 
-  for (let i = 0; i <= maxMonths; i++) {
-    const monthStart = startOfMonth(addMonths(startDate, i));
-    // Calculate which week column this month starts in
-    const weekIndex = differenceInWeeks(monthStart, firstWeekStart);
+	const calculatedEndDate = endDate || addMonths(startDate, Math.ceil(weeks / 4.33) + 1);
 
-    // Only show if it's within our weeks range
-    if (weekIndex >= 0 && weekIndex < weeks) {
-      // Position: each week column is 12px (w-3) + 4px gap = 16px
-      const leftPosition = weekIndex * 16;
-      months.push(
-        <span
-          key={`monthlabel-${i}`}
-          className="text-xs text-gray-500 absolute"
-          style={{ left: `${leftPosition}px` }}
-        >
-          {format(monthStart, FORMATS.MONTH_SHORT)}
-        </span>,
-      );
-    }
-  }
+	if (layout === "vertical") {
+		const slots: (string | null)[] = Array(weeks).fill(null);
 
-  return <div className="relative h-5 mb-2">{months}</div>;
+		let currentMonth = startOfMonth(startDate);
+
+		while (currentMonth <= calculatedEndDate) {
+			const monthStart = currentMonth;
+			const monthLabel = format(monthStart, FORMATS.MONTH_SHORT);
+
+			const weekStartOfMonth = startOfWeek(monthStart);
+
+			let weekIndex = differenceInWeeks(weekStartOfMonth, firstWeekStart);
+
+			if (weekIndex < 0) {
+				weekIndex = 0;
+			}
+
+			if (weekIndex >= 0 && weekIndex < weeks) {
+				slots[weekIndex] = monthLabel;
+			}
+
+			currentMonth = addMonths(currentMonth, 1);
+		}
+
+		return (
+			<div className="flex flex-col gap-1 w-5 mr-2">
+				{slots.map((label) => (
+					<div
+						key={`month-slot-${label}`}
+						className="h-3 text-xs text-muted-foreground flex items-center"
+					>
+						{label || ""}
+					</div>
+				))}
+			</div>
+		);
+	}
+
+	const months = [];
+	let currentMonth = startOfMonth(startDate);
+	let monthIndex = 0;
+
+	while (currentMonth <= calculatedEndDate) {
+		const monthStart = currentMonth;
+		const weekIndex = differenceInWeeks(monthStart, firstWeekStart);
+
+		if (weekIndex >= 0 && weekIndex < weeks) {
+			const leftPosition = weekIndex * 16;
+			months.push(
+				<span
+					key={`monthlabel-${monthIndex}`}
+					className="text-xs text-muted-foreground absolute"
+					style={{ left: `${leftPosition}px` }}
+				>
+					{format(monthStart, FORMATS.MONTH_SHORT)}
+				</span>,
+			);
+		}
+
+		currentMonth = addMonths(currentMonth, 1);
+		monthIndex++;
+	}
+
+	return <div className="relative h-5 mb-2">{months}</div>;
 };

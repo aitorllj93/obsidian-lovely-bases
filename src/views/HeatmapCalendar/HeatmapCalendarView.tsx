@@ -1,14 +1,56 @@
-import type { BasesPropertyId } from "obsidian";
+import { type BasesPropertyId, ListValue, type Value } from "obsidian";
 import { useMemo } from "react";
 
 import { HeatmapCalendar, type Occurrence } from "@/components/HeatmapCalendar";
+import { SUPPORTED_VALUE_TYPES, type TrackType } from "@/components/HeatmapCalendar/hooks/useHeatmapData";
 import type { COLOR_SCHEMES } from "@/components/HeatmapCalendar/utils";
 import { Container } from "@/components/Obsidian/Container";
 import { useConfig } from "@/hooks/use-config";
-import { subYears } from "@/lib/date";
+import { isHexColor } from "@/lib/colors";
+import { FORMATS, format, subYears } from "@/lib/date";
 import type { ReactBaseViewProps } from "@/types";
 
 export const HEATMAP_CALENDAR_TYPE_ID = "heatmap-calendar";
+
+const detectTrackType = (value: Value | null): TrackType => {
+	if (!value) return "number";
+
+	const valueType = (value.constructor as typeof Value & { type: string }).type as TrackType;
+
+  return SUPPORTED_VALUE_TYPES.includes(valueType) ? valueType : "number";
+};
+
+const extractTrackValue = (
+	value: Value | null,
+	trackType: TrackType,
+  minValue = 0,
+  maxValue = 10,
+): number => {
+	if (!value) return minValue;
+
+  if (trackType === "boolean") {
+    return value.isTruthy() ? maxValue : minValue;
+  }
+
+  if (trackType === "string") {
+    const str = value.toString();
+    if (!str || str === "" || str === "null") return minValue;
+    return str.length;
+  }
+
+  if (trackType === "list") {
+    if (value instanceof ListValue) {
+      const listValue = value as unknown as { value?: Value[]; values?: Value[] };
+      if (listValue.value) return listValue.value.length;
+      if (listValue.values) return listValue.values.length;
+    }
+    const listStr = value.toString();
+    if (!listStr || listStr === "null") return minValue;
+    return listStr.split(",").length;
+  }
+
+  return Number(value.toString());
+};
 
 export type HeatmapCalendarConfig = {
   dateProperty: BasesPropertyId;
@@ -17,6 +59,17 @@ export type HeatmapCalendarConfig = {
   reverseColors?: boolean;
   startDate?: string;
   endDate?: string;
+  layout?: "horizontal" | "vertical";
+  viewMode?: "week-grid" | "month-grid";
+  showDayLabels?: boolean;
+  showMonthLabels?: boolean;
+  showYearLabels?: boolean;
+  showLegend?: boolean;
+  minValue?: number;
+  maxValue?: number;
+  trackType?: TrackType;
+  customColors?: string[];
+  overflowColor?: string;
 };
 
 const HeatmapCalendarView = ({
@@ -28,10 +81,21 @@ const HeatmapCalendarView = ({
   const viewConfig = useConfig<HeatmapCalendarConfig>(config, {
     dateProperty: undefined,
     trackProperty: undefined,
+    trackType: undefined,
+    minValue: undefined,
+    maxValue: undefined,
     colorScheme: "primary",
+    customColors: undefined,
+    overflowColor: undefined,
     reverseColors: false,
-    startDate: subYears(new Date(), 1).toISOString(),
-    endDate: new Date().toISOString(),
+    startDate: undefined,
+    endDate: undefined,
+    layout: "horizontal",
+    viewMode: "week-grid",
+    showDayLabels: true,
+    showMonthLabels: true,
+    showYearLabels: false,
+    showLegend: true,
   });
 
   const startDate = useMemo(() => {
@@ -50,9 +114,30 @@ const HeatmapCalendarView = ({
     return new Date();
   }, [viewConfig.endDate]);
 
+  const parsedCustomColors = useMemo(() => {
+    if (!viewConfig.customColors) return undefined;
+
+    const colors = (typeof viewConfig.customColors === "string"
+      ? (viewConfig.customColors as string).split(",").map((c) => c.trim())
+      : viewConfig.customColors as string[]
+    ).filter(isHexColor);
+
+    return colors.length > 0 ? colors : undefined;
+  }, [viewConfig.customColors]);
+
+  const parsedOverflowColor = useMemo(() => {
+    if (!viewConfig.overflowColor) return undefined;
+    return isHexColor(viewConfig.overflowColor.trim())
+      ? viewConfig.overflowColor.trim()
+      : undefined;
+  }, [viewConfig.overflowColor]);
+
   const groups = useMemo<
     {
       key: string;
+      trackType: TrackType;
+      minValue: number;
+      maxValue: number;
       entries: Occurrence[];
     }[]
   >(() => {
@@ -60,50 +145,51 @@ const HeatmapCalendarView = ({
     if (!viewConfig.trackProperty) return [];
 
     return data.groupedData.map((group) => {
+      let trackType: TrackType = viewConfig.trackType ?? "number";
+      const minValue: number = viewConfig.minValue ?? 0;
+      const maxValue: number = viewConfig.maxValue ?? 10;
+
+      const entries = group.entries
+        .map((entry, index) => {
+          const dateValue = entry.getValue(viewConfig.dateProperty);
+          const countValue = entry.getValue(viewConfig.trackProperty);
+
+          if (index === 0 && !viewConfig.trackType) {
+            // infer track type from the first value
+            trackType = detectTrackType(countValue);
+          }
+
+          if (!dateValue) return null;
+
+          // Convert date value to ISO string format (YYYY-MM-DD)
+          let date: string;
+          if (dateValue instanceof Date) {
+            date = format(dateValue as Date, FORMATS.DATE_ISO);
+          } else {
+            const dateObj = new Date(dateValue.toString());
+            if (Number.isNaN(dateObj.getTime())) return null;
+            date = format(dateObj, FORMATS.DATE_ISO);
+          }
+
+          const count = extractTrackValue(countValue, trackType, minValue, maxValue);
+
+          return {
+            date,
+            count,
+            file: entry.file,
+          };
+        })
+        .filter(Boolean) as Occurrence[];
+
       return {
         key: group.key?.toString() ?? "",
-        entries: group.entries
-          .map((entry) => {
-            const dateValue = entry.getValue(viewConfig.dateProperty);
-            const countValue = entry.getValue(viewConfig.trackProperty);
-
-            if (!dateValue) return null;
-
-            // Convert date value to ISO string format (YYYY-MM-DD)
-            let date: string;
-            if (dateValue instanceof Date) {
-              // If it's already a Date object, format it as YYYY-MM-DD
-              const year = dateValue.getFullYear();
-              const month = String(dateValue.getMonth() + 1).padStart(2, "0");
-              const day = String(dateValue.getDate()).padStart(2, "0");
-              date = `${year}-${month}-${day}`;
-            } else {
-              // Try to parse as Date first to normalize, then format
-              const dateObj = new Date(dateValue.toString());
-              if (Number.isNaN(dateObj.getTime())) return null;
-              const year = dateObj.getFullYear();
-              const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-              const day = String(dateObj.getDate()).padStart(2, "0");
-              date = `${year}-${month}-${day}`;
-            }
-
-            let count = countValue
-              ? Number.parseInt(countValue.toString(), 10)
-              : 0;
-            if (Number.isNaN(count)) {
-              count = 0;
-            }
-
-            return {
-              date,
-              count,
-              file: entry.file,
-            };
-          })
-          .filter(Boolean) as Occurrence[],
+        trackType,
+        minValue,
+        maxValue,
+        entries,
       };
     });
-  }, [data, viewConfig.dateProperty, viewConfig.trackProperty]);
+  }, [data, viewConfig.dateProperty, viewConfig.trackProperty, viewConfig.trackType, viewConfig.minValue, viewConfig.maxValue]);
 
   return (
     <Container isEmbedded={isEmbedded} style={{ userSelect: "none" }}>
@@ -115,6 +201,17 @@ const HeatmapCalendarView = ({
           data={g.entries}
           startDate={startDate}
           endDate={endDate}
+          layout={viewConfig.layout}
+          viewMode={viewConfig.viewMode}
+          showDayLabels={viewConfig.showDayLabels}
+          showMonthLabels={viewConfig.showMonthLabels}
+          showYearLabels={viewConfig.showYearLabels}
+          showLegend={viewConfig.showLegend}
+          minValue={g.minValue}
+          maxValue={g.maxValue}
+          trackType={g.trackType}
+          customColors={parsedCustomColors}
+          overflowColor={parsedOverflowColor}
           onEntryClick={onEntryClick}
         />
       ))}

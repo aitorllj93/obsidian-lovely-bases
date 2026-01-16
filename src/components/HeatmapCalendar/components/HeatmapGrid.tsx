@@ -1,67 +1,111 @@
+import { useMemo } from "react";
 
-import { addDays, eachDayOfInterval, endOfWeek, FORMATS, format, isSameDay, startOfWeek } from "@/lib/date";
-import { cn } from "@/lib/utils";
+import {
+  addDays,
+  eachDayOfInterval,
+  endOfWeek,
+  startOfWeek,
+} from "@/lib/date";
 import type { EntryClickEventHandler } from "@/types";
 
 import type { Occurrence } from "../index";
+import { WeekDay } from "./WeekDay";
+import { cva } from "class-variance-authority";
+
+const containerVariants = cva("", {
+  variants: {
+    layout: {
+      horizontal: "flex gap-1",
+      vertical: "flex gap-1 flex-col",
+    },
+  },
+  defaultVariants: {
+    layout: "horizontal",
+  },
+});
+
+const weekVariants = cva("", {
+  variants: {
+    layout: {
+      horizontal: "flex gap-1 flex-col",
+      vertical: "flex gap-1"
+    },
+  },
+  defaultVariants: {
+    layout: "horizontal",
+  },
+});
 
 type Props = {
   occurrences: Occurrence[];
   startDate: Date;
   weeks: number;
   classNames: string[];
+  layout?: "horizontal" | "vertical";
+  minValue?: number;
+  maxValue?: number;
+  overflowColor?: string;
   onEntryClick?: EntryClickEventHandler;
 };
-
-const getClassName = (count: number, classNames: string[]) =>
-  classNames[count] || classNames[classNames.length - 1];
 
 export const HeatmapGrid = ({
   occurrences,
   startDate,
   weeks,
   classNames,
+  layout = "horizontal",
+  minValue = 0,
+  maxValue = 10,
+  overflowColor,
   onEntryClick,
 }: Props) => {
-  const renderWeeks = () => {
-    const weeksArray = [];
+  const occurrenceMap = useMemo(() => {
+    const map = new Map<string, Occurrence>();
+    for (const occ of occurrences) {
+      if (occ.date) {
+        map.set(occ.date, occ);
+      }
+    }
+    return map;
+  }, [occurrences]);
+
+  const weeksData = useMemo(() => {
+    const result: { weekStart: Date; weekDays: Date[] }[] = [];
     let currentWeekStart = startOfWeek(startDate);
-
     for (let i = 0; i < weeks; i++) {
-      const weekDays = eachDayOfInterval({
-        start: currentWeekStart,
-        end: endOfWeek(currentWeekStart),
+      result.push({
+        weekStart: currentWeekStart,
+        weekDays: eachDayOfInterval({
+          start: currentWeekStart,
+          end: endOfWeek(currentWeekStart),
+        }),
       });
-
-      weeksArray.push(
-        <div
-          key={`w-${currentWeekStart.toISOString()}`}
-          className="flex flex-col gap-1"
-        >
-          {weekDays.map((day) => {
-            const occurrence = occurrences.find(
-              (c) => c.dateObj && isSameDay(c.dateObj, day),
-            );
-            const className = occurrence
-              ? getClassName(occurrence.count, classNames)
-              : classNames[0];
-
-            return (
-              <div
-                key={`d-${day.toISOString()}`}
-                className={cn(`w-3 h-3 rounded-[4px]`, className)}
-                title={`${format(day, FORMATS.DATE_LONG)}: ${occurrence?.count || 0}`}
-                onClick={(evt) => onEntryClick?.(occurrence.file.path, evt)}
-              />
-            );
-          })}
-        </div>,
-      );
       currentWeekStart = addDays(currentWeekStart, 7);
     }
+    return result;
+  }, [startDate, weeks]);
 
-    return weeksArray;
-  };
-
-  return <div className="flex gap-1">{renderWeeks()}</div>;
+  return (
+    <div className={containerVariants({ layout })}>
+      {weeksData.map(({ weekStart, weekDays }) => (
+        <div
+          key={`w-${weekStart.toISOString()}`}
+          className={weekVariants({ layout })}
+        >
+          {weekDays.map((day) => (
+            <WeekDay
+              key={`d-${day.toISOString()}`}
+              day={day}
+              occurrenceMap={occurrenceMap}
+              classNames={classNames}
+              minValue={minValue}
+              maxValue={maxValue}
+              overflowColor={overflowColor}
+              onEntryClick={onEntryClick}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
 };

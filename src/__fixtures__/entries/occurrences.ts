@@ -14,7 +14,9 @@ const randomOccurrence = (startDate: Date, index: number) => {
       basename: subDays(startDate, index).toISOString().split('T')[0],
     }),
   }, {
-    dietQuality: Math.floor(Math.random() * 6),
+    dietQuality: Math.floor(Math.random() * 11),
+    completed: Math.random() > 0.5,
+    tags: Array.from({ length: Math.floor(Math.random() * 6) }, (_, i) => `tag-${i + 1}`),
   });
 };
 
@@ -25,6 +27,8 @@ const indexedOccurrence = (startDate: Date, index: number) => {
     }),
   }, {
     dietQuality: index % 6,
+    completed: index % 2 === 0,
+    tags: Array.from({ length: index % 6 }, (_, i) => `tag-${i + 1}`),
   });
 };
 
