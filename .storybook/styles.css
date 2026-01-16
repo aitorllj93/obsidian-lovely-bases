@@ -1,8 +1,8 @@
-@layer theme, base, components, utilities;
-@import "tailwindcss" layer(theme);
-@import "tailwindcss/utilities" layer(utilities);
+
 @import "colors.css";
 @import "../src/main.css";
+
+@plugin "@tailwindcss/typography";
 
 :root {
   --scrollbar-color: var(--color-base-50);
@@ -133,3 +133,9 @@ body, .dark, .obsidian {
   scrollbar-width: thin;
 }
 
+.font-merienda {
+  font-family: "Merienda", cursive;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}

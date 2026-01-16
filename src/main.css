@@ -1,26 +1,6 @@
-@layer theme, base, components, utilities;
-@import "tailwindcss/theme" layer(theme);
-@import "tailwindcss/utilities" layer(utilities);
+@import "tailwindcss";
+@preflight off;
 
-/* Internal Tailwind variables */
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    --tw-border-style: solid;
-    --tw-ring-color: initial;
-    --tw-ring-shadow: 0 0 #0000;
-    --tw-shadow: 0 0 #0000;
-    --tw-shadow-color: initial;
-    --tw-ring-inset: initial;
-    --tw-ring-offset-width: 0px;
-    --tw-ring-offset-color: #fff;
-    --tw-divide-opacity: 1;
-    --tw-border-opacity: 1;
-  }
-}
 @plugin "@toolwind/corner-shape";
 
 :root {

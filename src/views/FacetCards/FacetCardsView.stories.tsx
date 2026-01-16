@@ -97,7 +97,7 @@ export const Movies: Story = {
 
     container.scrollTop = 100;
 
-    const cards = canvas.getAllByTestId("lovely-card");
+    const cards = canvas?.getAllByTestId("lovely-card");
     await expect(cards).toHaveLength(24);
   },
 };

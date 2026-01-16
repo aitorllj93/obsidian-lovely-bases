@@ -4,8 +4,8 @@
   "description": "Beautiful, visual bases views for Obsidian",
   "main": "main.js",
   "scripts": {
-    "css": "npx @tailwindcss/cli -i src/main.css -o build/lovely-bases/styles.css --watch",
-    "css:build": "npx @tailwindcss/cli -i src/main.css -o build/lovely-bases/styles.css --minify",
+    "css": "tailwindcss -i src/main.css -o build/lovely-bases/styles.css --watch",
+    "css:build": "tailwindcss -i src/main.css -o build/lovely-bases/styles.css --minify",
     "dev": "node esbuild.config.mjs",
     "dev:plugin": "node scripts/dev-install.mjs",
     "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production && npm run css:build && node scripts/scope.js",
@@ -21,12 +21,15 @@
   "devDependencies": {
     "@biomejs/biome": "2.3.11",
     "@chromatic-com/storybook": "^4.1.3",
+    "@remotion/cli": "4.0.406",
+    "@remotion/player": "^4.0.406",
     "@storybook/addon-a11y": "^10.1.11",
     "@storybook/addon-docs": "^10.1.11",
     "@storybook/addon-themes": "^10.1.11",
     "@storybook/addon-vitest": "^10.1.11",
     "@storybook/react-vite": "^10.1.11",
     "@tailwindcss/postcss": "^4.1.18",
+    "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^25.0.3",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
@@ -42,6 +45,7 @@
     "postcss-prefix-selector": "^1.16.0",
     "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.7.2",
+    "remotion": "4.0.406",
     "storybook": "^10.1.11",
     "tailwindcss": "^4.1.18",
     "tslib": "2.8.1",
@@ -59,6 +63,7 @@
     "motion": "^12.24.10",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
+    "streamdown": "^2.0.1",
     "tailwind-merge": "^3.4.0"
   },
   "packageManager": "pnpm@8.15.9+sha512.499434c9d8fdd1a2794ebf4552b3b25c0a633abcee5bb15e7b5de90f32f47b513aca98cd5cfd001c31f0db454bc3804edccd578501e4ca293a6816166bbd9f81"

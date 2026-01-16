@@ -5,6 +5,7 @@ export default create({
   brandTitle: 'Obsidian Lovely Bases',
   brandImage: './logo.png',
   brandTarget: '_self',
+  brandUrl: '/?path=/docs/getting-started--docs',
 
 
   colorPrimary: '#879A39',
