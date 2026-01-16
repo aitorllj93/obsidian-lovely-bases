@@ -45,9 +45,9 @@ export const MonthLabels = ({ startDate, weeks, endDate, layout = "horizontal" }
 
 		return (
 			<div className="flex flex-col gap-1 w-5 mr-2">
-				{slots.map((label) => (
+				{slots.map((label, index) => (
 					<div
-						key={`month-slot-${label}`}
+						key={`month-slot-${index.toString()}`}
 						className="h-3 text-xs text-muted-foreground flex items-center"
 					>
 						{label || ""}
