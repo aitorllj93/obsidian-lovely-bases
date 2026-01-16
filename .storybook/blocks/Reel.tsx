@@ -236,10 +236,10 @@ const LogoSlide = ({ frameInSlide }: { frameInSlide: number }) => {
   const floatOffset = Math.sin(frameInSlide * 0.08) * 4;
   const floatRotation = Math.sin(frameInSlide * 0.05) * 1.5;
 
-  // Combine entrance and float (float only kicks in after entrance)
-  const isEntranceComplete = frameInSlide > 45;
-  const finalY = isEntranceComplete ? floatOffset : logoY;
-  const finalRotation = isEntranceComplete ? floatRotation : logoRotation;
+  // Smooth blend from entrance to float animation
+  // logoEntrance goes from 0 to 1, so we use it directly as the blend factor
+  const finalY = logoY + floatOffset * logoEntrance;
+  const finalRotation = logoRotation + floatRotation * logoEntrance;
 
   // Soft shadow that pulses subtly
   const shadowIntensity = interpolate(
