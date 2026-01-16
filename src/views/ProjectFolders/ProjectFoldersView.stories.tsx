@@ -45,22 +45,55 @@ const meta = {
       },
     },
   },
-  argTypes: {
-    data: {
-      table: {
-        disable: true,
-      },
-    },
-    groupedData: {
-      table: {
-        disable: true,
-      },
-    },
-    imageProperty: { control: "text", name: "Image Property", description: "The property that contains the image to display on the folders." },
-    colorProperty: { control: "text", name: "Color Property", description: "The property that contains the color to display on the folders. (On the frontmatter of the note representing the folder)", table: { defaultValue: { summary: "note.color" } } },
-    iconProperty: { control: "text", name: "Icon Property", description: "The property that contains the icon to display on the folders. (On the frontmatter of the note representing the folder)", table: { defaultValue: { summary: "note.icon" } } },
-    colorizeFiles: { control: "boolean", name: "Colorize Files", description: "Whether to colorize the files based on the folder color.", table: { defaultValue: { summary: "false" } } },
-  },
+	argTypes: {
+		imageProperty: {
+			control: "text",
+			name: "Image Property",
+			description:
+				"The property that contains the image to display on file cards within folders.",
+			table: {
+				defaultValue: { summary: "note.cover" },
+			},
+		},
+		iconProperty: {
+			control: "text",
+			name: "Icon Property",
+			description:
+				"The property that contains the icon to display on folders (from the frontmatter of the note representing the folder).",
+			table: {
+				defaultValue: { summary: "note.icon" },
+			},
+		},
+		colorProperty: {
+			control: "text",
+			name: "Color Property",
+			description:
+				"The property that contains the color to display on folders (from the frontmatter of the note representing the folder).",
+			table: {
+				defaultValue: { summary: "note.color" },
+			},
+		},
+		colorizeFiles: {
+			control: "boolean",
+			name: "Colorize Files",
+			description:
+				"Whether to colorize the file cards based on the folder color.",
+			table: {
+				defaultValue: { summary: "false" },
+			},
+		},
+		// Internal props (disabled)
+		data: {
+			table: {
+				disable: true,
+			},
+		},
+		groupedData: {
+			table: {
+				disable: true,
+			},
+		},
+	},
 } satisfies Meta<typeof View>;
 
 export default meta;

@@ -14,36 +14,62 @@ const CAROUSEL_VIEW: BaseViewDef = {
 
   options: () => [
     {
-      type: "text",
-      displayName: "Title",
-      key: "title",
+      type: "group",
+      displayName: "Header",
+      items: [
+        {
+          type: "text",
+          displayName: "Title",
+          key: "title",
+          default: "",
+        },
+        {
+          type: "text",
+          displayName: "Subtitle",
+          key: "subtitle",
+          default: "",
+        },
+      ],
     },
     {
-      type: "text",
-      displayName: "Subtitle",
-      key: "subtitle",
+      type: "group",
+      displayName: "Display",
+      items: [
+        {
+          type: "dropdown",
+          displayName: "Layout",
+          key: "layout",
+          default: "vertical",
+          options: {
+            horizontal: "Horizontal",
+            vertical: "Vertical",
+          },
+        },
+        {
+          type: "dropdown",
+          displayName: "Shape",
+          key: "shape",
+          default: "square",
+          options: {
+            square: "Square",
+            circle: "Circle",
+            rounded: "Rounded",
+          },
+        },
+        {
+          type: "slider",
+          displayName: "Card Size",
+          key: "cardSize",
+          min: 50,
+          max: 800,
+          default: 400,
+          step: 10,
+        },
+      ],
     },
-		{
-			type: "dropdown",
-			displayName: "Layout",
-			key: "layout",
-			default: "vertical",
-			options: {
-				horizontal: "Horizontal",
-				vertical: "Vertical",
-			},
-		},
-		{
-			type: "slider",
-			displayName: "Card size",
-			min: 50,
-			max: 800,
-			key: "cardSize",
-			default: 100,
-		},
     {
-      type: 'group',
-      displayName: 'Image',
+      type: "group",
+      displayName: "Image",
       items: [
         {
           type: "property",
@@ -63,12 +89,12 @@ const CAROUSEL_VIEW: BaseViewDef = {
         },
         {
           type: "slider",
-          displayName: "Image aspect ratio",
+          displayName: "Image Aspect Ratio",
+          key: "imageAspectRatio",
           min: 0.25,
           max: 2.5,
-          key: "imageAspectRatio",
-          default: 1.5,
           step: 0.05,
+          default: 1.5,
         },
         {
           type: "toggle",
@@ -76,22 +102,22 @@ const CAROUSEL_VIEW: BaseViewDef = {
           key: "reverseContent",
           default: false,
         },
-      ]
+      ],
     },
     {
-      type: 'group',
-      displayName: 'Content',
+      type: "group",
+      displayName: "Content",
       items: [
-        {
-          type: "toggle",
-          displayName: "Show Property Titles",
-          key: "showPropertyTitles",
-          default: true,
-        },
         {
           type: "toggle",
           displayName: "Show Title",
           key: "showTitle",
+          default: true,
+        },
+        {
+          type: "toggle",
+          displayName: "Show Property Titles",
+          key: "showPropertyTitles",
           default: true,
         },
         {
@@ -100,20 +126,20 @@ const CAROUSEL_VIEW: BaseViewDef = {
           key: "hoverProperty",
           default: "",
         },
-      ]
+        {
+          type: "dropdown",
+          displayName: "Hover Style",
+          key: "hoverStyle",
+          default: "overlay",
+          options: {
+            overlay: "Overlay",
+            tooltip: "Tooltip",
+            none: "None",
+          },
+        },
+      ],
     },
-		// {
-		// 	type: "dropdown",
-		// 	displayName: "Hover Style",
-		// 	key: "hoverStyle",
-		// 	default: "overlay",
-		// 	options: {
-		// 		overlay: "Overlay (Bottom)",
-		// 		tooltip: "Tooltip",
-		// 		none: "None",
-		// 	},
-		// },
-	],
+  ],
 }
 
 export default CAROUSEL_VIEW;

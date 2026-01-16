@@ -11,20 +11,32 @@ const PROJECT_FOLDERS_VIEW: BaseViewDef = {
 	icon: "lucide-folder",
 	factory: (controller, containerEl) =>
 		new ReactBasesView(PROJECT_FOLDERS_ID, ProjectFoldersView, controller, containerEl),
-  options: () => [
-    {
-      type: "property",
-      displayName: "Image property",
-      key: "imageProperty",
-    },
-    {
-      type: "toggle",
-      displayName: "Colorize files",
-      key: "colorizeFiles",
-      default: false,
-    },
-    // ON Click: Open search (On click on topic: open search for that topic)
-  ]
+	options: () => [
+		{
+			type: "property",
+			displayName: "Image Property",
+			key: "imageProperty",
+			default: "note.cover",
+		},
+		{
+			type: "property",
+			displayName: "Icon Property",
+			key: "iconProperty",
+			default: "note.icon",
+		},
+		{
+			type: "property",
+			displayName: "Color Property",
+			key: "colorProperty",
+			default: "note.color",
+		},
+		{
+			type: "toggle",
+			displayName: "Colorize Files",
+			key: "colorizeFiles",
+			default: false,
+		},
+	],
 };
 
 export default PROJECT_FOLDERS_VIEW;
