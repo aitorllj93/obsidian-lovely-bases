@@ -4,8 +4,8 @@
   "description": "Beautiful, visual bases views for Obsidian",
   "main": "main.js",
   "scripts": {
-    "css": "tailwindcss -i src/main.css -o build/lovely-bases/styles.css --watch",
-    "css:build": "tailwindcss -i src/main.css -o build/lovely-bases/styles.css --minify",
+    "css": "npx @tailwindcss/cli -i src/main.css -o build/lovely-bases/styles.css --watch",
+    "css:build": "npx @tailwindcss/cli -i src/main.css -o build/lovely-bases/styles.css --minify",
     "dev": "node esbuild.config.mjs",
     "dev:plugin": "node scripts/dev-install.mjs",
     "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production && npm run css:build && node scripts/scope.js",
