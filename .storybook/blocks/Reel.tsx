@@ -55,12 +55,12 @@ const DescriptionOverlay = ({
   frame: number;
 }) => {
   // Early return but hooks are called in parent
-  if (progress === 0 || !text) return null;
+  if (!text) return null;
 
   // Typewriter effect: show characters progressively
   const visibleChars = Math.floor(text.length * Math.min(progress, 1));
   const displayText = text.slice(0, visibleChars);
-  const isAnimating = progress < 1;
+
 
   // Fade in at start, fade out at end
   const opacity = interpolate(progress, [0, 0.05], [0, 1], { extrapolateRight: 'clamp' }) * fadeOut;
@@ -71,14 +71,28 @@ const DescriptionOverlay = ({
         opacity,
       }}
     >
-      <Streamdown
-        isAnimating={isAnimating}
-        className="font-merienda prose prose-lg prose-p:text-xl dark:prose-invert max-w-none prose-code:before:content-none prose-code:after:content-none"
-        components={{
-          pre: () => null,
-        }}>
-        {displayText}
-      </Streamdown>
+      <div className="relative">
+        {/* Invisible full text to reserve height and prevent layout shift */}
+        <div className="invisible" aria-hidden="true">
+          <Streamdown
+            className="font-merienda prose prose-lg prose-p:text-xl dark:prose-invert max-w-none prose-code:before:content-none prose-code:after:content-none"
+            components={{
+              pre: () => null,
+            }}>
+            {text}
+          </Streamdown>
+        </div>
+        {/* Visible animated text positioned on top */}
+        <div className="absolute inset-0">
+          <Streamdown
+            className="font-merienda prose prose-lg prose-p:text-xl dark:prose-invert max-w-none prose-code:before:content-none prose-code:after:content-none"
+            components={{
+              pre: () => null,
+            }}>
+            {displayText}
+          </Streamdown>
+        </div>
+      </div>
     </div>
     </div>
   );
