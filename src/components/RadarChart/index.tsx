@@ -50,10 +50,9 @@ const RadarChart = ({
   }
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer width="100%" aspect={16/9}>
       <RechartsRadarChart
         data={data}
-        margin={{ top: 20, right: 30, bottom: 20, left: 30 }}
       >
         <PolarGrid stroke="var(--border)" />
         <PolarAngleAxis
@@ -72,6 +71,7 @@ const RadarChart = ({
           />
         {groups.map((groupKey, index) => (
           <Radar
+          isAnimationActive={false}
             key={groupKey}
             name={groupKey}
             dataKey={groupKey}

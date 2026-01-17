@@ -95,8 +95,6 @@ const RadarChartView = ({
 	return (
 		<Container isEmbedded={isEmbedded} style={{
       width: "100%",
-      aspectRatio: "1/1",
-      maxWidth: "calc(min(100vw, 100vh) - 2rem",
       padding: "1rem",
       margin: "0 auto",
     }}>
