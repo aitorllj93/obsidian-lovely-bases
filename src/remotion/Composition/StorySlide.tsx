@@ -1,6 +1,6 @@
 
 import type { ComponentType } from "react";
-import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { Html5Audio, interpolate, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 
 import {
   DESCRIPTION_DELAY,
@@ -17,9 +17,10 @@ type Props = {
   frameInStory: number;
   title: string | null;
   renderer: ComponentType<{ story: ReelStory }>
+  playSFX?: boolean;
 };
 
-const StorySlide = ({ story, frameInStory, title, renderer }: Props) => {
+const StorySlide = ({ story, frameInStory, title, renderer, playSFX }: Props) => {
   const Component = (story.component || renderer) as ComponentType<{ story: ReelStory}>;
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -104,6 +105,11 @@ const StorySlide = ({ story, frameInStory, title, renderer }: Props) => {
       >
         <Component story={story} />
       </div>
+      {playSFX && descriptionProgress > 0.1 && descriptionProgress < 1 &&
+        <Sequence from={(DESCRIPTION_DELAY / 60) * fps} durationInFrames={(FADE_OUT_START - DESCRIPTION_DELAY) / 60 * fps}>
+          <Html5Audio loop src={staticFile('sfx/draw_word.mp3')} />
+        </Sequence>
+      }
     </div>
   );
 };

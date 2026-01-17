@@ -40,6 +40,7 @@ export const RemotionRoot = () => {
         defaultProps={{
           viewId,
           title,
+          playSFX: true,
         }}
         {...DEFAULT_PROPS}
       />

@@ -7,6 +7,7 @@ import * as HeatmapCalendar from "../../views/HeatmapCalendar/HeatmapCalendarVie
 import * as InfiniteGallery from "../../views/InfiniteGallery/InfiniteGalleryView.stories";
 import * as LinearCalendar from "../../views/LinearCalendar/LinearCalendarView.stories";
 import * as ProjectFolders from "../../views/ProjectFolders/ProjectFoldersView.stories";
+import * as RadarChart from "../../views/RadarChart/RadarChartView.stories";
 
 export const STORIES = {
   HeatmapCalendar,
@@ -16,5 +17,6 @@ export const STORIES = {
   Carousel,
   FacetCards,
   InfiniteGallery,
+  RadarChart,
 };
 

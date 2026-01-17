@@ -9,6 +9,7 @@
 //   InfiniteGallery: src/views/InfiniteGallery/InfiniteGalleryView.stories.tsx
 //   LinearCalendar: src/views/LinearCalendar/LinearCalendarView.stories.tsx
 //   ProjectFolders: src/views/ProjectFolders/ProjectFoldersView.stories.tsx
+//   RadarChart: src/views/RadarChart/RadarChartView.stories.tsx
 
 export const STORY_ORDERS = {
   "3DCarousel": [
@@ -61,5 +62,14 @@ export const STORY_ORDERS = {
     "FullExample",
     "Default",
     "ColorizedFiles"
+  ],
+  "RadarChart": [
+    "FullExample",
+    "Default",
+    "Groups",
+    "ColorSchemes",
+    "AggregationFunctions",
+    "NoLabels",
+    "CustomColors"
   ]
 } as const;
