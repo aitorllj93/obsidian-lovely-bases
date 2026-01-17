@@ -54,12 +54,11 @@
   --input: var(--background-modifier-border);
   --ring: var(--interactive-accent);
 
-
-  --chart-1: var(--color-purple);
-  --chart-2: var(--color-cyan);
-  --chart-3: var(--color-yellow);
-  --chart-4: var(--color-pink);
-  --chart-5: var(--color-orange);
+  --chart-1: oklch(from var(--primary) clamp(0, calc(l + 0.18), 1) calc(c * 0.55) h);
+  --chart-2: oklch(from var(--primary) clamp(0, calc(l + 0.08), 1) calc(c * 0.80) h);
+  --chart-3: oklch(from var(--primary) clamp(0, calc(l + 0.00), 1) calc(c * 1.00) h);
+  --chart-4: oklch(from var(--primary) clamp(0, calc(l - 0.10), 1) calc(c * 0.95) h);
+  --chart-5: oklch(from var(--primary) clamp(0, calc(l - 0.20), 1) calc(c * 0.85) h);
 
   --sidebar: var(--background-secondary);
   --sidebar-foreground: var(--text-normal);

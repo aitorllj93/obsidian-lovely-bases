@@ -26,6 +26,7 @@ export const createViewRenderer = <T extends Record<string, unknown> = Record<st
       data: aBasesQueryResult({
         data,
         groupedData,
+        properties,
       }),
       config: aBasesViewConfig(config, properties),
       onEntryClick: onEntryClick ?? fn(),

@@ -66,6 +66,7 @@
     "motion": "^12.24.10",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
+    "recharts": "^3.6.0",
     "streamdown": "^2.0.1",
     "tailwind-merge": "^3.4.0"
   },

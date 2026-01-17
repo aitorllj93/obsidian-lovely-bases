@@ -18,7 +18,7 @@ export const aBasesViewConfig = <T extends Record<string, unknown>>(
     },
     getDisplayName(propertyId) {
       const [_, property] = propertyId.split('.');
-      return property;
+      return property.charAt(0).toUpperCase() + property.slice(1);
     },
     getOrder() {
       return order;
