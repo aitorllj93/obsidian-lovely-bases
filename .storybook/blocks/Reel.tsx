@@ -2,7 +2,7 @@ import { useOf } from '@storybook/addon-docs/blocks';
 import React, { useMemo } from 'react';
 import type { CSFFile, PreparedMeta, Renderer } from 'storybook/internal/types';
 
-import { Reel as ReelComponent } from '../../src/stories/components/Reel';
+import Player from '../../src/remotion/Player';
 
 const useStoriesFromDocs = (resolved?: {
   type: "meta";
@@ -51,6 +51,6 @@ export const Reel = () => {
   if (reelStories.length === 0) return null;
 
   return (
-    <ReelComponent stories={reelStories} title={title} />
+    <Player stories={reelStories} title={title} />
   );
 };
