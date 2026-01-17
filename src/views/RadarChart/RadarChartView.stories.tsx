@@ -246,7 +246,7 @@ export const ColorSchemes: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: `Apply different color schemes to see the different ways to visualize the data.
+				story: `Apply different color schemes for different occasions or contexts.
 
 \`\`\`yml
 colorScheme: green
@@ -269,7 +269,7 @@ export const AggregationFunctions: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: `Use different aggregation functions to see the different ways to aggregate the values.
+				story: `Change the aggregation function and explore different ways to visualize your data.
 
 \`\`\`yml
 aggregationFunction: average | median | sum | max | min
@@ -322,7 +322,7 @@ export const CustomColors: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: `Define your own color palette using comma-separated hex colors. Custom colors override the color scheme.
+				story: `Make it yours with your own color palette using comma-separated hex colors.
 
 \`\`\`yml
 customColors: "#3b82f6, #22c55e, #f59e0b"
