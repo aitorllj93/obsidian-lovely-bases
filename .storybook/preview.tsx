@@ -55,7 +55,7 @@ const preview: Preview = {
     },
     options: {
       storySort: {
-        order: ['Views', 'Design System'],
+        order: ['Getting Started', 'Views', 'Design System'],
       },
     },
 
