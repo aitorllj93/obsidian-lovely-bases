@@ -28,7 +28,13 @@ const meta = {
 	tags: ["autodocs", "desktop-only"],
 	decorators: [Providers, ScrollViewWrapper],
 	parameters: {
-		layout: "fullscreen",
+    layout: 'fullscreen',
+    extraNotes: [
+      {
+        title: 'Performance issues on mobile devices',
+        description: 'The view may freeze or crash on some mobile devices even with small datasets (<100 items). Use this view only in desktop devices unless you know what you are doing.',
+      }
+    ],
 		docs: {
 			icon: INFINITE_GALLERY_VIEW.icon,
 			subtitle:
