@@ -55,7 +55,19 @@ const preview: Preview = {
     },
     options: {
       storySort: {
-        order: ['Getting Started', 'Views', 'Design System'],
+        order: [
+          'Getting Started',
+          'Views',
+          [
+            'Project Folders',
+            'Facet Cards',
+            'Carousel',
+            'Infinite Gallery',
+            'Heatmap Calendar',
+            'Linear Calendar',
+          ],
+          'Design System'
+        ],
       },
     },
 
