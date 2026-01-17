@@ -1,5 +1,6 @@
 
 import type { BasesEntry, BasesEntryGroup } from "obsidian";
+import { random } from 'remotion';
 
 import { aBasesEntry } from "@/__mocks__/aBasesEntry";
 import { aBasesEntryGroup } from "@/__mocks__/aBasesEntryGroup";
@@ -9,14 +10,21 @@ import { subDays } from "@/lib/date";
 const startDate = new Date();
 
 const randomOccurrence = (startDate: Date, index: number) => {
+  const day = subDays(startDate, index).toISOString().split('T')[0];
+
+  const seed = (key: string) => random(`occurrence:${day}:${index}:${key}`);
+
   return aBasesEntry({
     file: aFile({
-      basename: subDays(startDate, index).toISOString().split('T')[0],
+      basename: day,
     }),
   }, {
-    dietQuality: Math.floor(Math.random() * 11),
-    completed: Math.random() > 0.5,
-    tags: Array.from({ length: Math.floor(Math.random() * 6) }, (_, i) => `tag-${i + 1}`),
+    dietQuality: Math.floor(seed('dietQuality') * 11),
+    completed: seed('completed') > 0.5,
+    tags: Array.from(
+      { length: Math.floor(seed('tags:length') * 6) },
+      (_, i) => `tag-${i + 1}`,
+    ),
   });
 };
 

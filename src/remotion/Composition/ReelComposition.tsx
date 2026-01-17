@@ -6,7 +6,7 @@ import LogoSlide from "./LogoSlide";
 import StorySlide from "./StorySlide";
 import type { ReelStory } from "./types";
 
-import { getStories} from '../utils/stories';
+import { getStories, type ViewName} from '../utils/stories';
 
 type StatefulProps = {
   renderer?: ComponentType<{ story: ReelStory }>;
@@ -15,7 +15,7 @@ type StatefulProps = {
 }
 
 type StatelessProps = {
-  viewId: string;
+  viewId: ViewName;
   title: string | null | undefined;
 }
 
@@ -31,7 +31,7 @@ const Renderer: ComponentType<{ story: ReelStory }> = ({ story }) => {
 
 const ReelComposition = (props: Props) => {
   const title = props.title;
-  const reelStories = isStatefulProps(props) ? props.reelStories : getStories();
+  const reelStories = isStatefulProps(props) ? props.reelStories : getStories(props.viewId);
   const frame = useCurrentFrame();
 
   const totalStoryFrames = reelStories.length * FRAMES_PER_STORY;
