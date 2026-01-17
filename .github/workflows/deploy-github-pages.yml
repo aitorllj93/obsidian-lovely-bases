@@ -21,15 +21,17 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm' # Adjust caching strategy and configuration if using other package managers
+          cache: 'pnpm' # Adjust caching strategy and configuration if using other package managers
       - name: Install dependencies
-        run: npm ci # Replace with appropriate command if using other package managers
+        run: pnpm install # Replace with appropriate command if using other package managers
       - name: Build Storybook
-        run: npm run build-storybook
+        run: pnpm run build-storybook
       # Upload pages artifact
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
