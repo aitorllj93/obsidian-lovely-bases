@@ -1,4 +1,5 @@
-import { Story } from "@storybook/addon-docs/blocks";
+
+import type { ComponentType } from "react";
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 
 import {
@@ -15,9 +16,10 @@ type Props = {
   story: ReelStory;
   frameInStory: number;
   title: string | null;
+  renderer: ComponentType<{ story: ReelStory }>
 };
 
-const StorySlide = ({ story, frameInStory, title }: Props) => {
+const StorySlide = ({ story, frameInStory, title, renderer: Renderer }: Props) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -99,7 +101,7 @@ const StorySlide = ({ story, frameInStory, title }: Props) => {
         }}
         className="reel-story-container"
       >
-        <Story of={story.moduleExport ?? story} />
+        <Renderer story={story} />
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { Player } from "@remotion/player";
+import type { ComponentType } from "react";
 
 import ReelComposition, {
   FRAMES_PER_LOGO,
@@ -7,11 +8,12 @@ import ReelComposition, {
 } from "./Composition";
 
 type Props = {
+  renderer: ComponentType<{ story: ReelStory }>;
   stories: ReelStory[];
   title: string | null | undefined;
 };
 
-const RemotionPlayer = ({ stories, title }: Props) => {
+const RemotionPlayer = ({ renderer, stories, title }: Props) => {
   if (stories.length === 0) return null;
 
   return (
@@ -49,7 +51,7 @@ const RemotionPlayer = ({ stories, title }: Props) => {
       `}</style>
       <Player
         component={ReelComposition}
-        inputProps={{ reelStories: stories, title }}
+        inputProps={{ renderer, reelStories: stories, title }}
         durationInFrames={stories.length * FRAMES_PER_STORY + FRAMES_PER_LOGO}
         fps={30}
         compositionWidth={960}

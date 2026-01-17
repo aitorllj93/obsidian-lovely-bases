@@ -1,7 +1,8 @@
-import { useOf } from '@storybook/addon-docs/blocks';
+import { Story, useOf } from '@storybook/addon-docs/blocks';
 import React, { useMemo } from 'react';
 import type { CSFFile, PreparedMeta, Renderer } from 'storybook/internal/types';
 
+import type { ReelStory } from '../../src/remotion/Composition/types';
 import Player from '../../src/remotion/Player';
 
 const useStoriesFromDocs = (resolved?: {
@@ -48,9 +49,15 @@ export const Reel = () => {
   const title = resolved.type === 'meta' ? resolved.preparedMeta.title.split('/').pop() : null;
   const reelStories = useStoriesFromDocs(resolved.type !== 'meta' ? undefined : resolved);
 
+  const Renderer = useMemo(() => {
+    return (props: { story: ReelStory }) => {
+      return <Story of={props.story.moduleExport ?? props.story} />;
+    };
+  }, []);
+
   if (reelStories.length === 0) return null;
 
   return (
-    <Player stories={reelStories} title={title} />
+    <Player stories={reelStories} title={title} renderer={Renderer} />
   );
 };

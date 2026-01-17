@@ -1,3 +1,4 @@
+import type { ComponentType } from "react";
 import { useCurrentFrame } from "remotion";
 
 import { FRAMES_PER_STORY } from "./constants";
@@ -6,11 +7,12 @@ import StorySlide from "./StorySlide";
 import type { ReelStory } from "./types";
 
 type Props = {
+  renderer: ComponentType<{ story: ReelStory }>;
   reelStories: ReelStory[];
   title: string | null | undefined;
 };
 
-const ReelComposition = ({ reelStories, title }: Props) => {
+const ReelComposition = ({ renderer, reelStories, title }: Props) => {
   const frame = useCurrentFrame();
 
   const totalStoryFrames = reelStories.length * FRAMES_PER_STORY;
@@ -56,6 +58,7 @@ const ReelComposition = ({ reelStories, title }: Props) => {
         story={currentStory}
         frameInStory={frameInStory}
         title={currentStoryIndex === 0 ? (title ?? null) : null}
+        renderer={renderer}
       />
     </div>
   );
