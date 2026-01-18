@@ -30,4 +30,4 @@ const momentLocaleMap: Record<string, string> = {
 };
 moment.locale(momentLocaleMap[locale] ?? "en");
 
-global.moment = moment;
+globalThis.moment = moment;
