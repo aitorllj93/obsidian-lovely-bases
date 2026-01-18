@@ -8,7 +8,6 @@ import { getImage } from '@/lib/obsidian/entry';
 export function useEntryImage(entry: BasesEntry | undefined, propertyId?: BasesPropertyId) {
   const { app } = useObsidian();
   return useMemo(() => {
-    if (!propertyId || !entry) return null;
-    return getImage(entry, app, propertyId);
+    return getImage(app, entry, propertyId);
   }, [entry, app, propertyId]);
 }

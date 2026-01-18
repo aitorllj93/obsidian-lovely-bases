@@ -27,10 +27,13 @@ export const getLabeledProperty = (entry: BasesEntry, config: BasesViewConfig, p
   }
 }
 
-export const getImage = (entry: BasesEntry, app: App, propertyId: BasesPropertyId): string | null => {
-  if (!propertyId) return null;
+const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'ico', 'bmp', 'tiff', 'tif', 'heic', 'heif'];
 
-  const imageUrl = entry.getValue(propertyId)?.toString();
+export const getImage = (app: App, entry?: BasesEntry, propertyId?: BasesPropertyId): string | null => {
+  const isImage = entry?.file.extension && imageExtensions.includes(entry.file.extension);
+  if (!entry || (!propertyId && !isImage)) return null;
+
+  const imageUrl = isImage ? entry.file.path : entry.getValue(propertyId)?.toString();
   let imageSrc: string | undefined;
 
   if (imageUrl && imageUrl !== 'null') {
