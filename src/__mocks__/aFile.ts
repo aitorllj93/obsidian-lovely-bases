@@ -18,13 +18,15 @@ export class MockTFile {
 		mtime: 0,
 		size: 0,
 	};
-  constructor(overrides: Partial<TFile> = {}) {
+  content?: string;
+  constructor(overrides: Partial<TFile> & { content?: string } = {}) {
     Object.assign(this, overrides);
   }
 }
 
 export const aFile = (
   overrides: Partial<TFile> = {},
+  content?: string,
 ): TFile => {
   const basename = overrides.basename ?? 'test';
   const extension = overrides.extension ?? 'md';
@@ -37,5 +39,6 @@ export const aFile = (
     path,
     extension,
     name,
+    content,
   });
 }

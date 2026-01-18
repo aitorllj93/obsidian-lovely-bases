@@ -34,6 +34,9 @@ export type {
 // Importar Value como tipo para usarlo en ListValue
 import type { Value } from 'obsidian';
 
+import { createMockApp } from "./create-mock-app";
+
+
 export { MockTFile as TFile } from './aFile'
 
 // biome-ignore lint/complexity/noStaticOnlyClass: Mock para Storybook, necesita compatibilidad con tipos de Obsidian
@@ -180,41 +183,6 @@ export const MarkdownRenderer = {
 	},
 };
 
-// Funciones helper para crear mocks de objetos complejos
-
-// biome-ignore lint/suspicious/noExplicitAny: Mock para Storybook, necesita compatibilidad con tipos de Obsidian
-function createMockApp(): any {
-	return {
-		vault: {
-			adapter: {
-				getResourcePath: (path: string): string | null => {
-					return `/mock-resource/${path}`;
-				},
-			},
-			// biome-ignore lint/suspicious/noExplicitAny: Mock para Storybook
-			read: async (_file: any): Promise<string> => {
-				return '# Mock Content\n\nThis is mock content for Storybook.';
-			},
-		},
-		metadataCache: {
-			// biome-ignore lint/suspicious/noExplicitAny: Mock para Storybook
-			getFirstLinkpathDest: (_linkpath: string, _sourcePath: string): any => {
-				return null;
-			},
-			// biome-ignore lint/suspicious/noExplicitAny: Mock para Storybook
-			getFileCache: (_file: any): any => {
-				return {
-					frontmatter: {},
-				};
-			},
-		},
-		workspace: {
-			openLinkText: async (_linktext: string, _sourcePath: string, _newLeaf: boolean): Promise<void> => {
-				// Stub method
-			},
-		},
-	};
-}
 
 // biome-ignore lint/suspicious/noExplicitAny: Mock para Storybook, necesita compatibilidad con tipos de Obsidian
 function createMockConfig(): any {
