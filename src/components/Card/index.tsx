@@ -18,10 +18,11 @@ type Props = CardConfig & {
 	className?: string;
 	entry: BasesEntry;
 	config: BasesViewConfig;
+	isDraggable?: boolean;
 };
 
 const cardVariants = cva(
-	"relative bg-(--bases-cards-background) shadow-md overflow-hidden transition-shadow hover:shadow-lg cursor-pointer border border-border group box-border",
+	"relative bg-(--bases-cards-background) shadow-md overflow-hidden transition-all hover:shadow-lg cursor-pointer border border-border group box-border",
 	{
 		variants: {
       layout: {
@@ -35,17 +36,24 @@ const cardVariants = cva(
 				circle: "rounded-full",
 				rounded: "rounded-[20%]",
 			},
+			tilt: {
+				none: "",
+				alternating: "shadow-xl even:rotate-3 odd:-rotate-2 hover:rotate-0 ease-out duration-300",
+			},
 		},
 		defaultVariants: {
 			shape: DEFAULT_SHAPE,
       layout: DEFAULT_LAYOUT,
+			tilt: "none",
 		},
 	},
 );
 
+const DRAG_THRESHOLD = 5;
+
 const Card = memo(
-	({ className, entry, config, ...cardConfig }: Props) => {
-		const [isHovered, setIsHovered] = useState(false);
+	({ className, entry, config, isDraggable = false, ...cardConfig }: Props) => {
+    const [isHovered, setIsHovered] = useState(false);
 		const dragStartPos = useRef<{ x: number; y: number } | null>(null);
 		const linkRef = useRef<HTMLAnchorElement>(null);
 		const entryId = entry.file.path;
@@ -55,12 +63,26 @@ const Card = memo(
 		const onPointerDown = (event: React.PointerEvent) => {
 			dragStartPos.current = { x: event.clientX, y: event.clientY };
 		};
+
+		const handleClick = (event: React.MouseEvent) => {
+			if (isDraggable && dragStartPos.current) {
+				const dx = Math.abs(event.clientX - dragStartPos.current.x);
+				const dy = Math.abs(event.clientY - dragStartPos.current.y);
+				if (dx > DRAG_THRESHOLD || dy > DRAG_THRESHOLD) {
+					dragStartPos.current = null;
+					return;
+				}
+			}
+			handleEntryOpen(event);
+		};
+
 		const onMouseEnter = () => setIsHovered(true);
 		const onMouseLeave = () => setIsHovered(false);
 
     const classes = cardVariants({
       layout: cardConfig.layout,
       shape: cardConfig.shape,
+      tilt: cardConfig.tilt,
     });
 
 		const isOverlay = cardConfig.layout === "overlay";
@@ -80,7 +102,7 @@ const Card = memo(
 					...(isOverlay && { "height": `${cardConfig.cardSize * cardConfig.imageAspectRatio}px` }),
 				} as React.CSSProperties}
 				onPointerDown={onPointerDown}
-				onClick={handleEntryOpen}
+				onClick={handleClick}
 				onMouseOver={handleEntryHover}
 				onMouseEnter={onMouseEnter}
 				onMouseLeave={onMouseLeave}
@@ -146,6 +168,7 @@ const Card = memo(
 		return (
 			prevProps.entry === nextProps.entry &&
 			prevProps.className === nextProps.className &&
+			prevProps.isDraggable === nextProps.isDraggable &&
 			compareCardConfig(prevProps, nextProps)
 		);
 	},

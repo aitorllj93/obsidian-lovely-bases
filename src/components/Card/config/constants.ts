@@ -16,3 +16,4 @@ export const DEFAULT_OVERLAY_CONTENT_VISIBILITY = "always";
 export const DEFAULT_BADGE_PROPERTY = undefined;
 export const DEFAULT_BADGE_ICON = undefined;
 export const DEFAULT_BADGE_COLOR = undefined;
+export const DEFAULT_TILT = "none";

@@ -1,37 +1,27 @@
-import type { BasesPropertyId, BasesViewConfig } from "obsidian";
-
+import { getCardConfig } from "@/components/Card/config/get-config";
+import type { CardConfig } from "@/components/Card/types";
 import type { ReactBaseViewProps } from "@/types";
 
-export const INFINITE_GALLERY_TYPE_ID = "infinite-gallery";
-
-import type { ItemConfig } from "@/components/InfiniteDragScroll/ItemContent";
 import InfiniteDragScrollV2 from "@/components/InfiniteDragScrollV2";
 import { Container } from "@/components/Obsidian/Container";
 
-export type InfiniteGalleryConfig = ItemConfig & {
-  layout: "default" | "masonry" | "polaroid";
-};
+export const INFINITE_GALLERY_TYPE_ID = "infinite-gallery";
 
-const getConfig = (config: BasesViewConfig): InfiniteGalleryConfig => {
-  return {
-    imageProperty: config.get("imageProperty") as BasesPropertyId | undefined,
-    imageFit: (config.get("imageFit") ?? "cover") as "cover" | "contain",
-    cardSize: (config.get("cardSize") ?? 100) as number,
-    aspectRatio: (config.get("aspectRatio") ?? 1.5) as number,
-    shape: (config.get("shape") ?? "square") as "square" | "circle" | "rounded" | "squircle",
-    layout: (config.get("layout") ?? "masonry") as "default" | "masonry" | "polaroid",
-  };
+export type InfiniteGalleryConfig = CardConfig & {
+  masonry?: boolean;
 };
 
 const InfiniteGalleryView = ({ config, data, isEmbedded }: ReactBaseViewProps) => {
-  const galleryConfig = getConfig(config);
+  const cardConfig = getCardConfig(config);
+  const masonry = (config.get("masonry") as boolean) ?? false;
 
   return (
     <Container isEmbedded={isEmbedded} embeddedStyle={{ height: "60vh", overflowY: "auto" }}>
       <InfiniteDragScrollV2
         items={data.data}
-        itemConfig={galleryConfig}
-        variant={galleryConfig.layout}
+        cardConfig={cardConfig}
+        config={config}
+        masonry={masonry}
       />
     </Container>
   );

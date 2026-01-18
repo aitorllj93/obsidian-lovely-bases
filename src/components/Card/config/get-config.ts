@@ -18,6 +18,7 @@ import {
 	DEFAULT_SHOW_CONTENT,
 	DEFAULT_SHOW_PROPERTY_TITLES,
 	DEFAULT_SHOW_TITLE,
+	DEFAULT_TILT,
 } from "./constants";
 
 export function getCardConfig(config: BasesViewConfig): CardConfig {
@@ -40,6 +41,7 @@ export function getCardConfig(config: BasesViewConfig): CardConfig {
 		badgeProperty: config.get("badgeProperty") as BasesPropertyId | undefined ?? DEFAULT_BADGE_PROPERTY,
 		badgeIcon: config.get("badgeIcon") as string | undefined ?? DEFAULT_BADGE_ICON,
 		badgeColor: config.get("badgeColor") as string | undefined ?? DEFAULT_BADGE_COLOR,
+		tilt: (config.get("tilt") as CardConfig["tilt"]) ?? DEFAULT_TILT,
 	};
 }
 
@@ -62,6 +64,7 @@ export function compareCardConfig(a: CardConfig, b: CardConfig): boolean {
 		a.badgeProperty === b.badgeProperty &&
 		a.badgeIcon === b.badgeIcon &&
 		a.badgeColor === b.badgeColor &&
+		a.tilt === b.tilt &&
 		a.properties.length === b.properties.length &&
 		a.properties.every((p, i) => p === b.properties[i])
 	);

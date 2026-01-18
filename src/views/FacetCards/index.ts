@@ -46,6 +46,7 @@ const FACET_CARDS_VIEW: BaseViewDef = {
         },
         {
           type: "dropdown",
+          shouldHide: (config) => config.get("layout") !== "overlay",
           displayName: "Content Visibility",
           key: "overlayContentVisibility",
           default: DEFAULT_OVERLAY_CONTENT_VISIBILITY,

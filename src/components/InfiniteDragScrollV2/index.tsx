@@ -1,26 +1,30 @@
-import type { BasesEntry } from "obsidian";
+import type { BasesEntry, BasesViewConfig } from "obsidian";
 import { useEffect, useState } from "react";
+
+import type { CardConfig } from "@/components/Card/types";
 
 import { useObsidian } from "../Obsidian/Context";
 import { DragContainer } from "./DragContainer";
-import type { ItemConfig } from "./ItemContent";
-import type { Variants } from "./types";
 import { VirtualGrid } from "./VirtualGrid";
 
 type Props = {
 	items: BasesEntry[];
-	itemConfig: ItemConfig;
-	variant: Variants;
+	cardConfig: CardConfig;
+	config: BasesViewConfig;
+	masonry?: boolean;
 };
 
-const InfiniteDragScrollV2 = ({ items, itemConfig, variant }: Props) => {
+const InfiniteDragScrollV2 = ({ items, cardConfig, config, masonry = false }: Props) => {
 	const { containerEl } = useObsidian();
 
 	// Cell dimensions
-	const cellWidth = itemConfig.cardSize;
-	const cellHeight = itemConfig.cardSize * itemConfig.aspectRatio;
-	const gapX = itemConfig.cardSize / 2;
-	const gapY = 0;
+	const cellWidth = cardConfig.cardSize;
+	// For polaroid layout, add extra height for borders (10px top + 28px bottom) and content area
+	const polaroidExtraHeight = cardConfig.layout === "polaroid" ? 38 + 40 : 0;
+	const cellHeight = cardConfig.cardSize * cardConfig.imageAspectRatio + polaroidExtraHeight;
+	const gap = cardConfig.cardSize / 2;
+	const gapX = gap;
+	const gapY = gap;
 
 	// Reactive state for layout calculations
 	const [columns, setColumns] = useState(1);
@@ -81,16 +85,17 @@ const InfiniteDragScrollV2 = ({ items, itemConfig, variant }: Props) => {
 			{(scrollPos) => (
 				<VirtualGrid
 					items={items}
-					itemConfig={itemConfig}
+					cardConfig={cardConfig}
+					config={config}
 					columns={columns}
 					cellWidth={cellWidth}
 					cellHeight={cellHeight}
 					gapX={gapX}
 					gapY={gapY}
 					scrollPosition={scrollPos}
-					variant={variant}
 					viewportWidth={viewportDimensions.width}
 					viewportHeight={viewportDimensions.height}
+					masonry={masonry}
 				/>
 			)}
 		</DragContainer>

@@ -77,6 +77,15 @@ const meta = {
 				defaultValue: { summary: "vertical" },
 			},
 		},
+		overlayContentVisibility: {
+			control: "select",
+			options: ["always", "hover"],
+			name: "Overlay Content Visibility",
+			description: "When to show overlay content.",
+			table: {
+				category: "Layout & Display",
+			},
+		},
 		shape: {
 			control: "select",
 			name: "Shape",

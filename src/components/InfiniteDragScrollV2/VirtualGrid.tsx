@@ -1,12 +1,12 @@
-import  { type BasesEntry, Platform } from "obsidian";
-import { useEffect, useState } from "react";
+import  { type BasesEntry, type BasesViewConfig, Platform } from "obsidian";
 
 import { cn } from "@/lib/utils";
 
+import Card from "../Card";
+import type { CardConfig } from "../Card/types";
+
 import GridItem from "./GridItem";
 import { useVirtualGrid } from "./hooks/use-virtual-grid";
-import type { ItemConfig } from "./ItemContent";
-import type { Variants } from "./types";
 
 type ScrollPosition = {
 	x: number;
@@ -15,44 +15,35 @@ type ScrollPosition = {
 
 type VirtualGridProps = {
 	items: BasesEntry[];
-	itemConfig: ItemConfig;
+	cardConfig: CardConfig;
+	config: BasesViewConfig;
 	columns: number;
 	cellWidth: number;
 	cellHeight: number;
 	gapX: number;
 	gapY: number;
 	scrollPosition: ScrollPosition;
-	variant: Variants;
 	viewportWidth: number;
 	viewportHeight: number;
+	masonry?: boolean;
 	className?: string;
 };
 
 export const VirtualGrid = ({
 	items,
-	itemConfig,
+	cardConfig,
+	config,
 	columns,
 	cellWidth,
 	cellHeight,
 	gapX,
 	gapY,
 	scrollPosition,
-	variant,
 	viewportWidth,
 	viewportHeight,
+	masonry = false,
 	className,
 }: VirtualGridProps) => {
-	const [ItemContentComponent, setItemContentComponent] = useState<
-		typeof import("./ItemContent").default | null
-	>(null);
-
-	// Lazy load ItemContent to avoid circular dependencies
-	useEffect(() => {
-		import("./ItemContent").then((module) => {
-			setItemContentComponent(() => module.default);
-		});
-	}, []);
-
 	// Calculate visible items using safe virtualization hook
 	// Use buffer of 1 to minimize memory usage on mobile
 	const visibleItems = useVirtualGrid({
@@ -66,13 +57,9 @@ export const VirtualGrid = ({
 		scrollY: scrollPosition.y,
 		viewportWidth,
 		viewportHeight,
-		variant,
+		masonry,
 		buffer: Platform.isMobile ? 1 : 3,
 	});
-
-	if (!ItemContentComponent) {
-		return null;
-	}
 
 	return (
 		<div className={cn("absolute inset-0", className)}>
@@ -83,12 +70,13 @@ export const VirtualGrid = ({
 					y={y}
 					width={cellWidth}
 					height={cellHeight}
-					variant={variant}
 				>
-					<ItemContentComponent
-						item={items[realIndex]}
-						tabIndex={realIndex === 0 ? 0 : undefined}
-						{...itemConfig}
+					<Card
+						entry={items[realIndex]}
+						config={config}
+						isDraggable={true}
+						className="w-full h-full"
+						{...cardConfig}
 					/>
 				</GridItem>
 			))}
