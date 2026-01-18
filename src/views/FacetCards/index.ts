@@ -41,6 +41,7 @@ const FACET_CARDS_VIEW: BaseViewDef = {
             horizontal: "Horizontal",
             vertical: "Vertical",
             overlay: "Overlay",
+            polaroid: "Polaroid",
           },
         },
         {

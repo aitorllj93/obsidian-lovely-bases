@@ -129,6 +129,16 @@ export const ROUNDED_SHAPE_CONFIG: CarouselConfig = {
   badgeColor: undefined,
 }
 
+export const POLAROID_LAYOUT_CONFIG: CarouselConfig = {
+  ...DEFAULT_CONFIG,
+  layout: 'polaroid',
+  cardSize: 280,
+  imageAspectRatio: 1,
+  showTitle: true,
+  showPropertyTitles: false,
+  properties: [],
+}
+
 export const WITH_TITLE_SUBTITLE_CONFIG: CarouselConfig = {
 	...HORIZONTAL_LAYOUT_CONFIG,
   imageProperty: 'note.banner',

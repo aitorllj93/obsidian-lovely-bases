@@ -69,13 +69,14 @@ const Image = memo(({ entry, cardConfig, isOverlayMode }: Props) => {
 		);
 	}
 
-	// En vertical, aspect-ratio define la altura, flex-none evita que crezca o encoja
+	const isPolaroid = layout === "polaroid";
+
 	return (
 		<div
 			className="mx-auto relative w-full flex-none bg-(--bases-cards-cover-background)"
 			style={{
 				aspectRatio: 1 / imageAspectRatio,
-				height: cardSize * imageAspectRatio,
+				...(!isPolaroid && { height: cardSize * imageAspectRatio }),
 			}}
 		>
 			{image ? (
@@ -88,10 +89,10 @@ const Image = memo(({ entry, cardConfig, isOverlayMode }: Props) => {
 						"pointer-events-none h-full w-full",
 						imageFit === "cover" ? "object-cover" : "object-contain",
 					)}
-          style={{
-            aspectRatio: 1 / imageAspectRatio,
-            height: cardSize * imageAspectRatio,
-          }}
+					style={{
+						aspectRatio: 1 / imageAspectRatio,
+						...(!isPolaroid && { height: cardSize * imageAspectRatio }),
+					}}
 				/>
 			) : (
 				<div className="h-full w-full" />

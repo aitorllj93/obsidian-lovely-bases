@@ -18,7 +18,7 @@ export type CardItem = {
 }
 
 export type CardConfig = {
-	layout: "vertical" | "horizontal" | "overlay";
+	layout: "vertical" | "horizontal" | "overlay" | "polaroid";
 	shape: "square" | "circle" | "rounded";
 	cardSize: number;
 	imageAspectRatio: number;

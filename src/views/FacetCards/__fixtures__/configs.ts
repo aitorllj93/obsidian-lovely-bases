@@ -128,3 +128,14 @@ export const ROUNDED_SHAPE_CONFIG: FacetCardsConfig = {
   badgeIcon: undefined,
   badgeColor: undefined,
 }
+
+export const POLAROID_LAYOUT_CONFIG: FacetCardsConfig = {
+  ...DEFAULT_CONFIG,
+  layout: 'polaroid',
+  cardSize: 280,
+  imageAspectRatio: 1,
+  imageProperty: 'note.banner',
+  showTitle: true,
+  showPropertyTitles: false,
+  properties: [],
+}

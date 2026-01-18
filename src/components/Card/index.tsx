@@ -21,13 +21,14 @@ type Props = CardConfig & {
 };
 
 const cardVariants = cva(
-	"relative bg-(--bases-cards-background) shadow-md overflow-hidden transition-shadow hover:shadow-lg cursor-pointer border border-border group",
+	"relative bg-(--bases-cards-background) shadow-md overflow-hidden transition-shadow hover:shadow-lg cursor-pointer border border-border group box-border",
 	{
 		variants: {
       layout: {
         horizontal: "flex flex-row h-full",
         vertical: "flex flex-col h-full",
         overlay: "",
+        polaroid: "flex flex-col h-full bg-card border-10 border-b-28 border-card",
       },
 			shape: {
 				square: "rounded",

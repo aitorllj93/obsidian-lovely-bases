@@ -7,6 +7,7 @@ import { CATEGORIES_ENTRIES } from "./categories";
 import { MOVIES_ENTRIES } from "./movies";
 import { PERSON_ENTRIES } from "./people";
 import { PLANS_ENTRIES } from "./plans";
+import { PHOTOS_ENTRIES } from "./photos";
 
 export {
   APPLICATION_ENTRIES,
@@ -18,6 +19,7 @@ export { MOVIES_ENTRIES, VIRTUAL_SCROLL_MOVIES_ENTRIES } from "./movies";
 export { GROUPED_OCCURRENCES, OCCURRENCES } from "./occurrences";
 export { PERSON_ENTRIES, VIRTUAL_SCROLL_PERSON_ENTRIES } from "./people";
 export { PLANS_ENTRIES, VIRTUAL_SCROLL_PLANS_ENTRIES } from "./plans";
+export { PHOTOS_ENTRIES, VIRTUAL_SCROLL_PHOTOS_ENTRIES } from "./photos";
 
 export const ALL_ENTRIES: BasesEntry[] = [
   ...APPLICATION_ENTRIES,
@@ -27,4 +29,5 @@ export const ALL_ENTRIES: BasesEntry[] = [
   ...MOVIES_ENTRIES,
   ...PERSON_ENTRIES,
   ...PLANS_ENTRIES,
+  ...PHOTOS_ENTRIES,
 ];

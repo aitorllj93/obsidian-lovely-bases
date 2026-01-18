@@ -16,6 +16,7 @@ import {
 	FULL_CONFIG,
 	HORIZONTAL_LAYOUT_CONFIG,
 	OVERLAY_LAYOUT_CONFIG,
+	POLAROID_LAYOUT_CONFIG,
 	ROUNDED_SHAPE_CONFIG,
 	WITH_TITLE_SUBTITLE_CONFIG,
 } from "./__fixtures__/configs";
@@ -70,7 +71,7 @@ const meta = {
 			control: "select",
 			name: "Layout",
 			description: "Orientation of the cards in the carousel.",
-			options: ["horizontal", "vertical", "overlay"],
+			options: ["horizontal", "vertical", "overlay", "polaroid"],
 			table: {
 				category: "Display",
 				defaultValue: { summary: "vertical" },
@@ -304,6 +305,27 @@ badgeColor: #D0A215
 		groupedData: [aBasesEntryGroup("", MOVIES_ENTRIES)],
 		onEntryClick: fn(),
 		...OVERLAY_LAYOUT_CONFIG,
+	},
+};
+
+export const PolaroidLayout: Story = {
+	parameters: {
+		docs: {
+			description: {
+				story: `Polaroid layout displays cards with a classic photo-album aesthetic, featuring white borders and a larger bottom margin.
+
+\`\`\`yml
+layout: polaroid
+\`\`\`
+`,
+			},
+		},
+	},
+	args: {
+		data: MOVIES_ENTRIES,
+		groupedData: [aBasesEntryGroup("", MOVIES_ENTRIES)],
+		onEntryClick: fn(),
+		...POLAROID_LAYOUT_CONFIG,
 	},
 };
 
