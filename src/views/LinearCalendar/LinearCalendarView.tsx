@@ -12,6 +12,7 @@ export type LinearCalendarConfig = {
   focus: "full" | "half" | "quarter";
   startDateProperty: BasesPropertyId;
   endDateProperty?: BasesPropertyId;
+  titleProperty?: BasesPropertyId;
   colorProperty?: BasesPropertyId;
   iconProperty?: BasesPropertyId;
   date?: string;
@@ -28,6 +29,7 @@ const LinearCalendarView = ({
     focus: "full",
     startDateProperty: "note.start_date",
     endDateProperty: undefined,
+    titleProperty: undefined,
     colorProperty: undefined,
     iconProperty: undefined,
     date: new Date().getFullYear().toString(),
@@ -68,10 +70,11 @@ const LinearCalendarView = ({
 
           const color = linearCalendarConfig.colorProperty ? entry.getValue(linearCalendarConfig.colorProperty)?.toString() : undefined;
           const icon = linearCalendarConfig.iconProperty ? entry.getValue(linearCalendarConfig.iconProperty)?.toString() : undefined;
+          const title = linearCalendarConfig.titleProperty ? entry.getValue(linearCalendarConfig.titleProperty)?.toString() : entry.file.basename;
 
           return {
             id: entry.file.path,
-            title: entry.file.basename,
+            title,
             file: entry.file,
             startDate,
             endDate,
@@ -87,6 +90,7 @@ const LinearCalendarView = ({
     linearCalendarConfig.endDateProperty,
     linearCalendarConfig.colorProperty,
     linearCalendarConfig.iconProperty,
+    linearCalendarConfig.titleProperty,
   ]);
 
   return (
