@@ -37,4 +37,5 @@ export type CardConfig = {
 	badgeIcon: string | undefined;
 	badgeColor: string | undefined;
 	tilt: "none" | "alternating";
+  linkProperty: BasesPropertyId | undefined;
 }

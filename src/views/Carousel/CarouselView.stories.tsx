@@ -50,6 +50,14 @@ const meta = {
 		},
 	},
 	argTypes: {
+    linkProperty: {
+      control: "text",
+      name: "Link Property",
+      description: "The property that contains the link to open when clicking on the cards.",
+      table: {
+        category: "Link",
+      },
+    },
 		// Grouping
 		groupTitleProperty: {
 			control: "text",

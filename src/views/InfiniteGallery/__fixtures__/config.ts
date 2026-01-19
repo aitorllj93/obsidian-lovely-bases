@@ -22,6 +22,7 @@ export const DEFAULT_BASE_CONFIG: InfiniteGalleryConfig = {
   badgeColor: undefined,
   tilt: DEFAULT_TILT,
   masonry: false,
+  linkProperty: undefined,
 };
 
 export const FULL_BASE_CONFIG: InfiniteGalleryConfig = {
@@ -39,6 +40,7 @@ export const FULL_BASE_CONFIG: InfiniteGalleryConfig = {
   showContent: true,
   contentMaxLength: 50,
   tilt: "alternating",
+  linkProperty: undefined,
 } satisfies Partial<InfiniteGalleryConfig>;
 
 export const POLAROID_BASE_CONFIG: InfiniteGalleryConfig = {
@@ -52,9 +54,11 @@ export const POLAROID_BASE_CONFIG: InfiniteGalleryConfig = {
   showTitle: true,
   showPropertyTitles: false,
   properties: [],
+  linkProperty: undefined,
 };
 
 export const MASONRY_BASE_CONFIG: InfiniteGalleryConfig = {
   ...DEFAULT_BASE_CONFIG,
   masonry: true,
+  linkProperty: undefined,
 };

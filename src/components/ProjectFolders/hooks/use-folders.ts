@@ -3,7 +3,7 @@ import { useMemo } from "react";
 
 import { useObsidian } from "@/components/Obsidian/Context";
 import { accent, linear } from "@/lib/colors";
-import { getImage, getTitle, isLink, parseWikilink } from "@/lib/properties";
+import { getImage, getTitle, isWikiLink, parseWikilink } from "@/lib/properties";
 
 import type { Folder } from "../types";
 
@@ -31,7 +31,7 @@ export const useFolders = (
         : [group.key.toString()];
 
       for (const key of keys) {
-        const keyIsLink = isLink(key);
+        const keyIsLink = isWikiLink(key);
         const title = key !== "null" ? parseWikilink(key) : "";
 
         let color = accentColor;

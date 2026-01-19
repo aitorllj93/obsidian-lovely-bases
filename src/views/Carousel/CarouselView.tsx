@@ -7,6 +7,7 @@ import { Container } from "@/components/Obsidian/Container";
 import type { ReactBaseViewProps } from "@/types";
 
 export type CarouselConfig = CardConfig & {
+  linkProperty?: string;
   groupTitleProperty?: string;
   groupSubtitleProperty?: string;
 };

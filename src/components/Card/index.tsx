@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 import type { BasesEntry, BasesViewConfig } from "obsidian";
-import { memo, useRef, useState } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 
 import { useEntryHover } from "@/hooks/use-entry-hover";
 import { useEntryOpen } from "@/hooks/use-entry-open";
@@ -57,14 +57,14 @@ const Card = memo(
 		const dragStartPos = useRef<{ x: number; y: number } | null>(null);
 		const linkRef = useRef<HTMLAnchorElement>(null);
 		const entryId = entry.file.path;
-		const handleEntryOpen = useEntryOpen(entryId);
+		const handleEntryOpen = useEntryOpen(entry, config, cardConfig.linkProperty);
 		const handleEntryHover = useEntryHover(entryId, linkRef);
 
 		const onPointerDown = (event: React.PointerEvent) => {
 			dragStartPos.current = { x: event.clientX, y: event.clientY };
 		};
 
-		const handleClick = (event: React.MouseEvent) => {
+		const handleClick = useCallback((event: React.MouseEvent) => {
 			if (isDraggable && dragStartPos.current) {
 				const dx = Math.abs(event.clientX - dragStartPos.current.x);
 				const dy = Math.abs(event.clientY - dragStartPos.current.y);
@@ -73,8 +73,9 @@ const Card = memo(
 					return;
 				}
 			}
+
 			handleEntryOpen(event);
-		};
+		}, [handleEntryOpen, isDraggable]);
 
 		const onMouseEnter = () => setIsHovered(true);
 		const onMouseLeave = () => setIsHovered(false);

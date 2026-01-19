@@ -25,6 +25,7 @@ export const DEFAULT_CONFIG: CarouselConfig = {
 	badgeIcon: undefined,
 	badgeColor: undefined,
   tilt: "none",
+  linkProperty: undefined,
 } satisfies Partial<CarouselConfig>;
 
 export const FULL_CONFIG: CarouselConfig = {
@@ -50,6 +51,7 @@ export const FULL_CONFIG: CarouselConfig = {
   tilt: "none",
   groupTitleProperty: 'note.sectionTitle',
   groupSubtitleProperty: 'note.sectionSubtitle',
+  linkProperty: 'note.link',
 } satisfies Partial<CarouselConfig>;
 
 export const HORIZONTAL_LAYOUT_CONFIG: CarouselConfig = {
@@ -96,6 +98,7 @@ export const OVERLAY_LAYOUT_CONFIG: CarouselConfig = {
   badgeIcon: 'star',
   badgeColor: '#D0A215',
   tilt: "none",
+  linkProperty: undefined,
 }
 
 export const CIRCLE_SHAPE_CONFIG: CarouselConfig = {
@@ -118,6 +121,7 @@ export const CIRCLE_SHAPE_CONFIG: CarouselConfig = {
   badgeIcon: undefined,
   badgeColor: undefined,
   tilt: "none",
+  linkProperty: undefined,
 }
 
 
@@ -141,6 +145,7 @@ export const ROUNDED_SHAPE_CONFIG: CarouselConfig = {
   badgeIcon: undefined,
   badgeColor: undefined,
   tilt: "none",
+  linkProperty: undefined,
 }
 
 export const POLAROID_LAYOUT_CONFIG: CarouselConfig = {

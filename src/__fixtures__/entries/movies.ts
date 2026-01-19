@@ -27,6 +27,7 @@ export const MOVIES_ENTRIES: BasesEntry[] = [
       times_watched: 1,
       sectionTitle: 'Watch Again',
       cover: 'https://m.media-amazon.com/images/M/MV5BMjA1Nzk0OTM2OF5BMl5BanBnXkFtZTgwNjU2NjEwMDE@._V1_SX300.jpg',
+      link: 'https://www.themoviedb.org/movie/152601-her',
     }
   ),
   aBasesEntry(

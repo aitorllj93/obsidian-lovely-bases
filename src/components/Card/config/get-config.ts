@@ -42,6 +42,7 @@ export function getCardConfig(config: BasesViewConfig): CardConfig {
 		badgeIcon: config.get("badgeIcon") as string | undefined ?? DEFAULT_BADGE_ICON,
 		badgeColor: config.get("badgeColor") as string | undefined ?? DEFAULT_BADGE_COLOR,
 		tilt: (config.get("tilt") as CardConfig["tilt"]) ?? DEFAULT_TILT,
+    linkProperty: config.get("linkProperty") as BasesPropertyId | undefined,
 	};
 }
 

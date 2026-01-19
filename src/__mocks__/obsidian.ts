@@ -206,6 +206,10 @@ export const setIcon = (el: HTMLElement, name: string): void => {
   );
 }
 
+export const openExternal = (url: string): void => {
+  window.open(url, '_blank');
+}
+
 
 // biome-ignore lint/suspicious/noExplicitAny: Mock para Storybook, necesita compatibilidad con tipos de Obsidian
 function createMockConfig(): any {

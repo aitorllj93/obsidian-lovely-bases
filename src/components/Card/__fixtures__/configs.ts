@@ -21,6 +21,7 @@ export const APPLICATIONS_CARD_CONFIG: CardConfig = {
   badgeIcon: undefined,
   badgeColor: undefined,
   tilt: "none",
+  linkProperty: undefined,
 };
 
 export const ARTICLES_CARD_CONFIG: CardConfig = {
@@ -47,6 +48,7 @@ export const ARTICLES_CARD_CONFIG: CardConfig = {
   badgeIcon: undefined,
   badgeColor: undefined,
   tilt: "none",
+  linkProperty: undefined,
 };
 
 export const BOOKS_CARD_CONFIG: CardConfig = {
@@ -69,6 +71,7 @@ export const BOOKS_CARD_CONFIG: CardConfig = {
   badgeIcon: undefined,
   badgeColor: undefined,
   tilt: "none",
+  linkProperty: undefined,
 };
 
 export const MOVIES_CARD_CONFIG: CardConfig = {
@@ -91,6 +94,7 @@ export const MOVIES_CARD_CONFIG: CardConfig = {
   badgeIcon: 'star',
   badgeColor: '#D0A215',
   tilt: "none",
+  linkProperty: undefined,
 };
 
 export const PEOPLE_CARD_CONFIG: CardConfig = {
@@ -113,5 +117,6 @@ export const PEOPLE_CARD_CONFIG: CardConfig = {
   badgeIcon: undefined,
   badgeColor: undefined,
   tilt: "none",
+  linkProperty: undefined,
 };
 

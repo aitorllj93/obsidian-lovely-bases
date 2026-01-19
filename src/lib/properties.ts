@@ -26,7 +26,7 @@ export const getProperty = (entry: BasesEntry, config: BasesViewConfig, property
   }
 }
 
-export const isLink = (raw: string): boolean => {
+export const isWikiLink = (raw: string): boolean => {
   return raw.startsWith("[") && raw.endsWith("]");
 }
 

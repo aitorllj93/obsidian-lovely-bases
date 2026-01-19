@@ -26,6 +26,7 @@ export const DEFAULT_CONFIG: FacetCardsConfig = {
 	badgeIcon: undefined,
 	badgeColor: undefined,
   tilt: DEFAULT_TILT,
+  linkProperty: undefined,
 } satisfies Partial<FacetCardsConfig>;
 
 export const FULL_CONFIG: FacetCardsConfig = {
@@ -42,6 +43,7 @@ export const FULL_CONFIG: FacetCardsConfig = {
 	reverseContent: true,
 	hoverProperty: "note.url",
 	hoverStyle: "overlay",
+  linkProperty: undefined,
 } satisfies Partial<FacetCardsConfig>;
 
 export const HORIZONTAL_LAYOUT_CONFIG: FacetCardsConfig = {
@@ -65,6 +67,7 @@ export const HORIZONTAL_LAYOUT_CONFIG: FacetCardsConfig = {
   badgeProperty: undefined,
   badgeIcon: undefined,
   badgeColor: undefined,
+  linkProperty: undefined,
 }
 
 export const OVERLAY_LAYOUT_CONFIG: FacetCardsConfig = {
@@ -87,6 +90,7 @@ export const OVERLAY_LAYOUT_CONFIG: FacetCardsConfig = {
   badgeIcon: 'star',
   badgeColor: '#D0A215',
   tilt: DEFAULT_TILT,
+  linkProperty: undefined,
 }
 
 export const CIRCLE_SHAPE_CONFIG: FacetCardsConfig = {
@@ -109,6 +113,7 @@ export const CIRCLE_SHAPE_CONFIG: FacetCardsConfig = {
   badgeIcon: undefined,
   badgeColor: undefined,
   tilt: DEFAULT_TILT,
+  linkProperty: undefined,
 }
 
 
@@ -132,6 +137,7 @@ export const ROUNDED_SHAPE_CONFIG: FacetCardsConfig = {
   badgeIcon: undefined,
   badgeColor: undefined,
   tilt: DEFAULT_TILT,
+  linkProperty: undefined,
 }
 
 export const POLAROID_LAYOUT_CONFIG: FacetCardsConfig = {
@@ -144,4 +150,5 @@ export const POLAROID_LAYOUT_CONFIG: FacetCardsConfig = {
   showPropertyTitles: false,
   properties: [],
   tilt: DEFAULT_TILT,
+  linkProperty: undefined,
 }

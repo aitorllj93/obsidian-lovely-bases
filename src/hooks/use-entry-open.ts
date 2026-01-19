@@ -1,12 +1,21 @@
 
 
-import { Keymap } from "obsidian";
+import { type BasesEntry, type BasesPropertyId, type BasesViewConfig, Keymap } from "obsidian";
 import { useCallback } from "react";
 
 import { useObsidian } from "@/components/Obsidian/Context";
+import { useEntryProperty } from "./use-property";
+import { isWikiLink, parseWikilink } from "@/lib/properties";
 
-export function useEntryOpen(entryId: string) {
+const openExternal = (url: string): void => {
+  window.open(url, '_blank');
+}
+
+export function useEntryOpen(
+  entry: BasesEntry, config: BasesViewConfig, linkProperty?: BasesPropertyId) {
   const { app } = useObsidian();
+  const linkValue = useEntryProperty(entry, config, linkProperty);
+  const link = !linkValue || linkValue?.isEmpty ? null : linkValue.value.toString();
 
   return useCallback((event: React.MouseEvent | React.KeyboardEvent) => {
     const evt = event.nativeEvent;
@@ -15,7 +24,15 @@ export function useEntryOpen(entryId: string) {
 
     evt.preventDefault();
     const modEvent = Keymap.isModEvent(evt);
-    void app.workspace.openLinkText(entryId, "", modEvent);
-  }, [app.workspace.openLinkText, entryId]);
+    if (!modEvent && link) {
+      if (isWikiLink(link)) {
+        void app.workspace.openLinkText(parseWikilink(link), "", modEvent);
+      } else {
+        openExternal(link);
+      }
+    } else {
+      void app.workspace.openLinkText(entry.file.path, "", modEvent);
+    }
+  }, [app.workspace.openLinkText, entry.file.path, link]);
 }
 

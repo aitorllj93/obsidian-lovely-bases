@@ -19,6 +19,12 @@ const CAROUSEL_VIEW: BaseViewDef = {
 
   options: () => [
     {
+      type: "property",
+      displayName: "Link Property",
+      key: "linkProperty",
+      default: "",
+    },
+    {
       type: "group",
       displayName: "Grouping",
       items: [
