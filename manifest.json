@@ -6,5 +6,11 @@
   "description": "Beautiful, visual bases views for Obsidian",
   "author": "Aitor Llamas Jiménez",
   "authorUrl": "https://github.com/aitorllj93",
-  "isDesktopOnly": false
+  "isDesktopOnly": false,
+  "fundingUrl": {
+    "GitHub Sponsor": "https://github.com/sponsors/aitorllj93",
+    "Ko-fi": "https://ko-fi.com/aitorllj93",
+    "Buy me a coffee": "https://www.buymeacoffee.com/aitorllj93",
+    "PayPal": "https://www.paypal.com/paypalme/aitorllj93"
+  }
 }
