@@ -44,7 +44,7 @@ export const MonthLabels = ({ startDate, weeks, endDate, layout = "horizontal" }
 		}
 
 		return (
-			<div className="flex flex-col gap-1 w-5 mr-2">
+			<div className="flex flex-col gap-1 w-7 shrink-0">
 				{slots.map((label, index) => (
 					<div
 						key={`month-slot-${index.toString()}`}

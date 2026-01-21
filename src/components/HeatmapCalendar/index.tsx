@@ -114,6 +114,8 @@ export const HeatmapCalendar = ({
           showDayLabels={showDayLabels}
           layout={layout}
           onEntryClick={onEntryClick}
+          rangeStartDate={startDate}
+          rangeEndDate={endDate}
         />
         <Legend classNames={classNames} overflowColor={overflowColor} />
       </div>
@@ -160,7 +162,7 @@ export const HeatmapCalendar = ({
             {showDayLabels && (
               <div className="flex gap-2 mb-2 items-start overflow-visible">
                 {showYearLabels && <div className="w-10 shrink-0" />}
-                {showMonthLabels && <div className="w-5 shrink-0" />}
+                {showMonthLabels && <div className="w-7 shrink-0" />}
                 <div className="flex-1 overflow-visible">
                   <DayLabels
                     layout={layout}
@@ -182,6 +184,8 @@ export const HeatmapCalendar = ({
                 maxValue={maxValue}
                 overflowColor={overflowColor}
                 onEntryClick={onEntryClick}
+                rangeStartDate={startDate}
+                rangeEndDate={endDate}
               />
             </div>
           </div>
@@ -206,6 +210,8 @@ export const HeatmapCalendar = ({
                 maxValue={maxValue}
                 overflowColor={overflowColor}
                 onEntryClick={onEntryClick}
+                rangeStartDate={startDate}
+                rangeEndDate={endDate}
               />
             </div>
           </>

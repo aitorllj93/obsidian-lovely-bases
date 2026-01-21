@@ -28,6 +28,8 @@ type Props = {
 	showDayLabels?: boolean;
 	layout?: "horizontal" | "vertical";
 	onEntryClick?: EntryClickEventHandler;
+	rangeStartDate?: Date;
+	rangeEndDate?: Date;
 };
 
 type MonthData = {
@@ -49,6 +51,8 @@ type DayCellProps = {
 	maxValue: number;
 	overflowColor?: string;
 	onEntryClick?: EntryClickEventHandler;
+	rangeStartDate?: Date;
+	rangeEndDate?: Date;
 };
 
 const DayCell = memo(
@@ -61,7 +65,17 @@ const DayCell = memo(
 		maxValue,
 		overflowColor,
 		onEntryClick,
+		rangeStartDate,
+		rangeEndDate,
 	}: DayCellProps) => {
+		const isOutsideRange =
+			(rangeStartDate && day < rangeStartDate) ||
+			(rangeEndDate && day > rangeEndDate);
+
+		if (isOutsideRange) {
+			return <div className="w-3 h-3" />;
+		}
+
 		const dateKey = format(day, FORMATS.DATE_ISO);
 		const occurrence = occurrenceMap.get(dateKey);
 		const count = occurrence?.count ?? 0;
@@ -98,7 +112,9 @@ const DayCell = memo(
 			prevProps.classNames === nextProps.classNames &&
 			prevProps.minValue === nextProps.minValue &&
 			prevProps.maxValue === nextProps.maxValue &&
-			prevProps.overflowColor === nextProps.overflowColor
+			prevProps.overflowColor === nextProps.overflowColor &&
+			prevProps.rangeStartDate?.getTime() === nextProps.rangeStartDate?.getTime() &&
+			prevProps.rangeEndDate?.getTime() === nextProps.rangeEndDate?.getTime()
 		);
 	},
 );
@@ -116,6 +132,8 @@ type MonthBlockProps = {
 	overflowColor?: string;
 	showDayLabels: boolean;
 	onEntryClick?: EntryClickEventHandler;
+	rangeStartDate?: Date;
+	rangeEndDate?: Date;
 };
 
 const MonthBlock = memo(
@@ -130,6 +148,8 @@ const MonthBlock = memo(
 		overflowColor,
 		showDayLabels,
 		onEntryClick,
+		rangeStartDate,
+		rangeEndDate,
 	}: MonthBlockProps) => {
 		const currentMonth = monthStart.getMonth();
 
@@ -165,6 +185,8 @@ const MonthBlock = memo(
 									maxValue={maxValue}
 									overflowColor={overflowColor}
 									onEntryClick={onEntryClick}
+									rangeStartDate={rangeStartDate}
+									rangeEndDate={rangeEndDate}
 								/>
 							))}
 						</div>
@@ -188,6 +210,8 @@ const MonthGridViewComponent = ({
 	showDayLabels = true,
 	layout = "vertical",
 	onEntryClick,
+	rangeStartDate,
+	rangeEndDate,
 }: Props) => {
 	const occurrenceMap = useMemo(() => {
 		const map = new Map<string, Occurrence>();
@@ -255,6 +279,8 @@ const MonthGridViewComponent = ({
 					overflowColor={overflowColor}
 					showDayLabels={showDayLabels}
 					onEntryClick={onEntryClick}
+					rangeStartDate={rangeStartDate}
+					rangeEndDate={rangeEndDate}
 				/>
 			))}
 		</div>
