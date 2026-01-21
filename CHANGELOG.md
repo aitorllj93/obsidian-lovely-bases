@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Minor UI fixes (#8)
 - Setup a max range to avoid crashes
+- Wrong parsing on locales
 
 ## [0.1.1] - 2026-01-17
 

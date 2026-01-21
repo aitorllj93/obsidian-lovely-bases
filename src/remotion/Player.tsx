@@ -56,9 +56,9 @@ const RemotionPlayer = ({ stories, title }: Props) => {
         fps={30}
         compositionWidth={960}
         compositionHeight={540}
-        autoPlay={false}
+        autoPlay
         loop
-        controls={true}
+        controls={false}
         style={{
           width: "100%",
           aspectRatio: "16/9",
