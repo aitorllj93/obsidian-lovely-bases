@@ -238,9 +238,11 @@ const MonthGridViewComponent = ({
 
 	const monthsData = useMemo(() => {
 		const result: MonthData[] = [];
-		let currentMonthStart = startOfMonth(startDate);
+		const effectiveStartDate = rangeStartDate ?? startDate;
+		const effectiveEndDate = rangeEndDate ?? endDate;
+		let currentMonthStart = startOfMonth(effectiveStartDate);
 
-		while (currentMonthStart <= endDate && result.length < MAX_MONTHS) {
+		while (currentMonthStart <= effectiveEndDate && result.length < MAX_MONTHS) {
 			const monthEnd = endOfMonth(currentMonthStart);
 			const firstDayOfGrid = startOfWeek(currentMonthStart);
 			const lastDayOfGrid = endOfWeek(monthEnd);
@@ -260,7 +262,7 @@ const MonthGridViewComponent = ({
 		}
 
 		return result;
-	}, [startDate, endDate]);
+	}, [startDate, endDate, rangeStartDate, rangeEndDate]);
 
 	const isHorizontal = layout === "horizontal";
 	const gridCols = isHorizontal ? "grid-cols-4" : "grid-cols-3";

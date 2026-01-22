@@ -63,7 +63,8 @@ export const MonthLabels = ({ startDate, weeks, endDate, layout = "horizontal" }
 
 	while (currentMonth <= calculatedEndDate) {
 		const monthStart = currentMonth;
-		const weekIndex = differenceInWeeks(monthStart, firstWeekStart);
+		const weekStartOfMonth = startOfWeek(monthStart);
+		const weekIndex = differenceInWeeks(weekStartOfMonth, firstWeekStart);
 
 		if (weekIndex >= 0 && weekIndex < weeks) {
 			const leftPosition = weekIndex * 16;

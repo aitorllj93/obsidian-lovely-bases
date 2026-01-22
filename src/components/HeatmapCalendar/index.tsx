@@ -140,16 +140,16 @@ export const HeatmapCalendar = ({
     return (
       <div className={labelsContainerClass}>
         {showYearLabels && (<YearLabels
-          startDate={displayStartDate}
-          endDate={displayEndDate}
+          startDate={startDate}
+          endDate={endDate}
           layout={layout}
           weeks={weeks}
         />)}
         {showMonthLabels && (<MonthLabels
-          startDate={displayStartDate}
           weeks={weeks}
-            endDate={displayEndDate}
-            layout={layout}
+          startDate={startDate}
+          endDate={endDate}
+          layout={layout}
           />
         )}
       </div>
