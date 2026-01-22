@@ -7,8 +7,9 @@ import {
 	VIRTUAL_SCROLL_BOOKS_ENTRIES,
 	VIRTUAL_SCROLL_MOVIES_ENTRIES,
 	VIRTUAL_SCROLL_PERSON_ENTRIES,
+  VIRTUAL_SCROLL_PHOTOS_ENTRIES,
 } from "@/__fixtures__/entries";
-import { aBasesEntryGroup } from "@/__mocks__";
+import CardMeta from '@/components/Card/Card.stories'
 import {
 	createViewRenderer,
 	Providers,
@@ -17,14 +18,13 @@ import {
 
 import FACET_CARDS_VIEW from ".";
 import {
-	APPLICATIONS_BASE_CONFIG,
-	ARTICLES_BASE_CONFIG,
-	BOOKS_BASE_CONFIG,
-	DEFAULT_BASE_CONFIG,
-	FULL_BASE_CONFIG,
+  CIRCLE_SHAPE_CONFIG,
+	DEFAULT_CONFIG,
+	FULL_CONFIG,
 	HORIZONTAL_LAYOUT_CONFIG,
-	MOVIES_BASE_CONFIG,
-	PEOPLE_BASE_CONFIG,
+  OVERLAY_LAYOUT_CONFIG,
+  POLAROID_LAYOUT_CONFIG,
+  ROUNDED_SHAPE_CONFIG,
 } from "./__fixtures__/configs";
 import FacetCardsView, { type FacetCardsConfig } from "./FacetCardsView";
 
@@ -44,7 +44,7 @@ const meta = {
 			description: {
 				component: `### Features
 
-- **Flexible Layouts**: Choose between **Vertical** (image on top) or **Horizontal** (image on the side) layouts.
+- **Flexible Layouts**: Choose between **Vertical** (image on top), **Horizontal** (image on the side) or **Overlay** (content in an overlay) layouts.
 - **Rich Media Integration**: Display images from any note property with precise control over aspect ratio and fit.
 - **Property-Focused**: Dedicated space for displaying multiple note properties with optional labels.
 - **Interactive Effects**: Enhance your cards with hover-activated overlays for extra information.
@@ -55,122 +55,7 @@ const meta = {
 		},
 	},
 	argTypes: {
-		// Layout & Display
-		layout: {
-			control: "select",
-			options: ["horizontal", "vertical"],
-			name: "Layout",
-			description: "The layout of the cards (horizontal or vertical).",
-			table: {
-				category: "Layout & Display",
-				defaultValue: { summary: "vertical" },
-			},
-		},
-		shape: {
-			control: "select",
-			options: ["square", "circle", "rounded"],
-			name: "Shape",
-			description: "The shape of the cards (square, circle, rounded).",
-			table: {
-				category: "Layout & Display",
-				defaultValue: { summary: "square" },
-			},
-		},
-		cardSize: {
-			control: { type: "range", min: 50, max: 800, step: 10 },
-			name: "Card Size",
-			description: "The size of the cards in the grid.",
-			table: {
-				category: "Layout & Display",
-				defaultValue: { summary: "400" },
-			},
-		},
-		reverseContent: {
-			control: "boolean",
-			name: "Reverse Content",
-			description:
-				"Whether to reverse the content of the cards (useful for alternating designs).",
-			table: {
-				category: "Layout & Display",
-				defaultValue: { summary: "false" },
-			},
-		},
-		// Image
-		imageProperty: {
-			control: "text",
-			name: "Image Property",
-			description: "The property that contains the image to display on the cards.",
-			table: {
-				category: "Image",
-			},
-		},
-		imageAspectRatio: {
-			control: { type: "range", min: 0.25, max: 2.5, step: 0.05 },
-			name: "Image Aspect Ratio",
-			description: "The aspect ratio of the image.",
-			table: {
-				category: "Image",
-				defaultValue: { summary: "1.5" },
-			},
-		},
-		imageFit: {
-			control: "select",
-			options: ["cover", "contain"],
-			name: "Image Fit",
-			description: "The fit of the image (cover or contain).",
-			table: {
-				category: "Image",
-				defaultValue: { summary: "cover" },
-			},
-		},
-		// Content
-		showTitle: {
-			control: "boolean",
-			name: "Show Title",
-			description: "Whether to show the title of the cards.",
-			table: {
-				category: "Content",
-				defaultValue: { summary: "true" },
-			},
-		},
-		showPropertyTitles: {
-			control: "boolean",
-			name: "Show Property Titles",
-			description: "Whether to show the names of the displayed properties.",
-			table: {
-				category: "Content",
-				defaultValue: { summary: "true" },
-			},
-		},
-		properties: {
-			control: "object",
-			name: "Properties",
-			description:
-				"The properties to display on the cards (from the view's properties config).",
-			table: {
-				category: "Content",
-				disable: true,
-			},
-		},
-		// Hover Effects
-		hoverProperty: {
-			control: "text",
-			name: "Hover Property",
-			description: "The property to display on hover (optional).",
-			table: {
-				category: "Hover Effects",
-			},
-		},
-		hoverStyle: {
-			control: "select",
-			options: ["none", "overlay", "tooltip"],
-			name: "Hover Style",
-			description: "The style of the hover (none, overlay, tooltip).",
-			table: {
-				category: "Hover Effects",
-				defaultValue: { summary: "none" },
-			},
-		},
+    ...CardMeta.argTypes,
 		// Internal props (disabled)
 		data: {
 			table: {
@@ -192,7 +77,7 @@ const meta = {
 				disable: true,
 			},
 		},
-	},
+  }
 } satisfies Meta<typeof View>;
 
 export default meta;
@@ -202,9 +87,8 @@ type Story = StoryObj<typeof meta>;
 export const FullExample: Story = {
 	args: {
 		data: VIRTUAL_SCROLL_ARTICLES_ENTRIES,
-		groupedData: [aBasesEntryGroup("", VIRTUAL_SCROLL_ARTICLES_ENTRIES)],
 		onEntryClick: fn(),
-		...FULL_BASE_CONFIG,
+		...FULL_CONFIG,
 	},
 };
 
@@ -218,10 +102,9 @@ export const Default: Story = {
 		},
 	},
 	args: {
-		data: VIRTUAL_SCROLL_MOVIES_ENTRIES,
-		groupedData: [aBasesEntryGroup("", VIRTUAL_SCROLL_MOVIES_ENTRIES)],
+		data: VIRTUAL_SCROLL_BOOKS_ENTRIES,
 		onEntryClick: fn(),
-		...DEFAULT_BASE_CONFIG,
+		...DEFAULT_CONFIG,
 	},
 };
 
@@ -242,20 +125,23 @@ layout: horizontal
 	},
 	args: {
 		data: VIRTUAL_SCROLL_ARTICLES_ENTRIES,
-		groupedData: [aBasesEntryGroup("", VIRTUAL_SCROLL_ARTICLES_ENTRIES)],
 		onEntryClick: fn(),
 		...HORIZONTAL_LAYOUT_CONFIG,
 	},
 };
 
-export const VerticalLayout: Story = {
+export const OverlayLayout: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: `Vertical layout displays the image on top of the card content.
+				story: `Overlay layout displays the content in an overlay. Additionally, you can configure the overlay content visibility to always show or only show when hovering.
 
 \`\`\`yml
-layout: vertical
+layout: overlay
+overlayContentVisibility: hover | always
+badgeProperty: note.rating
+badgeIcon: star
+badgeColor: #D0A215
 \`\`\`
 `,
 			},
@@ -263,9 +149,28 @@ layout: vertical
 	},
 	args: {
 		data: VIRTUAL_SCROLL_MOVIES_ENTRIES,
-		groupedData: [aBasesEntryGroup("", VIRTUAL_SCROLL_MOVIES_ENTRIES)],
 		onEntryClick: fn(),
-		...MOVIES_BASE_CONFIG,
+		...OVERLAY_LAYOUT_CONFIG,
+	},
+};
+
+export const PolaroidLayout: Story = {
+	parameters: {
+		docs: {
+			description: {
+				story: `Polaroid layout displays cards with a classic photo-album aesthetic, featuring white borders and a larger bottom margin.
+
+\`\`\`yml
+layout: polaroid
+\`\`\`
+`,
+			},
+		},
+	},
+	args: {
+		data: VIRTUAL_SCROLL_PHOTOS_ENTRIES,
+		onEntryClick: fn(),
+		...POLAROID_LAYOUT_CONFIG,
 	},
 };
 
@@ -286,9 +191,8 @@ shape: circle
 	},
 	args: {
 		data: VIRTUAL_SCROLL_PERSON_ENTRIES,
-		groupedData: [aBasesEntryGroup("", VIRTUAL_SCROLL_PERSON_ENTRIES)],
 		onEntryClick: fn(),
-		...PEOPLE_BASE_CONFIG,
+		...CIRCLE_SHAPE_CONFIG,
 	},
 };
 
@@ -307,58 +211,7 @@ shape: rounded
 	},
 	args: {
 		data: VIRTUAL_SCROLL_APPLICATION_ENTRIES,
-		groupedData: [
-			aBasesEntryGroup("", VIRTUAL_SCROLL_APPLICATION_ENTRIES),
-		],
 		onEntryClick: fn(),
-		...APPLICATIONS_BASE_CONFIG,
-	},
-};
-
-// === CONTENT STORIES ===
-
-export const ImageOnly: Story = {
-	parameters: {
-		docs: {
-			description: {
-				story: `Show only images without titles or properties for a clean, gallery-like appearance.
-
-\`\`\`yml
-showTitle: false
-properties: []
-\`\`\`
-`,
-			},
-		},
-	},
-	args: {
-		data: VIRTUAL_SCROLL_BOOKS_ENTRIES,
-		groupedData: [aBasesEntryGroup("", VIRTUAL_SCROLL_BOOKS_ENTRIES)],
-		onEntryClick: fn(),
-		...BOOKS_BASE_CONFIG,
-	},
-};
-
-// === HOVER EFFECTS STORIES ===
-
-export const HoverOverlay: Story = {
-	parameters: {
-		docs: {
-			description: {
-				story: `Display additional information in an overlay when hovering over cards.
-
-\`\`\`yml
-hoverProperty: note.url
-hoverStyle: overlay
-\`\`\`
-`,
-			},
-		},
-	},
-	args: {
-		data: VIRTUAL_SCROLL_ARTICLES_ENTRIES,
-		groupedData: [aBasesEntryGroup("", VIRTUAL_SCROLL_ARTICLES_ENTRIES)],
-		onEntryClick: fn(),
-		...ARTICLES_BASE_CONFIG,
+		...ROUNDED_SHAPE_CONFIG,
 	},
 };

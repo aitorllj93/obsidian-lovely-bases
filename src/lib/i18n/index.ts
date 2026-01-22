@@ -1,7 +1,9 @@
 export { detectLocale } from "./detect-locale";
+export { translate } from "./translate";
 export type {
 	LocaleTranslations,
 	Namespace,
+  NamespacedTranslationKey,
 	SupportedLocale,
 	TranslationKey,
 	Translations,

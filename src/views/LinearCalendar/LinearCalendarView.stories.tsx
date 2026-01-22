@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { fn } from "storybook/test";
 
 import { PLANS_ENTRIES } from "@/__fixtures__/entries";
+import { aBasesEntryGroup } from "@/__mocks__";
 import {
   createViewRenderer,
   Providers,
@@ -10,17 +12,15 @@ import {
 import LINEAR_CALENDAR_VIEW from ".";
 
 import {
+  ALT_VISUALIZATIONS_BASE_CONFIG,
+  COLORS_ICONS_BASE_CONFIG,
   DEFAULT_BASE_CONFIG,
   FULL_BASE_CONFIG,
-  COLORS_ICONS_BASE_CONFIG,
-  ALT_VISUALIZATIONS_BASE_CONFIG,
 } from "./__fixtures__/configs";
 
 import LinearCalendarView, {
   type LinearCalendarConfig,
 } from "./LinearCalendarView";
-import { aBasesEntryGroup } from "@/__mocks__";
-import { fn } from "storybook/test";
 
 const View = createViewRenderer<LinearCalendarConfig>(LinearCalendarView);
 
@@ -87,6 +87,11 @@ const meta = {
       name: "End Date Property",
       description:
         "The property used for the event's end date (optional, defaults to start date).",
+    },
+    titleProperty: {
+      control: "text",
+      name: "Title Property",
+      description: "The property used for the event's title (optional, defaults to file.basename).",
     },
     colorProperty: {
       control: "text",

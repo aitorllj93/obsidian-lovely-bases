@@ -9,9 +9,10 @@ import type { CardConfig } from "./types";
 type Props = {
 	entry: BasesEntry;
 	cardConfig: CardConfig;
+	isOverlayMode?: boolean;
 };
 
-const Title = memo(({ entry, cardConfig }: Props) => {
+const Title = memo(({ entry, cardConfig, isOverlayMode }: Props) => {
 	const title = useEntryTitle(entry);
 	const { cardSize, showTitle } = cardConfig;
 	const textSize =
@@ -24,6 +25,7 @@ const Title = memo(({ entry, cardConfig }: Props) => {
 			className={cn(
 				"font-semibold mt-2 mb-0 line-clamp-1 p-(--input-padding) shrink-0",
 				textSize,
+				isOverlayMode && "text-white",
 			)}
 		>
 			{title}

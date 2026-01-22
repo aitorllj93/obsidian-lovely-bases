@@ -37,8 +37,12 @@ const out = postcss()
 	.use({
 		postcssPlugin: 'add-important',
 		Declaration(decl) {
-      // do not include it in css varialbles definitions
+      // do not include it in css variables definitions
       if (decl.prop.startsWith('--')) {
+        return;
+      }
+      // do not add !important inside @property rules (invalid CSS)
+      if (decl.parent && decl.parent.type === 'atrule' && decl.parent.name === 'property') {
         return;
       }
 			if (!decl.important) {

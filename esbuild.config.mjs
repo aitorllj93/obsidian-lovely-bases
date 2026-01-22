@@ -1,6 +1,9 @@
-import esbuild from "esbuild";
-import process from "process";
+
+import { writeFileSync } from "node:fs";
+import process from "node:process";
+
 import builtins from "builtin-modules";
+import esbuild from "esbuild";
 import { copy } from "esbuild-plugin-copy";
 
 const banner = `/*
@@ -62,5 +65,10 @@ esbuild
 		logLevel: "info",
 		treeShaking: true,
 		outfile: "main.js",
+    minify: prod,
+    metafile: true
 	})
-	.catch(() => process.exit(1));
+  .then((result) => {
+    writeFileSync('build/lovely-bases/meta.json', JSON.stringify(result.metafile, null, 2));
+  })
+  .catch(() => process.exit(1));

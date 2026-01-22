@@ -11,7 +11,7 @@ export const APPLICATION_ENTRIES: BasesEntry[] = [
     },
     {
       title: "Obsidian",
-      cover: 'https://play-lh.googleusercontent.com/0WzNnQJyEuOyvkZvYVpGkQJEvOfEF9kBnbLnLQioqUAX_DlV6wP8hyH8BgVBHQa1V9A=w240-h480-rw',
+      cover: 'https://forum.obsidian.md/uploads/default/original/3X/9/f/9f1b5b46aed533f5386cf276ab2cdce48cbd2e25.png',
     }
   ),
   aBasesEntry(

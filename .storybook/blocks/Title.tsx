@@ -1,6 +1,7 @@
 import { useOf } from '@storybook/addon-docs/blocks';
 import React from 'react';
-import LucideIcon from '../../src/components/Obsidian/LucideIcon';
+
+import LucideIcon from './LucideIcon';
 
 /**
  * A block that displays the story name or title from the of prop

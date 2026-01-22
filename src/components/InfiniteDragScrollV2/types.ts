@@ -1,5 +1,3 @@
-export type Variants = "default" | "masonry" | "polaroid";
-
 export type VirtualItem = {
 	virtualCol: number;
 	virtualRow: number;

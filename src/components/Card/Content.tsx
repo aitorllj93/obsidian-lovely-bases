@@ -1,6 +1,9 @@
 import type { BasesEntry, BasesViewConfig } from "obsidian";
 import { memo } from "react";
 
+import Markdown from "@/components/Obsidian/Markdown";
+import { cn } from "@/lib/utils";
+
 import PropertyList from "./PropertyList";
 import Title from "./Title";
 import type { CardConfig } from "./types";
@@ -9,11 +12,13 @@ type Props = {
   entry: BasesEntry;
   cardConfig: CardConfig;
   config: BasesViewConfig;
+  isOverlayMode?: boolean;
 }
 
-const Content = memo(({ entry, cardConfig, config }: Props) => {
+const Content = memo(({ entry, cardConfig, config, isOverlayMode }: Props) => {
+  const { showTitle, showContent, contentMaxLength, properties } = cardConfig;
 
-  const shouldDisplayContent = cardConfig.showTitle || cardConfig.properties.length > 0;
+  const shouldDisplayContent = showTitle || showContent || properties.length > 0;
 
   if (!shouldDisplayContent) {
     return null;
@@ -21,17 +26,35 @@ const Content = memo(({ entry, cardConfig, config }: Props) => {
 
   return (
     <div
-      className="flex flex-col flex-1 min-h-0 min-w-0 h-full overflow-hidden"
+      className={cn(
+        "flex flex-col min-h-0 min-w-0 overflow-hidden",
+        !isOverlayMode && "flex-1 h-full",
+        isOverlayMode && "p-2",
+      )}
     >
-      <Title entry={entry} cardConfig={cardConfig} />
+      <Title entry={entry} cardConfig={cardConfig} isOverlayMode={isOverlayMode} />
 
-      <div className="flex-1 min-h-0">
+      <div className={cn(!isOverlayMode && "flex-1 min-h-0")}>
         <PropertyList
           entry={entry}
           cardConfig={cardConfig}
           config={config}
+          isOverlayMode={isOverlayMode}
         />
       </div>
+
+      {showContent && (
+        <div className="px-(--size-4-2) overflow-hidden">
+          <Markdown
+            file={entry.file}
+            maxLength={contentMaxLength}
+            className={cn(
+              "text-sm line-clamp-6 overflow-hidden",
+              isOverlayMode ? "text-white/90" : "text-foreground",
+            )}
+          />
+        </div>
+      )}
     </div>
   )
 });

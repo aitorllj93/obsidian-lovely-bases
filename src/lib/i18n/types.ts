@@ -17,8 +17,10 @@ type FlattenKeys<T, Prefix extends string = ""> = T extends object
 		}[keyof T]
 	: never;
 
+export type TranslationKey = FlattenKeys<Translations>;
+
 // Claves disponibles para cada namespace (dot notation)
-export type TranslationKey<N extends Namespace> = FlattenKeys<Translations[N]>;
+export type NamespacedTranslationKey<N extends Namespace> = FlattenKeys<Translations[N]>;
 
 // Locales soportados
 export type SupportedLocale =

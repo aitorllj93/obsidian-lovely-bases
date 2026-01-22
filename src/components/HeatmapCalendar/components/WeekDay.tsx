@@ -15,6 +15,8 @@ type Props = {
   maxValue: number;
   overflowColor?: string;
   onEntryClick?: EntryClickEventHandler;
+  rangeStartDate?: Date;
+  rangeEndDate?: Date;
 };
 
 const PureWeekDay = ({
@@ -25,7 +27,17 @@ const PureWeekDay = ({
   maxValue,
   overflowColor,
   onEntryClick,
+  rangeStartDate,
+  rangeEndDate,
 }: Props) => {
+  const isOutsideRange =
+    (rangeStartDate && day < rangeStartDate) ||
+    (rangeEndDate && day > rangeEndDate);
+
+  if (isOutsideRange) {
+    return <div className="w-3 h-3" />;
+  }
+
   const dateKey = format(day, FORMATS.DATE_ISO);
   const occurrence = occurrenceMap.get(dateKey);
   const count = occurrence?.count ?? 0;
@@ -55,6 +67,8 @@ export const WeekDay = memo(PureWeekDay, (prevProps, nextProps) => {
     prevProps.classNames.join(",") === nextProps.classNames.join(",") &&
     prevProps.minValue === nextProps.minValue &&
     prevProps.maxValue === nextProps.maxValue &&
-    prevProps.overflowColor === nextProps.overflowColor
+    prevProps.overflowColor === nextProps.overflowColor &&
+    prevProps.rangeStartDate?.getTime() === nextProps.rangeStartDate?.getTime() &&
+    prevProps.rangeEndDate?.getTime() === nextProps.rangeEndDate?.getTime()
   );
 });

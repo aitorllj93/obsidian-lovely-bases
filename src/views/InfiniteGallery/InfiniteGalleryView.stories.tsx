@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 
-import { MOVIES_ENTRIES, VIRTUAL_SCROLL_MOVIES_ENTRIES } from "@/__fixtures__/entries";
+import { MOVIES_ENTRIES, PHOTOS_ENTRIES, VIRTUAL_SCROLL_BOOKS_ENTRIES, VIRTUAL_SCROLL_MOVIES_ENTRIES, VIRTUAL_SCROLL_PHOTOS_ENTRIES } from "@/__fixtures__/entries";
 import { aBasesEntryGroup } from "@/__mocks__";
+import CardMeta from '@/components/Card/Card.stories';
+import { type NamespacedTranslationKey, translate } from "@/lib/i18n";
 import {
 	createViewRenderer,
 	Providers,
@@ -20,6 +22,7 @@ import InfiniteGalleryView, {
 	type InfiniteGalleryConfig,
 } from "./InfiniteGalleryView";
 
+const t = (key: NamespacedTranslationKey<'infiniteGallery'>) => translate("en", 'infiniteGallery', key);
 const View = createViewRenderer<InfiniteGalleryConfig>(InfiniteGalleryView);
 
 const meta = {
@@ -45,74 +48,27 @@ const meta = {
 - **Infinite Virtual Grid**: Seamlessly navigate through any number of notes without performance lag.
 - **Momentum Drag & Scroll**: Fluid, natural-feeling navigation with momentum and smooth wheel support.
 - **Artistic Layouts**:
-  - **Default**: A clean, balanced grid.
-  - **Masonry**: A dynamic, staggered layout.
+  - **Horizontal**: Image and content side by side.
+  - **Vertical**: Image and content stacked vertically.
+  - **Overlay**: Content overlays the image.
   - **Polaroid**: A classic photo-album aesthetic with borders and playful rotations.
 - **Geometric Shapes**: Custom card shapes including **Square**, **Circle** and **Rounded**.
+- **Rich Content**: Display titles, properties, and note content with customizable visibility.
 
 ### Configuration`,
 			},
 		},
 	},
 	argTypes: {
-		// Layout & Display
-		layout: {
-			control: "select",
-			options: ["default", "masonry", "polaroid"],
-			name: "Layout",
-			description: "The layout style of the gallery (default, masonry, polaroid).",
+		masonry: {
+			control: "boolean",
+			name: t("options.grid.masonry.title"),
+			description: "Enable masonry-style staggered layout.",
 			table: {
-				category: "Layout & Display",
-				defaultValue: { summary: "masonry" },
+				category: t("options.grid.title"),
 			},
 		},
-		cardSize: {
-			control: { type: "range", min: 50, max: 800, step: 10 },
-			name: "Card Size",
-			description: "The size of the cards in the grid.",
-			table: {
-				category: "Layout & Display",
-				defaultValue: { summary: "200" },
-			},
-		},
-		shape: {
-			control: "select",
-			options: ["square", "circle", "rounded"],
-			name: "Shape",
-			description: "The shape of the cards (square, circle, rounded).",
-			table: {
-				category: "Layout & Display",
-				defaultValue: { summary: "square" },
-			},
-		},
-		// Image
-		imageProperty: {
-			control: "text",
-			name: "Image Property",
-			description: "The property that contains the image to display on the cards.",
-			table: {
-				category: "Image",
-			},
-		},
-		imageFit: {
-			control: "select",
-			options: ["cover", "contain"],
-			name: "Image Fit",
-			description: "How the image should fit within the card (cover or contain).",
-			table: {
-				category: "Image",
-				defaultValue: { summary: "cover" },
-			},
-		},
-		aspectRatio: {
-			control: { type: "range", min: 0.25, max: 2.5, step: 0.05 },
-			name: "Image Aspect Ratio",
-			description: "The aspect ratio of the image cards.",
-			table: {
-				category: "Image",
-				defaultValue: { summary: "1.5" },
-			},
-		},
+    ...CardMeta.argTypes,
 		// Internal props (disabled)
 		data: {
 			table: {
@@ -129,6 +85,11 @@ const meta = {
 				disable: true,
 			},
 		},
+		onEntryHover: {
+			table: {
+				disable: true,
+			},
+		},
 	},
 } satisfies Meta<typeof View>;
 
@@ -138,8 +99,8 @@ type Story = StoryObj<typeof meta>;
 
 export const FullExample: Story = {
 	args: {
-		data: VIRTUAL_SCROLL_MOVIES_ENTRIES,
-		groupedData: [aBasesEntryGroup("", MOVIES_ENTRIES)],
+		data: VIRTUAL_SCROLL_BOOKS_ENTRIES,
+		groupedData: [aBasesEntryGroup("", VIRTUAL_SCROLL_BOOKS_ENTRIES)],
 		onEntryClick: fn(),
 		...FULL_BASE_CONFIG,
 	},
@@ -150,7 +111,7 @@ export const Default: Story = {
 		docs: {
 			description: {
 				story:
-					"By default, the infinite gallery displays entries in a masonry layout with square cards.",
+					"By default, the infinite gallery displays entries in a vertical layout with square cards.",
 			},
 		},
 	},
@@ -164,35 +125,14 @@ export const Default: Story = {
 
 // === LAYOUT STORIES ===
 
-// export const Masonry: Story = {
-// 	parameters: {
-// 		docs: {
-// 			description: {
-// 				story: `Display entries in a dynamic masonry layout with staggered rows.
-
-// \`\`\`yml
-// layout: masonry
-// \`\`\`
-// `,
-// 			},
-// 		},
-// 	},
-// 	args: {
-// 		data: VIRTUAL_SCROLL_MOVIES_ENTRIES,
-// 		groupedData: [aBasesEntryGroup("", MOVIES_ENTRIES)],
-// 		onEntryClick: fn(),
-// 		...MASONRY_BASE_CONFIG,
-// 	},
-// };
-
-export const Polaroid: Story = {
+export const Masonry: Story = {
 	parameters: {
 		docs: {
 			description: {
-				story: `Display entries with a classic photo-album aesthetic, featuring borders and playful rotations by using the polaroid layout.
+				story: `Display entries in a dynamic masonry layout with staggered rows.
 
 \`\`\`yml
-layout: polaroid
+masonry: true
 \`\`\`
 `,
 			},
@@ -201,6 +141,29 @@ layout: polaroid
 	args: {
 		data: VIRTUAL_SCROLL_MOVIES_ENTRIES,
 		groupedData: [aBasesEntryGroup("", MOVIES_ENTRIES)],
+		onEntryClick: fn(),
+		...MASONRY_BASE_CONFIG,
+	},
+};
+
+export const Polaroid: Story = {
+	parameters: {
+		docs: {
+			description: {
+				story: `Display entries with a classic photo-album aesthetic, featuring borders and playful rotations by using the polaroid layout with alternating tilt.
+
+\`\`\`yml
+layout: polaroid
+tilt: alternating
+masonry: true
+\`\`\`
+`,
+			},
+		},
+	},
+	args: {
+		data: VIRTUAL_SCROLL_PHOTOS_ENTRIES,
+		groupedData: [aBasesEntryGroup("", PHOTOS_ENTRIES)],
 		onEntryClick: fn(),
 		...POLAROID_BASE_CONFIG,
 	},

@@ -235,11 +235,14 @@ This project is licensed under the MIT License.
 
 - GitHub: [@aitorllj93](https://github.com/aitorllj93)
 
-## 🙏 Acknowledgments
+## ☕ Support
 
-- Built with [React](https://react.dev/)
-- Animations powered by [Motion](https://motion.dev/)
-- Styling with [Tailwind CSS](https://tailwindcss.com/)
+If you like this Plugin and are considering donating to support continued development, use one of the options below!
+
+[![GitHub Sponsors](https://img.shields.io/badge/GitHub%20Sponsors-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/aitorllj93)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/aitorllj93)
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/aitorllj93)
+[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.com/paypalme/aitorllj93)
 
 ---
 

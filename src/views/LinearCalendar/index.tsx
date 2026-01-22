@@ -36,6 +36,11 @@ const LINEAR_CALENDAR_VIEW: BaseViewDef = {
     },
     {
       type: "property",
+      displayName: "Title Property",
+      key: "titleProperty",
+    },
+    {
+      type: "property",
       displayName: "Color Property",
       key: "colorProperty",
     },

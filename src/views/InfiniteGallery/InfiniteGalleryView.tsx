@@ -1,37 +1,39 @@
-import type { BasesPropertyId, BasesViewConfig } from "obsidian";
 
+import type { BasesViewConfig } from "obsidian";
+
+import { useCardConfig } from "@/components/Card/hooks/use-card-config";
+import type { CardConfig } from "@/components/Card/types";
+import InfiniteDragScrollV2 from "@/components/InfiniteDragScrollV2";
+import { Container } from "@/components/Obsidian/Container";
+import { useConfig } from "@/hooks/use-config";
 import type { ReactBaseViewProps } from "@/types";
 
 export const INFINITE_GALLERY_TYPE_ID = "infinite-gallery";
 
-import type { ItemConfig } from "@/components/InfiniteDragScroll/ItemContent";
-import InfiniteDragScrollV2 from "@/components/InfiniteDragScrollV2";
-import { Container } from "@/components/Obsidian/Container";
+type LayoutConfig = {
+  masonry?: boolean;
+}
 
-export type InfiniteGalleryConfig = ItemConfig & {
-  layout: "default" | "masonry" | "polaroid";
-};
+export type InfiniteGalleryConfig = LayoutConfig & CardConfig;
 
-const getConfig = (config: BasesViewConfig): InfiniteGalleryConfig => {
-  return {
-    imageProperty: config.get("imageProperty") as BasesPropertyId | undefined,
-    imageFit: (config.get("imageFit") ?? "cover") as "cover" | "contain",
-    cardSize: (config.get("cardSize") ?? 100) as number,
-    aspectRatio: (config.get("aspectRatio") ?? 1.5) as number,
-    shape: (config.get("shape") ?? "square") as "square" | "circle" | "rounded" | "squircle",
-    layout: (config.get("layout") ?? "masonry") as "default" | "masonry" | "polaroid",
-  };
+const useInfiniteGalleryConfig = (config: BasesViewConfig) => {
+  const cardConfig = useCardConfig(config);
+  const layoutConfig = useConfig<LayoutConfig>(config, {
+    masonry: false,
+  });
+  return { ...cardConfig, ...layoutConfig };
 };
 
 const InfiniteGalleryView = ({ config, data, isEmbedded }: ReactBaseViewProps) => {
-  const galleryConfig = getConfig(config);
+  const viewConfig = useInfiniteGalleryConfig(config);
 
   return (
     <Container isEmbedded={isEmbedded} embeddedStyle={{ height: "60vh", overflowY: "auto" }}>
       <InfiniteDragScrollV2
         items={data.data}
-        itemConfig={galleryConfig}
-        variant={galleryConfig.layout}
+        cardConfig={viewConfig}
+        config={config}
+        masonry={viewConfig.masonry}
       />
     </Container>
   );

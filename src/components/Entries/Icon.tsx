@@ -17,7 +17,7 @@ const Icon = ({ entry }: Props) => {
 
   return (
     <div className="rounded-xl aspect-square w-full h-full flex items-center justify-center" style={{ background: gradient }}>
-      <LucideIcon name={icon} className="w-16 h-16 text-white" />
+      <LucideIcon name={icon} className="size-16 text-white" />
     </div>
     );
 }

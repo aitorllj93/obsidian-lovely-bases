@@ -2,6 +2,7 @@
 import type { App, TFile } from "obsidian"
 
 import { ALL_ENTRIES } from "@/__fixtures__/entries";
+import type { MockTFile } from "./aFile";
 
 export const createMockApp = (): App => {
   return {
@@ -31,9 +32,8 @@ export const createMockApp = (): App => {
 					return `/mock-resource/${path}`;
 				},
 			},
-			// biome-ignore lint/suspicious/noExplicitAny: Storybook mock
-			read: async (_file: any): Promise<string> => {
-				return '# Mock Content\n\nThis is mock content for Storybook.';
+			read: async (_file: TFile): Promise<string> => {
+				return (_file as MockTFile).content ?? '';
 			},
 		},
     workspace: {

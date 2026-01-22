@@ -22,6 +22,8 @@ import { YearLabels } from "./components/YearLabels";
 import { type TrackType, useHeatmapData } from "./hooks/useHeatmapData";
 import { COLOR_SCHEMES } from "./utils";
 
+const MAX_WEEKS = 520;
+
 export type Occurrence = {
   date: string;
   dateObj?: Date;
@@ -71,8 +73,9 @@ export const HeatmapCalendar = ({
 }: Props) => {
   const displayStartDate = startOfWeek(startDate);
   const displayEndDate = endOfWeek(endDate);
-  const weeks = Math.ceil(
-    differenceInWeeks(displayEndDate, displayStartDate) + 1,
+  const weeks = Math.min(
+    Math.ceil(differenceInWeeks(displayEndDate, displayStartDate) + 1),
+    MAX_WEEKS,
   );
 
   const occurrences = useHeatmapData(data, trackType);
@@ -114,6 +117,8 @@ export const HeatmapCalendar = ({
           showDayLabels={showDayLabels}
           layout={layout}
           onEntryClick={onEntryClick}
+          rangeStartDate={startDate}
+          rangeEndDate={endDate}
         />
         <Legend classNames={classNames} overflowColor={overflowColor} />
       </div>
@@ -160,7 +165,7 @@ export const HeatmapCalendar = ({
             {showDayLabels && (
               <div className="flex gap-2 mb-2 items-start overflow-visible">
                 {showYearLabels && <div className="w-10 shrink-0" />}
-                {showMonthLabels && <div className="w-5 shrink-0" />}
+                {showMonthLabels && <div className="w-7 shrink-0" />}
                 <div className="flex-1 overflow-visible">
                   <DayLabels
                     layout={layout}
@@ -182,6 +187,8 @@ export const HeatmapCalendar = ({
                 maxValue={maxValue}
                 overflowColor={overflowColor}
                 onEntryClick={onEntryClick}
+                rangeStartDate={startDate}
+                rangeEndDate={endDate}
               />
             </div>
           </div>
@@ -206,6 +213,8 @@ export const HeatmapCalendar = ({
                 maxValue={maxValue}
                 overflowColor={overflowColor}
                 onEntryClick={onEntryClick}
+                rangeStartDate={startDate}
+                rangeEndDate={endDate}
               />
             </div>
           </>

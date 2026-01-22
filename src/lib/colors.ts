@@ -286,6 +286,15 @@ export function isHexColor(str: string): boolean {
   return hexColorRegex.test(str.trim());
 }
 
+export function luminance(color: string): number {
+  const { r, g, b } = hexToRgb(color);
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+}
+
+export function contrastColor(color: string): string {
+  return luminance(color) > 0.5 ? "var(--color-black)" : "var(--color-white)";
+}
+
 export function interpolateColor (
 	color1: string,
 	color2: string,

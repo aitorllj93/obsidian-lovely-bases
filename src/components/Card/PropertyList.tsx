@@ -15,10 +15,11 @@ type PropertyItemProps = {
 	propertyId: BasesPropertyId;
 	showPropertyTitles: boolean;
 	config: BasesViewConfig;
+	isOverlayMode?: boolean;
 };
 
 const PropertyItem = memo(
-	({ entry, propertyId, showPropertyTitles, config }: PropertyItemProps) => {
+	({ entry, propertyId, showPropertyTitles, config, isOverlayMode }: PropertyItemProps) => {
 		const property = useEntryProperty(entry, config, propertyId);
 		const { renderContext } = useObsidian().app;
 
@@ -29,7 +30,8 @@ const PropertyItem = memo(
 				{showPropertyTitles && (
 					<span
 						className={cn(
-							"font-medium text-muted-foreground text-xs tracking-wide p-[0_var(--size-4-2)]",
+							"font-medium text-xs tracking-wide p-[0_var(--size-4-2)]",
+							isOverlayMode ? "text-white/70" : "text-muted-foreground",
 						)}
 					>
 						{property.displayName}
@@ -40,11 +42,17 @@ const PropertyItem = memo(
 						<PropertyValue
 							renderContext={renderContext}
 							as="div"
-							className="text-foreground text-sm line-clamp-3"
+							className={cn(
+								"text-sm line-clamp-3",
+								isOverlayMode ? "text-white/90" : "text-foreground",
+							)}
 							value={property.value}
 						/>
 					) : (
-						<span className="text-muted-foreground text-xs tracking-wide">
+						<span className={cn(
+							"text-xs tracking-wide",
+							isOverlayMode ? "text-white/50" : "text-muted-foreground",
+						)}>
 							{EMPTY_PLACEHOLDER}
 						</span>
 					)}
@@ -56,7 +64,8 @@ const PropertyItem = memo(
 		prevProps.entry === nextProps.entry &&
 		prevProps.propertyId === nextProps.propertyId &&
 		prevProps.showPropertyTitles === nextProps.showPropertyTitles &&
-		prevProps.config === nextProps.config,
+		prevProps.config === nextProps.config &&
+		prevProps.isOverlayMode === nextProps.isOverlayMode,
 );
 
 PropertyItem.displayName = "PropertyItem";
@@ -65,10 +74,11 @@ type Props = {
   entry: BasesEntry;
   cardConfig: CardConfig;
   config: BasesViewConfig;
+  isOverlayMode?: boolean;
 };
 
 const PropertyList = memo(
-	({ entry, cardConfig, config }: Props) => {
+	({ entry, cardConfig, config, isOverlayMode }: Props) => {
 		const { properties, showPropertyTitles } = cardConfig;
 
 		return (
@@ -81,6 +91,7 @@ const PropertyList = memo(
 							propertyId={property}
 							showPropertyTitles={showPropertyTitles}
 							config={config}
+							isOverlayMode={isOverlayMode}
 						/>
 					);
 				})}
@@ -91,7 +102,8 @@ const PropertyList = memo(
 		return (
 			prevProps.entry === nextProps.entry &&
 			prevProps.cardConfig === nextProps.cardConfig &&
-			prevProps.config === nextProps.config
+			prevProps.config === nextProps.config &&
+			prevProps.isOverlayMode === nextProps.isOverlayMode
 		);
 	},
 );

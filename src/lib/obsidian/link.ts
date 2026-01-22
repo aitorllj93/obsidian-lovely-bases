@@ -1,4 +1,4 @@
-import { type App, normalizePath, TFile } from "obsidian";
+import { type App, TFile } from "obsidian";
 
 const resourcePathCache = new Map<string, string | null>();
 
@@ -34,7 +34,7 @@ export const getResourcePath = (app: App, rawLink: string, sourcePath: string): 
 
   // Calcular y cachear resultado
   const file = getFile(app, rawLink, sourcePath);
-  const result = file ? (app.vault.adapter.getResourcePath(normalizePath(file.path)) ?? null) : null;
+  const result = file ? (app.vault.getResourcePath(file) ?? null) : null;
 
   // Limitar tamaño del cache para evitar memory leaks (mantener solo los últimos 1000)
   if (resourcePathCache.size > 1000) {

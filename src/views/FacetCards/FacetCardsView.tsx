@@ -1,5 +1,4 @@
-
-import { getCardConfig } from "@/components/Card/config/get-config";
+import { useCardConfig } from "@/components/Card/hooks/use-card-config";
 import type { CardConfig } from "@/components/Card/types";
 import { Container } from "@/components/Obsidian/Container";
 import VirtualGrid from "@/components/VirtualGrid";
@@ -38,7 +37,7 @@ function estimateCardHeight(cardConfig: CardConfig, padding = PADDING): number {
 }
 
 const FacetCardsView = ({ data, config, isEmbedded }: ReactBaseViewProps) => {
-	const cardConfig = getCardConfig(config);
+	const cardConfig = useCardConfig(config);
 	const estimatedRowHeight = estimateCardHeight(cardConfig) + (PADDING * 2);
 
 	return (

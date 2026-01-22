@@ -1,7 +1,7 @@
 import { Platform } from "obsidian";
 import { useMemo } from "react";
 
-import type { Variants, VirtualItem } from "../types";
+import type { VirtualItem } from "../types";
 
 // Safety constants to prevent memory leaks
 // Reduced for mobile compatibility - even 50 items is enough for smooth scrolling
@@ -25,7 +25,7 @@ type UseVirtualGridParams = {
 	scrollY: number;
 	viewportWidth: number;
 	viewportHeight: number;
-	variant?: Variants;
+	masonry?: boolean;
 	buffer?: number;
 };
 
@@ -40,7 +40,7 @@ export const useVirtualGrid = ({
 	scrollY,
 	viewportWidth,
 	viewportHeight,
-	variant,
+	masonry = false,
 	buffer = 2,
 }: UseVirtualGridParams): VirtualItem[] => {
 	return useMemo(() => {
@@ -56,19 +56,18 @@ export const useVirtualGrid = ({
 		const cellSpacingX = cellWidth + gapX;
 		const cellSpacingY = cellHeight + gapY;
 
-		// Calculate masonry offset (applied in rendering, not in virtualization)
-		const masonryOffset =
-			variant === "masonry" || variant === "polaroid" ? cellHeight * 0.6 : 0;
+		// Calculate masonry offset (only affects column positioning, not row spacing)
+		const masonryOffset = masonry ? cellHeight * 0.5 : 0;
 
 		// Calculate visible range of columns (infinite in both directions)
 		const startCol = Math.floor(-scrollX / cellSpacingX) - safeBuffer;
 		const endCol = Math.ceil((-scrollX + viewportWidth) / cellSpacingX) + safeBuffer;
 
 		// Calculate visible range of rows (infinite in both directions)
-		// Add half of masonry offset to effective spacing for better coverage
-		const effectiveCellSpacingY = cellSpacingY + (masonryOffset > 0 ? masonryOffset / 2 : 0);
-		const startRow = Math.floor(-scrollY / effectiveCellSpacingY) - safeBuffer;
-		const endRow = Math.ceil((-scrollY + viewportHeight) / effectiveCellSpacingY) + safeBuffer;
+		// Use larger buffer when masonry is enabled to account for offset items
+		const masonryBuffer = masonry ? safeBuffer + 1 : safeBuffer;
+		const startRow = Math.floor(-scrollY / cellSpacingY) - masonryBuffer;
+		const endRow = Math.ceil((-scrollY + viewportHeight) / cellSpacingY) + masonryBuffer;
 
 		const visibleItems: VirtualItem[] = [];
 
@@ -89,10 +88,11 @@ export const useVirtualGrid = ({
 
 				// Calculate base position in grid coordinates
 				const baseX = virtualCol * cellSpacingX;
-				let baseY = virtualRow * effectiveCellSpacingY;
+				let baseY = virtualRow * cellSpacingY;
 
 				// Apply masonry offset for even columns (in rendering coordinates)
-				if ((variant === "masonry" || variant === "polaroid") && wrappedCol % 2 === 0) {
+				// Use virtualCol (not wrappedCol) to maintain consistent visual alignment
+				if (masonry && virtualCol % 2 === 0) {
 					baseY += masonryOffset;
 				}
 
@@ -123,7 +123,7 @@ export const useVirtualGrid = ({
 		scrollY,
 		viewportWidth,
 		viewportHeight,
-		variant,
+		masonry,
 		buffer,
 	]);
 };

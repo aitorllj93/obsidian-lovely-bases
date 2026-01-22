@@ -1,7 +1,8 @@
 import { useOf } from "@storybook/addon-docs/blocks";
 import React from "react";
-import LucideIcon from "../../src/components/Obsidian/LucideIcon";
+
 import { cn } from "../../src/lib/utils";
+import LucideIcon from './LucideIcon';
 
 const DEFAULT_STATUS = "experimental";
 

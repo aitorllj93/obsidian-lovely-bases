@@ -31,7 +31,10 @@ const Markdown = ({ as = "div", className, file, maxLength }: Props) => {
 				return;
 			}
 
-      const contentToRender = maxLength ? removeFrontmatter(md).slice(0, maxLength) : md;
+      // Clear previous content before rendering new content
+      el.current.innerHTML = "";
+
+			const contentToRender = maxLength ? removeFrontmatter(md).slice(0, maxLength) : md;
 
 			void MarkdownRenderer.render(app, contentToRender, el.current, file.path, component);
 		});

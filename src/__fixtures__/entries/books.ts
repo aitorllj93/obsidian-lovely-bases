@@ -21,7 +21,7 @@ export const BOOK_ENTRIES: BasesEntry[] = [
   aBasesEntry(
     {
       file: aFile({
-        basename: 'Steve Jobs',
+        basename: 'Organízate con Eficacia',
       })
     },{
       "title": "Organízate con Eficacia",
@@ -34,7 +34,7 @@ export const BOOK_ENTRIES: BasesEntry[] = [
   aBasesEntry(
     {
       file: aFile({
-        basename: 'Organízate con Eficacia',
+        basename: 'Calendario De La Sabiduria',
       })
     },
     {

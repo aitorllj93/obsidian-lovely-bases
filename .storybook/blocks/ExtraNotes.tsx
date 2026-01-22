@@ -1,7 +1,8 @@
 
 import { useOf } from '@storybook/addon-docs/blocks';
 import React from 'react';
-import LucideIcon from '../../src/components/Obsidian/LucideIcon';
+
+import LucideIcon from './LucideIcon';
 
 export const ExtraNotes = () => {
   const resolvedOf = useOf( 'meta', ['story', 'meta']);

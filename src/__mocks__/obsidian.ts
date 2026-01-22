@@ -1,3 +1,9 @@
+
+import React from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { Streamdown } from "streamdown";
+import * as Lucide from "lucide-react";
+
 /**
  * Mock del paquete obsidian para Storybook
  *
@@ -28,6 +34,9 @@ export type {
 
 // Importar Value como tipo para usarlo en ListValue
 import type { Value } from 'obsidian';
+
+import { createMockApp } from "./create-mock-app";
+
 
 export { MockTFile as TFile } from './aFile'
 
@@ -165,46 +174,42 @@ export const MarkdownRenderer = {
 		_component: unknown,
 	): Promise<void> => {
 		// En Storybook, simplemente renderizamos el markdown como texto plano
-		// o podríamos usar una librería de markdown si fuera necesario
-		el.textContent = markdown;
+		el.innerHTML = renderToStaticMarkup(
+      React.createElement(Streamdown, {
+        // biome-ignore lint/correctness/noChildrenProp: Mock obsidian rendering for Storybook
+        children: markdown,
+        mode: "static",
+      })
+    );
 	},
 };
 
-// Funciones helper para crear mocks de objetos complejos
+const normalizeLucideName = (name: string) => {
+  const pascal = name
+    .trim()
+    .replace(/(^\w|[-_\s]+\w)/g, (m) => m.replace(/[-_\s]+/, "").toUpperCase());
+  return pascal;
+};
 
-// biome-ignore lint/suspicious/noExplicitAny: Mock para Storybook, necesita compatibilidad con tipos de Obsidian
-function createMockApp(): any {
-	return {
-		vault: {
-			adapter: {
-				getResourcePath: (path: string): string | null => {
-					return `/mock-resource/${path}`;
-				},
-			},
-			// biome-ignore lint/suspicious/noExplicitAny: Mock para Storybook
-			read: async (_file: any): Promise<string> => {
-				return '# Mock Content\n\nThis is mock content for Storybook.';
-			},
-		},
-		metadataCache: {
-			// biome-ignore lint/suspicious/noExplicitAny: Mock para Storybook
-			getFirstLinkpathDest: (_linkpath: string, _sourcePath: string): any => {
-				return null;
-			},
-			// biome-ignore lint/suspicious/noExplicitAny: Mock para Storybook
-			getFileCache: (_file: any): any => {
-				return {
-					frontmatter: {},
-				};
-			},
-		},
-		workspace: {
-			openLinkText: async (_linktext: string, _sourcePath: string, _newLeaf: boolean): Promise<void> => {
-				// Stub method
-			},
-		},
-	};
+export const setIcon = (el: HTMLElement, name: string): void => {
+  const key = normalizeLucideName(name);
+  const Icon = (Lucide as any)[key] as React.ComponentType<any> | undefined;
+  if (!Icon) return;
+  el.innerHTML = renderToStaticMarkup(
+    React.createElement(Icon, {
+      style: {
+        display: 'block',
+        width: '100%',
+        height: '100%',
+      }
+    })
+  );
 }
+
+export const openExternal = (url: string): void => {
+  window.open(url, '_blank');
+}
+
 
 // biome-ignore lint/suspicious/noExplicitAny: Mock para Storybook, necesita compatibilidad con tipos de Obsidian
 function createMockConfig(): any {

@@ -1,4 +1,4 @@
-import { type App, type BasesEntry, type BasesPropertyId, type BasesViewConfig, type FrontMatterCache, normalizePath, TFile, type Value } from "obsidian";
+import { type App, type BasesEntry, type BasesPropertyId, type BasesViewConfig, type FrontMatterCache, TFile, type Value } from "obsidian";
 
 
 export type Property = {
@@ -26,7 +26,7 @@ export const getProperty = (entry: BasesEntry, config: BasesViewConfig, property
   }
 }
 
-export const isLink = (raw: string): boolean => {
+export const isWikiLink = (raw: string): boolean => {
   return raw.startsWith("[") && raw.endsWith("]");
 }
 
@@ -76,7 +76,7 @@ export const resolveAttachment = (
 export const getImageResourcePath = (app: App, rawLink: string, sourcePath: string): string | null => {
   const file = resolveAttachment(app, rawLink, sourcePath);
   if (!file) return null;
-  return app.vault.adapter.getResourcePath(normalizePath(file.path)) ?? null;
+  return app.vault.getResourcePath(file) ?? null;
 }
 
 export const getImage = (app: App, entry: BasesEntry, propertyId: BasesPropertyId): string | null => {

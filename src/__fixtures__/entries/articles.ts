@@ -20,6 +20,8 @@ export const ARTICLE_ENTRIES: BasesEntry[] = [
       url: 'https://news.stanford.edu/stories/2005/06/youve-got-find-love-jobs-says',
       media_link: 'https://www.youtube.com/watch?v=QYAnJ_QyCQg',
       published: 'June 12th',
+      sectionTitle: 'Featured Collection',
+      sectionSubtitle: 'A curated selection of highlights',
     }
   ),
   aBasesEntry(
@@ -35,6 +37,8 @@ export const ARTICLE_ENTRIES: BasesEntry[] = [
       banner: "https://static0.xdaimages.com/wordpress/wp-content/uploads/wm/2025/08/xda-laptop-running-obsidian-feature.jpg?w=1600&h=900&fit=crop",
       url: "https://www.xda-developers.com/best-obsidian-canvas-plugins/",
       published: "2025-08-15",
+      sectionTitle: 'Featured Collection',
+      sectionSubtitle: 'A curated selection of highlights',
     }
   ),
   aBasesEntry(
@@ -48,6 +52,8 @@ export const ARTICLE_ENTRIES: BasesEntry[] = [
       "excerpt": "Discover 10 powerful prompts to make ChatGPT write more like a human. Learn how to use conversational tones, personal stories, emotions, and more to create engaging and relatable content that connects with your audience.",
       "banner": "https://cdn.prod.website-files.com/64808e3805a22fc1ca46ffe9/671de0c11e075a7268aebaf1_Prompts%20That%20Makes%20Chatgpt%20Write%20like%20a%20Human.webp",
       "url": "https://www.godofprompt.ai/blog/prompts-that-makes-chatgpt-write-like-a-human",
+      sectionTitle: 'Featured Collection',
+      sectionSubtitle: 'A curated selection of highlights',
     }
   ),
   aBasesEntry(
@@ -63,7 +69,9 @@ export const ARTICLE_ENTRIES: BasesEntry[] = [
         "Brad Woods"
       ],
       "banner": "https://garden.bradwoods.io/ogImage.jpg\t",
-      "published": "2023-03-12"
+      "published": "2023-03-12",
+      sectionTitle: 'Featured Collection',
+      sectionSubtitle: 'A curated selection of highlights',
     }
   ),
   aBasesEntry(
@@ -80,7 +88,9 @@ export const ARTICLE_ENTRIES: BasesEntry[] = [
       ],
       banner: "https://stephango.com/assets/covers/40-questions.png",
       url: "https://stephango.com/40-questions",
-      published: "2016-10-20"
+      published: "2016-10-20",
+      sectionTitle: 'Featured Collection',
+      sectionSubtitle: 'A curated selection of highlights',
     }
   ),
   aBasesEntry(
@@ -98,6 +108,8 @@ export const ARTICLE_ENTRIES: BasesEntry[] = [
       "banner": "https://www.jeffsu.org/content/images/2021/03/RANDOM-PICS--2-.png",
       "url": "https://www.jeffsu.org/i-taught-6-642-googlers-this-productivity-system/",
       "published": "2025-10-21",
+      sectionTitle: 'Featured Collection',
+      sectionSubtitle: 'A curated selection of highlights',
     }
   ),
   aBasesEntry(
@@ -114,6 +126,8 @@ export const ARTICLE_ENTRIES: BasesEntry[] = [
       "banner": "https://stephango.com/assets/covers/concise.png",
       "url": "https://stephango.com/concise",
       "published": "2023-08-20",
+      sectionTitle: 'Featured Collection',
+      sectionSubtitle: 'A curated selection of highlights',
     }
   )
 ];

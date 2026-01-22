@@ -37,6 +37,10 @@ export function eachDayOfInterval(interval: {
   return days;
 }
 
+export function endOfMonth(date: Date) {
+  return moment(date).endOf("month").toDate();
+}
+
 export function endOfWeek(date: Date) {
   return moment(date).endOf("week").toDate();
 }
@@ -49,12 +53,14 @@ export function isSameDay(date1: Date, date2: Date) {
   return moment(date1).isSame(moment(date2), "day");
 }
 
-export function startOfMonth(date: Date) {
-  return moment(date).startOf("month").toDate();
+export function parse(dateString: string): Date | null {
+  const parsed = moment(dateString, FORMATS.DATE_ISO, true);
+  if (!parsed.isValid()) return null;
+  return parsed.toDate();
 }
 
-export function endOfMonth(date: Date) {
-  return moment(date).endOf("month").toDate();
+export function startOfMonth(date: Date) {
+  return moment(date).startOf("month").toDate();
 }
 
 export function startOfWeek(date: Date) {
@@ -77,3 +83,9 @@ export function subYears(date: Date, years: number) {
 export function subWeeks(date: Date, weeks: number) {
   return moment(date).subtract(weeks, "weeks").toDate();
 }
+
+/**
+ * Parse an ISO date string (YYYY-MM-DD) as a local date.
+ * Using `new Date('YYYY-MM-DD')` parses as UTC, which can shift the date
+ * by a day in timezones west of UTC. This function parses as local time.
+ */

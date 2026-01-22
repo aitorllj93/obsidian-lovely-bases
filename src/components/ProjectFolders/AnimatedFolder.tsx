@@ -154,7 +154,6 @@ const AnimatedFolder: React.FC<Props> = ({
 								color: iconColor,
 							}}
 							name={icon}
-							size={24}
 						/>
 					)}
 				</div>

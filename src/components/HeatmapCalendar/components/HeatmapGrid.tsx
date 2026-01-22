@@ -46,6 +46,8 @@ type Props = {
   maxValue?: number;
   overflowColor?: string;
   onEntryClick?: EntryClickEventHandler;
+  rangeStartDate?: Date;
+  rangeEndDate?: Date;
 };
 
 export const HeatmapGrid = ({
@@ -58,6 +60,8 @@ export const HeatmapGrid = ({
   maxValue = 10,
   overflowColor,
   onEntryClick,
+  rangeStartDate,
+  rangeEndDate,
 }: Props) => {
   const occurrenceMap = useMemo(() => {
     const map = new Map<string, Occurrence>();
@@ -102,6 +106,8 @@ export const HeatmapGrid = ({
               maxValue={maxValue}
               overflowColor={overflowColor}
               onEntryClick={onEntryClick}
+              rangeStartDate={rangeStartDate}
+              rangeEndDate={rangeEndDate}
             />
           ))}
         </div>

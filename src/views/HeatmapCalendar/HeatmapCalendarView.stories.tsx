@@ -273,8 +273,8 @@ export const CustomDuration: Story = {
         story: `You can display a shorter period of time by specifying the start and end dates.
 
 \`\`\`yml
-startDate: ${global.moment(THIRTEEN_WEEKS_HEATMAP_BASE_CONFIG.startDate).format('YYYY-MM-DD')}
-endDate: ${global.moment(THIRTEEN_WEEKS_HEATMAP_BASE_CONFIG.endDate).format('YYYY-MM-DD')}
+startDate: ${globalThis.moment(THIRTEEN_WEEKS_HEATMAP_BASE_CONFIG.startDate).format('YYYY-MM-DD')}
+endDate: ${globalThis.moment(THIRTEEN_WEEKS_HEATMAP_BASE_CONFIG.endDate).format('YYYY-MM-DD')}
 \`\`\`
 `,
       },

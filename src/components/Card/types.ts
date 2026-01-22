@@ -18,16 +18,30 @@ export type CardItem = {
 }
 
 export type CardConfig = {
-	layout: "vertical" | "horizontal";
-	shape: "square" | "circle" | "rounded";
+  /* Layout & Display */
+	layout: "vertical" | "horizontal" | "overlay" | "polaroid";
+	overlayContentVisibility: "always" | "hover";
 	cardSize: number;
+	shape: "square" | "circle" | "rounded";
+	tilt: "none" | "alternating";
+  /* Image */
+	imageProperty: BasesPropertyId | undefined;
 	imageAspectRatio: number;
 	imageFit: "cover" | "contain";
-	imageProperty: BasesPropertyId | undefined;
 	reverseContent: boolean;
+  /* Content */
 	showTitle: boolean;
 	showPropertyTitles: boolean;
-	properties: BasesPropertyId[];
-	hoverProperty: BasesPropertyId | undefined;
+	showContent: boolean;
+	contentMaxLength: number;
+  /* Badges */
+	badgeProperty: BasesPropertyId | undefined;
+	badgeIcon: string | undefined;
+	badgeColor: string | undefined;
+  /* Interactivity */
+  linkProperty: BasesPropertyId | undefined;
 	hoverStyle: "overlay" | "tooltip" | "none";
+	hoverProperty: BasesPropertyId | undefined;
+  /** Internal */
+	properties: BasesPropertyId[];
 }
