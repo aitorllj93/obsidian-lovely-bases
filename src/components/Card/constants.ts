@@ -7,8 +7,6 @@ import type { CardConfig } from "./types";
 const locale = detectLocale();
 const t = (key: NamespacedTranslationKey<'card'>) => translate(locale, 'card', key);
 
-console.log('locale', locale)
-
 export const DEFAULTS = {
   /* Layout & Display */
   layout: "vertical",

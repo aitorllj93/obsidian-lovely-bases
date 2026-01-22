@@ -1,6 +1,6 @@
 import type { SupportedLocale } from "./types";
 
-const SUPPORTED_LOCALES: SupportedLocale[] = [
+export const SUPPORTED_LOCALES: SupportedLocale[] = [
 	"en",
 	"es",
 	"de",
@@ -15,18 +15,23 @@ const SUPPORTED_LOCALES: SupportedLocale[] = [
 
 const DEFAULT_LOCALE: SupportedLocale = "en";
 
-/**
- * Detecta el locale del navegador y lo mapea a un locale soportado.
- * Extrae el código de idioma base (ej: "es-ES" → "es").
- * Fallback a "en" si no está soportado.
- */
 export const detectLocale = (): SupportedLocale => {
-	const browserLanguage = navigator.language;
-	const languageCode = browserLanguage.split("-")[0].toLowerCase();
+  const languageCode = window.localStorage.getItem('language') ?? DEFAULT_LOCALE;
 
 	if (SUPPORTED_LOCALES.includes(languageCode as SupportedLocale)) {
 		return languageCode as SupportedLocale;
 	}
 
 	return DEFAULT_LOCALE;
+};
+
+export const detectBrowserLocale = (): SupportedLocale => {
+  const browserLanguage = navigator.language;
+  const languageCode = browserLanguage.split("-")[0].toLowerCase();
+
+  if (SUPPORTED_LOCALES.includes(languageCode as SupportedLocale)) {
+    return languageCode as SupportedLocale;
+  }
+
+  return DEFAULT_LOCALE;
 };
