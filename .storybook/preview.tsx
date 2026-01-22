@@ -57,6 +57,7 @@ const preview: Preview = {
       storySort: {
         order: [
           'Getting Started',
+          'About the Docs',
           'Views',
           [
             'Project Folders',
