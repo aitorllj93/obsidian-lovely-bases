@@ -7,7 +7,12 @@ export const ARTICLE_ENTRIES: BasesEntry[] = [
     {
       file: aFile({
         basename: 'Tienes que encontrar aquello que amas, dice Jobs',
-      })
+      }, `Me siento honrado de estar hoy con vosotros en vuestra ceremonia de graduación en una de las mejores universidades del mundo. A decir verdad, yo nunca me gradué en la universidad. Y esto es lo más cerca que he estado nunca de una graduación universitaria.
+
+Hoy quiero contaros tres historias de mi vida. Eso es todo. Nada del otro mundo. Solo tres historias.
+
+La primera historia trata de conectar los puntos. Abandoné Reed College después de los primeros seis meses, pero luego me quedé por allí como oyente durante unos 18 meses más, antes de dejarlo definitivamente. ¿Por qué abandoné?
+`)
     },
     {
       title: "‘Tienes que encontrar aquello que amas’, dice Jobs",
@@ -17,12 +22,14 @@ export const ARTICLE_ENTRIES: BasesEntry[] = [
         "Stanford University",
       ],
       color: '#2F968D',
+      icon: 'newspaper',
       banner: 'https://news.stanford.edu/__data/assets/image/0028/165169/050609-228.jpg',
       url: 'https://news.stanford.edu/stories/2005/06/youve-got-find-love-jobs-says',
       media_link: 'https://www.youtube.com/watch?v=QYAnJ_QyCQg',
       published: 'June 12th',
       sectionTitle: 'Featured Collection',
       sectionSubtitle: 'A curated selection of highlights',
+      read: 'Read',
     }
   ),
   aBasesEntry(

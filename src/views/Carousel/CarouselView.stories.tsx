@@ -3,7 +3,7 @@ import { fn } from "storybook/test";
 
 import { APPLICATION_ENTRIES, ARTICLE_ENTRIES, BOOK_ENTRIES, MOVIES_ENTRIES, MOVIES_ENTRIES_GROUPED, PERSON_ENTRIES, PHOTOS_ENTRIES } from "@/__fixtures__/entries";
 
-import CardMeta from '@/components/Card/Card.stories';
+import CardMeta from '@/components/Card/stories/meta';
 import { type NamespacedTranslationKey, translate } from "@/lib/i18n";
 import {
 	createViewRenderer,
