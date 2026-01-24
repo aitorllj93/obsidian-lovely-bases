@@ -127,6 +127,44 @@ export const fr: LocaleTranslations = {
 			},
 		},
 	},
+	linearCalendar: {
+		options: {
+			data: {
+				title: "Données",
+				startDateProperty: {
+					title: "Propriété de Date de Début",
+				},
+				endDateProperty: {
+					title: "Propriété de Date de Fin",
+				},
+				titleProperty: {
+					title: "Propriété de Titre",
+				},
+			},
+			dateRange: {
+				title: "Plage de Dates",
+				referenceDate: {
+					title: "Date de Référence",
+					placeholder: "AAAA-MM-JJ",
+				},
+				focus: {
+					title: "Focus",
+					full: "Année Complète",
+					half: "Demi-Année",
+					quarter: "Trimestre",
+				},
+			},
+			appearance: {
+				title: "Apparence",
+				colorProperty: {
+					title: "Propriété de Couleur",
+				},
+				iconProperty: {
+					title: "Propriété d'Icône",
+				},
+			},
+		},
+	},
 	heatmapCalendar: {
 		legend: {
 			less: "Moins",
@@ -134,6 +172,165 @@ export const fr: LocaleTranslations = {
 			no: "Non",
 			yes: "Oui",
 			overflow: "Débordement",
+		},
+		options: {
+			data: {
+				title: "Données",
+				dateProperty: {
+					title: "Propriété de Date",
+				},
+				trackProperty: {
+					title: "Propriété de Suivi",
+				},
+				trackType: {
+					title: "Type de Suivi",
+					autoDetect: "Auto-détection",
+					number: "Nombre",
+					boolean: "Booléen (Oui/Non)",
+					text: "Texte (par longueur)",
+					list: "Liste (par nombre d'éléments)",
+				},
+			},
+			dateRange: {
+				title: "Plage de Dates",
+				startDate: {
+					title: "Date de Début",
+					placeholder: "AAAA-MM-JJ",
+				},
+				endDate: {
+					title: "Date de Fin",
+					placeholder: "AAAA-MM-JJ",
+				},
+			},
+			display: {
+				title: "Disposition et Affichage",
+				layout: {
+					title: "Disposition",
+					horizontal: "Horizontal",
+					vertical: "Vertical",
+				},
+				viewMode: {
+					title: "Mode d'Affichage",
+					"week-grid": "Grille Hebdomadaire (style GitHub)",
+					"month-grid": "Grille Mensuelle (style Calendrier)",
+				},
+				showDayLabels: {
+					title: "Afficher les Étiquettes des Jours",
+				},
+				showMonthLabels: {
+					title: "Afficher les Étiquettes des Mois",
+				},
+				showYearLabels: {
+					title: "Afficher les Étiquettes des Années",
+				},
+				showLegend: {
+					title: "Afficher la Légende",
+				},
+			},
+			valueRange: {
+				title: "Plage de Valeurs",
+				minValue: {
+					title: "Valeur Minimale",
+				},
+				maxValue: {
+					title: "Valeur Maximale",
+				},
+			},
+			appearance: {
+				title: "Apparence",
+				colorScheme: {
+					title: "Schéma de Couleurs",
+				},
+				reverseColors: {
+					title: "Inverser les Couleurs",
+				},
+				customColors: {
+					title: "Couleurs Personnalisées (hex séparés par des virgules)",
+					placeholder: "#ebedf0, #9be9a8, #40c463, #30a14e, #216e39",
+				},
+				overflowColor: {
+					title: "Couleur d'Avertissement de Débordement",
+					placeholder: "#ff0000",
+				},
+			},
+		},
+	},
+	projectFolders: {
+		options: {
+			dataProperties: {
+				title: "Propriétés des Données",
+				imageProperty: {
+					title: "Propriété d'Image",
+				},
+				iconProperty: {
+					title: "Propriété d'Icône",
+				},
+				colorProperty: {
+					title: "Propriété de Couleur",
+				},
+			},
+			display: {
+				title: "Affichage",
+				colorizeFiles: {
+					title: "Coloriser les Fichiers",
+				},
+			},
+		},
+	},
+	radarChart: {
+		options: {
+			data: {
+				title: "Données",
+				aggregationFunction: {
+					title: "Fonction d'Agrégation",
+					average: "Moyenne",
+					median: "Médiane",
+					sum: "Somme",
+					max: "Maximum",
+					min: "Minimum",
+				},
+			},
+			valueRange: {
+				title: "Plage de Valeurs",
+				minValue: {
+					title: "Valeur Minimale",
+				},
+				maxValue: {
+					title: "Valeur Maximale",
+				},
+			},
+			display: {
+				title: "Affichage",
+				showAxisLabels: {
+					title: "Afficher les Étiquettes des Axes",
+				},
+				showAxisTicks: {
+					title: "Afficher les Graduations des Axes",
+				},
+				showLegend: {
+					title: "Afficher la Légende",
+				},
+				legendPosition: {
+					title: "Position de la Légende",
+					top: "Haut",
+					bottom: "Bas",
+					left: "Gauche",
+					right: "Droite",
+				},
+			},
+			appearance: {
+				title: "Apparence",
+				colorScheme: {
+					title: "Schéma de Couleurs",
+				},
+				customColors: {
+					title: "Couleurs Personnalisées (hex séparés par des virgules)",
+					placeholder: "#3b82f6, #22c55e, #f59e0b, #ef4444, #8b5cf6",
+				},
+				fillOpacity: {
+					title: "Opacité de Remplissage",
+				},
+			},
 		},
 	},
 	common: {
@@ -147,6 +344,24 @@ export const fr: LocaleTranslations = {
 				},
 				groupSubtitleProperty: {
 					title: "Propriété de Sous-titre de Groupe",
+				},
+			},
+			colors: {
+				palettes: {
+					red: "Rouge",
+					orange: "Orange",
+					yellow: "Jaune",
+					green: "Vert",
+					cyan: "Cyan",
+					blue: "Bleu",
+					purple: "Violet",
+					magenta: "Magenta",
+				},
+				schemes: {
+					primary: "Primaire",
+					semaphor: "Sémaphore",
+					rainbow: "Arc-en-ciel",
+					contrast: "Contraste",
 				},
 			},
 		},

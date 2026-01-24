@@ -3,6 +3,7 @@ import { fn } from "storybook/test";
 
 import { PLANS_ENTRIES } from "@/__fixtures__/entries";
 import { aBasesEntryGroup } from "@/__mocks__";
+import { type NamespacedTranslationKey, translate } from "@/lib/i18n";
 import {
   createViewRenderer,
   Providers,
@@ -23,6 +24,9 @@ import LinearCalendarView, {
 } from "./LinearCalendarView";
 
 const View = createViewRenderer<LinearCalendarConfig>(LinearCalendarView);
+
+const t = (key: NamespacedTranslationKey<'linearCalendar'>) => translate("en", 'linearCalendar', key);
+
 
 const meta = {
   title: "Views/Linear Calendar",
@@ -50,6 +54,68 @@ const meta = {
     },
   },
   argTypes: {
+    startDateProperty: {
+      control: "text",
+      name: t("options.data.startDateProperty.title"),
+      description: "The property used for the event's start date (required).",
+      table: {
+        category: t("options.data.title"),
+      },
+    },
+    endDateProperty: {
+      control: "text",
+      name: t("options.data.endDateProperty.title"),
+      description:
+        "The property used for the event's end date (optional, defaults to start date).",
+      table: {
+        category: t("options.data.title"),
+      },
+    },
+    titleProperty: {
+      control: "text",
+      name: t("options.data.titleProperty.title"),
+      description: "The property used for the event's title (optional, defaults to file.basename).",
+      table: {
+        category: t("options.data.title"),
+      },
+    },
+    date: {
+      control: "text",
+      name: t("options.dateRange.referenceDate.title"),
+      description:
+        "The date around which the calendar centers (optional, defaults to today).",
+      table: {
+        category: t("options.dateRange.title"),
+        defaultValue: { summary: "today" },
+      },
+    },
+    focus: {
+      control: "select",
+      options: ["full", "half", "quarter"],
+      name: t("options.dateRange.focus.title"),
+      description: "The time span to display ('full', 'half', or 'quarter').",
+      table: {
+        category: t("options.dateRange.title"),
+        defaultValue: { summary: "full" },
+      },
+    },
+    colorProperty: {
+      control: "text",
+      name: t("options.appearance.colorProperty.title"),
+      description: "The property used for the event's color (optional, defaults to note.color).",
+      table: {
+        category: t("options.appearance.title"),
+      },
+    },
+    iconProperty: {
+      control: "text",
+      name: t("options.appearance.iconProperty.title"),
+      description: "The property used for the event's icon (optional, defaults to note.icon).",
+      table: {
+        category: t("options.appearance.title"),
+      },
+    },
+    // Internals
     data: {
       table: {
         disable: true,
@@ -69,45 +135,6 @@ const meta = {
       table: {
         disable: true,
       },
-    },
-    focus: {
-      control: "select",
-      options: ["full", "half", "quarter"],
-      name: "Focus",
-      description: "The time span to display ('full', 'half', or 'quarter').",
-      table: { defaultValue: { summary: "full" } },
-    },
-    startDateProperty: {
-      control: "text",
-      name: "Start Date Property",
-      description: "The property used for the event's start date (required).",
-    },
-    endDateProperty: {
-      control: "text",
-      name: "End Date Property",
-      description:
-        "The property used for the event's end date (optional, defaults to start date).",
-    },
-    titleProperty: {
-      control: "text",
-      name: "Title Property",
-      description: "The property used for the event's title (optional, defaults to file.basename).",
-    },
-    colorProperty: {
-      control: "text",
-      name: "Color Property",
-      description: "The property used for the event's color (optional, defaults to note.color).",
-    },
-    iconProperty: {
-      control: "text",
-      name: "Icon Property",
-      description: "The property used for the event's icon (optional, defaults to note.icon).",
-    },
-    date: {
-      control: "text",
-      name: "Reference Date",
-      description:
-        "The date around which the calendar centers (optional, defaults to today).",
     },
   },
 } satisfies Meta<typeof View>;

@@ -141,7 +141,7 @@ export const CUSTOM_COLORS_CONFIG: HeatmapCalendarConfig = {
   showDayLabels: false,
   showMonthLabels: false,
   showLegend: false,
-  customColors: ["#ebedf0", "#c6e48b",  "#196127"],
+  customColors: "#ebedf0, #c6e48b, #196127",
   maxValue: 8,
   overflowColor: "#ff4444",
 };
