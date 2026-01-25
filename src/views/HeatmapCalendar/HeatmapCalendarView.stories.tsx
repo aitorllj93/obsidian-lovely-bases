@@ -4,6 +4,7 @@ import { fn } from "storybook/test";
 
 import { GROUPED_OCCURRENCES, OCCURRENCES } from "@/__fixtures__/entries";
 import { aBasesEntryGroup } from "@/__mocks__";
+import { type NamespacedTranslationKey, translate } from "@/lib/i18n";
 import {
   createViewRenderer,
   Providers,
@@ -18,12 +19,16 @@ import {
   FULL_HEATMAP_BASE_CONFIG,
   MONTH_GRID_CONFIG,
   REVERSE_COLORS_HEATMAP_BASE_CONFIG,
+  SHAPE_CONFIG,
   THIRTEEN_WEEKS_HEATMAP_BASE_CONFIG,
   VERTICAL_LAYOUT_CONFIG
 } from "./__fixtures__/configs/heatmap";
 import HeatmapCalendarView, {
   type HeatmapCalendarConfig,
 } from "./HeatmapCalendarView";
+
+const t = (key: NamespacedTranslationKey<"heatmapCalendar">) =>
+  translate("en", "heatmapCalendar", key);
 
 const View = createViewRenderer<HeatmapCalendarConfig>(HeatmapCalendarView);
 
@@ -54,109 +59,136 @@ const meta = {
     // Data Properties
     dateProperty: {
       control: "text",
-      name: "Date Property",
+      name: t("options.data.dateProperty.title"),
       description:
         "The property used to determine the date of the entry (required).",
       table: {
-        category: "Data Properties",
+        category: t("options.data.title"),
       },
     },
     trackProperty: {
       control: "text",
-      name: "Track Property",
+      name: t("options.data.trackProperty.title"),
       description:
         "The property used to calculate the intensity of the heatmap (required).",
       table: {
-        category: "Data Properties",
+        category: t("options.data.title"),
       },
     },
     trackType: {
       control: "select",
-      name: "Track Type",
+      name: t("options.data.trackType.title"),
       description: "How to interpret the tracked property value.",
       options: ["number", "boolean", "text", "list"],
       table: {
-        category: "Data Properties",
+        category: t("options.data.title"),
       },
     },
     // Date Range
     startDate: {
       control: "text",
-      name: "Start Date",
+      name: t("options.dateRange.startDate.title"),
       description:
         "The start date for the calendar display (format: YYYY-MM-DD).",
       table: {
-        category: "Date Range",
+        category: t("options.dateRange.title"),
         defaultValue: { summary: '1 year ago' },
       },
     },
     endDate: {
       control: "text",
-      name: "End Date",
+      name: t("options.dateRange.endDate.title"),
       description:
         "The end date for the calendar display (format: YYYY-MM-DD).",
       table: {
-        category: "Date Range",
+        category: t("options.dateRange.title"),
         defaultValue: { summary: 'today' },
       },
     },
     // Display
     layout: {
       control: "select",
-      name: "Layout",
+      name: t("options.display.layout.title"),
       description: "Orientation of the heatmap grid.",
       options: ["horizontal", "vertical"],
       table: {
-        category: "Display",
+        category: t("options.display.title"),
         defaultValue: { summary: "horizontal" },
       },
     },
     viewMode: {
       control: "select",
-      name: "View Mode",
+      name: t("options.display.viewMode.title"),
       description: "Display style: week grid (GitHub) or month grid (calendar).",
       options: ["week-grid", "month-grid"],
       table: {
-        category: "Display",
+        category: t("options.display.title"),
         defaultValue: { summary: "week-grid" },
       },
     },
     showDayLabels: {
       control: "boolean",
-      name: "Show Day Labels",
+      name: t("options.display.showDayLabels.title"),
       table: {
-        category: "Display",
+        category: t("options.display.title"),
         defaultValue: { summary: "true" },
       },
     },
     showMonthLabels: {
       control: "boolean",
-      name: "Show Month Labels",
+      name: t("options.display.showMonthLabels.title"),
       table: {
-        category: "Display",
+        category: t("options.display.title"),
         defaultValue: { summary: "true" },
       },
     },
     showYearLabels: {
       control: "boolean",
-      name: "Show Year Labels",
+      name: t("options.display.showYearLabels.title"),
       table: {
-        category: "Display",
+        category: t("options.display.title"),
         defaultValue: { summary: "false" },
       },
     },
     showLegend: {
       control: "boolean",
-      name: "Show Legend",
+      name: t("options.display.showLegend.title"),
       table: {
-        category: "Display",
+        category: t("options.display.title"),
         defaultValue: { summary: "true" },
       },
     },
-    // Colors
+    // Value Range
+    minValue: {
+      control: "number",
+      name: t("options.valueRange.minValue.title"),
+      description: "Minimum value for the color scale.",
+      table: {
+        category: t("options.valueRange.title"),
+      },
+    },
+    maxValue: {
+      control: "number",
+      name: t("options.valueRange.maxValue.title"),
+      description: "Maximum value for the color scale.",
+      table: {
+        category: t("options.valueRange.title"),
+      },
+    },
+    // Appearance
+    shape: {
+      control: "select",
+      name: t("options.appearance.shape.title"),
+      description: "Shape of the cells.",
+      options: ["circle", "square", "rounded"],
+      table: {
+        category: t("options.appearance.title"),
+        defaultValue: { summary: "rounded" },
+      },
+    },
     colorScheme: {
       control: "select",
-      name: "Color Scheme",
+      name: t("options.appearance.colorScheme.title"),
       description:
         "The color palette for the cells (e.g., 'primary', 'green', 'red').",
       options: [
@@ -172,50 +204,33 @@ const meta = {
         "magenta",
       ],
       table: {
-        category: "Colors",
+        category: t("options.appearance.title"),
         defaultValue: { summary: "primary" },
       },
     },
     reverseColors: {
       control: "boolean",
-      name: "Reverse Colors",
+      name: t("options.appearance.reverseColors.title"),
       description: "Reverse the color scale to accentuate lowest values.",
       table: {
-        category: "Colors",
+        category: t("options.appearance.title"),
         defaultValue: { summary: "false" },
       },
     },
     customColors: {
       control: "object",
-      name: "Custom Colors",
+      name: t("options.appearance.customColors.title"),
       description: "Array of hex colors for custom color scale.",
       table: {
-        category: "Colors",
+        category: t("options.appearance.title"),
       },
     },
     overflowColor: {
       control: "text",
-      name: "Overflow Warning Color",
+      name: t("options.appearance.overflowColor.title"),
       description: "Color to show when value exceeds max.",
       table: {
-        category: "Colors",
-      },
-    },
-    // Value Range
-    minValue: {
-      control: "number",
-      name: "Min Value",
-      description: "Minimum value for the color scale.",
-      table: {
-        category: "Value Range",
-      },
-    },
-    maxValue: {
-      control: "number",
-      name: "Max Value",
-      description: "Maximum value for the color scale.",
-      table: {
-        category: "Value Range",
+        category: t("options.appearance.title"),
       },
     },
     // Internal props (disabled)
@@ -371,6 +386,27 @@ trackType: boolean
     groupedData: [aBasesEntryGroup('', OCCURRENCES)],
     onEntryClick: fn(),
     ...BOOLEAN_TRACKING_CONFIG,
+  },
+};
+
+export const Shape: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `Change the shape of the cells to a circle, square or rounded.
+
+\`\`\`yml
+shape: circle
+\`\`\`
+`,
+      },
+    },
+  },
+  args: {
+    data: OCCURRENCES,
+    groupedData: [aBasesEntryGroup('', GROUPED_OCCURRENCES[0].entries)],
+    onEntryClick: fn(),
+    ...SHAPE_CONFIG,
   },
 };
 

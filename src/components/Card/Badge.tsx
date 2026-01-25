@@ -13,12 +13,16 @@ type Props = {
 	config: BasesViewConfig;
 };
 
-const getBadgeStyles = (color: string | undefined): React.CSSProperties => {
+const getBadgeStyles = (
+  color: string | undefined,
+  badgesFont: string | undefined
+): React.CSSProperties => {
 	if (!color || !isHexColor(color)) {
 		return {
 			backgroundColor: "rgba(0, 0, 0, 0.3)",
 			color: "var(--color-white)",
 			borderColor: "transparent",
+			fontFamily: badgesFont,
 		};
 	}
 
@@ -29,12 +33,13 @@ const getBadgeStyles = (color: string | undefined): React.CSSProperties => {
 		backgroundColor: color,
 		color: contrastColor(color),
 		borderColor: borderColor,
+		fontFamily: badgesFont,
 	};
 };
 
 const Badge = memo(
 	({ entry, cardConfig, config }: Props) => {
-		const { badgeProperty, badgeIcon, badgeColor } = cardConfig;
+		const { badgeProperty, badgeIcon, badgeColor, badgesFont } = cardConfig;
 
 		const property = useEntryProperty(entry, config, badgeProperty);
 
@@ -45,7 +50,7 @@ const Badge = memo(
 
 		if (!badgeValue) return null;
 
-		const badgeStyles = getBadgeStyles(badgeColor);
+		const badgeStyles = getBadgeStyles(badgeColor, badgesFont);
 
 		return (
 			<div

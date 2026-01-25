@@ -106,7 +106,7 @@ const ItemContent = memo(
 				>
 					{image && (
 						<img
-							src={image}
+							src={image.url}
 							alt={title}
 							draggable={false}
 							loading="lazy"

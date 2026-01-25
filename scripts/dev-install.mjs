@@ -1,6 +1,6 @@
-import { execSync } from "child_process";
-import { existsSync, mkdirSync, copyFileSync, readFileSync } from "fs";
-import { join } from "path";
+import { execSync } from "node:child_process";
+import { copyFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 
 const vaultPath = process.argv[2];
 
@@ -17,9 +17,9 @@ if (!existsSync(vaultPath)) {
 }
 
 try {
-	execSync("npm run build", { stdio: "inherit" });
+	execSync("npm run build:dev", { stdio: "inherit" });
 } catch (error) {
-	console.error("Error building the plugin");
+	console.error("Error building the plugin", error);
 	process.exit(1);
 }
 

@@ -9,6 +9,7 @@ import { useConfig } from "@/hooks/use-config";
 import { isHexColor } from "@/lib/colors";
 import { FORMATS, format, parse, subYears } from "@/lib/date";
 import type { ReactBaseViewProps } from "@/types";
+import { DEFAULTS } from "./constants";
 
 const MAX_DATE_RANGE_YEARS = 10;
 
@@ -56,6 +57,7 @@ export type HeatmapCalendarConfig = {
   dateProperty: BasesPropertyId;
   trackProperty: BasesPropertyId;
   colorScheme?: keyof typeof COLOR_SCHEMES;
+  shape?: "circle" | "square" | "rounded";
   reverseColors?: boolean;
   startDate?: string;
   endDate?: string;
@@ -68,7 +70,7 @@ export type HeatmapCalendarConfig = {
   minValue?: number;
   maxValue?: number;
   trackType?: TrackType;
-  customColors?: string[];
+  customColors?: string;
   overflowColor?: string;
 };
 
@@ -79,23 +81,24 @@ const HeatmapCalendarView = ({
   onEntryClick,
 }: ReactBaseViewProps) => {
   const viewConfig = useConfig<HeatmapCalendarConfig>(config, {
-    dateProperty: undefined,
-    trackProperty: undefined,
-    trackType: undefined,
-    minValue: undefined,
-    maxValue: undefined,
-    colorScheme: "primary",
-    customColors: undefined,
-    overflowColor: undefined,
-    reverseColors: false,
-    startDate: undefined,
-    endDate: undefined,
-    layout: "horizontal",
-    viewMode: "week-grid",
-    showDayLabels: true,
-    showMonthLabels: true,
-    showYearLabels: false,
-    showLegend: true,
+    dateProperty: DEFAULTS.dateProperty,
+    trackProperty: DEFAULTS.trackProperty,
+    trackType: DEFAULTS.trackType,
+    minValue: DEFAULTS.minValue,
+    maxValue: DEFAULTS.maxValue,
+    colorScheme: DEFAULTS.colorScheme,
+    customColors: DEFAULTS.customColors,
+    overflowColor: DEFAULTS.overflowColor,
+    reverseColors: DEFAULTS.reverseColors,
+    startDate: DEFAULTS.startDate,
+    endDate: DEFAULTS.endDate,
+    layout: DEFAULTS.layout,
+    viewMode: DEFAULTS.viewMode,
+    showDayLabels: DEFAULTS.showDayLabels,
+    showMonthLabels: DEFAULTS.showMonthLabels,
+    showYearLabels: DEFAULTS.showYearLabels,
+    showLegend: DEFAULTS.showLegend,
+    shape: DEFAULTS.shape,
   });
 
   const startDate = useMemo(() => {
@@ -215,6 +218,7 @@ const HeatmapCalendarView = ({
           minValue={g.minValue}
           maxValue={g.maxValue}
           trackType={g.trackType}
+          shape={viewConfig.shape}
           customColors={parsedCustomColors}
           overflowColor={parsedOverflowColor}
           onEntryClick={onEntryClick}

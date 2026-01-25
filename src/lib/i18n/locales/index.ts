@@ -11,14 +11,14 @@ import { ru } from "./ru";
 import { zh } from "./zh";
 
 export const locales: Record<SupportedLocale, LocaleTranslations> = {
-	en,
-	es,
-	de,
-	fr,
-	it,
-	pt,
-	ru,
-	zh,
-	ja,
-	ko,
+  en,
+  es,
+  de,
+  fr,
+  it,
+  pt,
+  ru,
+  zh,
+  ja,
+  ko,
 };

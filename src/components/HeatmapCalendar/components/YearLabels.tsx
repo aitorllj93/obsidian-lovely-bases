@@ -59,24 +59,18 @@ export const YearLabels = ({
 	const years = [];
 	for (let year = startYear; year <= endYear; year++) {
 		const yearStart = startOfYear(new Date(year, 0, 1));
-		let weekIndex = differenceInWeeks(yearStart, firstWeekStart);
+		const weekIndex = differenceInWeeks(yearStart, firstWeekStart);
+		const leftPosition = Math.max(0, weekIndex * 16);
 
-		if (year === startYear && weekIndex < 0) {
-			weekIndex = 0;
-		}
-
-		if (weekIndex >= 0) {
-			const leftPosition = weekIndex * 16;
-			years.push(
-				<span
-					key={`yearlabel-${year}`}
-					className="text-xs text-muted-foreground absolute font-semibold"
-					style={{ left: `${leftPosition}px` }}
-				>
-					{year.toString()}
-				</span>,
-			);
-		}
+		years.push(
+			<span
+				key={`yearlabel-${year}`}
+				className="text-xs text-muted-foreground absolute font-semibold"
+				style={{ left: `${leftPosition}px` }}
+			>
+				{year.toString()}
+			</span>,
+		);
 	}
 
 	return <div className="relative h-5 mb-2">{years}</div>;

@@ -54,7 +54,7 @@ export function isSameDay(date1: Date, date2: Date) {
 }
 
 export function parse(dateString: string): Date | null {
-  const parsed = moment(dateString, FORMATS.DATE_ISO, true);
+  const parsed = moment(dateString, moment.ISO_8601, true);
   if (!parsed.isValid()) return null;
   return parsed.toDate();
 }

@@ -3,6 +3,7 @@ import { fn } from "storybook/test";
 
 import { APPLICATION_ENTRIES, ARTICLE_ENTRIES, BOOK_ENTRIES, MOVIES_ENTRIES, PERSON_ENTRIES } from "@/__fixtures__/entries";
 import { aBasesEntryGroup } from "@/__mocks__";
+import { type NamespacedTranslationKey, translate } from "@/lib/i18n";
 import {
   createViewRenderer,
   Providers,
@@ -15,9 +16,11 @@ import {
   DEFAULT_BASE_CONFIG,
   FULL_BASE_CONFIG,
 } from "./__fixtures__/configs";
-import ProjectFoldersView, {
-  type ProjectFoldersConfig,
-} from "./ProjectFoldersView";
+import ProjectFoldersView from "./ProjectFoldersView";
+import type { ProjectFoldersConfig } from "./types";
+
+const t = (key: NamespacedTranslationKey<"projectFolders">) =>
+	translate("en", "projectFolders", key);
 
 const View = createViewRenderer<ProjectFoldersConfig>(ProjectFoldersView);
 
@@ -49,42 +52,42 @@ const meta = {
     // Data Properties
     imageProperty: {
       control: "text",
-      name: "Image Property",
+      name: t("options.dataProperties.imageProperty.title"),
       description:
         "The property that contains the image to display on file cards within folders.",
       table: {
-        category: "Data Properties",
+        category: t("options.dataProperties.title"),
         defaultValue: { summary: "note.cover" },
       },
     },
     iconProperty: {
       control: "text",
-      name: "Icon Property",
+      name: t("options.dataProperties.iconProperty.title"),
       description:
         "The property that contains the icon to display on folders (from the frontmatter of the note representing the folder).",
       table: {
-        category: "Data Properties",
+        category: t("options.dataProperties.title"),
         defaultValue: { summary: "note.icon" },
       },
     },
     colorProperty: {
       control: "text",
-      name: "Color Property",
+      name: t("options.dataProperties.colorProperty.title"),
       description:
         "The property that contains the color to display on folders (from the frontmatter of the note representing the folder).",
       table: {
-        category: "Data Properties",
+        category: t("options.dataProperties.title"),
         defaultValue: { summary: "note.color" },
       },
     },
     // Display
     colorizeFiles: {
       control: "boolean",
-      name: "Colorize Files",
+      name: t("options.display.colorizeFiles.title"),
       description:
         "Whether to colorize the file cards based on the folder color.",
       table: {
-        category: "Display",
+        category: t("options.display.title"),
         defaultValue: { summary: "false" },
       },
     },

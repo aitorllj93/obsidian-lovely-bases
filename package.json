@@ -1,6 +1,6 @@
 {
   "name": "lovely-bases",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Beautiful, visual bases views for Obsidian",
   "main": "main.js",
   "scripts": {
@@ -9,6 +9,7 @@
     "dev": "node esbuild.config.mjs",
     "dev:plugin": "node scripts/dev-install.mjs",
     "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production && npm run css:build && node scripts/scope.js",
+    "build:dev": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs && npm run css:build && node scripts/scope.js",
     "test": "vitest --project storybook",
     "version": "node version-bump.mjs && git add manifest.json versions.json",
     "docs:serve": "storybook dev -p 6006",

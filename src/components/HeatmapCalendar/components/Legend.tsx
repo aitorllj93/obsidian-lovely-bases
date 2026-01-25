@@ -1,3 +1,6 @@
+
+import { cva } from "class-variance-authority";
+
 import { isHexColor } from "@/lib/colors";
 import { useTranslation } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -5,9 +8,23 @@ import { cn } from "@/lib/utils";
 type Props = {
 	classNames: string[];
 	overflowColor?: string;
+  shape?: "circle" | "square" | "rounded";
 };
 
-export const Legend = ({ classNames, overflowColor }: Props) => {
+const classVariants = cva(
+	"w-3 h-3",
+	{
+		variants: {
+			shape: {
+				circle: "rounded-full",
+        rounded: "rounded-[4px]]",
+        square: "",
+			},
+		},
+	},
+);
+
+export const Legend = ({ classNames, overflowColor, shape }: Props) => {
 	const { t } = useTranslation("heatmapCalendar");
 	const isBinary = classNames.length === 2;
 	const lessText = isBinary ? t("legend.no") : t("legend.less");
@@ -21,7 +38,7 @@ export const Legend = ({ classNames, overflowColor }: Props) => {
 				return (
 					<div
 						key={`color-${index.toString()}`}
-						className={cn("w-3 h-3 rounded-[4px]", !isHex && className)}
+						className={cn(classVariants({ shape }), !isHex && className)}
 						style={isHex ? { backgroundColor: className } : undefined}
 					/>
 				);

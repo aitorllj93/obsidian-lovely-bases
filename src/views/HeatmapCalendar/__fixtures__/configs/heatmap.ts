@@ -136,12 +136,18 @@ export const CUSTOM_RANGE_CONFIG: HeatmapCalendarConfig = {
   maxValue: 5,
 };
 
+export const SHAPE_CONFIG: HeatmapCalendarConfig = {
+  ...DEFAULT_HEATMAP_BASE_CONFIG,
+  colorScheme: "semaphor",
+  shape: "circle",
+};
+
 export const CUSTOM_COLORS_CONFIG: HeatmapCalendarConfig = {
   ...DEFAULT_HEATMAP_BASE_CONFIG,
   showDayLabels: false,
   showMonthLabels: false,
   showLegend: false,
-  customColors: ["#ebedf0", "#c6e48b",  "#196127"],
+  customColors: "#ebedf0, #c6e48b, #196127",
   maxValue: 8,
   overflowColor: "#ff4444",
 };

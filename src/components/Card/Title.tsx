@@ -12,9 +12,9 @@ type Props = {
 	isOverlayMode?: boolean;
 };
 
-const Title = memo(({ entry, cardConfig, isOverlayMode }: Props) => {
+const Title = memo(({ entry, cardConfig }: Props) => {
 	const title = useEntryTitle(entry);
-	const { cardSize, showTitle } = cardConfig;
+	const { cardSize, titleFont, showTitle } = cardConfig;
 	const textSize =
 		cardSize < 300 ? "text-base" : cardSize < 400 ? "text-lg" : "text-xl";
 
@@ -25,8 +25,10 @@ const Title = memo(({ entry, cardConfig, isOverlayMode }: Props) => {
 			className={cn(
 				"font-semibold mt-2 mb-0 line-clamp-1 p-(--input-padding) shrink-0",
 				textSize,
-				isOverlayMode && "text-white",
 			)}
+			style={{
+				fontFamily: titleFont,
+			}}
 		>
 			{title}
 		</h3>

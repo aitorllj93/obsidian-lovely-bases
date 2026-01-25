@@ -48,6 +48,7 @@ type Props = {
   onEntryClick?: EntryClickEventHandler;
   rangeStartDate?: Date;
   rangeEndDate?: Date;
+  shape?: "circle" | "square" | "rounded";
 };
 
 export const HeatmapGrid = ({
@@ -62,6 +63,7 @@ export const HeatmapGrid = ({
   onEntryClick,
   rangeStartDate,
   rangeEndDate,
+  shape = "rounded",
 }: Props) => {
   const occurrenceMap = useMemo(() => {
     const map = new Map<string, Occurrence>();
@@ -108,6 +110,7 @@ export const HeatmapGrid = ({
               onEntryClick={onEntryClick}
               rangeStartDate={rangeStartDate}
               rangeEndDate={rangeEndDate}
+              shape={shape}
             />
           ))}
         </div>

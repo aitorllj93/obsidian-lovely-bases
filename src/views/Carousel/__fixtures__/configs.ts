@@ -23,6 +23,13 @@ export const DEFAULT_CONFIG: CarouselConfig = {
   showPropertyTitles: true,
   showContent: false,
   contentMaxLength: 200,
+  /* Appearance */
+  titleFont: undefined,
+  contentFont: undefined,
+  badgesFont: undefined,
+  backgroundColorProperty: undefined,
+  backgroundColorApplyTo: 'image',
+  iconProperty: undefined,
   /* Badges */
   badgeProperty: undefined,
   badgeIcon: undefined,
@@ -55,6 +62,13 @@ export const FULL_CONFIG: CarouselConfig = {
   showPropertyTitles: true,
   showContent: true,
   contentMaxLength: 200,
+  /* Appearance */
+  titleFont: 'Impact, Georgia, Arial Black, Trebuchet MS',
+  contentFont: 'Arial, Verdana, Tahoma, Segoe UI, Roboto',
+  badgesFont: 'Comic Sans MS, Courier New, Consolas, Arial Narrow, Impact',
+  backgroundColorProperty: 'note.color',
+  backgroundColorApplyTo: 'image',
+  iconProperty: 'note.icon',
   /* Badges */
   badgeProperty: 'note.rating',
   badgeIcon: 'star',
@@ -113,6 +127,9 @@ export const OVERLAY_LAYOUT_CONFIG: CarouselConfig = {
   badgeColor: '#D0A215',
   tilt: "none",
   linkProperty: undefined,
+  backgroundColorProperty: 'note.color',
+  backgroundColorApplyTo: 'both',
+  iconProperty: 'note.icon'
 }
 
 export const CIRCLE_SHAPE_CONFIG: CarouselConfig = {

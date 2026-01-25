@@ -47,6 +47,7 @@ type Props = {
   minValue?: number;
   maxValue?: number;
   trackType?: TrackType;
+  shape?: "circle" | "square" | "rounded";
   customColors?: string[];
   overflowColor?: string;
   onEntryClick?: EntryClickEventHandler;
@@ -60,6 +61,7 @@ export const HeatmapCalendar = ({
   reverseColors = false,
   layout = "horizontal",
   viewMode = "week-grid",
+  shape = "rounded",
   showDayLabels = true,
   showMonthLabels = true,
   showYearLabels = false,
@@ -119,8 +121,13 @@ export const HeatmapCalendar = ({
           onEntryClick={onEntryClick}
           rangeStartDate={startDate}
           rangeEndDate={endDate}
+          shape={shape}
         />
-        <Legend classNames={classNames} overflowColor={overflowColor} />
+        <Legend
+          classNames={classNames}
+          overflowColor={overflowColor}
+          shape={shape}
+        />
       </div>
     );
   }
@@ -140,16 +147,16 @@ export const HeatmapCalendar = ({
     return (
       <div className={labelsContainerClass}>
         {showYearLabels && (<YearLabels
-          startDate={displayStartDate}
-          endDate={displayEndDate}
+          startDate={startDate}
+          endDate={endDate}
           layout={layout}
           weeks={weeks}
         />)}
         {showMonthLabels && (<MonthLabels
-          startDate={displayStartDate}
           weeks={weeks}
-            endDate={displayEndDate}
-            layout={layout}
+          startDate={startDate}
+          endDate={endDate}
+          layout={layout}
           />
         )}
       </div>
@@ -189,6 +196,7 @@ export const HeatmapCalendar = ({
                 onEntryClick={onEntryClick}
                 rangeStartDate={startDate}
                 rangeEndDate={endDate}
+                shape={shape}
               />
             </div>
           </div>
@@ -215,12 +223,17 @@ export const HeatmapCalendar = ({
                 onEntryClick={onEntryClick}
                 rangeStartDate={startDate}
                 rangeEndDate={endDate}
+                shape={shape}
               />
             </div>
           </>
         )}
       </div>
-      {showLegend && <Legend classNames={classNames} overflowColor={overflowColor} />}
+      {showLegend && <Legend
+        classNames={classNames}
+        overflowColor={overflowColor}
+        shape={shape}
+      />}
     </div>
   );
 };

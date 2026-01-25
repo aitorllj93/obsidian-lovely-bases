@@ -9,7 +9,7 @@ import {
 	VIRTUAL_SCROLL_PERSON_ENTRIES,
   VIRTUAL_SCROLL_PHOTOS_ENTRIES,
 } from "@/__fixtures__/entries";
-import CardMeta from '@/components/Card/Card.stories'
+import CardMeta from '@/components/Card/stories/meta';
 import {
 	createViewRenderer,
 	Providers,

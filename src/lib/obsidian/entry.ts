@@ -1,5 +1,6 @@
 import type { App, BasesEntry, BasesPropertyId, BasesViewConfig, Value } from "obsidian";
 
+import { isHexColor } from "../colors";
 import { getResourcePath } from "./link";
 
 export type Property = {
@@ -29,17 +30,37 @@ export const getLabeledProperty = (entry: BasesEntry, config: BasesViewConfig, p
 
 const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'ico', 'bmp', 'tiff', 'tif', 'heic', 'heif'];
 
-export const getImage = (app: App, entry?: BasesEntry, propertyId?: BasesPropertyId): string | null => {
+type Image = {
+  url: string;
+  isColor: boolean;
+}
+
+export const getImage = (app: App, entry?: BasesEntry, propertyId?: BasesPropertyId): Image | null => {
   const isImage = entry?.file.extension && imageExtensions.includes(entry.file.extension);
   if (!entry || (!propertyId && !isImage)) return null;
 
   const imageUrl = isImage ? entry.file.path : entry.getValue(propertyId)?.toString();
   let imageSrc: string | undefined;
 
+  if (imageUrl === 'null' || imageUrl === '') {
+    return null;
+  }
+
+  if (isHexColor(imageUrl)) {
+    return {
+      url: imageUrl,
+      isColor: true,
+    };
+  }
+
   if (imageUrl && imageUrl !== 'null') {
     imageSrc = imageUrl.startsWith('http')
       ? imageUrl
       : getResourcePath(app, imageUrl, entry.file.path) ?? undefined;
   }
-  return imageSrc;
+
+  return {
+    url: imageSrc,
+    isColor: false,
+  };
 }

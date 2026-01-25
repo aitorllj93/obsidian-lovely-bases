@@ -1,17 +1,9 @@
 
-import type { BasesPropertyId } from "obsidian";
-
 import { Container } from "@/components/Obsidian/Container";
 import ProjectFolders from "@/components/ProjectFolders";
 import { useFolders } from "@/components/ProjectFolders/hooks/use-folders";
 import type { ReactBaseViewProps } from "@/types";
-
-export type ProjectFoldersConfig = {
-  colorizeFiles: boolean;
-  imageProperty?: BasesPropertyId;
-  iconProperty?: BasesPropertyId;
-  colorProperty?: BasesPropertyId;
-};
+import type { ProjectFoldersConfig } from "./types";
 
 const ProjectFoldersView = ({ config, data, isEmbedded }: ReactBaseViewProps) => {
   const colorizeFiles = config.get(

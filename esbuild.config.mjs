@@ -65,6 +65,7 @@ esbuild
 		logLevel: "info",
 		treeShaking: true,
 		outfile: "main.js",
+    sourcemap: prod ? 'external' : 'inline',
     minify: prod,
     metafile: true
 	})

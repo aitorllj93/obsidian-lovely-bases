@@ -1,3 +1,4 @@
+import { cva } from "class-variance-authority";
 import { memo, useMemo } from "react";
 
 import {
@@ -19,6 +20,19 @@ import { getCellStyle } from "../utils";
 
 const MAX_MONTHS = 120;
 
+const classVariants = cva(
+	"w-3 h-3",
+	{
+		variants: {
+			shape: {
+				circle: "rounded-full",
+				rounded: "rounded-[4px]",
+				square: "",
+			},
+		},
+	},
+);
+
 type Props = {
 	occurrences: Occurrence[];
 	startDate: Date;
@@ -32,6 +46,7 @@ type Props = {
 	onEntryClick?: EntryClickEventHandler;
 	rangeStartDate?: Date;
 	rangeEndDate?: Date;
+  shape?: "circle" | "square" | "rounded";
 };
 
 type MonthData = {
@@ -55,6 +70,7 @@ type DayCellProps = {
 	onEntryClick?: EntryClickEventHandler;
 	rangeStartDate?: Date;
 	rangeEndDate?: Date;
+  shape?: "circle" | "square" | "rounded";
 };
 
 const DayCell = memo(
@@ -69,6 +85,7 @@ const DayCell = memo(
 		onEntryClick,
 		rangeStartDate,
 		rangeEndDate,
+		shape = "rounded",
 	}: DayCellProps) => {
 		const isOutsideRange =
 			(rangeStartDate && day < rangeStartDate) ||
@@ -88,7 +105,7 @@ const DayCell = memo(
 		return (
 			<div
 				className={cn(
-					"w-3 h-3 rounded-[4px]",
+					classVariants({ shape }),
 					cellStyle.className,
 					cellStyle.isOverflow && overflowColor && "ring-1 ring-destructive",
 					!isCurrentMonth && "opacity-30",
@@ -116,7 +133,8 @@ const DayCell = memo(
 			prevProps.maxValue === nextProps.maxValue &&
 			prevProps.overflowColor === nextProps.overflowColor &&
 			prevProps.rangeStartDate?.getTime() === nextProps.rangeStartDate?.getTime() &&
-			prevProps.rangeEndDate?.getTime() === nextProps.rangeEndDate?.getTime()
+			prevProps.rangeEndDate?.getTime() === nextProps.rangeEndDate?.getTime() &&
+			prevProps.shape === nextProps.shape
 		);
 	},
 );
@@ -136,6 +154,7 @@ type MonthBlockProps = {
 	onEntryClick?: EntryClickEventHandler;
 	rangeStartDate?: Date;
 	rangeEndDate?: Date;
+  shape?: "circle" | "square" | "rounded";
 };
 
 const MonthBlock = memo(
@@ -152,6 +171,7 @@ const MonthBlock = memo(
 		onEntryClick,
 		rangeStartDate,
 		rangeEndDate,
+		shape = "rounded",
 	}: MonthBlockProps) => {
 		const currentMonth = monthStart.getMonth();
 
@@ -189,6 +209,7 @@ const MonthBlock = memo(
 									onEntryClick={onEntryClick}
 									rangeStartDate={rangeStartDate}
 									rangeEndDate={rangeEndDate}
+                  shape={shape}
 								/>
 							))}
 						</div>
@@ -214,6 +235,7 @@ const MonthGridViewComponent = ({
 	onEntryClick,
 	rangeStartDate,
 	rangeEndDate,
+  shape = "rounded",
 }: Props) => {
 	const occurrenceMap = useMemo(() => {
 		const map = new Map<string, Occurrence>();
@@ -238,9 +260,11 @@ const MonthGridViewComponent = ({
 
 	const monthsData = useMemo(() => {
 		const result: MonthData[] = [];
-		let currentMonthStart = startOfMonth(startDate);
+		const effectiveStartDate = rangeStartDate ?? startDate;
+		const effectiveEndDate = rangeEndDate ?? endDate;
+		let currentMonthStart = startOfMonth(effectiveStartDate);
 
-		while (currentMonthStart <= endDate && result.length < MAX_MONTHS) {
+		while (currentMonthStart <= effectiveEndDate && result.length < MAX_MONTHS) {
 			const monthEnd = endOfMonth(currentMonthStart);
 			const firstDayOfGrid = startOfWeek(currentMonthStart);
 			const lastDayOfGrid = endOfWeek(monthEnd);
@@ -260,7 +284,7 @@ const MonthGridViewComponent = ({
 		}
 
 		return result;
-	}, [startDate, endDate]);
+	}, [startDate, endDate, rangeStartDate, rangeEndDate]);
 
 	const isHorizontal = layout === "horizontal";
 	const gridCols = isHorizontal ? "grid-cols-4" : "grid-cols-3";
@@ -283,6 +307,7 @@ const MonthGridViewComponent = ({
 					onEntryClick={onEntryClick}
 					rangeStartDate={rangeStartDate}
 					rangeEndDate={rangeEndDate}
+          shape={shape}
 				/>
 			))}
 		</div>

@@ -1,3 +1,5 @@
+
+import { cva } from "class-variance-authority";
 import { memo } from "react";
 
 import { FORMATS, format } from "@/lib/date";
@@ -6,6 +8,19 @@ import type { EntryClickEventHandler } from "@/types";
 
 import type { Occurrence } from "../index";
 import { getCellStyle } from "../utils";
+
+const classVariants = cva(
+	"w-3 h-3",
+	{
+		variants: {
+			shape: {
+				circle: "rounded-full",
+        rounded: 'rounded-[4px]',
+        square: ''
+			},
+		},
+	},
+);
 
 type Props = {
   day: Date;
@@ -17,6 +32,7 @@ type Props = {
   onEntryClick?: EntryClickEventHandler;
   rangeStartDate?: Date;
   rangeEndDate?: Date;
+  shape?: "circle" | "square" | "rounded";
 };
 
 const PureWeekDay = ({
@@ -29,6 +45,7 @@ const PureWeekDay = ({
   onEntryClick,
   rangeStartDate,
   rangeEndDate,
+  shape = "rounded",
 }: Props) => {
   const isOutsideRange =
     (rangeStartDate && day < rangeStartDate) ||
@@ -48,7 +65,7 @@ const PureWeekDay = ({
   return (
     <div
       className={cn(
-        "w-3 h-3 rounded-[4px]",
+        classVariants({ shape }),
         cellStyle.className,
         cellStyle.isOverflow && overflowColor && "ring-1 ring-destructive",
         occurrence && onEntryClick && "cursor-pointer",
@@ -69,6 +86,7 @@ export const WeekDay = memo(PureWeekDay, (prevProps, nextProps) => {
     prevProps.maxValue === nextProps.maxValue &&
     prevProps.overflowColor === nextProps.overflowColor &&
     prevProps.rangeStartDate?.getTime() === nextProps.rangeStartDate?.getTime() &&
-    prevProps.rangeEndDate?.getTime() === nextProps.rangeEndDate?.getTime()
+    prevProps.rangeEndDate?.getTime() === nextProps.rangeEndDate?.getTime() &&
+    prevProps.shape === nextProps.shape
   );
 });

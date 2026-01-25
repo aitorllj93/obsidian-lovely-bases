@@ -10,3 +10,13 @@ export function useEntryProperty(entry: BasesEntry | undefined, config: BasesVie
     return getLabeledProperty(entry, config, propertyId);
   }, [entry, config, propertyId]);
 }
+
+export function useEntryPropertyValue(entry: BasesEntry | undefined, propertyId?: BasesPropertyId): string | null {
+  return useMemo(() => {
+    if (!propertyId || !entry) return null;
+    const property = entry.getValue(propertyId);
+    const propertyValue = property.toString();
+
+    return propertyValue === 'null' ? null : propertyValue;
+  }, [entry, propertyId]);
+};

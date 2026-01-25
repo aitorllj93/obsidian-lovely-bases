@@ -4,13 +4,15 @@ import { memo, useCallback, useRef, useState } from "react";
 
 import { useEntryHover } from "@/hooks/use-entry-hover";
 import { useEntryOpen } from "@/hooks/use-entry-open";
+import { useEntryImage } from "@/hooks/use-image";
 import { cn } from "@/lib/utils";
 
 import Badge from "./Badge";
 import Content from "./Content";
-import { DEFAULT_LAYOUT, DEFAULT_SHAPE } from "./config/constants";
-import { compareCardConfig } from "./config/get-config";
+import { DEFAULTS } from "./constants";
 import HoverOverlay from "./HoverOverlay";
+import { compareCardConfig } from "./helpers/compare-config";
+import { useCardColors } from "./hooks/use-card-colors";
 import Image from "./Image";
 import type { CardConfig } from "./types";
 
@@ -22,14 +24,14 @@ type Props = CardConfig & {
 };
 
 const cardVariants = cva(
-	"relative bg-(--bases-cards-background) shadow-md overflow-hidden transition-all hover:shadow-lg cursor-pointer border border-border group box-border",
+	"relative shadow-md overflow-hidden transition-all hover:shadow-lg cursor-pointer border group box-border",
 	{
 		variants: {
       layout: {
-        horizontal: "flex flex-row h-full",
-        vertical: "flex flex-col h-full",
-        overlay: "",
-        polaroid: "flex flex-col h-full bg-card border-10 border-b-28 border-card",
+        horizontal: "flex flex-row h-full bg-(--bases-cards-background) border-border",
+        vertical: "flex flex-col h-full bg-(--bases-cards-background) border-border",
+        overlay: "bg-(--bases-cards-background) border-border",
+        polaroid: "flex flex-col h-full border-10 border-b-28",
       },
 			shape: {
 				square: "rounded",
@@ -40,11 +42,23 @@ const cardVariants = cva(
 				none: "",
 				alternating: "shadow-xl even:rotate-3 odd:-rotate-2 hover:rotate-0 ease-out duration-300",
 			},
+      withBgColor: {
+        true: "",
+        false: "",
+      },
 		},
+    compoundVariants: [
+      {
+        layout: "polaroid",
+        withBgColor: true,
+        class: "bg-card border-card",
+      },
+    ],
 		defaultVariants: {
-			shape: DEFAULT_SHAPE,
-      layout: DEFAULT_LAYOUT,
-			tilt: "none",
+			shape: DEFAULTS.shape,
+      layout: DEFAULTS.layout,
+			tilt: DEFAULTS.tilt,
+      withBgColor: false,
 		},
 	},
 );
@@ -59,6 +73,8 @@ const Card = memo(
 		const entryId = entry.file.path;
 		const handleEntryOpen = useEntryOpen(entry, config, cardConfig.linkProperty);
 		const handleEntryHover = useEntryHover(entryId, linkRef);
+    const image = useEntryImage(entry, cardConfig.imageProperty);
+    const colors = useCardColors(entry, cardConfig, image);
 
 		const onPointerDown = (event: React.PointerEvent) => {
 			dragStartPos.current = { x: event.clientX, y: event.clientY };
@@ -84,6 +100,7 @@ const Card = memo(
       layout: cardConfig.layout,
       shape: cardConfig.shape,
       tilt: cardConfig.tilt,
+      withBgColor: !colors.contentBackground,
     });
 
 		const isOverlay = cardConfig.layout === "overlay";
@@ -94,12 +111,14 @@ const Card = memo(
 		return (
 			<div
 				data-testid="lovely-card"
+        data-layout={cardConfig.layout}
 				className={cn(
 					classes,
 					className,
 				)}
 				style={{
 					width: cardConfig.cardSize,
+          ...(cardConfig.layout === "polaroid" ? { backgroundColor: colors.contentBackground, borderColor: colors.contentBackground } : undefined),
 					...(isOverlay && { "height": `${cardConfig.cardSize * cardConfig.imageAspectRatio}px` }),
 				} as React.CSSProperties}
 				onPointerDown={onPointerDown}
@@ -118,7 +137,13 @@ const Card = memo(
 
 			{isOverlay ? (
 				<>
-					<Image entry={entry} cardConfig={cardConfig} isOverlayMode />
+					<Image
+            entry={entry}
+            cardConfig={cardConfig}
+            colors={colors}
+            config={config}
+            image={image}
+            isOverlayMode />
 					<div className={cn(
 						"absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent pointer-events-none transition-opacity duration-300 ease-out",
 						showOverlayContent ? "opacity-100" : "opacity-0"
@@ -129,7 +154,12 @@ const Card = memo(
 							? "opacity-100 translate-y-0"
 							: "opacity-0 translate-y-4 pointer-events-none"
 					)}>
-						<Content entry={entry} cardConfig={cardConfig} config={config} isOverlayMode />
+						<Content
+              entry={entry}
+              cardConfig={cardConfig}
+              colors={colors}
+              config={config}
+              isOverlayMode />
 					</div>
 					{cardConfig.badgeProperty && (
 						<div className={cn(
@@ -145,15 +175,28 @@ const Card = memo(
 			) : (
 				<>
 					{!cardConfig.reverseContent ? (
-						<Image entry={entry} cardConfig={cardConfig} />
+						<Image
+              entry={entry}
+              cardConfig={cardConfig}
+              colors={colors}
+              config={config}
+              image={image} />
 					) : (
-						<Content entry={entry} cardConfig={cardConfig} config={config} />
+						<Content
+              entry={entry}
+              cardConfig={cardConfig}
+              colors={colors}
+              config={config} />
 					)}
 
 					{cardConfig.reverseContent ? (
-						<Image entry={entry} cardConfig={cardConfig} />
+						<Image entry={entry} cardConfig={cardConfig} config={config} image={image} colors={colors} />
 					) : (
-						<Content entry={entry} cardConfig={cardConfig} config={config} />
+						<Content
+              entry={entry}
+              cardConfig={cardConfig}
+              colors={colors}
+              config={config} />
 					)}
 					{cardConfig.badgeProperty && (
 						<Badge entry={entry} cardConfig={cardConfig} config={config} />

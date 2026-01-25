@@ -7,8 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1](https://github.com/aitorllj93/obsidian-lovely-bases/releases/tag/0.2.1) - 2026-01-25
 
-## [0.2.0]
+Bring more color to your cards with the new Appearance Options!
+
+### Added
+
+#### Cards
+
+- Appearance customization with background color, icons & font families
+
+#### Heatmap Calendar
+
+- New cell shapes configurations: square and circle
+
+### Fixed
+
+#### Heatmap Calendar
+
+- Displaying wrong month and year labels ([#12](https://github.com/aitorllj93/obsidian-lovely-bases/issues/12))
+- Issue on parsing datetimes on v0.2 ([#22](https://github.com/aitorllj93/obsidian-lovely-bases/issues/22))
+
+## [0.2.0](https://github.com/aitorllj93/obsidian-lovely-bases/releases/tag/0.2.0) - 2026-01-21
 
 This release has been focused on improving the cards component overall, by including many powerful features and integrating them into the existing components
 
@@ -50,7 +70,7 @@ All the new card options, plus:
 
 Several issues reported during testing have been fixed. Among other things, events outside the range are no longer displayed [8](https://github.com/aitorllj93/obsidian-lovely-bases/issues/8), [12](https://github.com/aitorllj93/obsidian-lovely-bases/issues/12), there is a range limit to prevent the application from crashing with very long dates [16](https://github.com/aitorllj93/obsidian-lovely-bases/issues/16), and date parsing with different time zones has been improved [#13](https://github.com/aitorllj93/obsidian-lovely-bases/issues/13).
 
-## [0.1.1] - 2026-01-17
+## [0.1.1](https://github.com/aitorllj93/obsidian-lovely-bases/releases/tag/0.1.1) - 2026-01-17
 
 ### Added
 
@@ -59,7 +79,7 @@ Several issues reported during testing have been fixed. Among other things, even
 - New Radar Chart View
 
 
-## [0.1.0] - 2026-01-17
+## [0.1.0](https://github.com/aitorllj93/obsidian-lovely-bases/releases/tag/0.1.0) - 2026-01-17
 
 ### Added
 

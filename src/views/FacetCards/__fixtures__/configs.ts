@@ -25,6 +25,12 @@ export const FULL_CONFIG: FacetCardsConfig = {
 	hoverProperty: "note.url",
 	hoverStyle: "overlay",
   linkProperty: undefined,
+  titleFont: 'Impact, Georgia, Arial Black, Trebuchet MS',
+  contentFont: 'Arial, Verdana, Tahoma, Segoe UI, Roboto',
+  badgesFont: 'Comic Sans MS, Courier New, Consolas, Arial Narrow, Impact',
+  iconProperty: 'note.icon',
+  backgroundColorProperty: 'note.color',
+  backgroundColorApplyTo: 'both',
 } satisfies Partial<FacetCardsConfig>;
 
 export const HORIZONTAL_LAYOUT_CONFIG: FacetCardsConfig = {
@@ -72,6 +78,12 @@ export const OVERLAY_LAYOUT_CONFIG: FacetCardsConfig = {
   badgeColor: '#D0A215',
   tilt: DEFAULTS.tilt,
   linkProperty: undefined,
+  backgroundColorProperty: undefined,
+  backgroundColorApplyTo: undefined,
+  iconProperty: undefined,
+  badgesFont: undefined,
+  titleFont: undefined,
+  contentFont: undefined,
 }
 
 export const CIRCLE_SHAPE_CONFIG: FacetCardsConfig = {
@@ -95,6 +107,12 @@ export const CIRCLE_SHAPE_CONFIG: FacetCardsConfig = {
   badgeColor: undefined,
   tilt: DEFAULTS.tilt,
   linkProperty: undefined,
+  backgroundColorProperty: undefined,
+  backgroundColorApplyTo: undefined,
+  iconProperty: undefined,
+  badgesFont: undefined,
+  titleFont: undefined,
+  contentFont: undefined,
 }
 
 
@@ -119,6 +137,12 @@ export const ROUNDED_SHAPE_CONFIG: FacetCardsConfig = {
   badgeColor: undefined,
   tilt: DEFAULTS.tilt,
   linkProperty: undefined,
+  backgroundColorProperty: undefined,
+  backgroundColorApplyTo: undefined,
+  iconProperty: undefined,
+  badgesFont: undefined,
+  titleFont: undefined,
+  contentFont: undefined,
 }
 
 export const POLAROID_LAYOUT_CONFIG: FacetCardsConfig = {
@@ -132,4 +156,10 @@ export const POLAROID_LAYOUT_CONFIG: FacetCardsConfig = {
   properties: [],
   tilt: DEFAULTS.tilt,
   linkProperty: undefined,
+  backgroundColorProperty: undefined,
+  backgroundColorApplyTo: undefined,
+  iconProperty: undefined,
+  badgesFont: undefined,
+  titleFont: undefined,
+  contentFont: undefined,
 }

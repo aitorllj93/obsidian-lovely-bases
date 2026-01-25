@@ -4,6 +4,10 @@ import { fn } from "storybook/test";
 
 import { aBasesEntryGroup } from "@/__mocks__";
 import {
+  type NamespacedTranslationKey,
+  translate,
+} from "@/lib/i18n";
+import {
 	createViewRenderer,
 	Providers,
 	ViewWrapper,
@@ -22,6 +26,9 @@ import {
 import RadarChartView, { type RadarChartConfig } from "./RadarChartView";
 
 const View = createViewRenderer<RadarChartConfig>(RadarChartView);
+
+const t = (key: NamespacedTranslationKey<"radarChart">) =>
+  translate("en", "radarChart", key);
 
 const meta = {
 	title: "Views/Radar Chart",
@@ -55,35 +62,72 @@ const meta = {
 	argTypes: {
 		aggregationFunction: {
 			control: "select",
-			name: "Aggregation Function",
+			name: t("options.data.aggregationFunction.title"),
 			description: "Function to aggregate values within each group.",
 			options: ["average", "median", "sum", "max", "min"],
 			table: {
-				category: "Data",
+				category: t("options.data.title"),
 				defaultValue: { summary: "average" },
 			},
 		},
 		minValue: {
 			control: { type: "range", min: 0, max: 100, step: 1 },
-			name: "Min Value",
+			name: t("options.valueRange.minValue.title"),
 			description: "Minimum value for the radar axis.",
 			table: {
-				category: "Value Range",
+				category: t("options.valueRange.title"),
 				defaultValue: { summary: "0" },
 			},
 		},
 		maxValue: {
 			control: { type: "range", min: 0, max: 1000, step: 10 },
-			name: "Max Value",
+			name: t("options.valueRange.maxValue.title"),
 			description: "Maximum value for the radar axis.",
 			table: {
-				category: "Value Range",
+				category: t("options.valueRange.title"),
 				defaultValue: { summary: "100" },
+			},
+		},
+		showAxisLabels: {
+			control: "boolean",
+			name: t("options.display.showAxisLabels.title"),
+			description: "Show or hide the property names on the radar axes.",
+			table: {
+				category: t("options.display.title"),
+				defaultValue: { summary: "true" },
+			},
+		},
+    showAxisTicks: {
+      control: "boolean",
+      name: t("options.display.showAxisTicks.title"),
+      description: "Show or hide the axis ticks.",
+      table: {
+        category: t("options.display.title"),
+        defaultValue: { summary: "true" },
+      },
+    },
+		showLegend: {
+			control: "boolean",
+			name: t("options.display.showLegend.title"),
+			description: "Show or hide the legend displaying group names.",
+			table: {
+				category: t("options.display.title"),
+				defaultValue: { summary: "true" },
+			},
+		},
+		legendPosition: {
+			control: "select",
+			name: t("options.display.legendPosition.title"),
+			description: "Position of the legend relative to the chart.",
+			options: ["top", "bottom", "left", "right"],
+			table: {
+				category: t("options.display.title"),
+				defaultValue: { summary: "bottom" },
 			},
 		},
 		colorScheme: {
 			control: "select",
-			name: "Color Scheme",
+			name: t("options.appearance.colorScheme.title"),
 			description: "Color palette for the radar polygons.",
 			options: [
 				"primary",
@@ -99,65 +143,29 @@ const meta = {
         "rainbow",
 			],
 			table: {
-				category: "Appearance",
+				category: t("options.appearance.title"),
 				defaultValue: { summary: "primary" },
 			},
 		},
 		customColors: {
 			control: "text",
-			name: "Custom Colors",
+			name: t("options.appearance.customColors.title"),
 			description:
 				"Comma-separated hex colors to override color scheme (e.g., '#3b82f6, #22c55e, #f59e0b').",
 			table: {
-				category: "Appearance",
+				category: t("options.appearance.title"),
 			},
 		},
 		fillOpacity: {
 			control: { type: "range", min: 0, max: 1, step: 0.05 },
-			name: "Fill Opacity",
+			name: t("options.appearance.fillOpacity.title"),
 			description: "Opacity of the filled area inside each radar polygon.",
 			table: {
-				category: "Appearance",
+				category: t("options.appearance.title"),
 				defaultValue: { summary: "0.3" },
 			},
 		},
-		showAxisLabels: {
-			control: "boolean",
-			name: "Show Axis Labels",
-			description: "Show or hide the property names on the radar axes.",
-			table: {
-				category: "Appearance",
-				defaultValue: { summary: "true" },
-			},
-		},
-    showAxisTicks: {
-      control: "boolean",
-      name: "Show Axis Ticks",
-      description: "Show or hide the axis ticks.",
-      table: {
-        category: "Appearance",
-        defaultValue: { summary: "true" },
-      },
-    },
-		showLegend: {
-			control: "boolean",
-			name: "Show Legend",
-			description: "Show or hide the legend displaying group names.",
-			table: {
-				category: "Appearance",
-				defaultValue: { summary: "true" },
-			},
-		},
-		legendPosition: {
-			control: "select",
-			name: "Legend Position",
-			description: "Position of the legend relative to the chart.",
-			options: ["top", "bottom", "left", "right"],
-			table: {
-				category: "Appearance",
-				defaultValue: { summary: "bottom" },
-			},
-		},
+    // Internals
 		data: {
 			table: {
 				disable: true,

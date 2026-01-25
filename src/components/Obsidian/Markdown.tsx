@@ -2,7 +2,7 @@ import {
   MarkdownRenderer,
   type TFile
 } from "obsidian";
-import { createElement, useEffect, useRef } from "react";
+import { type CSSProperties, createElement, useEffect, useRef } from "react";
 import { useObsidian } from "./Context";
 
 type Props = {
@@ -10,6 +10,7 @@ type Props = {
 	className?: string;
   maxLength?: number;
 	file: TFile;
+  style?: CSSProperties;
 };
 
 // remove frontmatter from markdown
@@ -17,7 +18,7 @@ const removeFrontmatter = (markdown: string) => {
   return markdown.replace(/^---\n[\s\S]*?\n---\n?/, "");
 };
 
-const Markdown = ({ as = "div", className, file, maxLength }: Props) => {
+const Markdown = ({ as = "div", className, file, maxLength, style }: Props) => {
 	const { app, component } = useObsidian();
 
 	const el = useRef<HTMLDivElement>(null);
@@ -40,7 +41,7 @@ const Markdown = ({ as = "div", className, file, maxLength }: Props) => {
 		});
 	}, [app, file, component, maxLength]);
 
-	return createElement(as, { ref: el, className });
+	return createElement(as, { ref: el, className, style });
 };
 
 export default Markdown;
