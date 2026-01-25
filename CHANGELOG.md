@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2](https://github.com/aitorllj93/obsidian-lovely-bases/releases/tag/0.2.2) - 2026-01-25
+
+### Fixed
+
+#### Heatmap Calendar
+
+- Crashing on empty or invalid dates ([#24](https://github.com/aitorllj93/obsidian-lovely-bases/issues/24))
+
 ## [0.2.1](https://github.com/aitorllj93/obsidian-lovely-bases/releases/tag/0.2.1) - 2026-01-25
 
 Bring more color to your cards with the new Appearance Options!
