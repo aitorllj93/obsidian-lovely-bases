@@ -175,7 +175,7 @@ const HeatmapCalendarView = ({
             date = format(dateValue as Date, FORMATS.DATE_ISO);
           } else {
             const dateObj = parse(dateValue.toString());
-            if (Number.isNaN(dateObj.getTime())) return null;
+            if (!dateObj || Number.isNaN(dateObj.getTime())) return null;
             date = format(dateObj, FORMATS.DATE_ISO);
           }
 
@@ -198,6 +198,8 @@ const HeatmapCalendarView = ({
       };
     });
   }, [data, viewConfig.dateProperty, viewConfig.trackProperty, viewConfig.trackType, viewConfig.minValue, viewConfig.maxValue]);
+
+  console.log(groups[0].entries);
 
   return (
     <Container isEmbedded={isEmbedded} style={{ userSelect: "none" }}>
