@@ -43,6 +43,27 @@ const STATUS_ICONS = {
   stable: "check-circle",
 };
 
+export const StatusBadge = ({ className, status }: { className?: string, status: string }) => {
+  return (
+    <span
+      className={cn(
+        "text-xs text-muted-foreground px-1.5 py-0.5 border rounded-md flex items-center gap-2",
+        STATUS_CLASSES[status as keyof typeof STATUS_CLASSES],
+        className,
+      )}
+      title={STATUS_TOOLTIPS[status as keyof typeof STATUS_TOOLTIPS]}
+    >
+      {STATUS_ICONS[status as keyof typeof STATUS_ICONS] && (
+        <LucideIcon
+          name={STATUS_ICONS[status as keyof typeof STATUS_ICONS]}
+          className="w-3.5 h-3.5"
+        />
+      )}
+      {STATUS_LABELS[status as keyof typeof STATUS_LABELS]}
+    </span>
+  );
+};
+
 export const Status = () => {
   const resolvedOf = useOf("meta", ["story", "meta"]);
 
@@ -79,21 +100,7 @@ export const Status = () => {
         )}
       </div>
       {status && (
-        <span
-          className={cn(
-            "text-xs text-muted-foreground px-1.5 py-0.5 border rounded-md flex items-center gap-2",
-            STATUS_CLASSES[status as keyof typeof STATUS_CLASSES],
-          )}
-          title={STATUS_TOOLTIPS[status as keyof typeof STATUS_TOOLTIPS]}
-        >
-          {STATUS_ICONS[status as keyof typeof STATUS_ICONS] && (
-            <LucideIcon
-              name={STATUS_ICONS[status as keyof typeof STATUS_ICONS]}
-              className="w-3.5 h-3.5"
-            />
-          )}
-          {STATUS_LABELS[status as keyof typeof STATUS_LABELS]}
-        </span>
+          <StatusBadge status={status} />
       )}
     </div>
   );
