@@ -1,4 +1,5 @@
 import { Meta } from "@storybook/addon-docs/blocks";
+import { StatusBadge } from "../../.storybook/blocks/Status";
 
 import Logo from './assets/logo.png';
 import Github from "./assets/github.svg";
@@ -34,14 +35,14 @@ export const RightArrow = () => <svg
 
 <div className="sb-container">
   <div className='sb-section-title'>
-   
-# About the Documentation
+
+## About the Documentation
 
 This page explains how to read the Lovely Bases documentation.
 
 ---
 
-## Using the documentation
+### Using the documentation
 
 - Browse individual view pages to explore layouts, examples, and configuration options.
 - Use the status badge on the top right to assess whether a view is suitable for your needs.
@@ -50,29 +51,60 @@ This page explains how to read the Lovely Bases documentation.
 
 If something is unclear or missing, contributions and feedback are welcome.
 
-## Status Badges
+### Status Badges
 
 Each view includes a status badge that represents its current state. These statuses reflect how stable a view is and how likely it is to change over time.
 
-#### Stable
-
-This view has been used in production for an extended period and is considered reliable.
-
-#### Ready for production
-
-This view is suitable for production use and is expected to behave consistently.
-
-#### Ready for beta testing
-
-This view is ready to be tested and evaluated. Behaviour may still change as feedback is collected.
-
-#### Experimental
-
-This view is under active development. Its behaviour may change significantly or it may be removed in a future version.
-
-#### Deprecated
-
-This view is no longer supported and may be removed in a future release. It is not recommended for new usage.
+<table className="w-full">
+  <tbody>
+    <tr>
+      <td>
+        <StatusBadge className="w-max" status="stable" />
+      </td>
+      <td>
+        This view has been used in production for an extended period and is considered reliable.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <StatusBadge className="w-max" status="ready" />
+      </td>
+      <td>
+        This view is suitable for production use and is expected to behave consistently.
+      </td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td>
+        <StatusBadge className="w-max" status="testing" />
+      </td>
+      <td>
+        This view is ready to be tested and evaluated. Behaviour may still change as feedback is collected.
+      </td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td>
+        <StatusBadge className="w-max" status="experimental" />
+      </td>
+      <td>
+        This view is under active development. Its behaviour may change significantly or it may be removed in a future version.
+      </td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td>
+        <StatusBadge className="w-max" status="deprecated" />
+      </td>
+      <td>
+        This view is no longer supported and may be removed in a future release. It is not recommended for new usage.
+      </td>
+    </tr>
+  </tbody>
+</table>
   </div>
 </div>
 
