@@ -28,7 +28,7 @@ const InfiniteGalleryView = ({ config, data, isEmbedded }: ReactBaseViewProps) =
   const viewConfig = useInfiniteGalleryConfig(config);
 
   return (
-    <Container isEmbedded={isEmbedded} embeddedStyle={{ height: "60vh", overflowY: "auto" }}>
+    <Container isEmbedded={isEmbedded} embeddedStyle={{ maxHeight: "60vh", overflowY: "auto" }}>
       <InfiniteDragScrollV2
         items={data.data}
         cardConfig={viewConfig}

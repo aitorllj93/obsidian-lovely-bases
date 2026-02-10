@@ -41,7 +41,7 @@ const FacetCardsView = ({ data, config, isEmbedded }: ReactBaseViewProps) => {
 	const estimatedRowHeight = estimateCardHeight(cardConfig) + (PADDING * 2);
 
 	return (
-    <Container isEmbedded={isEmbedded} embeddedStyle={{ height: "60vh", overflowY: "auto" }}>
+    <Container isEmbedded={isEmbedded} embeddedStyle={{ maxHeight: "60vh", overflowY: "auto" }}>
 			<VirtualGrid
 				minItemWidth={cardConfig.cardSize}
         cardConfig={cardConfig}

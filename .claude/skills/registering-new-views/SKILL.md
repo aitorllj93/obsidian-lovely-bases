@@ -296,7 +296,7 @@ const {ViewName}View = ({
 	const cardConfig = useCardConfig(config);
 
 	return (
-		<Container isEmbedded={isEmbedded} embeddedStyle={{ height: "60vh", overflowY: "auto" }}>
+		<Container isEmbedded={isEmbedded} embeddedStyle={{ maxHeight: "60vh", overflowY: "auto" }}>
 			<VirtualGrid
 				minItemWidth={cardConfig.cardSize}
 				cardConfig={cardConfig}
@@ -892,7 +892,7 @@ The `Container` component accepts these props for styling:
 <Container isEmbedded={isEmbedded} style={{ overflowY: "auto" }}>
 
 // With embedded-specific style (applies only when embedded)
-<Container isEmbedded={isEmbedded} embeddedStyle={{ height: "60vh", overflowY: "auto" }}>
+<Container isEmbedded={isEmbedded} embeddedStyle={{ maxHeight: "60vh", overflowY: "auto" }}>
 
 // Disable user selection
 <Container isEmbedded={isEmbedded} style={{ userSelect: "none" }}>
