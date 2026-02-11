@@ -8,7 +8,6 @@ const PROPERTY_TITLE_HEIGHT = 15;
 const PROPERTY_VALUE_HEIGHT = 30;
 
 export function estimateCardHeight(cardConfig: CardConfig, padding = DEFAULT_PADDING): number {
-
 	let contentHeight = padding;
 
 	if (cardConfig.showTitle) {
