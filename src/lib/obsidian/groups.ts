@@ -1,4 +1,5 @@
 import { type BasesEntryGroup, StringValue } from "obsidian";
+import { parseWikilink } from "./link";
 
 export function flattenGroups(groups: BasesEntryGroup[]): BasesEntryGroup[] {
   const result: BasesEntryGroup[] = [];
@@ -10,11 +11,14 @@ export function flattenGroups(groups: BasesEntryGroup[]): BasesEntryGroup[] {
       : [group.key.toString()];
 
     for (const key of keys) {
-      let resultGroup: BasesEntryGroup | undefined = result.find((g) => g.key?.toString() === key);
+      const title = key !== "null" ? parseWikilink(key) : "";
+      const newKey = `[[${title}]]`;
+
+      let resultGroup: BasesEntryGroup | undefined = result.find((g) => g.key?.toString() === newKey);
 
       if (!resultGroup) {
         resultGroup = {
-          key: new StringValue(key),
+          key: new StringValue(newKey),
           entries: [],
           hasKey: () => true,
         };
