@@ -11,8 +11,8 @@ import {
 import { type BasesEntry, Keymap } from "obsidian"
 import { memo, useEffect, useLayoutEffect, useState } from "react"
 
-import Icon from "@/components/Entries/Icon"
 import { useObsidian } from "../Obsidian/Context"
+import Icon from "./Icon"
 
 export const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect
