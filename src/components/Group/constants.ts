@@ -10,6 +10,8 @@ const t = (key: NamespacedTranslationKey<'group'>) => translate(locale, 'group',
 export const DEFAULTS = {
 	groupIconProperty: undefined,
 	groupColorProperty: undefined,
+groupTitleProperty: undefined,
+  groupSubtitleProperty: undefined,
   groupInferPropertiesFromLinkedNotes: false,
   groupClickOnGroup: "expand",
   groupBorder: "none",

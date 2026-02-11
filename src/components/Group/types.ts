@@ -24,6 +24,8 @@ export type GroupConfig = {
   groupSpacing?: number;
   groupCounterPosition?: GroupCounterPosition;
   groupTitlePosition?: GroupTitlePosition;
+groupTitleProperty?: BasesPropertyId;
+  groupSubtitleProperty?: BasesPropertyId;
   groupColorProperty?: BasesPropertyId;
   groupIconProperty?: BasesPropertyId;
 };
