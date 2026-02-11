@@ -28,7 +28,7 @@ function Groups({
 						style={{ animationDelay: `${200 + index * 100}ms` }}
 					>
 						<Group
-              key={group.key?.toString() ?? ""}
+              groupKey={group.key?.toString() ?? ""}
 							entries={group.entries}
 							cardConfig={cardConfig}
               groupConfig={groupConfig}

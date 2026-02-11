@@ -35,8 +35,7 @@ export default meta;
 export const FullExample: Story = {
   name: "Full Example",
   args: {
-    file: MY_FOLDER.file,
-    title: "My Folder",
+    groupKey: `[${MY_FOLDER.file.basename}]`,
     groupCounterPosition: "inside",
     groupBorder: "dashed",
     groupSpacing: 20,

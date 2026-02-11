@@ -56,8 +56,6 @@ const RadarChartView = ({
 		return customColors.length > 0 ? customColors : COLOR_SCHEMES[viewConfig.colorScheme ?? "primary"];
 	}, [viewConfig.customColors, viewConfig.colorScheme]);
 
-
-
   const radarData = properties.map(prop => {
     return {
       property: config.getDisplayName(prop),

@@ -35,7 +35,7 @@ const getComponent = (shape: GroupShape) => {
 };
 
 type Props = {
-  key: string;
+  groupKey: string;
   titleFont?: string;
   entries?: BasesEntry[];
   className?: string;
@@ -45,7 +45,7 @@ type Props = {
 };
 
 const Group: React.FC<Props> = ({
-  key,
+  groupKey,
   titleFont,
   entries = [],
   className,
@@ -54,7 +54,7 @@ const Group: React.FC<Props> = ({
   config,
 }) => {
   const { color, file, icon, title } = useGroupData(
-    key,
+    groupKey,
     groupConfig,
   );
   const { t } = useTranslation("projectFolders");

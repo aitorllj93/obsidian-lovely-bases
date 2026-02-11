@@ -15,11 +15,11 @@ type Props = {
   config: BasesViewConfig;
   groupConfig: GroupConfig;
   items: BasesEntry[];
-  key: string;
+  groupKey: string;
 };
 
 const Carousel = forwardRef<HTMLDivElement, Props>(
-  ({ cardConfig, config, groupConfig, items, key }, ref) => {
+  ({ cardConfig, config, groupConfig, items, groupKey }, ref) => {
     const {
       carouselRef,
       isAtStart,
@@ -32,9 +32,9 @@ const Carousel = forwardRef<HTMLDivElement, Props>(
         <div className="container mx-auto px-4 md:px-6">
           <Header
             config={config}
+            groupKey={groupKey}
             groupConfig={groupConfig}
             items={items}
-            key={key}
           />
 
           <div className="relative">

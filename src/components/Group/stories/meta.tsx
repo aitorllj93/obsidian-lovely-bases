@@ -31,9 +31,8 @@ export const pickGroupConfig = <T extends GroupConfig>(props: T): GroupConfig =>
 );
 
 export const GroupStory = ({
-  file,
-  title,
   entries,
+  groupKey,
   className,
   ...props
 }: StoryProps) => {
@@ -45,8 +44,7 @@ export const GroupStory = ({
   });
   return (
     <Group
-      file={file}
-      title={title}
+      groupKey={groupKey}
       titleFont={cardConfig.titleFont}
       entries={entries}
       className={className}
@@ -123,7 +121,7 @@ export const meta = {
       },
     },
     ...CardMeta.argTypes,
-    file: {
+    groupKey: {
       table: {
         disable: true,
       },

@@ -15,9 +15,8 @@ const meta = {
   args: {
     ...GroupMeta.args,
 		entries: MOVIES_ENTRIES,
-    file: MY_FOLDER.file,
+    groupKey: `[${MY_FOLDER.file.basename}]`,
     groupShape: "folder",
-    title: "My Folder",
     titleFont: HANDWRITTEN_FONTS,
     groupColorProperty: "note.color",
     groupIconProperty: "note.icon",
@@ -42,7 +41,7 @@ export const NineXS: Story = {
   name: "9XS",
   args: {
     ...CARD_OVERLAY_ON_HOVER_LAYOUT_CONFIG,
-    file: MY_FOLDER.file,
+    groupKey: `[${MY_FOLDER.file.basename}]`,
     titleFont: HANDWRITTEN_FONTS,
     contentMaxLength: 20,
     properties: ["note.author"],

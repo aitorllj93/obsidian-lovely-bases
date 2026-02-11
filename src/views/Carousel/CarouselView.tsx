@@ -17,6 +17,7 @@ const CarouselView = ({ data, config, isEmbedded }: ReactBaseViewProps) => {
     <Container isEmbedded={isEmbedded} style={{ overflowY: "auto" }}>
       {data.groupedData.map((group) => (
         <Carousel
+          groupKey={group.key?.toString() ?? ""}
           cardConfig={cardConfig}
           config={config}
           groupConfig={groupConfig}

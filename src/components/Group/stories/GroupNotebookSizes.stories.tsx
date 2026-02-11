@@ -15,9 +15,8 @@ const meta = {
   args: {
     ...GroupMeta.args,
 		entries: MOVIES_ENTRIES,
-    file: MY_NOTEBOOK.file,
+    groupKey: `[${MY_NOTEBOOK.file.basename}]`,
     groupShape: "notebook",
-    title: "My Notebook",
     titleFont: HANDWRITTEN_FONTS,
     groupColorProperty: "note.color",
     groupIconProperty: "note.icon",
