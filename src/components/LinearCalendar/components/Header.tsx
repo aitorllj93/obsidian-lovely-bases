@@ -3,7 +3,7 @@ type Props = {
   currentYear: number;
 };
 
-export const CalendarHeader = ({ currentYear }: Props) => {
+export default function CalendarHeader({ currentYear }: Props) {
   return (
     <div className="flex border-b border-border sticky top-0 z-10">
       <div className="w-32 shrink-0 font-bold p-2">{currentYear}</div>

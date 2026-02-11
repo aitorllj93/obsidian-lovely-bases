@@ -1,29 +1,42 @@
 import { cn } from "@/lib/utils";
 import type { EntryClickEventHandler } from "@/types";
 
-import { EventBar } from "./EventBar";
-import { MonthGrid } from "./MonthGrid";
-import type { StackedEvent } from "./utils";
+import type { CalendarItem } from "../types";
+import { daysInMonth, getEventsForMonth, getMonthName } from "../utils";
+
+import Events from "./Events";
+import Grid from "./Grid";
 
 type Props = {
-  monthIndex: number;
-  formattedMonthName: string;
+  currentYear: number;
   isLastMonth: boolean;
-  rowHeight: number;
-  daysCount: number;
-  events: StackedEvent[];
+  items: CalendarItem[];
+  monthIndex: number;
   onEntryClick: EntryClickEventHandler;
 };
 
-export const MonthRow = ({
-  monthIndex,
-  formattedMonthName,
+export default function MonthRow({
+  currentYear,
   isLastMonth,
-  rowHeight,
-  daysCount,
-  events,
+  items,
+  monthIndex,
   onEntryClick,
-}: Props) => {
+}: Props) {
+  const monthName = getMonthName(monthIndex);
+  // Capitalize first letter
+  const formattedMonthName =
+    monthName.charAt(0).toUpperCase() + monthName.slice(1);
+  const daysCount = daysInMonth(monthIndex, currentYear);
+  const { events, laneCount } = getEventsForMonth(
+    items,
+    monthIndex,
+    currentYear,
+  );
+
+  // minimum height for the month row, plus space for events
+  // Base height 48px + (laneCount * 24px)
+  const rowHeight = Math.max(48, 24 + laneCount * 28);
+
   return (
     <div
       key={monthIndex}
@@ -38,12 +51,12 @@ export const MonthRow = ({
       </div>
       <div className="grow relative flex">
         {/* Grid Background */}
-        <MonthGrid monthIndex={monthIndex} daysCount={daysCount} />
+        <Grid monthIndex={monthIndex} daysCount={daysCount} />
 
         {/* Events Layer */}
         <div className="absolute inset-0 w-full h-full z-10 mt-1">
           {events.map((event) => (
-            <EventBar
+            <Events
               key={`${event.id}-${monthIndex}`}
               event={event}
               monthIndex={monthIndex}

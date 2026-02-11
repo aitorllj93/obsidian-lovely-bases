@@ -1,22 +1,13 @@
-import type { BasesPropertyId } from "obsidian";
-import { useMemo } from "react";
 
-import { type CalendarItem, LinearCalendar } from "@/components/LinearCalendar";
+import { LinearCalendar } from "@/components/LinearCalendar";
+import type { LinearCalendarConfig } from "@/components/LinearCalendar/types";
 import { Container } from "@/components/Obsidian/Container";
 import { useConfig } from "@/hooks/use-config";
 import type { ReactBaseViewProps } from "@/types";
 
 export const LINEAR_CALENDAR_TYPE_ID = "linear-calendar";
 
-export type LinearCalendarConfig = {
-  focus: "full" | "half" | "quarter";
-  startDateProperty: BasesPropertyId;
-  endDateProperty?: BasesPropertyId;
-  titleProperty?: BasesPropertyId;
-  colorProperty?: BasesPropertyId;
-  iconProperty?: BasesPropertyId;
-  date?: string;
-};
+export type { LinearCalendarConfig } from "@/components/LinearCalendar/types";
 
 const LinearCalendarView = ({
   config,
@@ -35,70 +26,11 @@ const LinearCalendarView = ({
     date: new Date().getFullYear().toString(),
   });
 
-  const referenceDate = useMemo(() => {
-    if (linearCalendarConfig.date) {
-      const parsed = new Date(linearCalendarConfig.date);
-      if (!Number.isNaN(parsed.getTime())) return parsed;
-    }
-    return new Date();
-  }, [linearCalendarConfig.date]);
-
-  const items = useMemo(() => {
-    if (!linearCalendarConfig.startDateProperty) return [];
-
-    return data.groupedData.flatMap((group) => {
-      return group.entries
-        .map((entry) => {
-          const startVal = entry.getValue(
-            linearCalendarConfig.startDateProperty,
-          );
-          if (!startVal) return null;
-
-          const startDate = new Date(startVal.toString());
-          if (Number.isNaN(startDate.getTime())) return null;
-
-          let endDate = startDate;
-          if (linearCalendarConfig.endDateProperty) {
-            const endVal = entry.getValue(linearCalendarConfig.endDateProperty);
-            if (endVal) {
-              const parsedEnd = new Date(endVal.toString());
-              if (!Number.isNaN(parsedEnd.getTime())) {
-                endDate = parsedEnd;
-              }
-            }
-          }
-
-          const color = linearCalendarConfig.colorProperty ? entry.getValue(linearCalendarConfig.colorProperty)?.toString() : undefined;
-          const icon = linearCalendarConfig.iconProperty ? entry.getValue(linearCalendarConfig.iconProperty)?.toString() : undefined;
-          const title = linearCalendarConfig.titleProperty ? entry.getValue(linearCalendarConfig.titleProperty)?.toString() : entry.file.basename;
-
-          return {
-            id: entry.file.path,
-            title,
-            file: entry.file,
-            startDate,
-            endDate,
-            color: color === "null" ? undefined : color,
-            icon: icon === "null" ? undefined : icon,
-          } as CalendarItem;
-        })
-        .filter(Boolean) as CalendarItem[];
-    });
-  }, [
-    data,
-    linearCalendarConfig.startDateProperty,
-    linearCalendarConfig.endDateProperty,
-    linearCalendarConfig.colorProperty,
-    linearCalendarConfig.iconProperty,
-    linearCalendarConfig.titleProperty,
-  ]);
-
   return (
     <Container isEmbedded={isEmbedded} style={{ userSelect: "none" }}>
       <LinearCalendar
-        items={items}
-        focus={linearCalendarConfig.focus}
-        referenceDate={referenceDate}
+        calendarConfig={linearCalendarConfig}
+        entries={data.data}
         onEntryClick={onEntryClick}
         onEntryHover={onEntryHover}
       />

@@ -83,21 +83,8 @@ const RadarChartView = ({
 		);
 	}
 
-	if (radarData.length === 0) {
-		return (
-			<Container isEmbedded={isEmbedded}>
-				<div className="flex h-full items-center justify-center p-8 text-muted-foreground">
-					No data available for the Radar Chart.
-				</div>
-			</Container>
-		);
-	}
 	return (
-		<Container isEmbedded={isEmbedded} style={{
-      width: "100%",
-      padding: "1rem",
-      margin: "0 auto",
-    }}>
+		<Container isEmbedded={isEmbedded}>
       <RadarChart
         data={radarData}
         colors={colors}

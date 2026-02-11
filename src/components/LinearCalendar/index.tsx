@@ -1,73 +1,56 @@
-import type { TFile } from "obsidian";
+import type { BasesEntry } from "obsidian";
+import { useMemo } from "react";
 
 import type { EntryClickEventHandler, EntryHoverEventHandler } from "@/types";
 
-import { CalendarHeader } from "./CalendarHeader";
-import { MonthRow } from "./MonthRow";
-import { daysInMonth, getDisplayedMonthIndices, getEventsForMonth, getMonthName } from "./utils";
-
-export type CalendarItem = {
-  id: string;
-  title: string;
-  file: TFile;
-  startDate: Date;
-  endDate: Date;
-  color?: string;
-  icon?: string;
-};
+import Header from "./components/Header";
+import Row from "./components/Row";
+import { useCalendarItems } from "./hooks/use-calendar-items";
+import type { LinearCalendarConfig } from "./types";
+import {
+  getDisplayedMonthIndices
+} from "./utils";
 
 type Props = {
-  items: CalendarItem[];
-  focus: "full" | "half" | "quarter";
-  referenceDate: Date;
+  calendarConfig: LinearCalendarConfig;
+  entries: BasesEntry[];
   onEntryClick: EntryClickEventHandler;
   onEntryHover: EntryHoverEventHandler;
 };
 
 export const LinearCalendar = ({
-  items,
-  focus,
-  referenceDate,
+  calendarConfig,
+  entries,
   onEntryClick,
 }: Props) => {
+  const items = useCalendarItems(entries, calendarConfig);
+
+  const referenceDate = useMemo(() => {
+    if (calendarConfig.date) {
+      const parsed = new Date(calendarConfig.date);
+      if (!Number.isNaN(parsed.getTime())) return parsed;
+    }
+    return new Date();
+  }, [calendarConfig.date]);
+
   const currentYear = referenceDate.getFullYear();
-  const monthIndices = getDisplayedMonthIndices(focus, referenceDate);
+  const monthIndices = getDisplayedMonthIndices(calendarConfig.focus, referenceDate);
 
   return (
     <div className="flex flex-col w-full h-full overflow-auto bg-background text-foreground p-4">
-      <CalendarHeader currentYear={currentYear} />
+      <Header currentYear={currentYear} />
 
       {/* Rows for Months */}
-      {monthIndices.map((monthIndex) => {
-        const monthName = getMonthName(monthIndex);
-        const isLastMonth = monthIndex === monthIndices.length - 1;
-        // Capitalize first letter
-        const formattedMonthName =
-          monthName.charAt(0).toUpperCase() + monthName.slice(1);
-        const daysCount = daysInMonth(monthIndex, currentYear);
-        const { events, laneCount } = getEventsForMonth(
-          items,
-          monthIndex,
-          currentYear,
-        );
-
-        // minimum height for the month row, plus space for events
-        // Base height 48px + (laneCount * 24px)
-        const rowHeight = Math.max(48, 24 + laneCount * 28);
-
-        return (
-          <MonthRow
-            key={monthIndex}
-            monthIndex={monthIndex}
-            formattedMonthName={formattedMonthName}
-            isLastMonth={isLastMonth}
-            rowHeight={rowHeight}
-            daysCount={daysCount}
-            events={events}
-            onEntryClick={onEntryClick}
-          />
-        );
-      })}
+      {monthIndices.map((monthIndex) => (
+        <Row
+          key={monthIndex}
+          currentYear={currentYear}
+          items={items}
+          monthIndex={monthIndex}
+          isLastMonth={monthIndex === monthIndices.length - 1}
+          onEntryClick={onEntryClick}
+        />
+      ))}
     </div>
   );
 };

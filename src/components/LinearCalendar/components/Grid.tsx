@@ -5,7 +5,7 @@ type Props = {
   daysCount: number;
 };
 
-export const MonthGrid = ({ monthIndex, daysCount }: Props) => {
+export default function MonthGrid({ monthIndex, daysCount }: Props) {
   return (
     <div className="absolute inset-0 flex w-full h-full pointer-events-none">
       {Array.from({ length: 31 }, (_, i) => {

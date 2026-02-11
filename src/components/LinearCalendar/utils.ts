@@ -1,5 +1,5 @@
 import { FORMATS, format } from "@/lib/date";
-import type { CalendarItem } from "./index";
+import type { CalendarItem, StackedEvent } from "./types";
 
 export const getMonthName = (monthIndex: number) => {
   const date = new Date(2000, monthIndex, 1);
@@ -8,15 +8,6 @@ export const getMonthName = (monthIndex: number) => {
 
 export const daysInMonth = (monthIndex: number, year: number) => {
   return new Date(year, monthIndex + 1, 0).getDate();
-};
-
-export type StackedEvent = CalendarItem & {
-  clampedStart: Date;
-  clampedEnd: Date;
-  startDay: number;
-  endDay: number;
-  original: CalendarItem;
-  lane: number;
 };
 
 export const getEventsForMonth = (

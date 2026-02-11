@@ -1,8 +1,9 @@
+
+import LucideIcon from "@/components/Obsidian/LucideIcon";
 import { cn } from "@/lib/utils";
 import type { EntryClickEventHandler } from "@/types";
 
-import type { StackedEvent } from "./utils";
-import LucideIcon from "../Obsidian/LucideIcon";
+import type { StackedEvent } from "../types";
 
 type Props = {
   event: StackedEvent;
@@ -10,11 +11,11 @@ type Props = {
   onEntryClick: EntryClickEventHandler;
 };
 
-export const EventBar = ({
+export default function EventBar({
   event,
   monthIndex,
-  onEntryClick,
-}: Props) => {
+  onEntryClick
+}: Props) {
   const leftPercent = ((event.startDay - 1) / 31) * 100;
   const widthPercent = ((event.endDay - event.startDay + 1) / 31) * 100;
   const topPos = 4 + event.lane * 26; // 26px per lane (20px height + 6px gap)

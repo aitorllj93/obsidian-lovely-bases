@@ -1,6 +1,6 @@
 import type { ViewOption } from "obsidian";
+import type { LinearCalendarConfig } from "@/components/LinearCalendar/types";
 import { detectLocale, type NamespacedTranslationKey, translate } from "@/lib/i18n";
-import type { LinearCalendarConfig } from "./types";
 
 const locale = detectLocale();
 const t = (key: NamespacedTranslationKey<'linearCalendar'>) => translate(locale, 'linearCalendar', key);
