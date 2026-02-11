@@ -130,6 +130,11 @@ export const ko: LocaleTranslations = {
       },
       layoutAndDisplay: {
         title: "그룹 레이아웃",
+        groupLayout: {
+          title: "레이아웃",
+          sections: "섹션",
+          grid: "그리드",
+        },
         groupShape: {
           title: "모양",
           folder: "폴더",

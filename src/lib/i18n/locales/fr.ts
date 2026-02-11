@@ -130,6 +130,11 @@ export const fr: LocaleTranslations = {
       },
       layoutAndDisplay: {
         title: "Disposition du Groupe",
+        groupLayout: {
+          title: "Disposition",
+          sections: "Sections",
+          grid: "Grille",
+        },
         groupShape: {
           title: "Forme",
           folder: "Dossier",

@@ -128,6 +128,11 @@ export const en = {
       },
       layoutAndDisplay: {
         title: "Group Layout",
+        groupLayout: {
+          title: "Layout",
+          sections: "Sections",
+          grid: "Grid",
+        },
         groupShape: {
           title: "Shape",
           folder: "Folder",

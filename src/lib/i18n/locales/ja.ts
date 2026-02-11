@@ -130,6 +130,11 @@ export const ja: LocaleTranslations = {
       },
       layoutAndDisplay: {
         title: "グループレイアウト",
+        groupLayout: {
+          title: "レイアウト",
+          sections: "セクション",
+          grid: "グリッド",
+        },
         groupShape: {
           title: "形状",
           folder: "フォルダー",

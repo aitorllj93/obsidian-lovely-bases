@@ -8,9 +8,10 @@ const locale = detectLocale();
 const t = (key: NamespacedTranslationKey<'group'>) => translate(locale, 'group', key);
 
 export const DEFAULTS = {
+  groupLayout: "sections",
 	groupIconProperty: undefined,
 	groupColorProperty: undefined,
-groupTitleProperty: undefined,
+  groupTitleProperty: undefined,
   groupSubtitleProperty: undefined,
   groupInferPropertiesFromLinkedNotes: false,
   groupClickOnGroup: "expand",
@@ -28,9 +29,20 @@ export const GROUP_CONFIG_OPTIONS: ViewOption[] =  [
     items: [
       {
         type: "dropdown",
+        displayName: t("options.layoutAndDisplay.groupLayout.title"),
+        key: "groupLayout",
+        default: DEFAULTS.groupLayout,
+        options: {
+          sections: t("options.layoutAndDisplay.groupLayout.sections"),
+          grid: t("options.layoutAndDisplay.groupLayout.grid"),
+        },
+      },
+      {
+        type: "dropdown",
         displayName: t("options.layoutAndDisplay.groupShape.title"),
         key: "groupShape",
         default: DEFAULTS.groupShape,
+        shouldHide: (config) => config.get("groupLayout") !== "grid",
         options: {
           folder: t("options.layoutAndDisplay.groupShape.folder"),
           notebook: t("options.layoutAndDisplay.groupShape.notebook"),

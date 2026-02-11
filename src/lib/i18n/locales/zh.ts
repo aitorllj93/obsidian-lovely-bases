@@ -130,6 +130,11 @@ export const zh: LocaleTranslations = {
       },
       layoutAndDisplay: {
         title: "组布局",
+        groupLayout: {
+          title: "布局",
+          sections: "分区",
+          grid: "网格",
+        },
         groupShape: {
           title: "形状",
           folder: "文件夹",

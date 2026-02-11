@@ -130,6 +130,11 @@ export const ru: LocaleTranslations = {
       },
       layoutAndDisplay: {
         title: "Макет Группы",
+        groupLayout: {
+          title: "Макет",
+          sections: "Секции",
+          grid: "Сетка",
+        },
         groupShape: {
           title: "Форма",
           folder: "Папка",
