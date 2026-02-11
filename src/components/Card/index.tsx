@@ -7,13 +7,14 @@ import { useEntryOpen } from "@/hooks/use-entry-open";
 import { useEntryImage } from "@/hooks/use-image";
 import { cn } from "@/lib/utils";
 
-import Badge from "./Badge";
-import Content from "./Content";
+import Badge from "./components/Badge";
+import Content from "./components/Content";
+import HoverOverlay from "./components/HoverOverlay";
+import Image from "./components/Image";
+
 import { DEFAULTS } from "./constants";
-import HoverOverlay from "./HoverOverlay";
 import { compareCardConfig } from "./helpers/compare-config";
 import { useCardColors } from "./hooks/use-card-colors";
-import Image from "./Image";
 import type { CardConfig } from "./types";
 
 type Props = CardConfig & {
@@ -92,177 +93,182 @@ const cardContentVariants = cva(
 
 const DRAG_THRESHOLD = 5;
 
-const Card = memo(
-	({ adaptToSize = false, className, entry, config, isDraggable = false, style, ...cardConfig }: Props) => {
-    const [isHovered, setIsHovered] = useState(false);
-		const dragStartPos = useRef<{ x: number; y: number } | null>(null);
-		const linkRef = useRef<HTMLAnchorElement>(null);
-		const entryId = entry.file.path;
-		const handleEntryOpen = useEntryOpen(entry, config, cardConfig.linkProperty);
-		const handleEntryHover = useEntryHover(entryId, linkRef);
-    const image = useEntryImage(entry, cardConfig.imageProperty);
-    const colors = useCardColors(entry, cardConfig, image);
+const Card = memo(({
+  adaptToSize = false,
+  className,
+  config,
+  entry,
+  isDraggable = false,
+  style,
+  ...cardConfig
+}: Props) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const dragStartPos = useRef<{ x: number; y: number } | null>(null);
+  const linkRef = useRef<HTMLAnchorElement>(null);
+  const entryId = entry.file.path;
+  const handleEntryOpen = useEntryOpen(entry, config, cardConfig.linkProperty);
+  const handleEntryHover = useEntryHover(entryId, linkRef);
+  const image = useEntryImage(entry, cardConfig.imageProperty);
+  const colors = useCardColors(entry, cardConfig, image);
 
-		const onPointerDown = (event: React.PointerEvent) => {
-			dragStartPos.current = { x: event.clientX, y: event.clientY };
-		};
+  const onPointerDown = (event: React.PointerEvent) => {
+    dragStartPos.current = { x: event.clientX, y: event.clientY };
+  };
 
-		const handleClick = useCallback((event: React.MouseEvent) => {
-			if (isDraggable && dragStartPos.current) {
-				const dx = Math.abs(event.clientX - dragStartPos.current.x);
-				const dy = Math.abs(event.clientY - dragStartPos.current.y);
-				if (dx > DRAG_THRESHOLD || dy > DRAG_THRESHOLD) {
-					dragStartPos.current = null;
-					return;
-				}
-			}
+  const handleClick = useCallback((event: React.MouseEvent) => {
+    if (isDraggable && dragStartPos.current) {
+      const dx = Math.abs(event.clientX - dragStartPos.current.x);
+      const dy = Math.abs(event.clientY - dragStartPos.current.y);
+      if (dx > DRAG_THRESHOLD || dy > DRAG_THRESHOLD) {
+        dragStartPos.current = null;
+        return;
+      }
+    }
 
-			handleEntryOpen(event);
-		}, [handleEntryOpen, isDraggable]);
+    handleEntryOpen(event);
+  }, [handleEntryOpen, isDraggable]);
 
-		const onMouseEnter = () => setIsHovered(true);
-		const onMouseLeave = () => setIsHovered(false);
+  const onMouseEnter = () => setIsHovered(true);
+  const onMouseLeave = () => setIsHovered(false);
 
-    const contentClasses = cardContentVariants({
-      adaptToSize,
-      layout: cardConfig.layout,
-      shape: cardConfig.shape,
-      tilt: cardConfig.tilt,
-      withBgColor: !colors.contentBackground,
-    });
+  const contentClasses = cardContentVariants({
+    adaptToSize,
+    layout: cardConfig.layout,
+    shape: cardConfig.shape,
+    tilt: cardConfig.tilt,
+    withBgColor: !colors.contentBackground,
+  });
 
-		const isOverlay = cardConfig.layout === "overlay";
-		const showOverlayContent = isOverlay && (
-			cardConfig.overlayContentVisibility === "always" || isHovered
-		);
+  const isOverlay = cardConfig.layout === "overlay";
+  const showOverlayContent = isOverlay && (
+    cardConfig.overlayContentVisibility === "always" || isHovered
+  );
 
-		return (
+  return (
+    <div
+      data-testid="lovely-card-container"
+      data-layout={cardConfig.layout}
+      className={
+        cn(
+          "@container/lovely-card relative flex",
+          !isOverlay && "h-full"
+        )
+      }
+      style={{
+        width: cardConfig.cardSize,
+        ...(isOverlay && { height: `${cardConfig.cardSize * cardConfig.imageAspectRatio}px` }),
+      }}
+      onPointerDown={onPointerDown}
+      onClick={handleClick}
+      onMouseOver={handleEntryHover}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}>
       <div
-        data-testid="lovely-card-container"
-        data-layout={cardConfig.layout}
         className={
           cn(
-            "@container/lovely-card relative flex",
-            !isOverlay && "h-full"
+            className,
+            contentClasses,
           )
         }
-				style={{
+        style={{
           width: cardConfig.cardSize,
-          ...(isOverlay && { "height": `${cardConfig.cardSize * cardConfig.imageAspectRatio}px` }),
-				} as React.CSSProperties}
-				onPointerDown={onPointerDown}
-				onClick={handleClick}
-				onMouseOver={handleEntryHover}
-				onMouseEnter={onMouseEnter}
-				onMouseLeave={onMouseLeave}>
-        <div
-          className={
-            cn(
-              className,
-              contentClasses,
-            )
-          }
-          style={{
-            width: cardConfig.cardSize,
-            ...(isOverlay && { "height": `${cardConfig.cardSize * cardConfig.imageAspectRatio}px` }),
-            ...(cardConfig.layout === "polaroid" ? { backgroundColor: colors.contentBackground, borderColor: colors.contentBackground } : undefined),
-            ...style,
-          } as React.CSSProperties}
-        >
-          {/** biome-ignore lint/a11y/useAnchorContent: this is a workaround */}
-          {/** biome-ignore lint/a11y/useValidAnchor: as seen in Obsidian examples */}
-          <a
-            ref={linkRef}
-            className="pointer-events-none absolute inset-0 z-0"
-            draggable={false}
-          />
+          ...(isOverlay && { height: `${cardConfig.cardSize * cardConfig.imageAspectRatio}px` }),
+          ...(cardConfig.layout === "polaroid" ? { backgroundColor: colors.contentBackground, borderColor: colors.contentBackground } : undefined),
+          ...style,
+        }}
+      >
+        {/** biome-ignore lint/a11y/useAnchorContent: this is a workaround */}
+        {/** biome-ignore lint/a11y/useValidAnchor: as seen in Obsidian examples */}
+        <a
+          ref={linkRef}
+          className="pointer-events-none absolute inset-0 z-0"
+          draggable={false}
+        />
 
-        {isOverlay ? (
-          <>
+      {isOverlay ? (
+        <>
+          <Image
+            entry={entry}
+            cardConfig={cardConfig}
+            colors={colors}
+            config={config}
+            image={image}
+            isOverlayMode />
+          <div className={cn(
+            "absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent pointer-events-none transition-opacity duration-300 ease-out",
+            showOverlayContent ? "opacity-100" : "opacity-0"
+          )} />
+          <div className={cn(
+            "absolute bottom-0 left-0 right-0 transition-all duration-300 ease-out",
+            showOverlayContent
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-4 pointer-events-none"
+          )}>
+            <Content
+              adaptToSize={adaptToSize}
+              entry={entry}
+              cardConfig={cardConfig}
+              colors={colors}
+              config={config}
+              isOverlayMode />
+          </div>
+          {cardConfig.badgeProperty && (
+            <div className={cn(
+              "transition-all duration-300 ease-out",
+              showOverlayContent
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 -translate-y-4 pointer-events-none"
+            )}>
+              <Badge entry={entry} cardConfig={cardConfig} config={config} />
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          {!cardConfig.reverseContent ? (
             <Image
               entry={entry}
               cardConfig={cardConfig}
               colors={colors}
               config={config}
-              image={image}
-              isOverlayMode />
-            <div className={cn(
-              "absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent pointer-events-none transition-opacity duration-300 ease-out",
-              showOverlayContent ? "opacity-100" : "opacity-0"
-            )} />
-            <div className={cn(
-              "absolute bottom-0 left-0 right-0 transition-all duration-300 ease-out",
-              showOverlayContent
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-4 pointer-events-none"
-            )}>
-              <Content
-                adaptToSize={adaptToSize}
-                entry={entry}
-                cardConfig={cardConfig}
-                colors={colors}
-                config={config}
-                isOverlayMode />
-            </div>
-            {cardConfig.badgeProperty && (
-              <div className={cn(
-                "transition-all duration-300 ease-out",
-                showOverlayContent
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 -translate-y-4 pointer-events-none"
-              )}>
-                <Badge entry={entry} cardConfig={cardConfig} config={config} />
-              </div>
-            )}
-          </>
-        ) : (
-          <>
-            {!cardConfig.reverseContent ? (
-              <Image
-                entry={entry}
-                cardConfig={cardConfig}
-                colors={colors}
-                config={config}
-                image={image} />
-            ) : (
-              <Content
-                adaptToSize={adaptToSize}
-                entry={entry}
-                cardConfig={cardConfig}
-                colors={colors}
-                config={config} />
-            )}
+              image={image} />
+          ) : (
+            <Content
+              adaptToSize={adaptToSize}
+              entry={entry}
+              cardConfig={cardConfig}
+              colors={colors}
+              config={config} />
+          )}
 
-            {cardConfig.reverseContent ? (
-              <Image entry={entry} cardConfig={cardConfig} config={config} image={image} colors={colors} />
-            ) : (
-              <Content
-                adaptToSize={adaptToSize}
-                entry={entry}
-                cardConfig={cardConfig}
-                colors={colors}
-                config={config} />
-            )}
-            {cardConfig.badgeProperty && (
-              <Badge adaptToSize={adaptToSize} entry={entry} cardConfig={cardConfig} config={config} />
-            )}
-          </>
-        )}
+          {cardConfig.reverseContent ? (
+            <Image entry={entry} cardConfig={cardConfig} config={config} image={image} colors={colors} />
+          ) : (
+            <Content
+              adaptToSize={adaptToSize}
+              entry={entry}
+              cardConfig={cardConfig}
+              colors={colors}
+              config={config} />
+          )}
+          {cardConfig.badgeProperty && (
+            <Badge adaptToSize={adaptToSize} entry={entry} cardConfig={cardConfig} config={config} />
+          )}
+        </>
+      )}
 
-          {isHovered && <HoverOverlay entry={entry} cardConfig={cardConfig} config={config} />}
-        </div>
-			</div>
-		);
-	},
-	(prevProps, nextProps) => {
-		return (
-			prevProps.adaptToSize === nextProps.adaptToSize &&
-			prevProps.entry === nextProps.entry &&
-			prevProps.className === nextProps.className &&
-			prevProps.isDraggable === nextProps.isDraggable &&
-			compareCardConfig(prevProps, nextProps)
-		);
-	},
+        {isHovered && <HoverOverlay entry={entry} cardConfig={cardConfig} config={config} />}
+      </div>
+    </div>
+  );
+},
+(prevProps, nextProps) => (
+  prevProps.adaptToSize === nextProps.adaptToSize &&
+  prevProps.entry === nextProps.entry &&
+  prevProps.className === nextProps.className &&
+  prevProps.isDraggable === nextProps.isDraggable &&
+  compareCardConfig(prevProps, nextProps)
+),
 );
 
 Card.displayName = "Card";

@@ -2,60 +2,42 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import type { BasesEntry, BasesViewConfig } from "obsidian";
 import { memo, useEffect, useMemo } from "react";
 
-import Card from "../Card";
-import { compareCardConfig } from "../Card/helpers/compare-config";
+import { afterRaf, arrayEqual, chunk, cn, shallowEqual } from "@/lib/utils";
+
 import type { CardConfig } from "../Card/types";
 
+import Column from "./Column";
 import { useElementWidth } from "./hooks/use-element-width";
-
-function chunkIntoRows(items: BasesEntry[], columns: number): BasesEntry[][] {
-  if (columns <= 0) return [];
-  const rows: BasesEntry[][] = [];
-  for (let i = 0; i < items.length; i += columns) {
-    rows.push(items.slice(i, i + columns));
-  }
-  return rows;
-}
-
-const doubleRaf = (callback: () => void) => {
-  let cancelled = false;
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      if (!cancelled) callback();
-    });
-  });
-  return () => { cancelled = true; };
-};
 
 type Props = {
   cardConfig: CardConfig;
+  className?: string;
   config: BasesViewConfig;
+  estimateRowHeight?: number;
+  gap?: number;
   items: BasesEntry[];
   minItemWidth?: number;
-  gap?: number;
-  padding?: number;
-  estimateRowHeight?: number;
 };
 
 function PureVirtualGrid({
   cardConfig,
+  className,
   config,
   items,
   minItemWidth = 240,
   gap = 16,
-  padding = 0,
   estimateRowHeight = 320,
 }: Props) {
   const [scrollRef, width] = useElementWidth<HTMLDivElement>();
 
   const columnCount = useMemo(() => {
-    const inner = Math.max(0, width - padding * 2);
+    const inner = Math.max(0, width);
     if (inner === 0) return 1;
     return Math.max(1, Math.floor((inner + gap) / (minItemWidth + gap)));
-  }, [width, padding, gap, minItemWidth]);
+  }, [width, gap, minItemWidth]);
 
   const rows = useMemo(
-    () => chunkIntoRows(items, columnCount),
+    () => chunk(items, columnCount),
     [items, columnCount],
   );
 
@@ -71,82 +53,53 @@ function PureVirtualGrid({
   // biome-ignore lint/correctness/useExhaustiveDependencies: needed to measure the height of the rows
   useEffect(() => {
     if (width === 0) return;
-    return doubleRaf(() => virtualizer.measure());
+    return afterRaf(() => virtualizer.measure(), 2);
   }, [virtualizer, items, width]);
 
   return (
     <div
+      className={cn(
+        "h-full overflow-auto",
+        width === 0 ? "opacity-0" : "opacity-100",
+        className,
+      )}
       ref={scrollRef}
-      style={{
-        height: "100%",
-        overflow: "auto",
-        opacity: width === 0 ? 0 : 1,
-        padding,
-      }}
     >
       <div
+        className="relative"
         style={{
           height: virtualizer.getTotalSize(),
-          position: "relative",
         }}
       >
         {scrollRef.current
-          ? virtualizer.getVirtualItems().map((vRow) => {
-              const rowItems = rows[vRow.index] ?? [];
-
-              return (
-                <div
-                  key={vRow.key}
-                  ref={virtualizer.measureElement}
-                  data-index={vRow.index}
-                  tabIndex={vRow.index === 0 ? 0 : undefined}
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    transform: `translateY(${vRow.start}px)`,
-                    display: "grid",
-                    gridTemplateColumns: `repeat(${columnCount}, minmax(0, ${cardConfig.cardSize}px))`,
-                    gap,
-                    boxSizing: "border-box",
-                    justifyContent: 'space-evenly',
-                  }}
-                >
-                  {rowItems.map((item) => (
-                    <Card
-                      className="mx-auto"
-                      key={item.file.path}
-                      entry={item}
-                      config={config}
-                      {...cardConfig}
-                    />
-                  ))}
-                </div>
-              );
-            })
+          ? virtualizer.getVirtualItems().map((vRow) => (
+            <Column
+              cardConfig={cardConfig}
+              columnCount={columnCount}
+              config={config}
+              data={rows[vRow.index] ?? []}
+              gap={gap}
+              key={vRow.key}
+              index={vRow.index}
+              ref={virtualizer.measureElement}
+              start={vRow.start}
+            />
+          ))
           : null}
       </div>
     </div>
   );
 }
 
-function itemsEqual(a: BasesEntry[], b: BasesEntry[]): boolean {
-  if (a === b) return true;
-  if (a.length !== b.length) return false;
-  return a.length === 0 || a[0] === b[0];
-}
-
 const VirtualGrid = memo(PureVirtualGrid, (prevProps, nextProps) => {
   return (
-    itemsEqual(prevProps.items, nextProps.items) &&
+    arrayEqual(prevProps.items, nextProps.items) &&
     prevProps.minItemWidth === nextProps.minItemWidth &&
     prevProps.gap === nextProps.gap &&
-    prevProps.padding === nextProps.padding &&
     prevProps.estimateRowHeight === nextProps.estimateRowHeight &&
-    compareCardConfig(prevProps.cardConfig, nextProps.cardConfig) &&
+    shallowEqual(prevProps.cardConfig, nextProps.cardConfig) &&
     prevProps.config === nextProps.config
   );
-}) as typeof PureVirtualGrid;
+});
 
 export default VirtualGrid;

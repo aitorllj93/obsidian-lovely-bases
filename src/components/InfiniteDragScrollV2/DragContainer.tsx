@@ -21,7 +21,11 @@ type Props = {
 	onScrollChange?: (position: ScrollPosition) => void;
 };
 
-export const DragContainer = ({ children, className, onScrollChange }: Props) => {
+export const DragContainer = ({
+  children,
+  className,
+  onScrollChange
+}: Props) => {
 	const containerRef = useRef<HTMLDivElement | null>(null);
 
 	const scrollX = useMotionValue(0);

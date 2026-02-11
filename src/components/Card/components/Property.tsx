@@ -6,28 +6,26 @@ import PropertyValue from "@/components/Obsidian/PropertyValue";
 import { useEntryProperty } from "@/hooks/use-property";
 import { cn } from "@/lib/utils";
 
-import type { CardConfig } from "./types";
-
 const EMPTY_PLACEHOLDER = "—";
 
-type PropertyItemProps = {
+type Props = {
   adaptToSize?: boolean;
+  config: BasesViewConfig;
   entry: BasesEntry;
+  isOverlayMode?: boolean;
   propertyId: BasesPropertyId;
   showPropertyTitles: boolean;
-  config: BasesViewConfig;
-  isOverlayMode?: boolean;
 };
 
-const PropertyItem = memo(
+const Property = memo(
   ({
     adaptToSize = false,
+    config,
     entry,
+    isOverlayMode,
     propertyId,
     showPropertyTitles,
-    config,
-    isOverlayMode,
-  }: PropertyItemProps) => {
+  }: Props) => {
     const property = useEntryProperty(entry, config, propertyId);
     const { renderContext } = useObsidian().app;
 
@@ -87,64 +85,6 @@ const PropertyItem = memo(
     prevProps.isOverlayMode === nextProps.isOverlayMode,
 );
 
-PropertyItem.displayName = "PropertyItem";
+Property.displayName = "Property";
 
-type Props = {
-  adaptToSize?: boolean;
-  entry: BasesEntry;
-  cardConfig: CardConfig;
-  config: BasesViewConfig;
-  isOverlayMode?: boolean;
-};
-
-const PropertyList = memo(
-  ({
-    adaptToSize = false,
-    entry,
-    cardConfig,
-    config,
-    isOverlayMode,
-  }: Props) => {
-    const { properties, showPropertyTitles } = cardConfig;
-
-    if (properties.length === 0) return null;
-
-    return (
-      <div
-        className={cn(
-          "flex flex-col overflow-y-auto",
-          !adaptToSize && "gap-2",
-          adaptToSize &&
-            "@[0px]/lovely-card:gap-1 @7xs/lovely-card:gap-1.5 @5xs/lovely-card:gap-2",
-        )}
-      >
-        {properties.map((property) => {
-          return (
-            <PropertyItem
-              adaptToSize={adaptToSize}
-              key={property}
-              entry={entry}
-              propertyId={property}
-              showPropertyTitles={showPropertyTitles}
-              config={config}
-              isOverlayMode={isOverlayMode}
-            />
-          );
-        })}
-      </div>
-    );
-  },
-  (prevProps, nextProps) => {
-    return (
-      prevProps.adaptToSize === nextProps.adaptToSize &&
-      prevProps.entry === nextProps.entry &&
-      prevProps.cardConfig === nextProps.cardConfig &&
-      prevProps.config === nextProps.config &&
-      prevProps.isOverlayMode === nextProps.isOverlayMode
-    );
-  },
-);
-
-PropertyList.displayName = "PropertyList";
-
-export default PropertyList;
+export default Property;

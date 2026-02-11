@@ -12,7 +12,6 @@ import {
 import { aBasesViewConfig } from "@/__mocks__";
 import {
   CIRCLE_SHAPE_CONFIG,
-  DEFAULT_CONFIG,
   HORIZONTAL_LAYOUT_CONFIG,
   OVERLAY_ON_HOVER_LAYOUT_CONFIG,
   POLAROID_LAYOUT_CONFIG,
@@ -46,7 +45,6 @@ const NotebookStory = (props: NotebookStoryProps) => {
     <NotebookPage
       entry={MOVIES_ENTRIES[0]}
       config={VIEW_CONFIG}
-      cardConfig={DEFAULT_CONFIG}
       padContent={true}
       pageStyle="plain"
       notebookWidth={width}

@@ -155,11 +155,11 @@ const GroupExpandedView = ({
 
             <div className="flex-1 min-h-0 w-full pt-2">
               {showGrid &&<VirtualGrid
-                minItemWidth={cardConfig.cardSize}
                 cardConfig={cardConfig}
                 config={config}
-                items={entries}
                 estimateRowHeight={cardHeight}
+                items={entries}
+                minItemWidth={cardConfig.cardSize}
               />}
             </div>
           </motion.div>

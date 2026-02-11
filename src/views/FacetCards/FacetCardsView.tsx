@@ -11,46 +11,47 @@ const PADDING = 12;
 export type FacetCardsConfig = CardConfig;
 
 function estimateCardHeight(cardConfig: CardConfig, padding = PADDING): number {
-	const TITLE_HEIGHT = 30;
-	const PROPERTY_TITLE_HEIGHT = 15;
-	const PROPERTY_VALUE_HEIGHT = 30;
+  const TITLE_HEIGHT = 30;
+  const PROPERTY_TITLE_HEIGHT = 15;
+  const PROPERTY_VALUE_HEIGHT = 30;
 
-	let contentHeight = padding;
+  let contentHeight = padding;
 
-	if (cardConfig.showTitle) {
-		contentHeight += TITLE_HEIGHT;
-	}
+  if (cardConfig.showTitle) {
+    contentHeight += TITLE_HEIGHT;
+  }
 
-	if (cardConfig.properties.length > 0) {
-		let propertyHeight = PROPERTY_VALUE_HEIGHT;
-		if (cardConfig.showPropertyTitles) {
-			propertyHeight += PROPERTY_TITLE_HEIGHT;
-		}
-		contentHeight += propertyHeight * cardConfig.properties.length;
-	}
+  if (cardConfig.properties.length > 0) {
+    let propertyHeight = PROPERTY_VALUE_HEIGHT;
+    if (cardConfig.showPropertyTitles) {
+      propertyHeight += PROPERTY_TITLE_HEIGHT;
+    }
+    contentHeight += propertyHeight * cardConfig.properties.length;
+  }
 
-	const verticalImageHeight = cardConfig.imageAspectRatio * cardConfig.cardSize;
+  const verticalImageHeight = cardConfig.imageAspectRatio * cardConfig.cardSize;
 
-	return cardConfig.layout === "horizontal"
-		? contentHeight
-		: verticalImageHeight + contentHeight;
+  return cardConfig.layout === "horizontal"
+    ? contentHeight
+    : verticalImageHeight + contentHeight;
 }
 
 const FacetCardsView = ({ data, config, isEmbedded }: ReactBaseViewProps) => {
-	const cardConfig = useCardConfig(config);
-	const estimatedRowHeight = estimateCardHeight(cardConfig) + (PADDING * 2);
+  const cardConfig = useCardConfig(config);
+  const estimatedRowHeight = estimateCardHeight(cardConfig) + PADDING * 2;
 
-	return (
-    <Container isEmbedded={isEmbedded} embeddedStyle={{ maxHeight: "60vh", overflowY: "auto" }}>
-			<VirtualGrid
-				minItemWidth={cardConfig.cardSize}
+  return (
+    <Container isEmbedded={isEmbedded}>
+      <VirtualGrid
         cardConfig={cardConfig}
+        className={isEmbedded ? "max-h-screen" : "max-h-auto"}
         config={config}
-				items={data.data}
-				estimateRowHeight={estimatedRowHeight}
-			/>
-		</Container>
-	);
+        estimateRowHeight={estimatedRowHeight}
+        items={data.data}
+        minItemWidth={cardConfig.cardSize}
+      />
+    </Container>
+  );
 };
 
 export default FacetCardsView;
