@@ -11,7 +11,7 @@ const Providers: Decorator = (Story, ctx) => {
   const theme = ctx.globals.theme ?? 'Flexoki Light';
   const containerRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
-
+  const params = ctx.parameters.obsidian;
   const themeClasses = theme.split(' ').map(t => t.toLowerCase());
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const Providers: Decorator = (Story, ctx) => {
       {mounted && containerRef.current && (
         <ObsidianProvider
           value={{
-            app: createMockApp(),
+            app: createMockApp(params),
             component: createMockComponent(),
             containerEl: containerRef.current,
             isEmbedded: false,

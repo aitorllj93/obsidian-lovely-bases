@@ -18,7 +18,7 @@ export function useGroupData(
   groupConfig: GroupConfig,
   sourcePath?: string,
 ): GroupData {
-  const { app } = useObsidian();
+  const { app, containerEl } = useObsidian();
 
   const keyIsLink = isWikiLink(key);
   const title = key !== "null" ? parseWikilink(key) : "";
@@ -35,7 +35,7 @@ export function useGroupData(
   const [, colorProperty] = groupConfig.groupColorProperty?.split(".") ?? [];
   const [, iconProperty] = groupConfig.groupIconProperty?.split(".") ?? [];
 
-  let color = accent();
+  let color = accent(containerEl);
   let icon: string | null = null;
 
   if (file && file instanceof TFile) {

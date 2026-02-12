@@ -69,8 +69,11 @@ const ACCENT_VARS = [
   "--color-accent",
 ];
 
-export const accent = (): string | null => {
+export const accent = (
+  containerElement?: HTMLElement,
+): string | null => {
   const container =
+    containerElement ??
     document.querySelector(".app-container") ??
     document.body;
 

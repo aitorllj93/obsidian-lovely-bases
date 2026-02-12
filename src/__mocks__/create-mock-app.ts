@@ -4,7 +4,15 @@ import type { App, TFile } from "obsidian"
 import { ALL_ENTRIES } from "@/__fixtures__/entries";
 import type { MockTFile } from "./aFile";
 
-export const createMockApp = (): App => {
+type MockAppParams = {
+  markdown?: boolean;
+}
+
+const DEFAULT_MOCK_APP_PARAMS: MockAppParams = {
+  markdown: true,
+}
+
+export const createMockApp = (params: MockAppParams = DEFAULT_MOCK_APP_PARAMS): App => {
   return {
     metadataCache: {
 			getFirstLinkpathDest: (linkpath: string, _: string) => {
@@ -33,6 +41,9 @@ export const createMockApp = (): App => {
 				},
 			},
 			read: async (_file: TFile): Promise<string> => {
+        if (!params.markdown) {
+          return new Promise(() => {});
+        }
 				return (_file as MockTFile).content ?? '';
 			},
 		},

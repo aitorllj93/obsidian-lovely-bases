@@ -19,25 +19,23 @@ function Groups({
 	config,
 }: Props) {
 	return (
-		<section className="w-full max-w-5xl mx-auto">
-			<div className="flex flex-wrap gap-12 my-12">
-				{data.map((group, index) => (
-					<div
-						key={group.key?.toString() ?? ""}
-						className="animate-in fade-in slide-in-from-bottom-8 duration-700"
-						style={{ animationDelay: `${200 + index * 100}ms` }}
-					>
-						<Group
-              groupKey={group.key?.toString() ?? ""}
-							entries={group.entries}
-							cardConfig={cardConfig}
-              groupConfig={groupConfig}
-							config={config}
-						/>
-					</div>
-				))}
-			</div>
-		</section>
+    <div className="flex flex-wrap gap-12 my-12 mx-auto">
+      {data.map((group, index) => (
+        <div
+          key={group.key?.toString() ?? ""}
+          className="animate-in fade-in slide-in-from-bottom-8 duration-700"
+          style={{ animationDelay: `${200 + index * 100}ms` }}
+        >
+          <Group
+            groupKey={group.key?.toString() ?? ""}
+            entries={group.entries}
+            cardConfig={cardConfig}
+            groupConfig={groupConfig}
+            config={config}
+          />
+        </div>
+      ))}
+    </div>
 	);
 }
 

@@ -3,8 +3,9 @@ import type { FolderColors } from "../types";
 
 export const getFolderColors = (
   color?: string,
+  containerElement?: HTMLElement,
 ): FolderColors => {
-  const primary = color ?? accent();
+  const primary = color ?? accent(containerElement);
   const gradient = linear(primary, 0.2);
   const foreground = desaturate(primary, 0.2);
 
