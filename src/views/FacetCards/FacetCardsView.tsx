@@ -1,4 +1,3 @@
-import { estimateCardHeight } from "@/components/Card/helpers/estimate-card-height";
 import { useCardConfig } from "@/components/Card/hooks/use-card-config";
 import type { CardConfig } from "@/components/Card/types";
 import { Container } from "@/components/Obsidian/Container";
@@ -9,7 +8,6 @@ export type FacetCardsConfig = CardConfig;
 
 const FacetCardsView = ({ data, config, isEmbedded }: ReactBaseViewProps) => {
   const cardConfig = useCardConfig(config);
-  const estimatedRowHeight = estimateCardHeight(cardConfig);
 
   return (
     <Container isEmbedded={isEmbedded}>
@@ -17,8 +15,8 @@ const FacetCardsView = ({ data, config, isEmbedded }: ReactBaseViewProps) => {
         cardConfig={cardConfig}
         className={isEmbedded ? "max-h-screen" : "max-h-auto"}
         config={config}
-        estimateRowHeight={estimatedRowHeight}
         items={data.data}
+        measureAfterRaf={0}
         minItemWidth={cardConfig.cardSize}
       />
     </Container>

@@ -12,6 +12,7 @@ type Props = {
   gap: number;
   index: number;
   start: number;
+  cardWidth: number;
 }
 
 const Column = forwardRef<HTMLDivElement, Props>(({
@@ -22,17 +23,18 @@ const Column = forwardRef<HTMLDivElement, Props>(({
   gap,
   index,
   start,
+  cardWidth,
 }, ref) => {
   return (
     <div
-      className="absolute top-0 left-0 w-full grid box-border justify-evenly"
+      className="w-full grid box-border justify-evenly"
       data-index={index}
       ref={ref}
       tabIndex={index === 0 ? 0 : undefined}
       style={{
-        transform: `translateY(${start}px)`,
-        gridTemplateColumns: `repeat(${columnCount}, minmax(0, ${cardConfig.cardSize}px))`,
+        gridTemplateColumns: `repeat(${columnCount}, minmax(0, ${cardWidth}px))`,
         gap,
+        marginBottom: gap,
       }}
     >
       {data.map((item) => (
@@ -42,6 +44,7 @@ const Column = forwardRef<HTMLDivElement, Props>(({
           entry={item}
           config={config}
           {...cardConfig}
+          cardSize={cardWidth}
         />
       ))}
     </div>

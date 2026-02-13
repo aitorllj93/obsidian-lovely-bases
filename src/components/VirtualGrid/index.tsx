@@ -4,19 +4,32 @@ import { memo, useEffect, useMemo } from "react";
 
 import { afterRaf, arrayEqual, chunk, cn, shallowEqual } from "@/lib/utils";
 
+import { estimateCardHeight } from "../Card/helpers/estimate-card-height";
 import type { CardConfig } from "../Card/types";
 
 import Column from "./Column";
 import { useElementWidth } from "./hooks/use-element-width";
 
+const getCardWidth = (
+  columns: number,
+  gap: number,
+  width: number
+): number => {
+  if (!width) return 0;
+
+  const totalGap = (columns - 1) * gap;
+
+  return (width - totalGap) / columns;
+}
+
 type Props = {
   cardConfig: CardConfig;
   className?: string;
   config: BasesViewConfig;
-  estimateRowHeight?: number;
   gap?: number;
   items: BasesEntry[];
   minItemWidth?: number;
+  measureAfterRaf?: number;
 };
 
 function PureVirtualGrid({
@@ -26,9 +39,10 @@ function PureVirtualGrid({
   items,
   minItemWidth = 240,
   gap = 16,
-  estimateRowHeight = 320,
+  measureAfterRaf = 0,
 }: Props) {
   const [scrollRef, width] = useElementWidth<HTMLDivElement>();
+  const estimatedRowHeight = useMemo(() => estimateCardHeight(cardConfig), [cardConfig])
 
   const columnCount = useMemo(() => {
     const inner = Math.max(0, width);
@@ -41,38 +55,48 @@ function PureVirtualGrid({
     [items, columnCount],
   );
 
+  const cardWidth = getCardWidth(columnCount, gap, width)
+
   const virtualizer = useVirtualizer({
     count: rows.length,
     getScrollElement: () => scrollRef.current,
-    estimateSize: () => estimateRowHeight,
-    measureElement: (el) => el.getBoundingClientRect().height,
+    estimateSize: () => estimatedRowHeight,
     overscan: 6,
     gap,
   });
 
+  const vitems = virtualizer.getVirtualItems()
+
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: needed to measure the height of the rows
   useEffect(() => {
     if (width === 0) return;
-    return afterRaf(() => virtualizer.measure(), 2);
-  }, [virtualizer, items, width]);
+    return afterRaf(() => virtualizer.measure(), measureAfterRaf);
+  }, [virtualizer, items, width, measureAfterRaf]);
 
   return (
     <div
       className={cn(
-        "h-full overflow-auto",
+        "h-full overflow-auto contain-strict [overflow-anchor:none]",
         width === 0 ? "opacity-0" : "opacity-100",
         className,
       )}
       ref={scrollRef}
     >
-      <div
+      {width !== 0 && (<div
         className="relative"
         style={{
           height: virtualizer.getTotalSize(),
         }}
       >
+      <div
+        className="absolute top-0 left-0 w-full"
+        style={{
+          transform: `translateY(${vitems[0]?.start ?? 0}px)`,
+        }}
+      >
         {scrollRef.current
-          ? virtualizer.getVirtualItems().map((vRow) => (
+          ? vitems.map((vRow) => (
             <Column
               cardConfig={cardConfig}
               columnCount={columnCount}
@@ -83,10 +107,12 @@ function PureVirtualGrid({
               index={vRow.index}
               ref={virtualizer.measureElement}
               start={vRow.start}
+              cardWidth={cardWidth}
             />
           ))
           : null}
-      </div>
+          </div>
+      </div>)}
     </div>
   );
 }
@@ -96,7 +122,7 @@ const VirtualGrid = memo(PureVirtualGrid, (prevProps, nextProps) => {
     arrayEqual(prevProps.items, nextProps.items) &&
     prevProps.minItemWidth === nextProps.minItemWidth &&
     prevProps.gap === nextProps.gap &&
-    prevProps.estimateRowHeight === nextProps.estimateRowHeight &&
+    prevProps.measureAfterRaf === nextProps.measureAfterRaf &&
     shallowEqual(prevProps.cardConfig, nextProps.cardConfig) &&
     prevProps.config === nextProps.config
   );

@@ -1,9 +1,8 @@
 import { AnimatePresence, motion } from "motion/react";
 import type { BasesEntry, BasesViewConfig } from "obsidian";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
-import { estimateCardHeight } from "@/components/Card/helpers/estimate-card-height";
 import type { CardConfig } from "@/components/Card/types";
 import LucideIcon from "@/components/Obsidian/LucideIcon";
 import VirtualGrid from "@/components/VirtualGrid";
@@ -39,10 +38,6 @@ const GroupExpandedView = ({
   const { containerEl, contentRef } = useObsidian();
   const [showGrid, setShowGrid] = useState(false);
 
-  const cardHeight = useMemo(
-    () => estimateCardHeight(cardConfig),
-    [cardConfig],
-  );
   useEffect(() => {
     if (isOpen) {
       const timer = setTimeout(() => {
@@ -157,8 +152,8 @@ const GroupExpandedView = ({
               {showGrid &&<VirtualGrid
                 cardConfig={cardConfig}
                 config={config}
-                estimateRowHeight={cardHeight}
                 items={entries}
+                measureAfterRaf={0}
                 minItemWidth={cardConfig.cardSize}
               />}
             </div>

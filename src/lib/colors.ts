@@ -1,4 +1,11 @@
 
+const OBSIDIAN_PRIMARY = '#8A5CF4';
+
+const ACCENT_VARS = [
+  "--interactive-accent",
+  "--accent",
+  "--color-accent",
+];
 
 export const hexToRgba = (hex: string, alpha: number) => {
   let r: number, g: number, b: number;
@@ -63,12 +70,6 @@ export const linear = (color: string, lightness: number, deg = 135) => {
   return `linear-gradient(${deg}deg, ${color}, ${lighten(color, lightness)})`;
 }
 
-const ACCENT_VARS = [
-  "--interactive-accent",
-  "--accent",
-  "--color-accent",
-];
-
 export const accent = (
   containerElement?: HTMLElement,
 ): string | null => {
@@ -94,7 +95,8 @@ export const accent = (
 
   probe.remove();
 
-  return null;
+  // Fallback to Obsidian's default primary color
+  return OBSIDIAN_PRIMARY;
 }
 
 
