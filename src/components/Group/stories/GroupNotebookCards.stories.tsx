@@ -37,7 +37,7 @@ export const VerticalCards: Story = {
 	name: "Vertical Layout",
 	args: {
     ...CARD_DEFAULTS,
-    groupKey: `[${MY_BOOKS.file.basename}]`,
+    groupKey: `[[${MY_BOOKS.file.basename}]]`,
 		entries: BOOK_ENTRIES,
     imageAspectRatio: 1.10,
     imageProperty: "formula.image",
@@ -49,7 +49,7 @@ export const HorizontalCards: Story = {
 	name: "Horizontal Layout",
 	args: {
     ...CARD_FULL_CONFIG,
-    groupKey: `[${MY_ARTICLES.file.basename}]`,
+    groupKey: `[[${MY_ARTICLES.file.basename}]]`,
 		entries: ARTICLE_ENTRIES,
     hoverProperty: undefined,
     cardSize: 128,
@@ -60,7 +60,7 @@ export const OverlayCards: Story = {
 	name: "Overlay Layout",
 	args: {
     ...CARD_OVERLAY_ON_HOVER_LAYOUT_CONFIG,
-    groupKey: `[${MY_MOVIES.file.basename}]`,
+    groupKey: `[[${MY_MOVIES.file.basename}]]`,
 		entries: MOVIES_ENTRIES,
     cardSize: 128,
 	},
@@ -70,7 +70,7 @@ export const PolaroidCards: Story = {
 	name: "Polaroid Layout",
 	args: {
     ...POLAROID_LAYOUT_CONFIG,
-    groupKey: `[${MY_PHOTOS.file.basename}]`,
+    groupKey: `[[${MY_PHOTOS.file.basename}]]`,
     entries: PHOTOS_ENTRIES,
     cardSize: 128,
 	},
@@ -80,7 +80,7 @@ export const CircleCards: Story = {
 	name: "Circle Shape",
 	args: {
     ...CIRCLE_SHAPE_CONFIG,
-    groupKey: `[${MY_CONTACTS.file.basename}]`,
+    groupKey: `[[${MY_CONTACTS.file.basename}]]`,
 		entries: PERSON_ENTRIES,
     cardSize: 128,
 	},
@@ -91,7 +91,7 @@ export const RoundedCards: Story = {
 	name: "Rounded Shape",
 	args: {
     ...ROUNDED_SHAPE_CONFIG,
-    groupKey: `[${MY_APPLICATIONS.file.basename}]`,
+    groupKey: `[[${MY_APPLICATIONS.file.basename}]]`,
 		entries: APPLICATION_ENTRIES,
     cardSize: 128,
 	},

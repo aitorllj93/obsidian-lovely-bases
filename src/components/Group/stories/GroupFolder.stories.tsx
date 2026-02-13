@@ -12,12 +12,14 @@ const meta = {
   args: {
     ...GroupMeta.args,
     entries: MOVIES_ENTRIES.slice(0, 5),
+    groupKey: "",
     groupShape: "folder",
+    groupSpacing: 20,
+    cardSize: 148,
     groupColorProperty: "note.color",
     groupIconProperty: "note.icon",
   },
   decorators: [
-    Providers,
     (Story) => (
       <div
         style={{
@@ -27,6 +29,7 @@ const meta = {
         <Story />
       </div>
     ),
+    Providers,
   ],
 } satisfies Meta<typeof GroupStory>;
 
@@ -35,7 +38,7 @@ export default meta;
 export const FullExample: Story = {
   name: "Full Example",
   args: {
-    groupKey: `[${MY_FOLDER.file.basename}]`,
+    groupKey: `[[${MY_FOLDER.file.basename}]]`,
     groupCounterPosition: "inside",
     groupBorder: "dashed",
     groupSpacing: 20,

@@ -13,7 +13,7 @@ import CardMeta from '@/components/Card/stories/meta';
 import {
 	createViewRenderer,
 	Providers,
-	ScrollViewWrapper,
+	ViewWrapper,
 } from "@/stories/decorators";
 
 import FACET_CARDS_VIEW from ".";
@@ -34,7 +34,7 @@ const meta = {
 	title: "Views/Facet Cards",
 	component: View,
 	tags: ["autodocs", "status:testing"],
-	decorators: [Providers, ScrollViewWrapper],
+  decorators: [ViewWrapper, Providers],
 	parameters: {
 		layout: "fullscreen",
 		docs: {

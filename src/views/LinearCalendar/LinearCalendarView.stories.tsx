@@ -32,7 +32,7 @@ const meta = {
   title: "Views/Linear Calendar",
   component: View,
   tags: ["autodocs"],
-  decorators: [Providers, ViewWrapper],
+  decorators: [ViewWrapper, Providers],
   parameters: {
     layout: 'fullscreen',
     docs: {

@@ -13,10 +13,7 @@ const meta = {
   title: 'Views/3D Carousel',
   tags: ['autodocs', 'experimental'],
   component: ThreeDCarouselView,
-  decorators: [
-    Providers,
-    ViewWrapper,
-  ]
+  decorators: [ViewWrapper, Providers],
 } satisfies Meta<typeof ThreeDCarouselView>;
 
 export default meta;

@@ -17,7 +17,7 @@ export const DEFAULTS = {
   groupClickOnGroup: "expand",
   groupBorder: "none",
   groupShape: "folder",
-  groupSpacing: 0,
+  groupSpacing: 50,
   groupTitlePosition: "inside",
   groupCounterPosition: "none",
 } satisfies GroupConfig;

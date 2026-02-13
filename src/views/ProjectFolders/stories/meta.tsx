@@ -43,7 +43,7 @@ export const meta = {
   title: "Views/Project Folders",
   component: View,
   tags: ["autodocs"],
-  decorators: [Providers, ViewWrapper],
+  decorators: [ViewWrapper, Providers],
   parameters: {
     layout: "fullscreen",
     docs: {
@@ -69,7 +69,7 @@ export const meta = {
     onEntryClick: fn(),
     ...GROUP_DEFAULTS,
     ...CARD_POLAROID_LAYOUT_CONFIG,
-    cardSize: 128,
+    cardSize: 228,
   },
   argTypes: {
     ...GroupMeta.argTypes,

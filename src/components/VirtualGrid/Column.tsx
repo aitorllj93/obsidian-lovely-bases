@@ -1,41 +1,35 @@
 import type { BasesEntry, BasesViewConfig } from "obsidian";
-import { forwardRef } from "react";
+import { type CSSProperties, forwardRef, memo } from "react";
+
+import { shallowEqual } from "@/lib/utils";
 
 import Card from "../Card";
 import type { CardConfig } from "../Card/types";
 
 type Props = {
   cardConfig: CardConfig;
-  columnCount: number;
   config: BasesViewConfig;
   data: BasesEntry[];
-  gap: number;
   index: number;
-  start: number;
   cardWidth: number;
+  style?: CSSProperties;
 }
 
-const Column = forwardRef<HTMLDivElement, Props>(({
+const PureColumn = forwardRef<HTMLDivElement, Props>(({
   cardConfig,
-  columnCount,
   config,
   data,
-  gap,
   index,
-  start,
   cardWidth,
+  style,
 }, ref) => {
   return (
     <div
-      className="w-full grid box-border justify-evenly"
+      className="w-full grid box-border justify-evenly contain-[layout_paint] will-change-transform"
       data-index={index}
       ref={ref}
       tabIndex={index === 0 ? 0 : undefined}
-      style={{
-        gridTemplateColumns: `repeat(${columnCount}, minmax(0, ${cardWidth}px))`,
-        gap,
-        marginBottom: gap,
-      }}
+      style={style}
     >
       {data.map((item) => (
         <Card
@@ -50,5 +44,15 @@ const Column = forwardRef<HTMLDivElement, Props>(({
     </div>
   );
 })
+
+const Column = memo(PureColumn, (prevProps, nextProps) => {
+  return (
+    prevProps.index === nextProps.index &&
+    prevProps.cardWidth === nextProps.cardWidth &&
+    shallowEqual(prevProps.style, nextProps.style) &&
+    prevProps.cardConfig === nextProps.cardConfig &&
+    prevProps.config === nextProps.config
+  );
+});
 
 export default Column;

@@ -13,10 +13,9 @@ const FacetCardsView = ({ data, config, isEmbedded }: ReactBaseViewProps) => {
     <Container isEmbedded={isEmbedded}>
       <VirtualGrid
         cardConfig={cardConfig}
-        className={isEmbedded ? "max-h-screen" : "max-h-auto"}
+        className={isEmbedded ? "h-auto max-h-screen contain-none" : "h-full max-h-auto contain-strict"}
         config={config}
         items={data.data}
-        measureAfterRaf={0}
         minItemWidth={cardConfig.cardSize}
       />
     </Container>

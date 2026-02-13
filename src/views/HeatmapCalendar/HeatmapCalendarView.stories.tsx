@@ -36,7 +36,7 @@ const meta = {
   title: "Views/Heatmap Calendar",
   tags: ["autodocs", "status:testing"],
   component: View,
-  decorators: [Providers, ViewWrapper],
+  decorators: [ViewWrapper, Providers],
   parameters: {
     layout: 'fullscreen',
     docs: {

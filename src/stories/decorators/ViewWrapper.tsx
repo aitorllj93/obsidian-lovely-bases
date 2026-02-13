@@ -2,7 +2,9 @@ import type { Decorator } from "@storybook/react-vite";
 
 const ViewWrapper: Decorator = (Story) => {
   return (
-    <div style={{ maxHeight: 'calc(100vh - 40px)', overflowY: 'auto', scrollbarWidth: 'none' }} data-testid="lovely-bases">
+    <div
+      className="p-(--size-4-3) h-auto max-h-screen w-auto overflow-auto [scrollbar-width:none]"
+      data-testid="lovely-bases">
       <Story />
     </div>
   );

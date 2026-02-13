@@ -135,8 +135,11 @@ export const meta = {
   args: {
     ...DEFAULTS,
     ...CARD_DEFAULTS,
+    contentMaxLength: 50,
+    groupSpacing: 20,
     layout: "polaroid",
     shape: "square",
+    showPropertyTitles: false,
     hoverProperty: undefined,
     hoverStyle: "none",
     properties: [],

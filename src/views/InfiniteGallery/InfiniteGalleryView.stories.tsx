@@ -29,7 +29,7 @@ const meta = {
 	title: "Views/Infinite Gallery",
 	component: View,
 	tags: ["autodocs", "desktop-only"],
-	decorators: [Providers, ScrollViewWrapper],
+	decorators: [ScrollViewWrapper, Providers],
 	parameters: {
     layout: 'fullscreen',
     extraNotes: [

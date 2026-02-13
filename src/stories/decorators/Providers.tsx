@@ -12,6 +12,7 @@ const Providers: Decorator = (Story, ctx) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
   const params = ctx.parameters.obsidian;
+  const layout = ctx.parameters.layout;
   const themeClasses = theme.split(' ').map(t => t.toLowerCase());
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const Providers: Decorator = (Story, ctx) => {
 
   return (
     <div ref={containerRef} className={cn(
-      'h-full w-full',
+      layout !== "centered" && 'h-dvh w-full',
       themeClasses,
       'app-container bg-background',
     )}>
@@ -30,7 +31,7 @@ const Providers: Decorator = (Story, ctx) => {
             app: createMockApp(params),
             component: createMockComponent(),
             containerEl: containerRef.current,
-            isEmbedded: false,
+            isEmbedded: true,
           }}
         >
           <Story />

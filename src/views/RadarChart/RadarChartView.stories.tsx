@@ -34,7 +34,7 @@ const meta = {
 	title: "Views/Radar Chart",
 	component: View,
 	tags: ["autodocs", "status:testing"],
-	decorators: [Providers, ViewWrapper],
+  decorators: [ViewWrapper, Providers],
 	parameters: {
 		layout: "fullscreen",
 		docs: {

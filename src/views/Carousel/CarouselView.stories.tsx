@@ -31,7 +31,7 @@ const meta = {
 	title: "Views/Carousel",
 	component: View,
 	tags: ["autodocs"],
-	decorators: [Providers, ViewWrapper],
+  decorators: [ViewWrapper, Providers],
 	parameters: {
 		layout: "fullscreen",
 		docs: {

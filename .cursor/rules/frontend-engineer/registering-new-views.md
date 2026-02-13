@@ -185,7 +185,7 @@ const meta = {
 	title: "Views/{Display Name}",
 	component: View,
 	tags: ["autodocs", "experimental"],
-	decorators: [Providers, ScrollViewWrapper],
+  decorators: [ScrollViewWrapper, Providers],
 	parameters: {
 		layout: "fullscreen",
 		docs: {

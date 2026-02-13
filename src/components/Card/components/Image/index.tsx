@@ -76,7 +76,6 @@ const Image = memo(
                 src={image.url}
                 alt={title}
                 draggable={false}
-                loading="lazy"
                 className={cn(
                   "pointer-events-none h-full w-full",
                   imageFit === "cover" ? "object-cover" : "object-contain",

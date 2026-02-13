@@ -19,7 +19,7 @@ function Groups({
 	config,
 }: Props) {
 	return (
-    <div className="flex flex-wrap gap-12 my-12 mx-auto">
+    <div className="flex flex-wrap gap-12 mx-auto">
       {data.map((group, index) => (
         <div
           key={group.key?.toString() ?? ""}

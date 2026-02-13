@@ -148,12 +148,12 @@ const GroupExpandedView = ({
               </button>
             </header>
 
-            <div className="flex-1 min-h-0 w-full pt-2">
+            <div className="flex-1 min-h-0 w-full">
               {showGrid &&<VirtualGrid
                 cardConfig={cardConfig}
+                className="contain-strict m-(--size-4-3)"
                 config={config}
                 items={entries}
-                measureAfterRaf={0}
                 minItemWidth={cardConfig.cardSize}
               />}
             </div>

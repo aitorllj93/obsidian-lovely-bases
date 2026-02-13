@@ -157,10 +157,10 @@ const Group: React.FC<Props> = ({
         </div>
         {(groupConfig.groupTitlePosition === "outside" ||
           groupConfig.groupCounterPosition === "outside") && (
-          <div className="text-center relative z-10">
+          <div className="text-center mt-4 flex flex-col gap-2">
             {groupConfig.groupTitlePosition === "outside" && (
               <motion.h3
-                className="text-base font-semibold text-foreground mt-4 transition-all duration-500 line-clamp-1"
+                className="text-base font-semibold text-foreground m-0 transition-all duration-500 line-clamp-1"
                 layoutId={`folder-title-${title}`}
                 layout="position"
                 style={{
@@ -173,7 +173,7 @@ const Group: React.FC<Props> = ({
             )}
             {groupConfig.groupCounterPosition === "outside" && (
               <motion.p
-                className="text-xs font-medium text-muted-foreground transition-all duration-500"
+                className="text-xs font-medium m-0 text-muted-foreground transition-all duration-500"
                 layoutId={`folder-count-${title}`}
                 style={{ opacity: isHovered ? 0.8 : 1 }}
               >

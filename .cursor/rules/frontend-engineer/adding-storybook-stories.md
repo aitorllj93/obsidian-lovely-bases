@@ -60,7 +60,7 @@ const meta = {
   title: "Views/{View Name}",
   component: View,
   tags: ["autodocs"], // Add "status:testing" if needed
-  decorators: [Providers, ViewWrapper], // Use ScrollViewWrapper for scrollable views
+  decorators: [ViewWrapper, Providers],
   parameters: {
     layout: 'fullscreen',
     docs: {
@@ -344,7 +344,7 @@ const meta = {
   title: "Views/View Name",
   component: View,
   tags: ["autodocs"],
-  decorators: [Providers, ViewWrapper],
+  decorators: [ViewWrapper, Providers],
   parameters: {
     layout: 'fullscreen',
     docs: {

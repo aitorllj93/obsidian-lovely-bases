@@ -340,7 +340,7 @@ const meta = {
 	title: "Views/{Display Name}",
 	component: View,
 	tags: ["autodocs", "status:testing"],
-	decorators: [Providers, ViewWrapper],
+	decorators: [ViewWrapper, Providers],
 	parameters: {
 		layout: "fullscreen",
 		docs: {
@@ -436,7 +436,7 @@ const meta = {
 	title: "Views/{Display Name}",
 	component: View,
 	tags: ["autodocs", "status:testing"],
-	decorators: [Providers, ScrollViewWrapper],
+	decorators: [ScrollViewWrapper, Providers],
 	parameters: {
 		layout: "fullscreen",
 		docs: {
@@ -540,7 +540,7 @@ const meta = {
 	title: "Views/{Display Name}",
 	component: View,
 	tags: ["autodocs", "status:testing"],
-	decorators: [Providers, ViewWrapper],
+	decorators: [ViewWrapper, Providers],
 	parameters: {
 		layout: "fullscreen",
 		docs: {
