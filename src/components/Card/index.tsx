@@ -41,10 +41,6 @@ const cardContentVariants = cva(
 				circle: "rounded-full",
 				rounded: "rounded-[20%]",
 			},
-			tilt: {
-				none: "",
-				alternating: "shadow-xl even:rotate-3 odd:-rotate-2 hover:rotate-0 ease-out duration-300",
-			},
       withBgColor: {
         true: "",
         false: "",
@@ -84,7 +80,6 @@ const cardContentVariants = cva(
 		defaultVariants: {
 			shape: DEFAULTS.shape,
       layout: DEFAULTS.layout,
-			tilt: DEFAULTS.tilt,
       withBgColor: false,
       adaptToSize: false,
 		},
@@ -135,7 +130,6 @@ const Card = memo(({
     adaptToSize,
     layout: cardConfig.layout,
     shape: cardConfig.shape,
-    tilt: cardConfig.tilt,
     withBgColor: !colors.contentBackground,
   });
 
@@ -151,7 +145,10 @@ const Card = memo(({
       className={
         cn(
           "@container/lovely-card relative flex",
-          !isOverlay && "h-full"
+          !isOverlay && "h-full",
+          cardConfig.tilt === 'right' && "[&>div]:rotate-3 hover:[&>div]:rotate-0",
+          cardConfig.tilt === 'left' && "[&>div]:-rotate-2 hover:[&>div]:rotate-0",
+          cardConfig.tilt === 'alternating' && "even:[&>div]:rotate-3 odd:[&>div]:-rotate-2 hover:[&>div]:rotate-0",
         )
       }
       style={{
@@ -168,6 +165,7 @@ const Card = memo(({
           cn(
             className,
             contentClasses,
+            cardConfig.tilt !== "none" && "shadow-xl ease-out duration-300"
           )
         }
         style={{
@@ -257,7 +255,7 @@ const Card = memo(({
         </>
       )}
 
-        {isHovered && <HoverOverlay entry={entry} cardConfig={cardConfig} config={config} />}
+        {isHovered && <HoverOverlay adaptToSize={adaptToSize} entry={entry} cardConfig={cardConfig} config={config} />}
       </div>
     </div>
   );

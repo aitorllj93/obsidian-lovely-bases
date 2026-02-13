@@ -39,7 +39,7 @@ const Content = memo(
         className={cn(
           "flex flex-col min-h-0 min-w-0 overflow-hidden",
           !isOverlayMode && "flex-1 h-full",
-          !adaptToSize && "px-(--size-4-2)",
+          !adaptToSize && "p-(--size-4-2)",
           adaptToSize &&
             "@[0px]/lovely-card:px-1 @4xs/lovely-card:px-(--size-4-2)",
           adaptToSize &&
@@ -48,7 +48,7 @@ const Content = memo(
             "@[0px]/lovely-card:pt-1 @7xs/lovely-card:pt-1.5 @5xs/lovely-card:pt-2",
           adaptToSize &&
             layout !== "polaroid" &&
-            "@[0px]/lovely-card:pb-0.5 @7xs/lovely-card:pb-1 @5xs/lovely-card:pb-1.5",
+            "@[0px]/lovely-card:pb-1 @7xs/lovely-card:pb-1.5 @5xs/lovely-card:pb-2",
         )}
         style={
           {

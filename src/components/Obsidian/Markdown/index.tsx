@@ -85,7 +85,7 @@ const Markdown = ({
             !isLoading && "invisible",
           )}
         >
-          <Skeleton lines={6} />
+          <Skeleton />
         </div>
       )}
       {createElement(as, {

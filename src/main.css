@@ -197,6 +197,27 @@
   color: var(--pill-color);
 }
 
+@utility card-markdown {
+  @apply text-sm;
+}
+
+@utility card-markdown-adaptable {
+  @apply @[0px]/lovely-card:text-5xs
+    @8xs/lovely-card:text-4xs
+    @7xs/lovely-card:text-3xs
+    @6xs/lovely-card:text-2xs
+    @5xs/lovely-card:text-xs
+    @4xs/lovely-card:text-sm;
+}
+
+@utility card-skeleton {
+  @apply gap-2 [&>div]:h-3;
+}
+
+@utility card-skeleton-adaptable {
+  @apply @[0px]/lovely-card:[&>div]:h-2.5 @[0px]/lovely-card:gap-0.25;
+}
+
 /**
  * GLOBAL STYLES EXAMPLE
  * Use :global() to define styles that won't be scoped to the plugin ID.

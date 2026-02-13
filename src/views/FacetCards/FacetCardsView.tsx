@@ -5,13 +5,11 @@ import { Container } from "@/components/Obsidian/Container";
 import VirtualGrid from "@/components/VirtualGrid";
 import type { ReactBaseViewProps } from "@/types";
 
-const PADDING = 12;
-
 export type FacetCardsConfig = CardConfig;
 
 const FacetCardsView = ({ data, config, isEmbedded }: ReactBaseViewProps) => {
   const cardConfig = useCardConfig(config);
-  const estimatedRowHeight = estimateCardHeight(cardConfig) + PADDING * 2;
+  const estimatedRowHeight = estimateCardHeight(cardConfig);
 
   return (
     <Container isEmbedded={isEmbedded}>

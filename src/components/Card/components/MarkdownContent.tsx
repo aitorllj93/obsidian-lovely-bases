@@ -4,6 +4,7 @@ import Markdown from "@/components/Obsidian/Markdown";
 import { cn } from "@/lib/utils";
 
 import type { CardConfig } from "../types";
+import MarkdownSkeleton from "@/components/Obsidian/Markdown/Skeleton";
 
 type Props = {
   adaptToSize?: boolean;
@@ -16,7 +17,7 @@ export default function MarkdownContent({
   cardConfig,
   entry,
 }: Props) {
-  const { contentFont, contentMaxLength, showContent } = cardConfig;
+  const { contentFont, contentMaxHeight, contentMaxLength, showContent } = cardConfig;
 
   if (!showContent) return null;
 
@@ -26,14 +27,24 @@ export default function MarkdownContent({
         file={entry.file}
         maxLength={contentMaxLength}
         className={cn(
-          "text-foreground line-clamp-6 overflow-hidden",
-          !adaptToSize && "text-sm",
-          adaptToSize &&
-            "@[0px]/lovely-card:text-5xs @8xs/lovely-card:text-4xs @7xs/lovely-card:text-3xs @6xs/lovely-card:text-2xs @5xs/lovely-card:text-xs @4xs/lovely-card:text-sm",
+          "text-foreground overflow-auto [&>*:first-child]:mt-0 [&>*:last-child]:mb-0",
+          adaptToSize ? "card-markdown-adaptable" : "card-markdown",
+        )}
+        skeleton={() => (
+          <MarkdownSkeleton
+            lines={contentMaxHeight / 12}
+            className={
+              adaptToSize ? "card-skeleton-adaptable" : "card-skeleton"
+            }
+            style={{
+              maxHeight: `${contentMaxHeight}px`,
+            }}
+          />
         )}
         showEllipsis
         style={{
           fontFamily: contentFont,
+          maxHeight: `${contentMaxHeight}px`
         }}
       />
     </div>

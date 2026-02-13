@@ -22,6 +22,10 @@ export function estimateCardHeight(cardConfig: CardConfig, padding = DEFAULT_PAD
 		contentHeight += propertyHeight * cardConfig.properties.length;
 	}
 
+  if (cardConfig.showContent) {
+    contentHeight += cardConfig.contentMaxHeight;
+  }
+
   let verticalImageHeight = 0;
 
   if (cardConfig.imageProperty && cardConfig.imageAspectRatio) {

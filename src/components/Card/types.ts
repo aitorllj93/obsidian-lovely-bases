@@ -6,7 +6,7 @@ export type CardConfig = {
 	overlayContentVisibility: "always" | "hover";
 	cardSize: number;
 	shape: "square" | "circle" | "rounded";
-	tilt: "none" | "alternating";
+	tilt: "none" | "left" | "right" | "alternating";
   /* Image */
 	imageProperty: BasesPropertyId | undefined;
 	imageAspectRatio: number;
@@ -17,6 +17,7 @@ export type CardConfig = {
 	showPropertyTitles: boolean;
 	showContent: boolean;
 	contentMaxLength: number;
+  contentMaxHeight: number;
   /* Appearance */
   titleFont: string | undefined;
   contentFont: string | undefined;

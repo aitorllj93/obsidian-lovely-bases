@@ -28,7 +28,7 @@ const Image = memo(
         <div
           className={cn(
             "absolute inset-0",
-            !colors.imageBackground && "bg-card",
+            !colors.imageBackground && "bg-(--bases-cards-cover-background)",
           )}
           style={{
             backgroundColor: colors.imageBackground,
@@ -62,7 +62,7 @@ const Image = memo(
         <div
           className={cn(
             "relative shrink-0",
-            !colors.imageBackground && "bg-card",
+            !colors.imageBackground && "bg-(--bases-cards-cover-background)",
           )}
           style={{
             backgroundColor: colors.imageBackground,
@@ -101,7 +101,7 @@ const Image = memo(
       <div
         className={cn(
           "mx-auto relative w-full flex-none",
-          !colors.imageBackground && "bg-card",
+          !colors.imageBackground && "bg-(--bases-cards-cover-background)",
         )}
         style={{
           aspectRatio: 1 / imageAspectRatio,

@@ -24,6 +24,7 @@ export const DEFAULTS = {
   showPropertyTitles: true,
   showContent: false,
   contentMaxLength: 200,
+  contentMaxHeight: 120,
   /* Appearance */
   titleFont: undefined,
   contentFont: undefined,
@@ -100,6 +101,8 @@ export const CARD_CONFIG_OPTIONS: ViewOption[] =  [
         default: DEFAULTS.tilt,
         options: {
           none: t("options.layoutAndDisplay.tilt.none"),
+          left: "left",
+          right: "right",
           alternating: t("options.layoutAndDisplay.tilt.alternating"),
         },
       },
@@ -177,6 +180,16 @@ export const CARD_CONFIG_OPTIONS: ViewOption[] =  [
         step: 10,
         shouldHide: (config) => config.get("showContent") === false,
       },
+      {
+        type: "slider",
+        displayName: "contentMaxHeight",
+        key: "contentMaxHeight",
+        default: DEFAULTS.contentMaxHeight,
+        min: 0,
+        max: 1000,
+        step: 10,
+        shouldHide: (config) => config.get("showContent") === false,
+      }
     ],
   },
   {

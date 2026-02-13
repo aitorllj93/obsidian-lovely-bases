@@ -1,8 +1,9 @@
 
+
+import * as Lucide from "lucide-react";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Streamdown } from "streamdown";
-import * as Lucide from "lucide-react";
 
 /**
  * Mock del paquete obsidian para Storybook
@@ -179,7 +180,7 @@ export const MarkdownRenderer = {
         // biome-ignore lint/correctness/noChildrenProp: Mock obsidian rendering for Storybook
         children: markdown,
         mode: "static",
-        className: "markdown-renderer",
+        className: "contents [&>*:first-child]:mt-0 [&>*:last-child]:mb-0",
       })
     );
 	},
@@ -194,6 +195,7 @@ const normalizeLucideName = (name: string) => {
 
 export const setIcon = (el: HTMLElement, name: string): void => {
   const key = normalizeLucideName(name);
+  // biome-ignore lint/suspicious/noExplicitAny: Disable any
   const Icon = (Lucide as any)[key] as React.ComponentType<any> | undefined;
   if (!Icon) return;
   el.innerHTML = renderToStaticMarkup(
