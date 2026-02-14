@@ -8,6 +8,7 @@ import { useObsidian } from "@/components/Obsidian/Context";
 import type { EntryClickEventHandler, EntryHoverEventHandler, ReactBaseViewProps } from "@/types";
 
 type GroupedViewRenderer<T extends Record<string, unknown> = Record<string, unknown>> = T & {
+  groupBy?: BasesPropertyId;
   groupedData?: BasesEntryGroup[];
   properties?: BasesPropertyId[];
   onEntryClick?: EntryClickEventHandler;
@@ -33,10 +34,10 @@ export const createViewRenderer = <T extends Record<string, unknown> = Record<st
   return (rendererProps: ViewRenderer<T>) => {
     const { isEmbedded } = useObsidian();
     const { properties = [], onEntryClick, onEntryHover, ...config } = rendererProps;
-    const data = isGroupedViewRenderer(rendererProps) ? rendererProps.groupedData.flatMap(group => group.entries) : rendererProps.data;
-    const groupedData = isGroupedViewRenderer(rendererProps) ? rendererProps.groupedData : [
-      aBasesEntryGroup('', data),
-    ];
+    const isGrouped = isGroupedViewRenderer(rendererProps);
+
+    const data = isGrouped ? rendererProps.groupedData.flatMap(group => group.entries) : rendererProps.data;
+    const groupedData = isGrouped ? rendererProps.groupedData : [aBasesEntryGroup('', data)];
 
     const props: ReactBaseViewProps = {
       isEmbedded,
@@ -45,7 +46,10 @@ export const createViewRenderer = <T extends Record<string, unknown> = Record<st
         groupedData,
         properties,
       }),
-      config: aBasesViewConfig(config, properties),
+      config: aBasesViewConfig(config, {
+        groupBy: isGrouped ? (rendererProps.groupBy ?? properties[0]) : undefined,
+        properties
+      }),
       onEntryClick: onEntryClick ?? fn(),
       onEntryHover: onEntryHover ?? fn(),
     };

@@ -1,4 +1,4 @@
-import { type BasesEntry, type BasesEntryGroup, StringValue } from "obsidian";
+import { type BasesEntry, BasesEntryGroup, StringValue } from "obsidian";
 
 import type { GroupConfig } from "@/components/Group/types";
 
@@ -34,11 +34,9 @@ export function getGroupedData(
       let resultGroup: BasesEntryGroup | undefined = resultGroups.find((g) => g.key?.toString() === newKey);
 
       if (!resultGroup) {
-        resultGroup = {
-          key: new StringValue(newKey),
-          entries: [],
-          hasKey: () => true,
-        };
+        resultGroup = new BasesEntryGroup();
+        resultGroup.key = new StringValue(newKey);
+        resultGroup.entries = group.entries;
         resultGroups.push(resultGroup);
       }
 

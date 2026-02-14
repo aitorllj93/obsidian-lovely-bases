@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 
 import {
+  GROUPED_ENTRIES,
 	VIRTUAL_SCROLL_APPLICATION_ENTRIES,
 	VIRTUAL_SCROLL_ARTICLES_ENTRIES,
 	VIRTUAL_SCROLL_BOOKS_ENTRIES,
@@ -215,3 +216,28 @@ shape: rounded
 		...ROUNDED_SHAPE_CONFIG,
 	},
 };
+
+// === GROUP STORIES ===
+
+export const FoldersGrouping: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `Grouping by folder allows you to organize your cards into categories based on the note's folder.
+
+\`\`\`yml
+groupBy: folder
+\`\`\`
+`,
+      },
+    },
+  },
+  args: {
+    groupedData: GROUPED_ENTRIES,
+    onEntryClick: fn(),
+    ...DEFAULT_CONFIG,
+    cardSize: 200,
+    groupLayout: "grid",
+    groupUngroupedItemsDisplay: "inline",
+  },
+}
