@@ -39,7 +39,7 @@ const Content = memo(
         className={cn(
           "flex flex-col min-h-0 min-w-0 overflow-hidden",
           !isOverlayMode && "flex-1 h-full",
-          !adaptToSize && "p-(--size-4-2)",
+          !adaptToSize && "p-(--size-4-2) gap-(--size-4-2)",
           adaptToSize &&
             "@[0px]/lovely-card:px-1 @4xs/lovely-card:px-(--size-4-2)",
           adaptToSize &&
