@@ -10,7 +10,7 @@ export const PHOTOS_ENTRIES: BasesEntry[] = [
       })
     },
     {
-      banner: `https://picsum.photos/200/300?random=${Math.random()}`,
+      banner: "https://picsum.photos/seed/photo_1/200/300",
     }
   ),
   aBasesEntry(
@@ -20,7 +20,7 @@ export const PHOTOS_ENTRIES: BasesEntry[] = [
       })
     },
     {
-      banner: `https://picsum.photos/200/300?random=${Math.random()}`,
+      banner: "https://picsum.photos/seed/photo_2/200/300",
     }
   ),
   aBasesEntry(
@@ -30,7 +30,7 @@ export const PHOTOS_ENTRIES: BasesEntry[] = [
       })
     },
     {
-      banner: `https://picsum.photos/200/300?random=${Math.random()}`,
+      banner: "https://picsum.photos/seed/photo_3/200/300",
     }
   ),
   aBasesEntry(
@@ -40,7 +40,7 @@ export const PHOTOS_ENTRIES: BasesEntry[] = [
       })
     },
     {
-      banner: `https://picsum.photos/200/300?random=${Math.random()}`,
+      banner: "https://picsum.photos/seed/photo_4/200/300",
     }
   ),
   aBasesEntry(
@@ -50,7 +50,7 @@ export const PHOTOS_ENTRIES: BasesEntry[] = [
       })
     },
     {
-      banner: `https://picsum.photos/200/300?random=${Math.random()}`,
+      banner: "https://picsum.photos/seed/photo_5/200/300",
     }
   ),
   aBasesEntry(
@@ -60,7 +60,7 @@ export const PHOTOS_ENTRIES: BasesEntry[] = [
       })
     },
     {
-      banner: `https://picsum.photos/200/300?random=${Math.random()}`,
+      banner: "https://picsum.photos/seed/photo_6/200/300",
     }
   ),
   aBasesEntry(
@@ -70,7 +70,7 @@ export const PHOTOS_ENTRIES: BasesEntry[] = [
       })
     },
     {
-      banner: `https://picsum.photos/200/300?random=${Math.random()}`,
+      banner: "https://picsum.photos/seed/photo_7/200/300",
     }
   ),
   aBasesEntry(
@@ -80,7 +80,7 @@ export const PHOTOS_ENTRIES: BasesEntry[] = [
       })
     },
     {
-      banner: `https://picsum.photos/200/300?random=${Math.random()}`,
+      banner: "https://picsum.photos/seed/photo_8/200/300",
     }
   ),
   aBasesEntry(
@@ -90,7 +90,7 @@ export const PHOTOS_ENTRIES: BasesEntry[] = [
       })
     },
     {
-      banner: `https://picsum.photos/200/300?random=${Math.random()}`,
+      banner: "https://picsum.photos/seed/photo_9/200/300",
     }
   ),
   aBasesEntry(
@@ -100,7 +100,7 @@ export const PHOTOS_ENTRIES: BasesEntry[] = [
       })
     },
     {
-      banner: `https://picsum.photos/200/300?random=${Math.random()}`,
+      banner: "https://picsum.photos/seed/photo_10/200/300",
     }
   ),
 ];
