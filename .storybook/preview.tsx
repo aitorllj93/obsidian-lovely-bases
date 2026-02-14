@@ -19,12 +19,6 @@ import { Title } from './blocks/Title';
 const preview: Preview = {
   parameters: {
     backgrounds: { disable: true },
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/i,
-      },
-    },
     decorators: [
       withThemeByClassName<ReactRenderer>({
         themes: {

@@ -25,7 +25,7 @@ const PureColumn = forwardRef<HTMLDivElement, Props>(({
 }, ref) => {
   return (
     <div
-      className="w-full grid box-border justify-evenly contain-[layout_paint] will-change-transform"
+      className="w-full grid box-border justify-evenly will-change-transform"
       data-index={index}
       ref={ref}
       tabIndex={index === 0 ? 0 : undefined}

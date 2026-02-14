@@ -87,16 +87,17 @@ function PureVirtualGrid({
           >
             {scrollRef.current
               ? vitems.map((vRow) => (
-                  <Column
-                    cardConfig={cardConfig}
-                    config={config}
-                    data={rows[vRow.index] ?? []}
-                    key={vRow.key}
-                    index={vRow.index}
-                    ref={virtualizer.measureElement}
-                    cardWidth={cardWidth}
-                    style={columnStyle}
-                  />
+                  <div key={vRow.key} style={{ paddingBottom: gap }}>
+                    <Column
+                      cardConfig={cardConfig}
+                      config={config}
+                      data={rows[vRow.index] ?? []}
+                      index={vRow.index}
+                      ref={virtualizer.measureElement}
+                      cardWidth={cardWidth}
+                      style={columnStyle}
+                    />
+                  </div>
                 ))
               : null}
           </div>

@@ -23,7 +23,6 @@ export const getGridConfig = (
   const columnStyle: CSSProperties = {
     gridTemplateColumns: `repeat(${columnCount}, minmax(0, ${cardWidth}px))`,
     gap,
-    marginBottom: gap,
   };
 
   return {

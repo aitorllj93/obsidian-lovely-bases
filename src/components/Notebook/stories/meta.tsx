@@ -118,7 +118,9 @@ export const meta = {
 			},
 		},
 		color: {
-			control: "color",
+			control: {
+        type: "color",
+      },
 			name: "Color",
 			description:
 				"Color of the notebook.",

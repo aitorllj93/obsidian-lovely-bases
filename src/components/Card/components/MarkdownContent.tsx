@@ -1,21 +1,23 @@
 import type { BasesEntry } from "obsidian";
 
 import Markdown from "@/components/Obsidian/Markdown";
+import MarkdownSkeleton from "@/components/Obsidian/Markdown/Skeleton";
 import { cn } from "@/lib/utils";
 
 import type { CardConfig } from "../types";
-import MarkdownSkeleton from "@/components/Obsidian/Markdown/Skeleton";
 
 type Props = {
   adaptToSize?: boolean;
   cardConfig: CardConfig;
   entry: BasesEntry;
+  showSkeleton?: boolean;
 };
 
 export default function MarkdownContent({
   adaptToSize = false,
   cardConfig,
   entry,
+  showSkeleton = false,
 }: Props) {
   const { contentFont, contentMaxHeight, contentMaxLength, showContent } = cardConfig;
 
@@ -33,9 +35,10 @@ export default function MarkdownContent({
         skeleton={() => (
           <MarkdownSkeleton
             lines={contentMaxHeight / 12}
-            className={
-              adaptToSize ? "card-skeleton-adaptable" : "card-skeleton"
-            }
+            className={cn(
+              adaptToSize ? "card-skeleton-adaptable" : "card-skeleton",
+              !showSkeleton && "invisible"
+            )}
             style={{
               maxHeight: `${contentMaxHeight}px`,
             }}

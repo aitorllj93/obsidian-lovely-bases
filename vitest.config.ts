@@ -1,11 +1,10 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { defineConfig } from "vitest/config";
-
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
-
 import { playwright } from "@vitest/browser-playwright";
+
+import { coverageConfigDefaults, defineConfig } from "vitest/config";
 
 const dirname =
   typeof __dirname !== "undefined"
@@ -35,5 +34,22 @@ export default defineConfig({
         },
       },
     ],
+    coverage: {
+      provider: "v8",
+      include: [
+        'src/**/*.{ts,tsx}',
+      ],
+      exclude: [
+        ...coverageConfigDefaults.exclude,
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/.storybook/**",
+        "**/storybook-static/**",
+         '**/*.stories.*',
+        "**/*.d.ts",
+        "**/*.{test,spec}.*",
+        "**/*.config.*",
+      ],
+    }
   },
 });

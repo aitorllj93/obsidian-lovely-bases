@@ -23,6 +23,7 @@ workspace.json
 .DS_Store
 
 build
+coverage
 
 TODO.md
 

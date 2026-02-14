@@ -22,7 +22,7 @@ export const DEFAULT_CONFIG: CarouselConfig = {
   showTitle: true,
   showPropertyTitles: true,
   showContent: false,
-  contentMaxHeight: 200,
+  contentMaxHeight: 100,
   contentMaxLength: 200,
   /* Appearance */
   titleFont: undefined,
@@ -62,7 +62,7 @@ export const FULL_CONFIG: CarouselConfig = {
   showTitle: true,
   showPropertyTitles: true,
   showContent: true,
-  contentMaxHeight: 200,
+  contentMaxHeight: 100,
   contentMaxLength: 200,
   /* Appearance */
   titleFont: SERIF_FONTS,

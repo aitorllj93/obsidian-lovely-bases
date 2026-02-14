@@ -274,7 +274,9 @@ export const meta = {
       },
     },
     badgeColor: {
-      control: "color",
+			control: {
+        type: "color",
+      },
       name: t("options.badges.badgeColor.title"),
       description:
         "The background color of the badge in hex format (e.g., #D0A215). Text color is automatically calculated for contrast.",

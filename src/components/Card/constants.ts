@@ -24,7 +24,7 @@ export const DEFAULTS = {
   showPropertyTitles: true,
   showContent: false,
   contentMaxLength: 200,
-  contentMaxHeight: 120,
+  contentMaxHeight: 100,
   /* Appearance */
   titleFont: undefined,
   contentFont: undefined,
