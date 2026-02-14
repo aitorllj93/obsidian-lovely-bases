@@ -1,5 +1,5 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
-import type { BasesEntry, BasesViewConfig } from "obsidian";
+import type { BasesEntry, BasesEntryGroup, BasesViewConfig } from "obsidian";
 import { memo, useMemo } from "react";
 
 import { arrayEqual, chunk, cn, shallowEqual } from "@/lib/utils";
@@ -19,7 +19,7 @@ type Props = {
   config: BasesViewConfig;
   gap?: number;
   groupConfig?: GroupConfig;
-  items: BasesEntry[];
+  items: (BasesEntry | BasesEntryGroup)[];
   minItemWidth?: number;
 };
 

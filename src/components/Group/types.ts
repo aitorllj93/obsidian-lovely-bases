@@ -14,6 +14,7 @@ export type GroupLayout = "sections" | "grid";
 export type GroupClickOnGroup = "expand" | "navigate" | "none";
 export type GroupTitlePosition = "inside" | "outside" | "none";
 export type GroupCounterPosition = "inside" | "outside" | "none";
+export type GroupUngroupedItemsDisplay = "group" | "inline" | "hidden";
 
 export type GroupConfig = {
   groupInferPropertiesFromLinkedNotes?: boolean;
@@ -28,4 +29,5 @@ export type GroupConfig = {
   groupSubtitleProperty?: BasesPropertyId;
   groupColorProperty?: BasesPropertyId;
   groupIconProperty?: BasesPropertyId;
+  groupUngroupedItemsDisplay?: GroupUngroupedItemsDisplay;
 };

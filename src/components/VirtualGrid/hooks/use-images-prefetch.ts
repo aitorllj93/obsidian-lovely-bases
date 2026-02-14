@@ -1,11 +1,11 @@
-import type { BasesEntry } from "obsidian";
+import { type BasesEntry, BasesEntryGroup } from "obsidian";
 import { useEffect, useRef } from "react";
 
 type GetUrls = (entry: BasesEntry) => string[];
 
 export function useVirtualGridImagePrefetch(
   vitems: Array<{ index: number }>,
-  rows: BasesEntry[][],
+  rows: (BasesEntry | BasesEntryGroup)[][],
   getUrls: GetUrls,
   opts?: { marginRows?: number; enabled?: boolean }
 ) {
@@ -26,6 +26,7 @@ export function useVirtualGridImagePrefetch(
       if (!row) continue;
 
       for (const entry of row) {
+        if (entry instanceof BasesEntryGroup) continue;
         const urls = getUrls(entry);
         for (const url of urls) {
           if (!url || prefetched.current.has(url)) continue;
