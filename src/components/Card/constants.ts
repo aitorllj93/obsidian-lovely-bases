@@ -7,13 +7,14 @@ import type { CardConfig } from "./types";
 const locale = detectLocale();
 const t = (key: NamespacedTranslationKey<'card'>) => translate(locale, 'card', key);
 
-export const DEFAULTS = {
+export const DEFAULTS: CardConfig = {
   /* Layout & Display */
   layout: "vertical",
   overlayContentVisibility: "always",
   cardSize: 400,
   shape: "square",
   tilt: "none",
+  spacing: 0,
   /* Image */
   imageProperty: undefined,
   imageAspectRatio: 1.5,
@@ -42,7 +43,7 @@ export const DEFAULTS = {
   hoverProperty: null,
   /* Internal */
   properties: [],
-} satisfies CardConfig;
+};
 
 
 

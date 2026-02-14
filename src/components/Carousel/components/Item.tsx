@@ -22,7 +22,7 @@ export default function Item({ cardConfig, config, entry, index }: Props) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <Card
-        className="mb-3"
+        contentClassName="mb-3"
         key={entry.file.path}
         entry={entry}
         config={config}

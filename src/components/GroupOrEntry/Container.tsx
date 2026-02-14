@@ -1,24 +1,14 @@
 import { LayoutGroup, motion } from "motion/react";
-import {
-  type CSSProperties,
-  forwardRef,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { type CSSProperties, forwardRef, useMemo, useRef, useState } from "react";
 
-import { useFileOpen } from "@/hooks/use-file-open";
+import { useTranslation } from "@/lib/i18n";
 import { cn, mergeRefs } from "@/lib/utils";
 import Card from "../Card";
-import type { GroupBorder } from "../Group/types";
-import ExpandedView from "./ExpandedView";
 import Group from "./Group";
+import type { GroupBorder } from "../Group/types";
 import { useContainerData } from "./hooks/use-container-data";
-import { useExpand } from "./hooks/use-expand";
-import CellOutsideContent from "./OutsideContent";
 import { isGroup, type Props } from "./types";
-import { getLayoutIds } from "./utils";
+import CellOutsideContent from "./OutsideContent";
 
 const BORDER_CLASSES: Record<GroupBorder, string> = {
   none: "",
@@ -31,13 +21,10 @@ const BORDER_CLASSES: Record<GroupBorder, string> = {
 };
 
 const GroupOrEntry = forwardRef<HTMLDivElement, Props>((props, ref) => {
-  const layoutNS = useId();
-  const { cardConfig, config, groupConfig } = props;
-  const { color, file, icon, title } = useContainerData(props);
+  const { cardConfig, groupConfig } = props;
+  const { color, title } = useContainerData(props);
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
-
-  const layoutIds = getLayoutIds(`${props.layoutIdPrefix}-${layoutNS}`);
 
   const width = useMemo(() => {
     return cardConfig.cardSize
@@ -45,33 +32,14 @@ const GroupOrEntry = forwardRef<HTMLDivElement, Props>((props, ref) => {
       : undefined;
   }, [cardConfig.cardSize, cardConfig.spacing]);
 
-  const handleNavigate = useFileOpen(file);
-  const {
-    handlePointerDown,
-    handlePointerUp,
-    handleExpand,
-    handleClose,
-    isExpanded,
-    isPressing,
-  } = useExpand();
-
-  const borderClass = BORDER_CLASSES[groupConfig?.groupBorder ?? "none"];
-
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (groupConfig.groupClickOnGroup === "expand") {
-      handleExpand(e, cardRef);
-    } else if (groupConfig.groupClickOnGroup === "navigate") {
-      handleNavigate(e);
-    }
-  };
+  const borderClass = BORDER_CLASSES[groupConfig.groupBorder ?? "none"];
 
   return (
-    <LayoutGroup id={layoutIds.container}>
+    <LayoutGroup id={`cell-${title}`}>
       <motion.div
-        layoutId={layoutIds.content}
         ref={mergeRefs(cardRef, ref)}
         className={cn(
-          "relative flex flex-col items-center justify-center rounded cursor-pointer group h-[stretch]",
+          "relative flex flex-col items-center justify-center rounded cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group",
           borderClass,
         )}
         style={
@@ -83,27 +51,21 @@ const GroupOrEntry = forwardRef<HTMLDivElement, Props>((props, ref) => {
           } as CSSProperties
         }
         animate={{
-          scale: isPressing ? 0.98 : isHovered ? 1.04 : 1,
+          scale: isHovered ? 1.04 : 1,
           rotate: isHovered ? -1.5 : 0,
         }}
         transition={{
-          scale: { duration: isPressing ? 0.08 : 0.7, ease: [0.16, 1, 0.3, 1] },
+          scale: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
           rotate: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
         }}
+        layoutId={`cell-content-${title}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        {...(isGroup(props)
-          ? {
-              onPointerDown: handlePointerDown,
-              onPointerUp: handlePointerUp,
-              onClick: handleClick,
-            }
-          : {})}
       >
         <div
           className="absolute inset-0 rounded-2xl transition-opacity duration-700"
           style={
-            groupConfig?.groupBorder !== "none"
+            groupConfig.groupBorder !== "none"
               ? {
                   background:
                     "radial-gradient(circle at 50% 70%, var(--folder-color) 0%, transparent 70%)",
@@ -112,23 +74,16 @@ const GroupOrEntry = forwardRef<HTMLDivElement, Props>((props, ref) => {
               : undefined
           }
         />
-        <div style={{ opacity: isExpanded ? 0 : 1 }}>
+        <div>
           {isGroup(props) ? (
             <Group
               cardConfig={props.cardConfig}
-              color={color}
-              config={config}
-              counterLayoutId={layoutIds.counter}
-              files={props.data.entries}
-              groupShape={groupConfig.groupShape}
-              icon={icon}
-              iconLayoutId={layoutIds.icon}
-              onClick={handleClick}
-              showCounter={groupConfig.groupCounterPosition === "inside"}
-              title={groupConfig.groupTitlePosition === "inside" ? title : undefined}
-              titleLayoutId={layoutIds.title}
+              className={props.className}
+              config={props.config}
+              entries={props.data.entries}
+              groupConfig={props.groupConfig}
+              groupKey={props.data.key?.toString() ?? ""}
               ref={ref}
-              width={width}
             />
           ) : (
             <Card
@@ -139,6 +94,9 @@ const GroupOrEntry = forwardRef<HTMLDivElement, Props>((props, ref) => {
               config={props.config}
               entry={props.data}
               ref={ref}
+              style={{
+                padding: `${cardConfig.spacing ?? 0}px`,
+              }}
             />
           )}
         </div>
@@ -147,21 +105,8 @@ const GroupOrEntry = forwardRef<HTMLDivElement, Props>((props, ref) => {
           title={title}
           count={isGroup(props) ? props.data.entries.length : undefined}
           isHovered={isHovered}
-          layoutIds={layoutIds}
         />
       </motion.div>
-      {isGroup(props) && (
-        <ExpandedView
-          isOpen={isExpanded}
-          title={title}
-          icon={icon}
-          entries={props.data.entries}
-          cardConfig={cardConfig}
-          config={config}
-          onClose={handleClose}
-          layoutIds={layoutIds}
-        />
-      )}
     </LayoutGroup>
   );
 });

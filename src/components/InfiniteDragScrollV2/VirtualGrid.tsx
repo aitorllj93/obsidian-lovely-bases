@@ -75,7 +75,7 @@ export const VirtualGrid = ({
 						entry={items[realIndex]}
 						config={config}
 						isDraggable={true}
-						className="w-full h-full"
+						contentClassName="w-full h-full"
 						{...cardConfig}
 					/>
 				</GridItem>

@@ -74,7 +74,7 @@ const FolderCard = forwardRef<HTMLDivElement, FolderCardProps>(
 					<Card
 						entry={entry}
 						config={config}
-						className="w-full h-full group-hover/folder-card:shadow-(--hover-background)"
+						contentClassName="w-full h-full group-hover/folder-card:shadow-(--hover-background)"
 						{...cardConfig}
 						cardSize={cardSize}
 						adaptToSize

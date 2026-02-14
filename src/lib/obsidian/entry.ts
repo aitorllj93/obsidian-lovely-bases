@@ -14,6 +14,14 @@ export const getTitle = (entry: BasesEntry): string => {
   return entry.file.basename.replace(/\.[^.]+$/, '');
 }
 
+export const getPropertyValue = (entry: BasesEntry, propertyId?: BasesPropertyId): string | null => {
+  if (!propertyId || !entry) return null;
+  const property = entry.getValue(propertyId);
+  const propertyValue = property.toString();
+
+  return propertyValue === 'null' ? null : propertyValue;
+}
+
 export const getLabeledProperty = (entry: BasesEntry, config: BasesViewConfig, propertyId: BasesPropertyId): Property => {
   const value = entry.getValue(propertyId);
   const displayName = config.getDisplayName(propertyId) as string;

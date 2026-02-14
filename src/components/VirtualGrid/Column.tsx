@@ -15,6 +15,7 @@ type Props = {
   data: (BasesEntry | BasesEntryGroup)[];
   groupConfig?: GroupConfig;
   index: number;
+  layoutIdPrefix?: string;
   style?: CSSProperties;
 }
 
@@ -25,11 +26,12 @@ const PureColumn = forwardRef<HTMLDivElement, Props>(({
   groupConfig,
   index,
   cardWidth,
+  layoutIdPrefix,
   style,
 }, ref) => {
   return (
     <div
-      className="w-full grid box-border justify-evenly will-change-transform"
+      className="w-full grid box-border justify-evenly will-change-transform items-center"
       data-index={index}
       ref={ref}
       tabIndex={index === 0 ? 0 : undefined}
@@ -37,7 +39,7 @@ const PureColumn = forwardRef<HTMLDivElement, Props>(({
     >
       {data.map((item) => (
         <GroupOrEntry
-          className="mx-auto"
+          className="mx-auto h-fit"
           key={item instanceof BasesEntryGroup ? item.key?.toString() : item.file.path}
           data={item as BasesEntryGroup}
           cardConfig={{
@@ -46,6 +48,7 @@ const PureColumn = forwardRef<HTMLDivElement, Props>(({
           }}
           config={config}
           groupConfig={groupConfig}
+          layoutIdPrefix={layoutIdPrefix}
         />
       ))}
     </div>

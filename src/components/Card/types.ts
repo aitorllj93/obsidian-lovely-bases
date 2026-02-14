@@ -7,6 +7,7 @@ export type CardConfig = {
 	cardSize: number;
 	shape: "square" | "circle" | "rounded";
 	tilt: "none" | "left" | "right" | "alternating";
+  spacing: number;
   /* Image */
 	imageProperty: BasesPropertyId | undefined;
 	imageAspectRatio: number;

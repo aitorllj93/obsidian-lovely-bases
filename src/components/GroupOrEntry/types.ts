@@ -6,6 +6,8 @@ export type CommonProps = {
   cardConfig: CardConfig;
   className?: string;
   config: BasesViewConfig;
+  groupConfig?: GroupConfig;
+  layoutIdPrefix?: string;
 }
 
 export type EntryProps = CommonProps & {
@@ -14,7 +16,6 @@ export type EntryProps = CommonProps & {
 
 export type GroupProps = CommonProps & {
   data: BasesEntryGroup;
-  groupConfig: GroupConfig;
 }
 
 export type Props = EntryProps | GroupProps;

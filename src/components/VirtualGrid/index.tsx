@@ -1,6 +1,6 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
 import type { BasesEntry, BasesEntryGroup, BasesViewConfig } from "obsidian";
-import { memo, useMemo } from "react";
+import { type CSSProperties, memo, useMemo } from "react";
 
 import { arrayEqual, chunk, cn, shallowEqual } from "@/lib/utils";
 
@@ -20,7 +20,9 @@ type Props = {
   gap?: number;
   groupConfig?: GroupConfig;
   items: (BasesEntry | BasesEntryGroup)[];
+  layoutIdPrefix?: string;
   minItemWidth?: number;
+  style?: CSSProperties;
 };
 
 function PureVirtualGrid({
@@ -30,7 +32,9 @@ function PureVirtualGrid({
   gap = 16,
   groupConfig,
   items,
+  layoutIdPrefix,
   minItemWidth = 240,
+  style,
 }: Props) {
   const { imageProperty } = cardConfig;
   const [scrollRef, width] = useElementWidth<HTMLDivElement>();
@@ -74,6 +78,7 @@ function PureVirtualGrid({
         className,
       )}
       ref={scrollRef}
+      style={style}
     >
       {width !== 0 && (
         <div
@@ -98,6 +103,7 @@ function PureVirtualGrid({
                       data={rows[vRow.index] ?? []}
                       groupConfig={groupConfig}
                       index={vRow.index}
+                      layoutIdPrefix={layoutIdPrefix}
                       ref={virtualizer.measureElement}
                       style={columnStyle}
                     />

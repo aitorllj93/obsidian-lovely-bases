@@ -20,6 +20,7 @@ import type { CardConfig } from "./types";
 type Props = CardConfig & {
   adaptToSize?: boolean;
 	className?: string;
+  contentClassName?: string;
 	entry: BasesEntry;
 	config: BasesViewConfig;
 	isDraggable?: boolean;
@@ -92,6 +93,7 @@ const PureCard = forwardRef<HTMLDivElement, Props>(({
   adaptToSize = false,
   className,
   config,
+  contentClassName,
   entry,
   isDraggable = false,
   style,
@@ -149,11 +151,13 @@ const PureCard = forwardRef<HTMLDivElement, Props>(({
           cardConfig.tilt === 'right' && "[&>div]:rotate-3 hover:[&>div]:rotate-0",
           cardConfig.tilt === 'left' && "[&>div]:-rotate-2 hover:[&>div]:rotate-0",
           cardConfig.tilt === 'alternating' && "even:[&>div]:rotate-3 odd:[&>div]:-rotate-2 hover:[&>div]:rotate-0",
+          className,
         )
       }
       style={{
         width: cardConfig.cardSize,
         ...(isOverlay && { height: `${cardConfig.cardSize * cardConfig.imageAspectRatio}px` }),
+        ...style,
       }}
       onPointerDown={onPointerDown}
       onClick={handleClick}
@@ -164,7 +168,7 @@ const PureCard = forwardRef<HTMLDivElement, Props>(({
       <div
         className={
           cn(
-            className,
+            contentClassName,
             contentClasses,
             cardConfig.tilt !== "none" && "shadow-xl ease-out duration-300"
           )
@@ -173,7 +177,6 @@ const PureCard = forwardRef<HTMLDivElement, Props>(({
           width: cardConfig.cardSize,
           ...(isOverlay && { height: `${cardConfig.cardSize * cardConfig.imageAspectRatio}px` }),
           ...(cardConfig.layout === "polaroid" ? { backgroundColor: colors.contentBackground, borderColor: colors.contentBackground } : undefined),
-          ...style,
         }}
       >
         {/** biome-ignore lint/a11y/useAnchorContent: this is a workaround */}
