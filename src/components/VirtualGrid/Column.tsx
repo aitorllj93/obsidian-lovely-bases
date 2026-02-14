@@ -3,15 +3,18 @@ import { type CSSProperties, forwardRef, memo } from "react";
 
 import { shallowEqual } from "@/lib/utils";
 
-import Card from "../Card";
 import type { CardConfig } from "../Card/types";
+import type { GroupConfig } from "../Group/types";
+
+import GroupOrEntry from "../GroupOrEntry";
 
 type Props = {
   cardConfig: CardConfig;
+  cardWidth: number;
   config: BasesViewConfig;
   data: BasesEntry[];
+  groupConfig?: GroupConfig;
   index: number;
-  cardWidth: number;
   style?: CSSProperties;
 }
 
@@ -19,6 +22,7 @@ const PureColumn = forwardRef<HTMLDivElement, Props>(({
   cardConfig,
   config,
   data,
+  groupConfig,
   index,
   cardWidth,
   style,
@@ -32,13 +36,16 @@ const PureColumn = forwardRef<HTMLDivElement, Props>(({
       style={style}
     >
       {data.map((item) => (
-        <Card
+        <GroupOrEntry
           className="mx-auto"
           key={item.file.path}
-          entry={item}
+          data={item}
+          cardConfig={{
+            ...cardConfig,
+            cardSize: cardWidth,
+          }}
           config={config}
-          {...cardConfig}
-          cardSize={cardWidth}
+          groupConfig={groupConfig}
         />
       ))}
     </div>
@@ -51,7 +58,8 @@ const Column = memo(PureColumn, (prevProps, nextProps) => {
     prevProps.cardWidth === nextProps.cardWidth &&
     shallowEqual(prevProps.style, nextProps.style) &&
     prevProps.cardConfig === nextProps.cardConfig &&
-    prevProps.config === nextProps.config
+    prevProps.config === nextProps.config &&
+    prevProps.groupConfig === nextProps.groupConfig
   );
 });
 

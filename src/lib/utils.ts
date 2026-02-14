@@ -1,8 +1,22 @@
 import { type ClassValue, clsx } from 'clsx';
+import type { Ref, RefCallback, RefObject } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function mergeRefs<T>(...refs: Array<Ref<T> | undefined>) {
+  return (value: T | null) => {
+    for (const ref of refs) {
+      if (!ref) return;
+      if (typeof ref === "function") {
+        (ref as RefCallback<T>)(value);
+      } else {
+        (ref as RefObject<T | null>).current = value;
+      }
+    };
+  };
 }
 
 export function shallowEqual<T>(a: T, b: T): boolean {

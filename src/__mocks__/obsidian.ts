@@ -38,9 +38,6 @@ import type { Value } from 'obsidian';
 
 import { createMockApp } from "./create-mock-app";
 
-
-export { MockTFile as TFile } from './aFile'
-
 // biome-ignore lint/complexity/noStaticOnlyClass: Mock para Storybook, necesita compatibilidad con tipos de Obsidian
 export class Platform {
   static isMobile = false;
@@ -110,8 +107,13 @@ export class NullValue {
   }
 }
 
+
+export { MockTFile as TFile } from './aFile'
 // Re-exportar TFile como tipo también para compatibilidad
 export type { TFile as TFileType } from 'obsidian';
+
+export { MockBasesEntryGroup as BasesEntryGroup } from './aBasesEntryGroup';
+export type { BasesEntryGroup as BasesEntryGroupType } from 'obsidian';
 
 // Clase BasesView mockeada
 // Se usa como clase base en ReactBasesView

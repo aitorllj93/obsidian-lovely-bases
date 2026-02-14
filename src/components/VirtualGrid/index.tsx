@@ -6,6 +6,7 @@ import { arrayEqual, chunk, cn, shallowEqual } from "@/lib/utils";
 
 import { estimateCardHeight } from "../Card/helpers/estimate-card-height";
 import type { CardConfig } from "../Card/types";
+import type { GroupConfig } from "../Group/types";
 
 import Column from "./Column";
 import { useElementWidth } from "./hooks/use-element-width";
@@ -17,6 +18,7 @@ type Props = {
   className?: string;
   config: BasesViewConfig;
   gap?: number;
+  groupConfig?: GroupConfig;
   items: BasesEntry[];
   minItemWidth?: number;
 };
@@ -25,9 +27,10 @@ function PureVirtualGrid({
   cardConfig,
   className,
   config,
+  gap = 16,
+  groupConfig,
   items,
   minItemWidth = 240,
-  gap = 16,
 }: Props) {
   const { imageProperty } = cardConfig;
   const [scrollRef, width] = useElementWidth<HTMLDivElement>();
@@ -90,11 +93,12 @@ function PureVirtualGrid({
                   <div key={vRow.key} style={{ paddingBottom: gap }}>
                     <Column
                       cardConfig={cardConfig}
+                      cardWidth={cardWidth}
                       config={config}
                       data={rows[vRow.index] ?? []}
+                      groupConfig={groupConfig}
                       index={vRow.index}
                       ref={virtualizer.measureElement}
-                      cardWidth={cardWidth}
                       style={columnStyle}
                     />
                   </div>
@@ -113,6 +117,7 @@ const VirtualGrid = memo(PureVirtualGrid, (prevProps, nextProps) => {
     prevProps.minItemWidth === nextProps.minItemWidth &&
     prevProps.gap === nextProps.gap &&
     shallowEqual(prevProps.cardConfig, nextProps.cardConfig) &&
+    shallowEqual(prevProps.groupConfig, nextProps.groupConfig) &&
     prevProps.config === nextProps.config
   );
 });

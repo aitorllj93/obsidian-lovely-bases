@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 import type { BasesEntry, BasesViewConfig } from "obsidian";
-import { memo, useCallback, useRef, useState } from "react";
+import { forwardRef, memo, useCallback, useRef, useState } from "react";
 
 import { useEntryHover } from "@/hooks/use-entry-hover";
 import { useEntryOpen } from "@/hooks/use-entry-open";
@@ -88,7 +88,7 @@ const cardContentVariants = cva(
 
 const DRAG_THRESHOLD = 5;
 
-const Card = memo(({
+const PureCard = forwardRef<HTMLDivElement, Props>(({
   adaptToSize = false,
   className,
   config,
@@ -96,7 +96,7 @@ const Card = memo(({
   isDraggable = false,
   style,
   ...cardConfig
-}: Props) => {
+}: Props, ref) => {
   const [isHovered, setIsHovered] = useState(false);
   const dragStartPos = useRef<{ x: number; y: number } | null>(null);
   const linkRef = useRef<HTMLAnchorElement>(null);
@@ -159,7 +159,8 @@ const Card = memo(({
       onClick={handleClick}
       onMouseOver={handleEntryHover}
       onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}>
+      onMouseLeave={onMouseLeave}
+      ref={ref}>
       <div
         className={
           cn(
@@ -259,15 +260,16 @@ const Card = memo(({
       </div>
     </div>
   );
-},
-(prevProps, nextProps) => (
+});
+
+
+const Card = memo(PureCard, (prevProps, nextProps) => (
   prevProps.adaptToSize === nextProps.adaptToSize &&
   prevProps.entry === nextProps.entry &&
   prevProps.className === nextProps.className &&
   prevProps.isDraggable === nextProps.isDraggable &&
   compareCardConfig(prevProps, nextProps)
-),
-);
+));
 
 Card.displayName = "Card";
 

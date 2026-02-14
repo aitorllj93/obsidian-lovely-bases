@@ -1,11 +1,11 @@
 import { LayoutGroup, motion } from "motion/react";
 import type { BasesEntry, BasesViewConfig } from "obsidian";
-import { type CSSProperties, useMemo, useRef, useState } from "react";
+import { type CSSProperties, forwardRef, useMemo, useRef, useState } from "react";
 
 import type { CardConfig } from "@/components/Card/types";
 import { useFileOpen } from "@/hooks/use-file-open";
 import { useTranslation } from "@/lib/i18n";
-import { cn } from "@/lib/utils";
+import { cn, mergeRefs } from "@/lib/utils";
 
 import Folder from "../Folder";
 import Notebook from "../Notebook";
@@ -44,7 +44,7 @@ type Props = {
   config: BasesViewConfig;
 };
 
-const Group: React.FC<Props> = ({
+const Group = forwardRef<HTMLDivElement, Props>(({
   groupKey,
   titleFont,
   entries = [],
@@ -52,7 +52,7 @@ const Group: React.FC<Props> = ({
   cardConfig,
   groupConfig,
   config,
-}) => {
+}, ref) => {
   const { color, file, icon, title } = useGroupData(
     groupKey,
     groupConfig,
@@ -91,7 +91,7 @@ const Group: React.FC<Props> = ({
   return (
     <LayoutGroup id={`group-${title}`}>
       <motion.div
-        ref={cardRef}
+        ref={mergeRefs(cardRef, ref)}
         className={cn(
           "relative flex flex-col items-center justify-center rounded cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group",
           borderClass,
@@ -196,6 +196,6 @@ const Group: React.FC<Props> = ({
       />
     </LayoutGroup>
   );
-};
+});
 
 export default Group;
