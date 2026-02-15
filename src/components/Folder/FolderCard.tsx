@@ -2,7 +2,7 @@ import type { BasesEntry, BasesViewConfig } from "obsidian";
 import { type CSSProperties, forwardRef, type MouseEventHandler } from "react";
 
 import Card from "@/components/Card";
-import type { CardConfig } from "@/components/Card/types";
+import type { FacetsConfig } from "@/components/Facets/config";
 import { cn } from "@/lib/utils";
 
 const BASE_CARD_SIZE = 80;
@@ -10,7 +10,7 @@ const BASE_CARD_SIZE = 80;
 type FolderCardProps = {
 	entry: BasesEntry;
 	config: BasesViewConfig;
-	cardConfig: CardConfig;
+	facetsConfig: FacetsConfig;
 	delay: number;
 	isVisible: boolean;
 	index: number;
@@ -24,7 +24,7 @@ const FolderCard = forwardRef<HTMLDivElement, FolderCardProps>(
 		{
 			entry,
 			config,
-			cardConfig,
+			facetsConfig,
 			delay,
 			isVisible,
 			index,
@@ -75,9 +75,10 @@ const FolderCard = forwardRef<HTMLDivElement, FolderCardProps>(
 						entry={entry}
 						config={config}
 						contentClassName="w-full h-full group-hover/folder-card:shadow-(--hover-background)"
-						{...cardConfig}
-						cardSize={cardSize}
-						adaptToSize
+            {...facetsConfig}
+            layoutItemSize={cardSize}
+						cardAdaptToSize
+            titlePosition="inside"
 					/>
 				</div>
 			</div>

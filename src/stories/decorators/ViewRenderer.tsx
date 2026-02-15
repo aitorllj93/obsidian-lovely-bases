@@ -47,7 +47,7 @@ export const createViewRenderer = <T extends Record<string, unknown> = Record<st
         properties,
       }),
       config: aBasesViewConfig(config, {
-        groupBy: isGrouped ? (rendererProps.groupBy ?? properties[0]) : undefined,
+        groupBy: isGrouped ? (rendererProps.groupBy ?? properties[0] ?? 'file.path') : undefined,
         properties
       }),
       onEntryClick: onEntryClick ?? fn(),

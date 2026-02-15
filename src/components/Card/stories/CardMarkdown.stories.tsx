@@ -1,33 +1,33 @@
 
 
 
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { Meta } from "@storybook/react-vite";
 
 import { MARKDOWN_ENTRY } from "@/__fixtures__/entries/markdown";
-import { aBasesViewConfig } from "@/__mocks__";
 import { Providers } from "@/stories/decorators";
 
-import { DEFAULTS } from "../constants";
-import Card from "../index";
+import type Card from "..";
+
+import CardMeta, { type Story } from "./meta";
+import { WithMarkdownContent } from "@/__fixtures__/facets/configs";
 
 const meta = {
+  ...CardMeta,
   title: "Design System/Card/Content/Markdown",
-  component: Card,
   tags: ["internal"],
   decorators: [Providers],
   parameters: {
     layout: "centered",
   },
   args: {
-    ...DEFAULTS,
-    config: aBasesViewConfig(),
+    ...CardMeta.args,
     entry: MARKDOWN_ENTRY,
-    showContent: true,
-    contentMaxLength: 0,
+    ...WithMarkdownContent,
+    contentMarkdownMaxLength: 0,
   },
 } satisfies Meta<typeof Card>;
 
-type Story = StoryObj<typeof meta>;
+export default meta;
 
 export const Default: Story = {
 };
@@ -39,5 +39,3 @@ export const Skeleton: Story = {
     }
   }
 };
-
-export default meta;

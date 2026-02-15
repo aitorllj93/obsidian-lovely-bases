@@ -19,6 +19,7 @@ export type CardConfig = {
 	showContent: boolean;
 	contentMaxLength: number;
   contentMaxHeight: number;
+  adaptToSize: boolean;
   /* Appearance */
   titleFont: string | undefined;
   contentFont: string | undefined;

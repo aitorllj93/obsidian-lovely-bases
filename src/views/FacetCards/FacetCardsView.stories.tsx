@@ -3,47 +3,71 @@ import { fn } from "storybook/test";
 
 import {
   GROUPED_ENTRIES,
-	VIRTUAL_SCROLL_APPLICATION_ENTRIES,
-	VIRTUAL_SCROLL_ARTICLES_ENTRIES,
-	VIRTUAL_SCROLL_BOOKS_ENTRIES,
-	VIRTUAL_SCROLL_MOVIES_ENTRIES,
-	VIRTUAL_SCROLL_PERSON_ENTRIES,
-  VIRTUAL_SCROLL_PHOTOS_ENTRIES,
+  VIRTUAL_SCROLL_APPLICATION_ENTRIES,
+  VIRTUAL_SCROLL_ARTICLES_ENTRIES,
+  VIRTUAL_SCROLL_BOOKS_ENTRIES,
+  VIRTUAL_SCROLL_MOVIES_ENTRIES,
+  VIRTUAL_SCROLL_PERSON_ENTRIES,
+  VIRTUAL_SCROLL_PHOTOS_ENTRIES
 } from "@/__fixtures__/entries";
-import CardMeta from '@/components/Card/stories/meta';
+
 import {
-	createViewRenderer,
-	Providers,
-	ViewWrapper,
-} from "@/stories/decorators";
+  With3x2Image,
+  With4x5Image,
+  WithBadge,
+  WithBadgeColor,
+  WithBadgeIcon,
+  WithBorderDashed,
+  WithCircleShape,
+  WithColor,
+  WithContentReversed,
+  WithContentVisibilityOnHover,
+  WithCustomBadgeFont,
+  WithCustomContentFont,
+  WithCustomTitleFont,
+  WithHorizontalLayout,
+  WithHover,
+  WithHoverOverlay,
+  WithIcon,
+  WithImage,
+  WithMarkdownContent,
+  WithNotebookShape,
+  WithOverlayLayout,
+  WithoutGap,
+  WithoutPropertyTitles,
+  WithoutTitle,
+  WithPolaroidLayout,
+  WithRoundedShape,
+  WithSize2XS,
+  WithSize3XS,
+  WithSize3XSAndSpacing,
+  WithSize6XSAndSpacing,
+  WithSquareImage,
+  WithUngroupedItemsInline,
+  WithVerticalLayout
+} from "@/__fixtures__/facets/configs";
+import { FACETS_CONFIG_DEFAULTS } from "@/components/Facets/config";
+import { FACETS_CONFIG_ARG_TYPES } from "@/components/Facets/config/stories.argTypes";
+import { createViewRenderer, Providers, ViewWrapper } from "@/stories/decorators";
 
 import FACET_CARDS_VIEW from ".";
-import {
-  CIRCLE_SHAPE_CONFIG,
-	DEFAULT_CONFIG,
-	FULL_CONFIG,
-	HORIZONTAL_LAYOUT_CONFIG,
-  OVERLAY_LAYOUT_CONFIG,
-  POLAROID_LAYOUT_CONFIG,
-  ROUNDED_SHAPE_CONFIG,
-} from "./__fixtures__/configs";
 import FacetCardsView, { type FacetCardsConfig } from "./FacetCardsView";
 
 const View = createViewRenderer<FacetCardsConfig>(FacetCardsView);
 
 const meta = {
-	title: "Views/Facet Cards",
-	component: View,
-	tags: ["autodocs", "status:testing"],
+  title: "Views/Facet Cards",
+  component: View,
+  tags: ["autodocs", "status:testing"],
   decorators: [ViewWrapper, Providers],
-	parameters: {
-		layout: "fullscreen",
-		docs: {
-			icon: FACET_CARDS_VIEW.icon,
-			subtitle:
-				"A structured, property-rich card view that gives you more control over how your note data is displayed. Perfect for databases, catalogs, or property-heavy notes.",
-			description: {
-				component: `### Features
+  parameters: {
+    layout: "fullscreen",
+    docs: {
+      icon: FACET_CARDS_VIEW.icon,
+      subtitle:
+        "A structured, property-rich card view that gives you more control over how your note data is displayed. Perfect for databases, catalogs, or property-heavy notes.",
+      description: {
+        component: `### Features
 
 - **Flexible Layouts**: Choose between **Vertical** (image on top), **Horizontal** (image on the side) or **Overlay** (content in an overlay) layouts.
 - **Rich Media Integration**: Display images from any note property with precise control over aspect ratio and fit.
@@ -52,45 +76,64 @@ const meta = {
 - **Highly Responsive**: Automatically scales and adapts to any screen size while maintaining performance.
 
 ### Configuration`,
-			},
-		},
-	},
-	argTypes: {
-    ...CardMeta.argTypes,
-		// Internal props (disabled)
-		data: {
-			table: {
-				disable: true,
-			},
-		},
-		groupedData: {
-			table: {
-				disable: true,
-			},
-		},
-		onEntryClick: {
-			table: {
-				disable: true,
-			},
-		},
-		onEntryHover: {
-			table: {
-				disable: true,
-			},
-		},
-  }
+      },
+    },
+  },
+  argTypes: {
+    ...FACETS_CONFIG_ARG_TYPES,
+    // Internal props (disabled)
+    data: {
+      table: {
+        disable: true,
+      },
+    },
+    groupedData: {
+      table: {
+        disable: true,
+      },
+    },
+    onEntryClick: {
+      table: {
+        disable: true,
+      },
+    },
+    onEntryHover: {
+      table: {
+        disable: true,
+      },
+    },
+  },
+  args: {
+    data: VIRTUAL_SCROLL_ARTICLES_ENTRIES,
+    onEntryClick: fn(),
+    ...FACETS_CONFIG_DEFAULTS,
+  },
 } satisfies Meta<typeof View>;
-
-export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+export default meta;
+
 export const FullExample: Story = {
-	args: {
-		data: VIRTUAL_SCROLL_ARTICLES_ENTRIES,
-		onEntryClick: fn(),
-		...FULL_CONFIG,
-	},
+  args: {
+    ...WithSize6XSAndSpacing,
+    ...WithBorderDashed,
+    ...WithNotebookShape,
+    ...WithUngroupedItemsInline,
+    ...WithImage,
+    ...WithSquareImage,
+    ...WithPolaroidLayout,
+    ...WithoutPropertyTitles,
+    ...WithBadge,
+    ...WithBadgeColor,
+    ...WithBadgeIcon,
+    ...WithColor,
+    ...WithIcon,
+    ...WithCustomTitleFont,
+    ...WithCustomContentFont,
+    ...WithCustomBadgeFont,
+    groupedData: GROUPED_ENTRIES,
+  },
 };
 
 export const Default: Story = {
@@ -102,144 +145,173 @@ export const Default: Story = {
 			},
 		},
 	},
-	args: {
-		data: VIRTUAL_SCROLL_BOOKS_ENTRIES,
-		onEntryClick: fn(),
-		...DEFAULT_CONFIG,
-	},
+  args: {
+    properties: ["note.author", "note.published", "note.excerpt"],
+  }
 };
 
-// === LAYOUT STORIES ===
-
 export const HorizontalLayout: Story = {
-	parameters: {
+  parameters: {
 		docs: {
 			description: {
 				story: `Horizontal layout displays the image on the side of the card content.
 
 \`\`\`yml
-layout: horizontal
+cardLayout: horizontal
 \`\`\`
 `,
 			},
 		},
 	},
-	args: {
-		data: VIRTUAL_SCROLL_ARTICLES_ENTRIES,
-		onEntryClick: fn(),
-		...HORIZONTAL_LAYOUT_CONFIG,
-	},
+  args: {
+    ...WithSize2XS,
+    ...WithImage,
+    ...With4x5Image,
+    ...WithHorizontalLayout,
+    ...WithContentReversed,
+    ...WithoutPropertyTitles,
+    ...WithMarkdownContent,
+    ...WithBadge,
+    ...WithBadgeColor,
+    ...WithBadgeIcon,
+    ...WithHover,
+    ...WithHoverOverlay,
+    data: VIRTUAL_SCROLL_ARTICLES_ENTRIES,
+    properties: ["note.author", "note.published"],
+  },
 };
 
-export const OverlayLayout: Story = {
+export const VerticalLayout: Story = {
+  args: {
+    ...WithSize3XS,
+    ...WithImage,
+    ...With4x5Image,
+    ...WithVerticalLayout,
+    ...WithoutPropertyTitles,
+    ...WithBadge,
+    ...WithBadgeColor,
+    ...WithBadgeIcon,
+    data: VIRTUAL_SCROLL_ARTICLES_ENTRIES,
+    properties: ["note.author", "note.published", "note.excerpt"],
+  },
+};
+
+export const Overlay: Story = {
 	parameters: {
 		docs: {
 			description: {
 				story: `Overlay layout displays the content in an overlay. Additionally, you can configure the overlay content visibility to always show or only show when hovering.
 
 \`\`\`yml
-layout: overlay
-overlayContentVisibility: hover | always
-badgeProperty: note.rating
-badgeIcon: star
-badgeColor: #D0A215
+cardLayout: overlay
+contentVisibility: always
 \`\`\`
 `,
 			},
 		},
 	},
-	args: {
-		data: VIRTUAL_SCROLL_MOVIES_ENTRIES,
-		onEntryClick: fn(),
-		...OVERLAY_LAYOUT_CONFIG,
-	},
-};
+  args: {
+    ...WithSize3XS,
+    ...WithImage,
+    ...With3x2Image,
+    ...WithOverlayLayout,
+    ...WithBadge,
+    ...WithBadgeColor,
+    ...WithBadgeIcon,
+    data: VIRTUAL_SCROLL_BOOKS_ENTRIES,
+  }
+}
 
-export const PolaroidLayout: Story = {
+export const OverlayOnHover: Story = {
 	parameters: {
+		docs: {
+			description: {
+				story: `Overlay layout with the content displayed on hover.
+
+\`\`\`yml
+cardLayout: overlay
+contentVisibility: hover
+\`\`\`
+`,
+			},
+		},
+	},
+  args: {
+    ...Overlay.args,
+    ...WithContentVisibilityOnHover,
+    ...WithMarkdownContent,
+    data: VIRTUAL_SCROLL_MOVIES_ENTRIES,
+  }
+}
+
+export const Polaroid: Story = {
+  	parameters: {
 		docs: {
 			description: {
 				story: `Polaroid layout displays cards with a classic photo-album aesthetic, featuring white borders and a larger bottom margin.
 
 \`\`\`yml
-layout: polaroid
+cardLayout: polaroid
 \`\`\`
 `,
 			},
 		},
 	},
-	args: {
-		data: VIRTUAL_SCROLL_PHOTOS_ENTRIES,
-		onEntryClick: fn(),
-		...POLAROID_LAYOUT_CONFIG,
-	},
-};
+  args: {
+    ...WithSize3XS,
+    ...WithImage,
+    ...WithSquareImage,
+    ...WithPolaroidLayout,
+    data: VIRTUAL_SCROLL_PHOTOS_ENTRIES,
+  }
+}
 
-// === SHAPE STORIES ===
-
-export const CircleShape: Story = {
-	parameters: {
+export const Circle: Story = {
+  	parameters: {
 		docs: {
 			description: {
 				story: `Circle shape creates rounded cards perfect for profile images or avatars.
 
 \`\`\`yml
-shape: circle
+cardShape: circle
 \`\`\`
 `,
 			},
 		},
 	},
-	args: {
-		data: VIRTUAL_SCROLL_PERSON_ENTRIES,
-		onEntryClick: fn(),
-		...CIRCLE_SHAPE_CONFIG,
-	},
+  args: {
+    ...WithSize3XSAndSpacing,
+    ...WithoutGap,
+    ...WithVerticalLayout,
+    ...WithCircleShape,
+    ...WithImage,
+    ...WithSquareImage,
+    ...WithoutTitle,
+    data: VIRTUAL_SCROLL_PERSON_ENTRIES,
+  }
 };
 
-export const RoundedShape: Story = {
+export const Rounded: Story = {
 	parameters: {
 		docs: {
 			description: {
 				story: `Rounded shape provides a softer, more modern appearance.
 
 \`\`\`yml
-shape: rounded
+cardShape: rounded
 \`\`\`
 `,
 			},
 		},
 	},
-	args: {
-		data: VIRTUAL_SCROLL_APPLICATION_ENTRIES,
-		onEntryClick: fn(),
-		...ROUNDED_SHAPE_CONFIG,
-	},
-};
-
-// === GROUP STORIES ===
-
-export const FoldersGrouping: Story = {
-  parameters: {
-    docs: {
-      description: {
-        story: `Grouping by folder allows you to organize your cards into categories based on the note's folder.
-
-\`\`\`yml
-groupBy: folder
-\`\`\`
-`,
-      },
-    },
-  },
   args: {
-    groupedData: GROUPED_ENTRIES,
-    onEntryClick: fn(),
-    ...DEFAULT_CONFIG,
-    cardSize: 250,
-    spacing: 50,
-    groupBorder: "dashed",
-    groupLayout: "grid",
-    groupUngroupedItemsDisplay: "inline",
-  },
-}
+    ...WithSize3XSAndSpacing,
+    ...WithoutGap,
+    ...WithVerticalLayout,
+    ...WithRoundedShape,
+    ...WithImage,
+    ...WithSquareImage,
+    ...WithoutTitle,
+    data: VIRTUAL_SCROLL_APPLICATION_ENTRIES,
+  }
+};

@@ -1,72 +1,82 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { ARTICLE_ENTRIES } from "@/__fixtures__/entries";
+import {
+  WithColor,
+  WithColorAppliedEverywhere,
+  WithColorAppliedToContent,
+  WithColorAppliedToImage,
+  WithEmptyImage,
+  WithIcon,
+  WithoutBadge,
+} from "@/__fixtures__/facets/configs";
+import { aBasesViewConfig } from "@/__mocks__";
+import { Providers } from "@/stories/decorators";
 import { WithVariants } from "@/stories/decorators/WithVariants";
 
-import * as Layouts from "./CardLayout.stories";
-import CardMeta, { CardStory } from "./meta";
+import Card from "..";
 
-const AppearancesRenderer = WithVariants(CardStory, [
+import * as Layouts from "./CardLayout.stories";
+import CardMeta from "./meta";
+
+const CardLayoutVariants = WithVariants(Card, [
   {
+    ...CardMeta.args,
     ...Layouts.Vertical.args,
   },
   {
+    ...CardMeta.args,
     ...Layouts.Horizontal.args,
   },
   {
+    ...CardMeta.args,
     ...Layouts.Overlay.args,
   },
   {
+    ...CardMeta.args,
     ...Layouts.Polaroid.args,
   },
 ]);
 
 const meta = {
   ...CardMeta,
-  title: "Design System/Card/Appearances",
-  component: AppearancesRenderer,
+  title: "Design System/Card/Colors",
+  component: CardLayoutVariants,
+  args: {
+    entry: ARTICLE_ENTRIES[0],
+    ...WithoutBadge,
+    ...WithEmptyImage,
+    ...WithIcon,
+    config: aBasesViewConfig(),
+  },
   tags: ["internal"],
-} satisfies Meta<typeof AppearancesRenderer>;
+  decorators: [Providers],
+} satisfies Meta<typeof CardLayoutVariants>;
 
 type Story = StoryObj<typeof meta>;
 
 export default meta;
 
 export const Colors: Story = {
-  name: "Colors - Both",
+  name: "Apply Everywhere",
   args: {
-    entry: ARTICLE_ENTRIES[0],
-    backgroundColorProperty: "note.color",
-    backgroundColorApplyTo: "both",
-    cardSize: 340,
-    iconProperty: "note.icon",
-    imageAspectRatio: 1,
-    imageProperty: "formula.image",
-  } as unknown as Story["args"],
+    ...WithColor,
+    ...WithColorAppliedEverywhere,
+  },
 };
 
 export const BackgroundColors: Story = {
-  name: "Colors - Image",
+  name: "Apply to Image",
   args: {
-    entry: ARTICLE_ENTRIES[0],
-    backgroundColorProperty: "note.color",
-    backgroundColorApplyTo: "image",
-    cardSize: 340,
-    iconProperty: "note.icon",
-    imageAspectRatio: 1,
-    imageProperty: "formula.image",
-  } as unknown as Story["args"],
+    ...WithColor,
+    ...WithColorAppliedToImage,
+  },
 };
 
 export const ContentColors: Story = {
-  name: "Colors - Content",
+  name: "Apply to Content",
   args: {
-    entry: ARTICLE_ENTRIES[0],
-    backgroundColorProperty: "note.color",
-    backgroundColorApplyTo: "content",
-    cardSize: 340,
-    iconProperty: "note.icon",
-    imageAspectRatio: 1,
-    imageProperty: "formula.image",
-  } as unknown as Story["args"],
+    ...WithColor,
+    ...WithColorAppliedToContent,
+  },
 };

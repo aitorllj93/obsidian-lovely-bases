@@ -1,12 +1,12 @@
 import { type BasesEntry, BasesEntryGroup, StringValue } from "obsidian";
 
-import type { GroupConfig } from "@/components/Group/types";
+import type { FacetsConfig } from "@/components/Facets/config";
 
 import { parseWikilink } from "./link";
 
 export function getGroupedData(
   groups: BasesEntryGroup[],
-  { groupUngroupedItemsDisplay }: Pick<GroupConfig, 'groupUngroupedItemsDisplay'>
+  { groupUngroupedItemsDisplay }: Pick<FacetsConfig, 'groupUngroupedItemsDisplay'>
 ): (BasesEntryGroup|BasesEntry)[] {
   const resultGroups: BasesEntryGroup[] = [];
   let resultEntries: BasesEntry[];
@@ -36,7 +36,7 @@ export function getGroupedData(
       if (!resultGroup) {
         resultGroup = new BasesEntryGroup();
         resultGroup.key = new StringValue(newKey);
-        resultGroup.entries = group.entries;
+        resultGroup.entries = [];
         resultGroups.push(resultGroup);
       }
 

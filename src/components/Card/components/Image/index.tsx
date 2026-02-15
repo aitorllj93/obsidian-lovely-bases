@@ -1,15 +1,16 @@
 import type { BasesEntry, BasesViewConfig } from "obsidian";
 import { memo } from "react";
 
+import type { FacetsConfig } from "@/components/Facets/config";
 import { useEntryTitle } from "@/hooks/use-title";
 import { cn } from "@/lib/utils";
 
-import type { CardColors, CardConfig, CardImage } from "../../types";
+import type { CardColors, CardImage } from "../../types";
 import NonImageFallback from "./NonImageFallback";
 
 type Props = {
   entry: BasesEntry;
-  cardConfig: CardConfig;
+  facetsConfig: FacetsConfig;
   config: BasesViewConfig;
   isOverlayMode?: boolean;
   colors: CardColors;
@@ -17,9 +18,9 @@ type Props = {
 };
 
 const Image = memo(
-  ({ cardConfig, colors, config, entry, image, isOverlayMode }: Props) => {
-    const { imageProperty, cardSize, layout, imageAspectRatio, imageFit } =
-      cardConfig;
+  ({ facetsConfig, colors, config, entry, image, isOverlayMode }: Props) => {
+    const { imageProperty, layoutItemSize, cardLayout, imageAspectRatio, imageFit } =
+      facetsConfig;
 
     const title = useEntryTitle(entry);
 
@@ -48,7 +49,7 @@ const Image = memo(
           ) : (
             <NonImageFallback
               entry={entry}
-              cardConfig={cardConfig}
+              facetsConfig={facetsConfig}
               config={config}
               colors={colors}
             />
@@ -57,7 +58,7 @@ const Image = memo(
       );
     }
 
-    if (layout === "horizontal") {
+    if (cardLayout === "horizontal") {
       return imageProperty ? (
         <div
           className={cn(
@@ -84,7 +85,7 @@ const Image = memo(
             ) : (
               <NonImageFallback
                 entry={entry}
-                cardConfig={cardConfig}
+                facetsConfig={facetsConfig}
                 config={config}
                 colors={colors}
               />
@@ -94,7 +95,7 @@ const Image = memo(
       ) : null;
     }
 
-    const isPolaroid = layout === "polaroid";
+    const isPolaroid = cardLayout === "polaroid";
 
     return imageProperty ? (
       <div
@@ -105,7 +106,7 @@ const Image = memo(
         style={{
           aspectRatio: 1 / imageAspectRatio,
           backgroundColor: colors.imageBackground,
-          ...(!isPolaroid && { height: cardSize * imageAspectRatio }),
+          ...(!isPolaroid && { height: layoutItemSize * imageAspectRatio }),
         }}
       >
         {image && !image.isColor ? (
@@ -120,13 +121,13 @@ const Image = memo(
             )}
             style={{
               aspectRatio: 1 / imageAspectRatio,
-              ...(!isPolaroid && { height: cardSize * imageAspectRatio }),
+              ...(!isPolaroid && { height: layoutItemSize * imageAspectRatio }),
             }}
           />
         ) : (
           <NonImageFallback
             entry={entry}
-            cardConfig={cardConfig}
+            facetsConfig={facetsConfig}
             config={config}
             colors={colors}
           />

@@ -156,7 +156,7 @@ export const PLANS_ENTRIES: BasesEntry[] = [
     },
     {
       color: "#0EA5E9",
-      icon: "beach",
+      icon: "volleyball",
       start_date: "2026-06-01",
       end_date: "2026-06-21",
     },
@@ -286,7 +286,7 @@ export const PLANS_ENTRIES: BasesEntry[] = [
     },
     {
       color: "#D97706",
-      icon: "turkey",
+      icon: "utensils-crossed",
       start_date: "2026-11-27",
       end_date: "2026-11-27",
     },
@@ -312,7 +312,7 @@ export const PLANS_ENTRIES: BasesEntry[] = [
     },
     {
       color: "#DC2626",
-      icon: "christmas-tree",
+      icon: "candy-cane",
       start_date: "2026-12-24",
       end_date: "2026-12-24",
     },
@@ -397,8 +397,6 @@ export const PLANS_ENTRIES: BasesEntry[] = [
   ),
 ];
 
-export const VIRTUAL_SCROLL_PLANS_ENTRIES: BasesEntry[] = [];
-
-Array.from({ length: 25 }, (_) =>
-  VIRTUAL_SCROLL_PLANS_ENTRIES.push(...PLANS_ENTRIES),
-);
+export const VIRTUAL_SCROLL_PLANS_ENTRIES: BasesEntry[] = Array.from({ length: 25 }).flatMap(_ => ([
+  ...PLANS_ENTRIES
+]));

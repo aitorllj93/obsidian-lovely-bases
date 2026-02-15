@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 
-const getCardWidth = (columns: number, gap: number, width: number): number => {
+const getItemWidth = (columns: number, gap: number, width: number): number => {
   if (!width) return 0;
 
   const totalGap = (columns - 1) * gap;
@@ -19,15 +19,15 @@ export const getGridConfig = (
       ? 1
       : Math.max(1, Math.floor((inner + gap) / (minItemWidth + gap)));
 
-  const cardWidth = getCardWidth(columnCount, gap, width);
+  const itemWidth = getItemWidth(columnCount, gap, width);
   const columnStyle: CSSProperties = {
-    gridTemplateColumns: `repeat(${columnCount}, minmax(0, ${cardWidth}px))`,
-    gap,
+    gridTemplateColumns: `repeat(${columnCount}, minmax(0, ${itemWidth}px))`,
+    gap: `${gap}px`,
   };
 
   return {
     columnCount,
-    cardWidth,
+    itemWidth,
     columnStyle,
   };
 };

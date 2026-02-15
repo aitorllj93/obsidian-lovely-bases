@@ -1,24 +1,32 @@
-import { useCardConfig } from "@/components/Card/hooks/use-card-config";
-import Groups from "@/components/Group";
-import { useGroupConfig } from "@/components/Group/hooks/use-group-config";
+import { useMemo } from "react";
+
+import type { FacetsConfig } from "@/components/Facets/config";
+import { useFacetsConfig } from "@/components/Facets/hooks/use-facets-config";
 import { Container } from "@/components/Obsidian/Container";
-import { flattenGroups } from "@/lib/obsidian/groups";
+import VirtualGrid from "@/components/VirtualGrid";
+import { getGroupedData } from "@/lib/obsidian/groups";
 import type { ReactBaseViewProps } from "@/types";
 
+export type ProjectFoldersConfig = FacetsConfig;
+
 const ProjectFoldersView = ({ config, data, isEmbedded }: ReactBaseViewProps) => {
-	const cardConfig = useCardConfig(config);
-  const groupConfig = useGroupConfig(config);
-  const flattenedGroups = flattenGroups(data.groupedData);
+	const facetsConfig = useFacetsConfig(config);
+  const { groupUngroupedItemsDisplay } = facetsConfig;
+
+  const items = useMemo(() => {
+    return getGroupedData(data.groupedData, { groupUngroupedItemsDisplay });
+  }, [data, groupUngroupedItemsDisplay]);
 
 	return (
-		<Container isEmbedded={isEmbedded} style={{ overflowY: "auto" }}>
-			<Groups
-				cardConfig={cardConfig}
-				config={config}
-        groupConfig={groupConfig}
-				data={flattenedGroups}
-			/>
-		</Container>
+    <Container isEmbedded={isEmbedded}>
+      <VirtualGrid
+        facetsConfig={facetsConfig}
+        className={isEmbedded ? "h-auto max-h-screen contain-none" : "h-full max-h-auto contain-strict"}
+        config={config}
+        items={items}
+        minItemWidth={facetsConfig.layoutItemSize}
+      />
+    </Container>
 	);
 };
 

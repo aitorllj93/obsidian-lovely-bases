@@ -1,7 +1,7 @@
-import { CARD_CONFIG_OPTIONS } from "@/components/Card/constants";
-import { GROUP_CONFIG_OPTIONS } from "@/components/Group/constants";
+import { FACETS_CONFIG_VIEW_OPTIONS } from "@/components/Facets/config";
 import { ReactBasesView } from "@/lib/view-class";
 import type { BaseViewDef } from "@/types";
+
 
 import ProjectFoldersView from "./ProjectFoldersView";
 
@@ -19,8 +19,7 @@ const PROJECT_FOLDERS_VIEW: BaseViewDef = {
 			containerEl
 		),
 	options: () => [
-    ...GROUP_CONFIG_OPTIONS,
-    ...CARD_CONFIG_OPTIONS,
+    ...FACETS_CONFIG_VIEW_OPTIONS,
   ],
 };
 

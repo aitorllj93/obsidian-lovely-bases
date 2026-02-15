@@ -2,11 +2,9 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import type { BasesEntry, BasesEntryGroup, BasesViewConfig } from "obsidian";
 import { type CSSProperties, memo, useMemo } from "react";
 
+import { estimateCardHeight } from "@/components/Card/helpers/estimate-card-height";
+import type { FacetsConfig } from "@/components/Facets/config";
 import { arrayEqual, chunk, cn, shallowEqual } from "@/lib/utils";
-
-import { estimateCardHeight } from "../Card/helpers/estimate-card-height";
-import type { CardConfig } from "../Card/types";
-import type { GroupConfig } from "../Group/types";
 
 import Column from "./Column";
 import { useElementWidth } from "./hooks/use-element-width";
@@ -14,11 +12,10 @@ import { useVirtualGridImagePrefetch } from "./hooks/use-images-prefetch";
 import { getGridConfig } from "./utils";
 
 type Props = {
-  cardConfig: CardConfig;
+  facetsConfig: FacetsConfig;
   className?: string;
   config: BasesViewConfig;
   gap?: number;
-  groupConfig?: GroupConfig;
   items: (BasesEntry | BasesEntryGroup)[];
   layoutIdPrefix?: string;
   minItemWidth?: number;
@@ -26,30 +23,28 @@ type Props = {
 };
 
 function PureVirtualGrid({
-  cardConfig,
+  facetsConfig,
   className,
   config,
-  gap = 16,
-  groupConfig,
   items,
   layoutIdPrefix,
   minItemWidth = 240,
   style,
 }: Props) {
-  const { imageProperty } = cardConfig;
+  const { imageProperty } = facetsConfig;
   const [scrollRef, width] = useElementWidth<HTMLDivElement>();
   const estimatedRowHeight = useMemo(
-    () => estimateCardHeight(cardConfig),
-    [cardConfig],
+    () => estimateCardHeight(facetsConfig),
+    [facetsConfig],
   );
 
   const {
     columnCount,
-    cardWidth,
+    itemWidth,
     columnStyle,
   } = useMemo(
-    () => getGridConfig(width, gap, minItemWidth),
-    [width, gap, minItemWidth],
+    () => getGridConfig(width, facetsConfig.layoutGap, minItemWidth),
+    [width, facetsConfig.layoutGap, minItemWidth],
   );
 
   const rows = useMemo(() => chunk(items, columnCount), [items, columnCount]);
@@ -59,7 +54,7 @@ function PureVirtualGrid({
     getScrollElement: () => scrollRef.current,
     estimateSize: () => estimatedRowHeight,
     overscan: 6,
-    gap,
+    gap: facetsConfig.layoutGap,
   });
 
   const vitems = virtualizer.getVirtualItems();
@@ -95,13 +90,13 @@ function PureVirtualGrid({
           >
             {scrollRef.current
               ? vitems.map((vRow) => (
-                  <div key={vRow.key} style={{ paddingBottom: gap }}>
+                  <div key={vRow.key} style={{ paddingBottom: facetsConfig.layoutGap }}>
                     <Column
-                      cardConfig={cardConfig}
-                      cardWidth={cardWidth}
+                      itemsPerColumn={columnCount}
+                      facetsConfig={facetsConfig}
+                      itemWidth={itemWidth}
                       config={config}
                       data={rows[vRow.index] ?? []}
-                      groupConfig={groupConfig}
                       index={vRow.index}
                       layoutIdPrefix={layoutIdPrefix}
                       ref={virtualizer.measureElement}
@@ -122,8 +117,7 @@ const VirtualGrid = memo(PureVirtualGrid, (prevProps, nextProps) => {
     arrayEqual(prevProps.items, nextProps.items) &&
     prevProps.minItemWidth === nextProps.minItemWidth &&
     prevProps.gap === nextProps.gap &&
-    shallowEqual(prevProps.cardConfig, nextProps.cardConfig) &&
-    shallowEqual(prevProps.groupConfig, nextProps.groupConfig) &&
+    shallowEqual(prevProps.facetsConfig, nextProps.facetsConfig) &&
     prevProps.config === nextProps.config
   );
 });

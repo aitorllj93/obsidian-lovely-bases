@@ -1,26 +1,21 @@
-
-import { useCardConfig } from "@/components/Card/hooks/use-card-config";
-import type { CardConfig } from "@/components/Card/types";
 import Carousel from "@/components/Carousel";
-import { useGroupConfig } from "@/components/Group/hooks/use-group-config";
-import type { GroupConfig } from "@/components/Group/types";
+import type { FacetsConfig } from "@/components/Facets/config";
+import { useFacetsConfig } from "@/components/Facets/hooks/use-facets-config";
 import { Container } from "@/components/Obsidian/Container";
 import type { ReactBaseViewProps } from "@/types";
 
-export type CarouselConfig = GroupConfig & CardConfig;
+export type CarouselConfig = FacetsConfig;
 
 const CarouselView = ({ data, config, isEmbedded }: ReactBaseViewProps) => {
-  const cardConfig = useCardConfig(config);
-  const groupConfig = useGroupConfig(config);
+  const facetsConfig = useFacetsConfig(config);
 
   return (
     <Container isEmbedded={isEmbedded} style={{ overflowY: "auto" }}>
       {data.groupedData.map((group) => (
         <Carousel
           groupKey={group.key?.toString() ?? ""}
-          cardConfig={cardConfig}
+          facetsConfig={facetsConfig}
           config={config}
-          groupConfig={groupConfig}
           key={group.key?.toString() ?? ""}
           items={group.entries}
         />

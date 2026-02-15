@@ -1,21 +1,31 @@
-import { CARD_CONFIG_OPTIONS } from "@/components/Card/constants";
-import { detectLocale, type NamespacedTranslationKey, translate } from "@/lib/i18n";
+import { FACETS_CONFIG_VIEW_OPTIONS } from "@/components/Facets/config";
+import {
+  detectLocale,
+  type NamespacedTranslationKey,
+  translate,
+} from "@/lib/i18n";
 import { ReactBasesView } from "@/lib/view-class";
 import type { BaseViewDef } from "@/types";
 
 import InfiniteGalleryView from "./InfiniteGalleryView";
 
 const locale = detectLocale();
-const t = (key: NamespacedTranslationKey<'infiniteGallery'>) => translate(locale, 'infiniteGallery', key);
+const t = (key: NamespacedTranslationKey<"infiniteGallery">) =>
+  translate(locale, "infiniteGallery", key);
 
 const INFINITE_GALLERY_ID = "infinite-gallery";
 
 const INFINITE_GALLERY_VIEW: BaseViewDef = {
-	id: INFINITE_GALLERY_ID,
-	name: "Infinite Gallery",
-	icon: "lucide-infinity",
-	factory: (controller, containerEl) =>
-		new ReactBasesView(INFINITE_GALLERY_ID, InfiniteGalleryView, controller, containerEl),
+  id: INFINITE_GALLERY_ID,
+  name: "Infinite Gallery",
+  icon: "lucide-infinity",
+  factory: (controller, containerEl) =>
+    new ReactBasesView(
+      INFINITE_GALLERY_ID,
+      InfiniteGalleryView,
+      controller,
+      containerEl,
+    ),
   options: () => [
     {
       type: "group",
@@ -29,7 +39,7 @@ const INFINITE_GALLERY_VIEW: BaseViewDef = {
         },
       ],
     },
-    ...CARD_CONFIG_OPTIONS,
+    ...FACETS_CONFIG_VIEW_OPTIONS,
   ],
 };
 

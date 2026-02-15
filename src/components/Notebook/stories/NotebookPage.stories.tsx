@@ -11,24 +11,44 @@ import {
 } from "@/__fixtures__/entries";
 import { aBasesViewConfig } from "@/__mocks__";
 import {
-  CIRCLE_SHAPE_CONFIG,
-  HORIZONTAL_LAYOUT_CONFIG,
-  OVERLAY_ON_HOVER_LAYOUT_CONFIG,
-  POLAROID_LAYOUT_CONFIG,
-  ROUNDED_SHAPE_CONFIG,
-  VERTICAL_LAYOUT_CONFIG,
-} from "@/components/Card/__fixtures__/configs";
-import type { CardConfig } from "@/components/Card/types";
+  FACETS_CONFIG_DEFAULTS,
+  type FacetsConfigInput,
+} from "@/components/Facets/config";
 import { Providers } from "@/stories/decorators";
 import { WithVariants } from "@/stories/decorators/WithVariants";
 
+import {
+  With3x2Image,
+  With4x5Image,
+  WithBadge,
+  WithBadgeColor,
+  WithBadgeIcon,
+  WithCircleShape,
+  WithContentReversed,
+  WithHorizontalLayout,
+  WithHover,
+  WithHoverOverlay,
+  WithImage,
+  WithMarkdownContent,
+  WithoutGap,
+  WithoutPropertyTitles,
+  WithoutTitle,
+  WithOverlayLayout,
+  WithPolaroidLayout,
+  WithRoundedShape,
+  WithSize2XS,
+  WithSize3XS,
+  WithSize3XSAndSpacing,
+  WithSquareImage,
+  WithVerticalLayout,
+} from "@/__fixtures__/facets/configs";
 import { getNotebookColors } from "../helpers/get-notebook-colors";
 import NotebookPage from "../NotebookPage";
 import type { NotebookColors, PageStyle } from "../types";
 
 type NotebookStoryProps = {
   entry: BasesEntry;
-  cardConfig: CardConfig;
+  facetsConfig: FacetsConfigInput;
   padContent?: boolean;
   pageStyle: PageStyle;
   colors: NotebookColors;
@@ -36,29 +56,33 @@ type NotebookStoryProps = {
 
 const VIEW_CONFIG = aBasesViewConfig({});
 
-const NotebookStory = (props: NotebookStoryProps) => {
+const NotebookStory = ({ facetsConfig, ...props }: NotebookStoryProps) => {
   const width = 128;
   const height = width / (7 / 10);
 
   return (
     <div className="relative" style={{ width, height }}>
-    <NotebookPage
-      entry={MOVIES_ENTRIES[0]}
-      config={VIEW_CONFIG}
-      padContent={true}
-      pageStyle="plain"
-      notebookWidth={width}
-      notebookHeight={height}
-      isPageHovered={true}
-      colors={getNotebookColors()}
-      delay={0}
-      isVisible={true}
-      index={0}
-      {...props}
-    />
-  </div>
-);
-}
+      <NotebookPage
+        entry={MOVIES_ENTRIES[0]}
+        config={VIEW_CONFIG}
+        padContent={true}
+        pageStyle="plain"
+        notebookWidth={width}
+        notebookHeight={height}
+        isPageHovered={true}
+        colors={getNotebookColors()}
+        delay={0}
+        isVisible={true}
+        index={0}
+        facetsConfig={{
+          ...FACETS_CONFIG_DEFAULTS,
+          ...facetsConfig,
+        }}
+        {...props}
+      />
+    </div>
+  );
+};
 
 const NotebookVariants = WithVariants(NotebookStory, [
   {
@@ -79,7 +103,7 @@ const NotebookVariants = WithVariants(NotebookStory, [
 ]);
 
 const meta = {
-	title: "Design System/Group/Notebook/Pages/Cards",
+  title: "Design System/Group/Notebook/Pages/Cards",
   component: NotebookVariants,
   parameters: {
     layout: "centered",
@@ -103,17 +127,40 @@ export const Vertical: Story = {
   name: "Vertical layout",
   args: {
     entry: BOOK_ENTRIES[0],
-    cardConfig: VERTICAL_LAYOUT_CONFIG,
+    facetsConfig: {
+      ...WithSize3XS,
+      ...WithImage,
+      ...With4x5Image,
+      ...WithVerticalLayout,
+      ...WithoutPropertyTitles,
+      ...WithBadge,
+      ...WithBadgeColor,
+      ...WithBadgeIcon,
+      properties: ["note.author", "note.published", "note.excerpt"],
+    },
     colors: getNotebookColors(),
   },
 };
-
 
 export const Horizontal: Story = {
   name: "Horizontal layout",
   args: {
     entry: ARTICLE_ENTRIES[0],
-    cardConfig: HORIZONTAL_LAYOUT_CONFIG,
+    facetsConfig: {
+      ...WithSize2XS,
+      ...WithImage,
+      ...With4x5Image,
+      ...WithHorizontalLayout,
+      ...WithContentReversed,
+      ...WithoutPropertyTitles,
+      ...WithMarkdownContent,
+      ...WithBadge,
+      ...WithBadgeColor,
+      ...WithBadgeIcon,
+      ...WithHover,
+      ...WithHoverOverlay,
+      properties: ["note.author", "note.published"],
+    },
     colors: getNotebookColors(),
   },
 };
@@ -122,7 +169,15 @@ export const Overlay: Story = {
   name: "Overlay layout",
   args: {
     entry: MOVIES_ENTRIES[0],
-    cardConfig: OVERLAY_ON_HOVER_LAYOUT_CONFIG,
+    facetsConfig: {
+      ...WithSize3XS,
+      ...WithImage,
+      ...With3x2Image,
+      ...WithOverlayLayout,
+      ...WithBadge,
+      ...WithBadgeColor,
+      ...WithBadgeIcon,
+    },
     colors: getNotebookColors(),
   },
 };
@@ -131,7 +186,12 @@ export const Polaroid: Story = {
   name: "Polaroid layout",
   args: {
     entry: PHOTOS_ENTRIES[0],
-    cardConfig: POLAROID_LAYOUT_CONFIG,
+    facetsConfig: {
+      ...WithSize3XS,
+      ...WithImage,
+      ...WithSquareImage,
+      ...WithPolaroidLayout,
+    },
     colors: getNotebookColors(),
   },
 };
@@ -140,7 +200,15 @@ export const Circle: Story = {
   name: "Circle shape",
   args: {
     entry: PERSON_ENTRIES[0],
-    cardConfig: CIRCLE_SHAPE_CONFIG,
+    facetsConfig: {
+      ...WithSize3XSAndSpacing,
+      ...WithoutGap,
+      ...WithVerticalLayout,
+      ...WithCircleShape,
+      ...WithImage,
+      ...WithSquareImage,
+      ...WithoutTitle,
+    },
     colors: getNotebookColors(),
   },
 };
@@ -149,7 +217,15 @@ export const Rounded: Story = {
   name: "Rounded shape",
   args: {
     entry: APPLICATION_ENTRIES[0],
-    cardConfig: ROUNDED_SHAPE_CONFIG,
+    facetsConfig: {
+      ...WithSize3XSAndSpacing,
+      ...WithoutGap,
+      ...WithVerticalLayout,
+      ...WithRoundedShape,
+      ...WithImage,
+      ...WithSquareImage,
+      ...WithoutTitle,
+    },
     colors: getNotebookColors(),
   },
 };

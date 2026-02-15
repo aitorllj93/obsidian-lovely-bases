@@ -1,27 +1,28 @@
 import type { BasesEntry } from "obsidian";
 
+import type { FacetsConfig } from "@/components/Facets/config";
 import { useEntryPropertyValue } from "@/hooks/use-property";
 import { darken, lighten, luminance } from "@/lib/colors";
 
-import type { CardColors, CardConfig, CardImage } from "../types";
+import type { CardColors, CardImage } from "../types";
 
 export function useCardColors(
   entry: BasesEntry,
-  cardConfig: CardConfig,
+  facetsConfig: FacetsConfig,
   image: CardImage
 ): CardColors {
-  const { backgroundColorApplyTo, backgroundColorProperty, layout } = cardConfig;
+  const { colorApplyTo, colorProperty, cardLayout } = facetsConfig;
 
-  const backgroundColorValue = useEntryPropertyValue(entry, backgroundColorProperty);
+  const backgroundColorValue = useEntryPropertyValue(entry, colorProperty);
 
-  const imageBackground = backgroundColorApplyTo !== 'content' ?
+  const imageBackground = colorApplyTo !== 'content' ?
     (image?.isColor ? image.url : backgroundColorValue) : null;
   const imageForeground = imageBackground ? (
     luminance(imageBackground) > 0.5 ?
       darken(imageBackground, 0.2) :
       lighten(imageBackground, 0.2)
   ) : null;
-  if (layout === 'overlay') {
+  if (cardLayout === 'overlay') {
     return {
       contentBackground: 'transparent',
       contentForeground: '#fff',
@@ -32,7 +33,7 @@ export function useCardColors(
     }
   }
 
-  let contentBackground = backgroundColorApplyTo !== 'image' && backgroundColorValue ?
+  let contentBackground = colorApplyTo !== 'image' && backgroundColorValue ?
     backgroundColorValue : null;
 
   if (contentBackground) {

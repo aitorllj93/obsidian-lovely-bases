@@ -1,28 +1,28 @@
 import type { BasesEntry, BasesViewConfig } from "obsidian";
 import { useEffect, useState } from "react";
 
-import type { CardConfig } from "@/components/Card/types";
+import type { FacetsConfig } from "@/components/Facets/config";
+import { useObsidian } from "@/components/Obsidian/Context";
 
-import { useObsidian } from "../Obsidian/Context";
 import { DragContainer } from "./DragContainer";
 import { VirtualGrid } from "./VirtualGrid";
 
 type Props = {
 	items: BasesEntry[];
-	cardConfig: CardConfig;
+	facetsConfig: FacetsConfig;
 	config: BasesViewConfig;
 	masonry?: boolean;
 };
 
-const InfiniteDragScrollV2 = ({ items, cardConfig, config, masonry = false }: Props) => {
+const InfiniteDragScrollV2 = ({ items, facetsConfig, config, masonry = false }: Props) => {
 	const { containerEl } = useObsidian();
 
 	// Cell dimensions
-	const cellWidth = cardConfig.cardSize;
+	const cellWidth = facetsConfig.layoutItemSize;
 	// For polaroid layout, add extra height for borders (10px top + 28px bottom) and content area
-	const polaroidExtraHeight = cardConfig.layout === "polaroid" ? 38 + 40 : 0;
-	const cellHeight = cardConfig.cardSize * cardConfig.imageAspectRatio + polaroidExtraHeight;
-	const gap = cardConfig.cardSize / 2;
+	const polaroidExtraHeight = facetsConfig.cardLayout === "polaroid" ? 38 + 40 : 0;
+	const cellHeight = facetsConfig.layoutItemSize * facetsConfig.imageAspectRatio + polaroidExtraHeight;
+	const gap = facetsConfig.layoutItemSize / 2;
 	const gapX = gap;
 	const gapY = gap;
 
@@ -85,7 +85,7 @@ const InfiniteDragScrollV2 = ({ items, cardConfig, config, masonry = false }: Pr
 			{(scrollPos) => (
 				<VirtualGrid
 					items={items}
-					cardConfig={cardConfig}
+					facetsConfig={facetsConfig}
 					config={config}
 					columns={columns}
 					cellWidth={cellWidth}

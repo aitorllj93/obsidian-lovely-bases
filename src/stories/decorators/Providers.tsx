@@ -21,7 +21,7 @@ const Providers: Decorator = (Story, ctx) => {
 
   return (
     <div ref={containerRef} className={cn(
-      layout !== "centered" && 'h-dvh w-full',
+      layout !== "centered" && 'h-auto max-h-dvh w-full',
       themeClasses,
       'app-container bg-background',
     )}>

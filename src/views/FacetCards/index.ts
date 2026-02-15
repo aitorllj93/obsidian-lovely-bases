@@ -1,7 +1,5 @@
-
-import { CARD_CONFIG_OPTIONS } from "@/components/Card/constants";
+import { FACETS_CONFIG_VIEW_OPTIONS } from "@/components/Facets/config";
 import { ReactBasesView } from "@/lib/view-class";
-
 import type { BaseViewDef } from "@/types";
 
 import FacetCardsView from "./FacetCardsView";
@@ -15,7 +13,7 @@ const FACET_CARDS_VIEW: BaseViewDef = {
 	factory: (controller, containerEl) =>
 		new ReactBasesView(FACET_CARDS_ID, FacetCardsView, controller, containerEl),
 	options: () => [
-    ...CARD_CONFIG_OPTIONS,
+    ...FACETS_CONFIG_VIEW_OPTIONS,
   ]
 };
 

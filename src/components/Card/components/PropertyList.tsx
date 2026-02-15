@@ -1,29 +1,26 @@
 import type { BasesEntry, BasesViewConfig } from "obsidian";
 import { memo } from "react";
 
+import type { FacetsConfig } from "@/components/Facets/config";
 import { cn } from "@/lib/utils";
-
-import type { CardConfig } from "../types";
 
 import Property from "./Property";
 
 type Props = {
-  adaptToSize?: boolean;
   entry: BasesEntry;
-  cardConfig: CardConfig;
+  facetsConfig: FacetsConfig;
   config: BasesViewConfig;
   isOverlayMode?: boolean;
 };
 
 const PropertyList = memo(
   ({
-    adaptToSize = false,
     entry,
-    cardConfig,
+    facetsConfig,
     config,
     isOverlayMode,
   }: Props) => {
-    const { contentFont, properties, showPropertyTitles } = cardConfig;
+    const { cardAdaptToSize, contentFont, properties, contentShowPropertyTitles } = facetsConfig;
 
     if (properties.length === 0) return null;
 
@@ -37,18 +34,18 @@ const PropertyList = memo(
         <div
           className={cn(
             "flex flex-col overflow-y-auto",
-            !adaptToSize && "gap-2",
-            adaptToSize &&
+            !cardAdaptToSize && "gap-2",
+            cardAdaptToSize &&
               "@[0px]/lovely-card:gap-1 @7xs/lovely-card:gap-1.5 @5xs/lovely-card:gap-2",
           )}
         >
           {properties.map((property) => (
             <Property
-              adaptToSize={adaptToSize}
+              adaptToSize={cardAdaptToSize}
               key={property}
               entry={entry}
               propertyId={property}
-              showPropertyTitles={showPropertyTitles}
+              showPropertyTitles={contentShowPropertyTitles}
               config={config}
               isOverlayMode={isOverlayMode}
             />
@@ -59,9 +56,8 @@ const PropertyList = memo(
   },
   (prevProps, nextProps) => {
     return (
-      prevProps.adaptToSize === nextProps.adaptToSize &&
       prevProps.entry === nextProps.entry &&
-      prevProps.cardConfig === nextProps.cardConfig &&
+      prevProps.facetsConfig === nextProps.facetsConfig &&
       prevProps.config === nextProps.config &&
       prevProps.isOverlayMode === nextProps.isOverlayMode
     );

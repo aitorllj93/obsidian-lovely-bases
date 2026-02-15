@@ -8,7 +8,6 @@
 //   HeatmapCalendar: src/views/HeatmapCalendar/HeatmapCalendarView.stories.tsx
 //   InfiniteGallery: src/views/InfiniteGallery/InfiniteGalleryView.stories.tsx
 //   LinearCalendar: src/views/LinearCalendar/LinearCalendarView.stories.tsx
-//   ProjectFolders: src/views/ProjectFolders/ProjectFoldersView.stories.tsx
 //   RadarChart: src/views/RadarChart/RadarChartView.stories.tsx
 
 export const STORY_ORDERS = {
@@ -19,22 +18,22 @@ export const STORY_ORDERS = {
     "FullExample",
     "Default",
     "HorizontalLayout",
-    "VerticalLayout",
+    "OverlayLayout",
+    "PolaroidLayout",
     "CircleShape",
     "RoundedShape",
-    "WithTitleAndSubtitle",
-    "ImageOnly",
-    "HoverOverlay"
+    "TitleAndSubtitle"
   ],
   "FacetCards": [
     "FullExample",
     "Default",
     "HorizontalLayout",
     "VerticalLayout",
-    "CircleShape",
-    "RoundedShape",
-    "ImageOnly",
-    "HoverOverlay"
+    "Overlay",
+    "OverlayOnHover",
+    "Polaroid",
+    "Circle",
+    "Rounded"
   ],
   "HeatmapCalendar": [
     "FullExample",
@@ -44,6 +43,7 @@ export const STORY_ORDERS = {
     "VerticalLayout",
     "MonthGridView",
     "TypeTracking",
+    "Shape",
     "CustomColorSwatch"
   ],
   "InfiniteGallery": [
@@ -57,11 +57,6 @@ export const STORY_ORDERS = {
     "Default",
     "AltVisualizations",
     "ColorsAndIcons"
-  ],
-  "ProjectFolders": [
-    "FullExample",
-    "Default",
-    "ColorizedFiles"
   ],
   "RadarChart": [
     "FullExample",

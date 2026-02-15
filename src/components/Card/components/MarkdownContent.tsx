@@ -1,53 +1,50 @@
 import type { BasesEntry } from "obsidian";
 
+import type { FacetsConfig } from "@/components/Facets/config";
 import Markdown from "@/components/Obsidian/Markdown";
 import MarkdownSkeleton from "@/components/Obsidian/Markdown/Skeleton";
 import { cn } from "@/lib/utils";
 
-import type { CardConfig } from "../types";
-
 type Props = {
-  adaptToSize?: boolean;
-  cardConfig: CardConfig;
+  facetsConfig: FacetsConfig;
   entry: BasesEntry;
   showSkeleton?: boolean;
 };
 
 export default function MarkdownContent({
-  adaptToSize = false,
-  cardConfig,
+  facetsConfig,
   entry,
   showSkeleton = false,
 }: Props) {
-  const { contentFont, contentMaxHeight, contentMaxLength, showContent } = cardConfig;
+  const { cardAdaptToSize, contentFont, contentMarkdownMaxHeight, contentMarkdownMaxLength, contentShowMarkdown } = facetsConfig;
 
-  if (!showContent) return null;
+  if (!contentShowMarkdown) return null;
 
   return (
     <div className="overflow-hidden">
       <Markdown
         file={entry.file}
-        maxLength={contentMaxLength}
+        maxLength={contentMarkdownMaxLength}
         className={cn(
           "text-foreground overflow-auto [&>*:first-child]:mt-0 [&>*:last-child]:mb-0",
-          adaptToSize ? "card-markdown-adaptable" : "card-markdown",
+          cardAdaptToSize ? "card-markdown-adaptable" : "card-markdown",
         )}
         skeleton={() => (
           <MarkdownSkeleton
-            lines={contentMaxHeight / 12}
+            lines={contentMarkdownMaxHeight / 12}
             className={cn(
-              adaptToSize ? "card-skeleton-adaptable" : "card-skeleton",
+              cardAdaptToSize ? "card-skeleton-adaptable" : "card-skeleton",
               !showSkeleton && "invisible"
             )}
             style={{
-              maxHeight: `${contentMaxHeight}px`,
+              maxHeight: `${contentMarkdownMaxHeight}px`,
             }}
           />
         )}
         showEllipsis
         style={{
           fontFamily: contentFont,
-          maxHeight: `${contentMaxHeight}px`
+          maxHeight: `${contentMarkdownMaxHeight}px`
         }}
       />
     </div>

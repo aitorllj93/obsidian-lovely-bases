@@ -1,6 +1,6 @@
 
-import { useCardConfig } from "@/components/Card/hooks/use-card-config";
-import type { CardConfig } from "@/components/Card/types";
+import type { FacetsConfig } from "@/components/Facets/config";
+import { useFacetsConfig } from "@/components/Facets/hooks/use-facets-config";
 import InfiniteDragScrollV2 from "@/components/InfiniteDragScrollV2";
 import { Container } from "@/components/Obsidian/Container";
 import { useConfig } from "@/hooks/use-config";
@@ -12,10 +12,10 @@ type LayoutConfig = {
   masonry?: boolean;
 }
 
-export type InfiniteGalleryConfig = LayoutConfig & CardConfig;
+export type InfiniteGalleryConfig = LayoutConfig & FacetsConfig;
 
 const InfiniteGalleryView = ({ config, data, isEmbedded }: ReactBaseViewProps) => {
-  const cardConfig = useCardConfig(config);
+  const facetsConfig = useFacetsConfig(config);
   const layoutConfig = useConfig<LayoutConfig>(config, {
     masonry: false,
   });
@@ -24,7 +24,7 @@ const InfiniteGalleryView = ({ config, data, isEmbedded }: ReactBaseViewProps) =
     <Container isEmbedded={isEmbedded} embeddedStyle={{ maxHeight: "100vh", overflowY: "auto" }}>
       <InfiniteDragScrollV2
         items={data.data}
-        cardConfig={cardConfig}
+        facetsConfig={facetsConfig}
         config={config}
         masonry={layoutConfig.masonry}
       />

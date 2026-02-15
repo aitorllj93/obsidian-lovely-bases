@@ -1,18 +1,18 @@
 import type { BasesEntry, BasesViewConfig } from "obsidian";
 import { type CSSProperties, memo } from "react";
 
+import type { FacetsConfig } from "@/components/Facets/config";
 import { cn } from "@/lib/utils";
 
-import type { CardColors, CardConfig } from "../types";
+import type { CardColors } from "../types";
 
 import MarkdownContent from "./MarkdownContent";
 import PropertyList from "./PropertyList";
 import Title from "./Title";
 
 type Props = {
-  adaptToSize?: boolean;
   entry: BasesEntry;
-  cardConfig: CardConfig;
+  facetsConfig: FacetsConfig;
   colors: CardColors;
   config: BasesViewConfig;
   isOverlayMode?: boolean;
@@ -20,17 +20,16 @@ type Props = {
 
 const Content = memo(
   ({
-    adaptToSize = false,
     entry,
-    cardConfig,
+    facetsConfig,
     colors,
     config,
     isOverlayMode,
   }: Props) => {
-    const { showTitle, showContent, contentFont, layout, properties } =
-      cardConfig;
+    const { titlePosition, cardAdaptToSize, contentShowMarkdown, contentFont, cardLayout, properties } =
+      facetsConfig;
 
-    if (!showTitle && !showContent && properties.length === 0) {
+    if (titlePosition === "none" && !contentShowMarkdown && properties.length === 0) {
       return null;
     }
 
@@ -39,15 +38,15 @@ const Content = memo(
         className={cn(
           "flex flex-col min-h-0 min-w-0 overflow-hidden",
           !isOverlayMode && "flex-1 h-full",
-          !adaptToSize && "p-(--size-4-2) gap-(--size-4-2)",
-          adaptToSize &&
+          !cardAdaptToSize && cardLayout !== "polaroid" && "p-(--size-4-2)",
+          cardAdaptToSize &&
             "@[0px]/lovely-card:px-1 @4xs/lovely-card:px-(--size-4-2)",
-          adaptToSize &&
+          cardAdaptToSize &&
             "@[0px]/lovely-card:gap-1 @7xs/lovely-card:gap-1.5 @5xs/lovely-card:gap-2",
-          adaptToSize &&
+          cardAdaptToSize &&
             "@[0px]/lovely-card:pt-1 @7xs/lovely-card:pt-1.5 @5xs/lovely-card:pt-2",
-          adaptToSize &&
-            layout !== "polaroid" &&
+          cardAdaptToSize &&
+            cardLayout !== "polaroid" &&
             "@[0px]/lovely-card:pb-1 @7xs/lovely-card:pb-1.5 @5xs/lovely-card:pb-2",
         )}
         style={
@@ -66,23 +65,20 @@ const Content = memo(
         }
       >
         <Title
-          adaptToSize={adaptToSize}
-          cardConfig={cardConfig}
+          facetsConfig={facetsConfig}
           entry={entry}
           isOverlayMode={isOverlayMode}
         />
 
         <PropertyList
-          adaptToSize={adaptToSize}
-          cardConfig={cardConfig}
+          facetsConfig={facetsConfig}
           config={config}
           entry={entry}
           isOverlayMode={isOverlayMode}
         />
 
         <MarkdownContent
-          adaptToSize={adaptToSize}
-          cardConfig={cardConfig}
+          facetsConfig={facetsConfig}
           entry={entry}
         />
       </div>

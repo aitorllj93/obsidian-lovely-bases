@@ -1,9 +1,9 @@
 
 import { motion } from "motion/react";
 import type { BasesEntry, BasesViewConfig } from "obsidian";
-import { type MouseEventHandler, useMemo, useRef, useState } from "react";
+import { forwardRef, type MouseEventHandler, useMemo, useRef, useState } from "react";
 
-import type { CardConfig } from "@/components/Card/types";
+import type { FacetsConfig } from "@/components/Facets/config";
 
 import { DEFAULTS } from "./constants";
 import { getNotebookColors } from "./helpers/get-notebook-colors";
@@ -22,7 +22,7 @@ type Props = {
 	titleFont?: string;
 	files: BasesEntry[];
 	onClick?: MouseEventHandler<HTMLDivElement>;
-	cardConfig: CardConfig;
+  facetsConfig: FacetsConfig;
 	config: BasesViewConfig;
 	padContent?: boolean;
 	pageStyle?: PageStyle;
@@ -34,14 +34,14 @@ type Props = {
   previewFilesAmount?: number;
 };
 
-const Notebook: React.FC<Props> = ({
+const Notebook = forwardRef<HTMLDivElement, Props>(({
 	width = DEFAULTS.width,
   color,
 	colors,
 	icon,
 	files,
 	onClick,
-	cardConfig,
+	facetsConfig,
 	config,
 	padContent = DEFAULTS.padContent,
 	pageStyle = DEFAULTS.pageStyle,
@@ -52,7 +52,7 @@ const Notebook: React.FC<Props> = ({
 	iconLayoutId,
 	titleLayoutId,
   previewFilesAmount = DEFAULTS.previewFilesAmount,
-}) => {
+}, ref) => {
 	const [isHovered, setIsHovered] = useState(false);
 	const [hoveredPageIndex, setHoveredPageIndex] = useState<number | null>(null);
 	const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -77,6 +77,7 @@ const Notebook: React.FC<Props> = ({
 
 	return (
 		<div
+      ref={ref}
 			className="cursor-pointer relative flex items-center justify-center"
 			style={{
 				width,
@@ -138,7 +139,7 @@ const Notebook: React.FC<Props> = ({
 							}}
 							entry={entry}
 							config={config}
-							cardConfig={cardConfig}
+							facetsConfig={facetsConfig}
 							delay={index * 50}
 							isVisible={isHovered}
 							index={index}
@@ -186,12 +187,12 @@ const Notebook: React.FC<Props> = ({
           title={title}
           titleLayoutId={titleLayoutId}
           titleFont={titleFont}
-          files={previewFiles}
+          files={files}
         />
 			</motion.div>
 		</div>
 	);
-};
+});
 
 Notebook.displayName = "Notebook";
 

@@ -5,18 +5,12 @@ import type { MouseEventHandler } from "react";
 
 import { MOVIES_ENTRIES } from "@/__fixtures__/entries";
 import { aBasesViewConfig } from "@/__mocks__/aBasesViewConfig";
-import { DEFAULTS as CARD_DEFAULTS } from "@/components/Card/constants";
-import type { CardConfig } from "@/components/Card/types";
+import  { FACETS_CONFIG_DEFAULTS,  type FacetsConfig } from "@/components/Facets/config";
 import { getTitle } from "@/lib/properties";
 import Providers from "@/stories/decorators/Providers";
 
 import Notebook from "../";
 import type { File, PageStyle } from "../types";
-
-const DEFAULT_CARD_CONFIG: CardConfig = {
-	...CARD_DEFAULTS,
-	imageProperty: "formula.image",
-};
 
 const DEFAULT_CONFIG = aBasesViewConfig({});
 
@@ -29,7 +23,7 @@ type StoryProps = {
   showCounter?: boolean;
 	files: BasesEntry[];
 	onClick?: MouseEventHandler<HTMLDivElement>;
-	cardConfig?: CardConfig;
+	facetsConfig?: FacetsConfig;
 	config?: BasesViewConfig;
   pageStyle?: PageStyle;
   padContent?: boolean;
@@ -44,7 +38,7 @@ export const NotebookStory = ({
 	files,
 	color,
 	onClick,
-	cardConfig = DEFAULT_CARD_CONFIG,
+	facetsConfig = FACETS_CONFIG_DEFAULTS,
 	config = DEFAULT_CONFIG,
 	pageStyle = "plain",
   padContent = false,
@@ -59,7 +53,7 @@ export const NotebookStory = ({
 			files={files}
 			color={color}
 			onClick={onClick}
-			cardConfig={cardConfig}
+			facetsConfig={facetsConfig}
 			config={config}
       pageStyle={pageStyle}
       padContent={padContent}
@@ -80,7 +74,7 @@ const entriesToFiles = (entries: BasesEntry[]): File[] =>
 export const createMockFiles = (count: number): File[] =>
 	entriesToFiles(MOVIES_ENTRIES.slice(0, count));
 
-export const DEFAULT_NOTEBOOK_CARD_CONFIG = DEFAULT_CARD_CONFIG;
+export const DEFAULT_NOTEBOOK_CARD_CONFIG = FACETS_CONFIG_DEFAULTS;
 
 export const meta = {
 	title: "Design System/Notebook",

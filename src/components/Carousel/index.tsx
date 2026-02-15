@@ -1,8 +1,7 @@
 import type { BasesEntry, BasesViewConfig } from "obsidian";
 import { forwardRef } from "react";
 
-import type { CardConfig } from "../Card/types";
-import type { GroupConfig } from "../Group/types";
+import type { FacetsConfig } from "@/components/Facets/config";
 
 import { Next, Previous } from "./components/Arrows";
 import Header from "./components/Header";
@@ -11,15 +10,14 @@ import Item from "./components/Item";
 import { useCarouselScroll } from "./hooks/use-carousel-scroll";
 
 type Props = {
-  cardConfig: CardConfig;
   config: BasesViewConfig;
-  groupConfig: GroupConfig;
+  facetsConfig: FacetsConfig;
   items: BasesEntry[];
   groupKey: string;
 };
 
 const Carousel = forwardRef<HTMLDivElement, Props>(
-  ({ cardConfig, config, groupConfig, items, groupKey }, ref) => {
+  ({ config, facetsConfig, items, groupKey }, ref) => {
     const {
       carouselRef,
       isAtStart,
@@ -33,18 +31,18 @@ const Carousel = forwardRef<HTMLDivElement, Props>(
           <Header
             config={config}
             groupKey={groupKey}
-            groupConfig={groupConfig}
+            facetsConfig={facetsConfig}
             items={items}
           />
 
           <div className="relative">
             <div
-              className="flex w-full space-x-4 overflow-x-auto pb-4 scrollbar-hide"
+              className="flex w-full py-4 px-4 space-x-4 overflow-x-auto pb-4 scrollbar-hide"
               ref={carouselRef}
             >
               {items.map((item, index) => (
                 <Item
-                  cardConfig={cardConfig}
+                  facetsConfig={facetsConfig}
                   config={config}
                   key={item.file.path}
                   entry={item}

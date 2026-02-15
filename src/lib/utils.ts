@@ -86,3 +86,11 @@ export function afterRaf(callback: () => void, frames = 2): () => void {
     if (rafId != null) cancelAnimationFrame(rafId);
   };
 }
+
+export function isOdd(n: number) {
+  return n % 2 !== 0;
+}
+
+export function isEven(n: number) {
+  return n % 2 === 0;
+}

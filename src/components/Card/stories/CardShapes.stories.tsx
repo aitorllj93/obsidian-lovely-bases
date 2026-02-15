@@ -1,9 +1,18 @@
 import type { Meta } from "@storybook/react-vite";
 
-import { ARTICLE_ENTRIES } from "@/__fixtures__/entries";
+import { APPLICATION_ENTRIES, PERSON_ENTRIES } from "@/__fixtures__/entries";
+import {
+  WithCircleShape,
+  WithImage,
+  WithoutGap,
+  WithoutTitle,
+  WithRoundedShape,
+  WithSize3XSAndSpacing,
+  WithSquareImage,
+  WithVerticalLayout,
+} from "@/__fixtures__/facets/configs";
 import { Providers } from "@/stories/decorators";
 
-import { DEFAULTS } from "../constants";
 import type Card from "../index";
 
 import CardMeta, { type Story } from "./meta";
@@ -30,54 +39,26 @@ export default meta;
 
 export const Circle: Story = {
   args: {
-    entry: ARTICLE_ENTRIES[0],
-    ...DEFAULTS,
-    layout: "vertical",
-    shape: "circle",
-    hoverProperty: undefined,
-    hoverStyle: "none",
-    properties: [],
-    imageProperty: "formula.image",
-    imageAspectRatio: 1,
-    cardSize: 340,
-    imageFit: "cover",
-    reverseContent: false,
-    showPropertyTitles: false,
-    showTitle: false,
-    showContent: false,
-    contentMaxLength: 200,
-    overlayContentVisibility: "always",
-    badgeProperty: undefined,
-    badgeIcon: undefined,
-    badgeColor: undefined,
-    tilt: "none",
-    linkProperty: undefined,
+    ...WithSize3XSAndSpacing,
+    ...WithoutGap,
+    ...WithVerticalLayout,
+    ...WithCircleShape,
+    ...WithImage,
+    ...WithSquareImage,
+    ...WithoutTitle,
+    entry: PERSON_ENTRIES[0],
   },
 };
 
 export const Rounded: Story = {
   args: {
-    entry: ARTICLE_ENTRIES[0],
-    ...DEFAULTS,
-    layout: "overlay",
-    shape: "rounded",
-    hoverProperty: undefined,
-    hoverStyle: "none",
-    properties: [],
-    imageProperty: "formula.image",
-    imageAspectRatio: 1,
-    cardSize: 340,
-    imageFit: "cover",
-    reverseContent: false,
-    showPropertyTitles: false,
-    showTitle: true,
-    showContent: false,
-    contentMaxLength: 200,
-    overlayContentVisibility: "hover",
-    badgeProperty: undefined,
-    badgeIcon: undefined,
-    badgeColor: undefined,
-    tilt: "none",
-    linkProperty: undefined,
+    ...WithSize3XSAndSpacing,
+    ...WithoutGap,
+    ...WithVerticalLayout,
+    ...WithRoundedShape,
+    ...WithImage,
+    ...WithSquareImage,
+    ...WithoutTitle,
+    entry: APPLICATION_ENTRIES[0],
   },
 };

@@ -1,23 +1,27 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 
+import { GROUPED_ENTRIES } from "@/__fixtures__/entries";
 import {
-  APPLICATION_ENTRIES,
-  ARTICLE_ENTRIES,
-  BOOK_ENTRIES,
-  MOVIES_ENTRIES,
-  PERSON_ENTRIES,
-} from "@/__fixtures__/entries";
-import {
-  MONOSPACE_FONTS,
-  SANS_SERIF_FONTS,
-  SERIF_FONTS,
-} from "@/__fixtures__/typographies";
-import { aBasesEntryGroup } from "@/__mocks__";
-import { POLAROID_LAYOUT_CONFIG as CARD_POLAROID_LAYOUT_CONFIG } from "@/components/Card/__fixtures__/configs";
-import CardMeta from "@/components/Card/stories/meta";
-import { DEFAULTS as GROUP_DEFAULTS } from "@/components/Group/constants";
-import GroupMeta from "@/components/Group/stories/meta";
+  WithBorderDashed,
+  WithBorderSolid,
+  WithColor,
+  WithGap5XS,
+  WithIcon,
+  WithImage,
+  WithInnerCounter,
+  WithInnerTitle,
+  WithNotebookShape,
+  WithOuterCounter,
+  WithOuterTitle,
+  WithoutCounter,
+  WithPolaroidLayout,
+  WithSize5XSAndSpacing,
+  WithSquareImage,
+  WithUngroupedItemsInline,
+} from "@/__fixtures__/facets/configs";
+import { FACETS_CONFIG_DEFAULTS } from "@/components/Facets/config";
+import { FACETS_CONFIG_ARG_TYPES } from "@/components/Facets/config/stories.argTypes";
 import {
   createViewRenderer,
   Providers,
@@ -25,19 +29,12 @@ import {
 } from "@/stories/decorators";
 
 import PROJECT_FOLDERS_VIEW from "..";
-import ProjectFoldersView from "../ProjectFoldersView";
-import type { ProjectFoldersConfig } from "../types";
+import ProjectFoldersView, {
+  type ProjectFoldersConfig,
+} from "../ProjectFoldersView";
 
 export const View =
   createViewRenderer<ProjectFoldersConfig>(ProjectFoldersView);
-
-export const GROUPED_DATA = [
-  aBasesEntryGroup("[[Articles]]", ARTICLE_ENTRIES),
-  aBasesEntryGroup("[[Movies]]", MOVIES_ENTRIES),
-  aBasesEntryGroup("[[Books]]", BOOK_ENTRIES),
-  aBasesEntryGroup("[[People]]", PERSON_ENTRIES),
-  aBasesEntryGroup("[[Applications]]", APPLICATION_ENTRIES),
-];
 
 export const meta = {
   title: "Views/Project Folders",
@@ -64,16 +61,8 @@ export const meta = {
       },
     },
   },
-  args: {
-    groupedData: GROUPED_DATA,
-    onEntryClick: fn(),
-    ...GROUP_DEFAULTS,
-    ...CARD_POLAROID_LAYOUT_CONFIG,
-    cardSize: 228,
-  },
   argTypes: {
-    ...GroupMeta.argTypes,
-    ...CardMeta.argTypes,
+    ...FACETS_CONFIG_ARG_TYPES,
     // Internal props (disabled)
     data: {
       table: {
@@ -96,6 +85,16 @@ export const meta = {
       },
     },
   },
+  args: {
+    groupedData: GROUPED_ENTRIES,
+    onEntryClick: fn(),
+    ...FACETS_CONFIG_DEFAULTS,
+    ...WithSize5XSAndSpacing,
+    ...WithImage,
+    ...WithSquareImage,
+    ...WithPolaroidLayout,
+    ...WithoutCounter,
+  },
 } satisfies Meta<typeof View>;
 
 export default meta;
@@ -106,29 +105,12 @@ type Story = StoryObj<typeof meta>;
 
 export const FullExample: Story = {
   args: {
-    layout: "horizontal",
-    shape: "square",
-    cardSize: 228,
-    imageProperty: "formula.image",
-    imageAspectRatio: 0.85,
-    imageFit: "cover",
-    showTitle: true,
-    showPropertyTitles: false,
-    properties: ["note.author", "note.published", "note.excerpt"],
-    reverseContent: true,
-    linkProperty: undefined,
-    titleFont: SERIF_FONTS,
-    contentFont: SANS_SERIF_FONTS,
-    badgesFont: MONOSPACE_FONTS,
-    iconProperty: "note.icon",
-    backgroundColorProperty: "note.color",
-    backgroundColorApplyTo: "both",
-    groupIconProperty: "note.icon",
-    groupColorProperty: "note.color",
-    groupTitlePosition: "inside",
-    groupCounterPosition: "inside",
-    groupBorder: "dotted",
-    groupSpacing: 50,
+    ...WithInnerTitle,
+    ...WithInnerCounter,
+    ...WithColor,
+    ...WithIcon,
+    ...WithBorderDashed,
+    ...WithGap5XS,
   },
 };
 
@@ -157,7 +139,7 @@ groupShape: notebook
     },
   },
   args: {
-    groupShape: "notebook",
+    ...WithNotebookShape,
   },
 };
 
@@ -175,7 +157,7 @@ groupCounterPosition: inside
     },
   },
   args: {
-    groupCounterPosition: "inside",
+    ...WithInnerCounter,
   },
 };
 
@@ -186,15 +168,14 @@ export const Spacing: Story = {
         story: `With spacing, the groups are displayed with an inner spacing.
 
 \`\`\`yml
-groupSpacing: 50
+layoutItemSpacing: 50
 \`\`\`
 `,
       },
     },
   },
   args: {
-    cardSize: 228,
-    groupSpacing: 50,
+    layoutItemSpacing: 50,
   },
 };
 
@@ -205,17 +186,16 @@ export const Borders: Story = {
         story: `Use borders to add visual separation between groups.
 
 \`\`\`yml
-groupBorder: dashed
-groupSpacing: 50
+layoutItemBorder: dashed
+layoutItemSpacing: 50
 \`\`\`
         `,
       },
     },
   },
   args: {
-    cardSize: 228,
-    groupBorder: "dashed",
-    groupSpacing: 50,
+    layoutItemSpacing: 50,
+    ...WithBorderDashed,
   },
 };
 
@@ -226,20 +206,43 @@ export const OutsideLabels: Story = {
         story: `With an outside title, the groups display the title outside the folder.
 
 \`\`\`yml
-groupTitlePosition: outside
+titlePosition: outside
 groupCounterPosition: outside
-groupSpacing: 50
-groupBorder: solid
+layoutItemSpacing: 50
+layoutItemBorder: solid
 \`\`\`
 `,
       },
     },
   },
   args: {
-    cardSize: 228,
-    groupTitlePosition: "outside",
-    groupCounterPosition: "outside",
-    groupSpacing: 50,
-    groupBorder: "solid",
+    layoutItemSpacing: 50,
+    ...WithIcon,
+    ...WithBorderSolid,
+    ...WithOuterTitle,
+    ...WithOuterCounter,
+  },
+};
+
+export const InlineUngroupedContent: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `You can display the items without group inline with the folders
+
+\`\`\`yml
+groupUngroupedItemsDisplay: inline
+\`\`\`
+`,
+      },
+    },
+  },
+  args: {
+    layoutItemSpacing: 50,
+    ...WithIcon,
+    ...WithBorderSolid,
+    ...WithOuterTitle,
+    ...WithOuterCounter,
+    ...WithUngroupedItemsInline,
   },
 };

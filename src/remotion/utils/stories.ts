@@ -42,7 +42,7 @@ const getOrderedStories = (
       const name = key.replace(/([A-Z])/g, " $1").trim();
       // biome-ignore lint/suspicious/noExplicitAny: Storybook story objects have dynamic properties
       (story as any).name = name;
-      const component = composeStory(story, storiesModule.default);
+      const component = composeStory(story, storiesModule.default as unknown);
 
       return {
         key,

@@ -1,10 +1,9 @@
 import  { type BasesEntry, type BasesViewConfig, Platform } from "obsidian";
 
+import type { FacetsConfig } from "@/components/Facets/config";
 import { cn } from "@/lib/utils";
 
-import Card from "../Card";
-import type { CardConfig } from "../Card/types";
-
+import Facets from "../Facets";
 import GridItem from "./GridItem";
 import { useVirtualGrid } from "./hooks/use-virtual-grid";
 
@@ -15,7 +14,7 @@ type ScrollPosition = {
 
 type VirtualGridProps = {
 	items: BasesEntry[];
-	cardConfig: CardConfig;
+	facetsConfig: FacetsConfig;
 	config: BasesViewConfig;
 	columns: number;
 	cellWidth: number;
@@ -31,7 +30,7 @@ type VirtualGridProps = {
 
 export const VirtualGrid = ({
 	items,
-	cardConfig,
+	facetsConfig,
 	config,
 	columns,
 	cellWidth,
@@ -71,12 +70,15 @@ export const VirtualGrid = ({
 					width={cellWidth}
 					height={cellHeight}
 				>
-					<Card
-						entry={items[realIndex]}
+					<Facets
+            className="mx-auto h-fit"
+            data={items[realIndex]}
 						config={config}
-						isDraggable={true}
-						contentClassName="w-full h-full"
-						{...cardConfig}
+            isDraggable
+            facetsConfig={{
+              ...facetsConfig,
+              layoutItemSize: cellWidth,
+            }}
 					/>
 				</GridItem>
 			))}

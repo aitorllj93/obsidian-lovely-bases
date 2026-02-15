@@ -105,9 +105,6 @@ export const PHOTOS_ENTRIES: BasesEntry[] = [
   ),
 ];
 
-
-export const VIRTUAL_SCROLL_PHOTOS_ENTRIES: BasesEntry[] = [];
-
-Array.from({ length: 25 }, (_) =>
-  VIRTUAL_SCROLL_PHOTOS_ENTRIES.push(...PHOTOS_ENTRIES),
-);
+export const VIRTUAL_SCROLL_PHOTOS_ENTRIES: BasesEntry[] = Array.from({ length: 25 }).flatMap(_ => ([
+  ...PHOTOS_ENTRIES
+]));

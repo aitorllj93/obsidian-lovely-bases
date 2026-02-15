@@ -1,5 +1,5 @@
 
-import type { CardConfig } from "../types";
+import type { FacetsConfig } from "@/components/Facets/config";
 
 export const DEFAULT_PADDING = 12;
 
@@ -7,32 +7,32 @@ const TITLE_HEIGHT = 30;
 const PROPERTY_TITLE_HEIGHT = 15;
 const PROPERTY_VALUE_HEIGHT = 30;
 
-export function estimateCardHeight(cardConfig: CardConfig, padding = DEFAULT_PADDING): number {
+export function estimateCardHeight(facetsConfig: FacetsConfig, padding = DEFAULT_PADDING): number {
 	let contentHeight = padding;
 
-	if (cardConfig.showTitle) {
+	if (facetsConfig.titlePosition === 'inside') {
 		contentHeight += TITLE_HEIGHT;
 	}
 
-	if (cardConfig.properties.length > 0) {
+	if (facetsConfig.properties.length > 0) {
 		let propertyHeight = PROPERTY_VALUE_HEIGHT;
-		if (cardConfig.showPropertyTitles) {
+		if (facetsConfig.contentShowPropertyTitles) {
 			propertyHeight += PROPERTY_TITLE_HEIGHT;
 		}
-		contentHeight += propertyHeight * cardConfig.properties.length;
+		contentHeight += propertyHeight * facetsConfig.properties.length;
 	}
 
-  if (cardConfig.showContent) {
-    contentHeight += cardConfig.contentMaxHeight;
+  if (facetsConfig.contentShowMarkdown) {
+    contentHeight += facetsConfig.contentMarkdownMaxHeight;
   }
 
-  let verticalImageHeight = 0;
-
-  if (cardConfig.imageProperty && cardConfig.imageAspectRatio) {
-    verticalImageHeight = cardConfig.imageAspectRatio * cardConfig.cardSize;
+  if (
+    facetsConfig.cardLayout !== "horizontal" &&
+    facetsConfig.imageProperty &&
+    facetsConfig.imageAspectRatio
+  ) {
+    contentHeight += facetsConfig.imageAspectRatio * facetsConfig.layoutItemSize;
   }
 
-	return cardConfig.layout === "horizontal"
-		? contentHeight
-		: verticalImageHeight + contentHeight;
+	return contentHeight;
 }

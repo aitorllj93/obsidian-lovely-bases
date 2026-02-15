@@ -148,9 +148,7 @@ La primera historia trata de conectar los puntos. Abandoné Reed College despué
   )
 ];
 
-export const VIRTUAL_SCROLL_ARTICLES_ENTRIES: BasesEntry[] = []
-
-Array.from({ length: 25 }, (_) => VIRTUAL_SCROLL_ARTICLES_ENTRIES.push(
-  ...ARTICLE_ENTRIES,
-));
+export const VIRTUAL_SCROLL_ARTICLES_ENTRIES: BasesEntry[] = Array.from({ length: 25 }).flatMap(_ => ([
+  ...ARTICLE_ENTRIES
+]));
 

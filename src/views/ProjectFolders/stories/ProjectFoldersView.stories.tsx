@@ -6,6 +6,7 @@ import ProjectFoldersViewMeta, {
   Counter as BaseCounter,
   Default as BaseDefault,
   FullExample as BaseFullExample,
+  InlineUngroupedContent as BaseInlineUngroupedContent,
   OutsideLabels as BaseOutsideLabels,
   Shape as BaseShape,
   Spacing as BaseSpacing,
@@ -33,3 +34,4 @@ export const Counter = BaseCounter;
 export const Spacing = BaseSpacing;
 export const Borders = BaseBorders;
 export const OutsideLabels = BaseOutsideLabels;
+export const InlineUngroupedContent = BaseInlineUngroupedContent

@@ -2,27 +2,25 @@ import { cva } from "class-variance-authority";
 import type { BasesEntry, BasesViewConfig } from "obsidian";
 import { forwardRef, memo, useCallback, useRef, useState } from "react";
 
+import { FACETS_CONFIG_DEFAULTS, type FacetsConfig } from "@/components/Facets/config";
 import { useEntryHover } from "@/hooks/use-entry-hover";
 import { useEntryOpen } from "@/hooks/use-entry-open";
 import { useEntryImage } from "@/hooks/use-image";
-import { cn } from "@/lib/utils";
+import { cn, isEven, isOdd, shallowEqual } from "@/lib/utils";
 
 import Badge from "./components/Badge";
 import Content from "./components/Content";
 import HoverOverlay from "./components/HoverOverlay";
 import Image from "./components/Image";
 
-import { DEFAULTS } from "./constants";
-import { compareCardConfig } from "./helpers/compare-config";
 import { useCardColors } from "./hooks/use-card-colors";
-import type { CardConfig } from "./types";
 
-type Props = CardConfig & {
-  adaptToSize?: boolean;
+type Props = FacetsConfig & {
 	className?: string;
   contentClassName?: string;
 	entry: BasesEntry;
 	config: BasesViewConfig;
+  index?: number;
 	isDraggable?: boolean;
   style?: React.CSSProperties;
 };
@@ -79,10 +77,10 @@ const cardContentVariants = cva(
       }
     ],
 		defaultVariants: {
-			shape: DEFAULTS.shape,
-      layout: DEFAULTS.layout,
+			shape: FACETS_CONFIG_DEFAULTS.cardShape,
+      layout: FACETS_CONFIG_DEFAULTS.cardLayout,
       withBgColor: false,
-      adaptToSize: false,
+      adaptToSize: FACETS_CONFIG_DEFAULTS.cardAdaptToSize,
 		},
   },
 );
@@ -90,23 +88,23 @@ const cardContentVariants = cva(
 const DRAG_THRESHOLD = 5;
 
 const PureCard = forwardRef<HTMLDivElement, Props>(({
-  adaptToSize = false,
   className,
   config,
   contentClassName,
   entry,
+  index = 0,
   isDraggable = false,
   style,
-  ...cardConfig
+  ...facetsConfig
 }: Props, ref) => {
   const [isHovered, setIsHovered] = useState(false);
   const dragStartPos = useRef<{ x: number; y: number } | null>(null);
   const linkRef = useRef<HTMLAnchorElement>(null);
   const entryId = entry.file.path;
-  const handleEntryOpen = useEntryOpen(entry, config, cardConfig.linkProperty);
+  const handleEntryOpen = useEntryOpen(entry, config, facetsConfig.actionLinkProperty);
   const handleEntryHover = useEntryHover(entryId, linkRef);
-  const image = useEntryImage(entry, cardConfig.imageProperty);
-  const colors = useCardColors(entry, cardConfig, image);
+  const image = useEntryImage(entry, facetsConfig.imageProperty);
+  const colors = useCardColors(entry, facetsConfig, image);
 
   const onPointerDown = (event: React.PointerEvent) => {
     dragStartPos.current = { x: event.clientX, y: event.clientY };
@@ -129,34 +127,35 @@ const PureCard = forwardRef<HTMLDivElement, Props>(({
   const onMouseLeave = () => setIsHovered(false);
 
   const contentClasses = cardContentVariants({
-    adaptToSize,
-    layout: cardConfig.layout,
-    shape: cardConfig.shape,
+    adaptToSize: facetsConfig.cardAdaptToSize,
+    layout: facetsConfig.cardLayout,
+    shape: facetsConfig.cardShape,
     withBgColor: !colors.contentBackground,
   });
 
-  const isOverlay = cardConfig.layout === "overlay";
+  const isOverlay = facetsConfig.cardLayout === "overlay";
   const showOverlayContent = isOverlay && (
-    cardConfig.overlayContentVisibility === "always" || isHovered
+    facetsConfig.contentVisibility === "always" || isHovered
   );
 
   return (
     <div
       data-testid="lovely-card-container"
-      data-layout={cardConfig.layout}
+      data-layout={facetsConfig.cardLayout}
       className={
         cn(
           "@container/lovely-card relative flex",
           !isOverlay && "h-full",
-          cardConfig.tilt === 'right' && "[&>div]:rotate-3 hover:[&>div]:rotate-0",
-          cardConfig.tilt === 'left' && "[&>div]:-rotate-2 hover:[&>div]:rotate-0",
-          cardConfig.tilt === 'alternating' && "even:[&>div]:rotate-3 odd:[&>div]:-rotate-2 hover:[&>div]:rotate-0",
+          facetsConfig.cardTilt === 'clockwise' && "[&>div]:rotate-3 hover:[&>div]:rotate-0",
+          facetsConfig.cardTilt === 'counterclockwise' && "[&>div]:-rotate-2 hover:[&>div]:rotate-0",
+          facetsConfig.cardTilt === 'alternating' && isOdd(index) && "[&>div]:-rotate-2 hover:[&>div]:rotate-0",
+          facetsConfig.cardTilt === 'alternating' && isEven(index) && "[&>div]:rotate-3 hover:[&>div]:rotate-0",
           className,
         )
       }
       style={{
-        width: cardConfig.cardSize,
-        ...(isOverlay && { height: `${cardConfig.cardSize * cardConfig.imageAspectRatio}px` }),
+        width: facetsConfig.layoutItemSize,
+        ...(isOverlay && { height: `${facetsConfig.layoutItemSize * facetsConfig.imageAspectRatio}px` }),
         ...style,
       }}
       onPointerDown={onPointerDown}
@@ -170,13 +169,13 @@ const PureCard = forwardRef<HTMLDivElement, Props>(({
           cn(
             contentClassName,
             contentClasses,
-            cardConfig.tilt !== "none" && "shadow-xl ease-out duration-300"
+            facetsConfig.cardTilt !== "none" && "shadow-xl ease-out duration-300"
           )
         }
         style={{
-          width: cardConfig.cardSize,
-          ...(isOverlay && { height: `${cardConfig.cardSize * cardConfig.imageAspectRatio}px` }),
-          ...(cardConfig.layout === "polaroid" ? { backgroundColor: colors.contentBackground, borderColor: colors.contentBackground } : undefined),
+          width: facetsConfig.layoutItemSize,
+          ...(isOverlay && { height: `${facetsConfig.layoutItemSize * facetsConfig.imageAspectRatio}px` }),
+          ...(facetsConfig.cardLayout === "polaroid" ? { backgroundColor: colors.contentBackground, borderColor: colors.contentBackground } : undefined),
         }}
       >
         {/** biome-ignore lint/a11y/useAnchorContent: this is a workaround */}
@@ -191,7 +190,7 @@ const PureCard = forwardRef<HTMLDivElement, Props>(({
         <>
           <Image
             entry={entry}
-            cardConfig={cardConfig}
+            facetsConfig={facetsConfig}
             colors={colors}
             config={config}
             image={image}
@@ -207,71 +206,73 @@ const PureCard = forwardRef<HTMLDivElement, Props>(({
               : "opacity-0 translate-y-4 pointer-events-none"
           )}>
             <Content
-              adaptToSize={adaptToSize}
               entry={entry}
-              cardConfig={cardConfig}
+              facetsConfig={facetsConfig}
               colors={colors}
               config={config}
               isOverlayMode />
           </div>
-          {cardConfig.badgeProperty && (
-            <div className={cn(
-              "transition-all duration-300 ease-out",
-              showOverlayContent
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 -translate-y-4 pointer-events-none"
-            )}>
-              <Badge entry={entry} cardConfig={cardConfig} config={config} />
-            </div>
+          {facetsConfig.badgeProperty && (
+            <Badge
+              className={cn(
+                "transition-all duration-300 ease-out",
+                showOverlayContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              )}
+              entry={entry}
+              facetsConfig={facetsConfig}
+              config={config} />
           )}
         </>
       ) : (
         <>
-          {!cardConfig.reverseContent ? (
+          {!facetsConfig.cardReverseContent ? (
             <Image
               entry={entry}
-              cardConfig={cardConfig}
+              facetsConfig={facetsConfig}
               colors={colors}
               config={config}
               image={image} />
           ) : (
             <Content
-              adaptToSize={adaptToSize}
               entry={entry}
-              cardConfig={cardConfig}
+              facetsConfig={facetsConfig}
               colors={colors}
               config={config} />
           )}
 
-          {cardConfig.reverseContent ? (
-            <Image entry={entry} cardConfig={cardConfig} config={config} image={image} colors={colors} />
+          {facetsConfig.cardReverseContent ? (
+            <Image entry={entry} facetsConfig={facetsConfig} config={config} image={image} colors={colors} />
           ) : (
             <Content
-              adaptToSize={adaptToSize}
               entry={entry}
-              cardConfig={cardConfig}
+              facetsConfig={facetsConfig}
               colors={colors}
               config={config} />
           )}
-          {cardConfig.badgeProperty && (
-            <Badge adaptToSize={adaptToSize} entry={entry} cardConfig={cardConfig} config={config} />
+          {facetsConfig.badgeProperty && (
+            <Badge entry={entry} facetsConfig={facetsConfig} config={config} />
           )}
         </>
       )}
 
-        {isHovered && <HoverOverlay adaptToSize={adaptToSize} entry={entry} cardConfig={cardConfig} config={config} />}
+        {isHovered && <HoverOverlay entry={entry} facetsConfig={facetsConfig} config={config} />}
       </div>
     </div>
   );
 });
 
-
-const Card = memo(PureCard, (prevProps, nextProps) => (
-  prevProps.adaptToSize === nextProps.adaptToSize &&
-  prevProps.entry === nextProps.entry &&
-  prevProps.className === nextProps.className &&
-  prevProps.isDraggable === nextProps.isDraggable &&
-  compareCardConfig(prevProps, nextProps)
+const Card = memo(PureCard, ({
+  entry: prevEntry,
+  config: prevConfig,
+  ...prevProps
+}, {
+  entry: nextEntry,
+  config: nextConfig,
+  ...nextProps
+}) => (
+  prevEntry === nextEntry &&
+  prevConfig === nextConfig &&
+  shallowEqual(prevProps, nextProps)
 ));
 
 Card.displayName = "Card";

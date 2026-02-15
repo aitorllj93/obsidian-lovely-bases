@@ -1,0 +1,437 @@
+import type { ViewOption } from "obsidian";
+
+import { detectLocale, type NamespacedTranslationKey, translate } from "@/lib/i18n";
+
+import { ACTIONS_CONFIG_DEFAULTS, BADGES_CONFIG_DEFAULTS, CARDS_CONFIG_DEFAULTS, COLORS_CONFIG_DEFAULTS, CONTENTS_CONFIG_DEFAULTS, GROUPS_CONFIG_DEFAULTS, ICONS_CONFIG_DEFAULTS, IMAGES_CONFIG_DEFAULTS, LAYOUT_CONFIG_DEFAULTS, TITLES_CONFIG_DEFAULTS } from "./defaults";
+
+const locale = detectLocale();
+const t = (key: NamespacedTranslationKey<'facets'>) => translate(locale, 'facets', key);
+
+export const LAYOUT_CONFIG_VIEW_OPTIONS: ViewOption[] = [
+  {
+    type: "group",
+    displayName: t('layout.title'),
+    items: [
+      {
+        key: "size",
+        default: LAYOUT_CONFIG_DEFAULTS.layoutItemSize,
+        type: "slider",
+        displayName: t('layout.size.title'),
+        min: 50,
+        max: 800,
+        step: 10,
+      },
+      {
+        key: "gap",
+        default: LAYOUT_CONFIG_DEFAULTS.layoutGap,
+        type: "slider",
+        displayName: t('layout.gap.title'),
+        min: 0,
+        max: 100,
+        step: 1,
+      },
+      {
+        key: "border",
+        default: LAYOUT_CONFIG_DEFAULTS.layoutItemBorder,
+        type: "dropdown",
+        displayName: t('layout.border.title'),
+        options: {
+          none: t('layout.border.none'),
+          solid: t('layout.border.solid'),
+          dashed: t('layout.border.dashed'),
+          dotted: t('layout.border.dotted'),
+        }
+      },
+      {
+        key: "spacing",
+        default: LAYOUT_CONFIG_DEFAULTS.layoutItemSpacing,
+        type: "slider",
+        displayName: t('layout.spacing.title'),
+        min: 0,
+        max: 100,
+        step: 1,
+      },
+    ]
+  }
+];
+
+export const GROUPS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
+  {
+    type: "group",
+    displayName: t('groups.title'),
+    items: [
+      {
+        key: "groupLayout",
+        default: GROUPS_CONFIG_DEFAULTS.groupLayout,
+        type: "dropdown",
+        displayName: t('groups.layout.title'),
+        options: {
+          sections: t('groups.layout.sections'),
+          grid: t('groups.layout.grid'),
+        }
+      },
+      {
+        key: "groupShape",
+        default: GROUPS_CONFIG_DEFAULTS.groupShape,
+        shouldHide: (config) => config.get("groupLayout") === "sections",
+        type: "dropdown",
+        displayName: t('groups.shape.title'),
+        options: {
+          folder: t('groups.shape.folder'),
+          grid: t('groups.shape.notebook'),
+        }
+      },
+      {
+        key: "groupUngroupedItemsDisplay",
+        default: GROUPS_CONFIG_DEFAULTS.groupUngroupedItemsDisplay,
+        shouldHide: (config) => config.get("groupLayout") === "sections",
+        type: "dropdown",
+        displayName: t('groups.ungroupedItemsDisplay.title'),
+        options: {
+          group: t('groups.ungroupedItemsDisplay.group'),
+          inline: t('groups.ungroupedItemsDisplay.inline'),
+          hidden: t('groups.ungroupedItemsDisplay.hidden'),
+        }
+      },
+      {
+        key: "groupInferPropertiesFromLinkedNotes",
+        default: GROUPS_CONFIG_DEFAULTS.groupInferPropertiesFromLinkedNotes,
+        shouldHide: (config) => config.get("groupLayout") === "sections",
+        type: "toggle",
+        displayName: t('groups.inferPropertiesFromLinkedNotes.title'),
+      }
+    ]
+  }
+];
+
+export const CARDS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
+  {
+    type: "group",
+    displayName: t('cards.title'),
+    items: [
+      {
+        key: "cardLayout",
+        default: CARDS_CONFIG_DEFAULTS.cardLayout,
+        type: "dropdown",
+        displayName: t('cards.layout.title'),
+        options: {
+          vertical: t('cards.layout.vertical'),
+          horizontal: t('cards.layout.horizontal'),
+          overlay: t('cards.layout.overlay'),
+          polaroid: t('cards.layout.polaroid'),
+        }
+      },
+      {
+        key: "cardShape",
+        default: CARDS_CONFIG_DEFAULTS.cardShape,
+        type: "dropdown",
+        displayName: t('cards.shape.title'),
+        options: {
+          square: t('cards.shape.square'),
+          rounded: t('cards.shape.rounded'),
+          circle: t('cards.shape.circle'),
+        }
+      },
+      {
+        key: "cardTilt",
+        default: CARDS_CONFIG_DEFAULTS.cardTilt,
+        type: "dropdown",
+        displayName: t('cards.tilt.title'),
+        options: {
+          none: t('cards.tilt.none'),
+          clockwise: t('cards.tilt.clockwise'),
+          counterclockwise: t('cards.tilt.counterclockwise'),
+          alternating: t('cards.tilt.alternating'),
+        }
+      },
+      {
+        key: "cardReverseContent",
+        default: CARDS_CONFIG_DEFAULTS.cardReverseContent,
+        type: "toggle",
+        displayName: t('cards.reverseContent.title'),
+      }
+    ]
+  }
+];
+
+export const TITLES_CONFIG_VIEW_OPTIONS: ViewOption[] = [
+  {
+    type: "group",
+    displayName: t('titles.title'),
+    items: [
+      {
+        key: "titlePosition",
+        default: TITLES_CONFIG_DEFAULTS.titlePosition,
+        type: "dropdown",
+        displayName: t('titles.position.title'),
+        options: {
+          none: t('titles.position.none'),
+          inside: t('titles.position.inside'),
+          outside: t('titles.position.outside'),
+        }
+      },
+      {
+        key: "titleFont",
+        default: TITLES_CONFIG_DEFAULTS.titleFont,
+        type: "text",
+        displayName: t('titles.font.title'),
+      },
+      {
+        key: 'groupTitleProperty',
+        default: TITLES_CONFIG_DEFAULTS.groupTitleProperty,
+        type: 'property',
+        displayName: t('titles.groupTitleProperty.title'),
+      },
+      {
+        key: 'groupSubtitleProperty',
+        default: TITLES_CONFIG_DEFAULTS.groupSubtitleProperty,
+        type: 'property',
+        displayName: t('titles.groupSubtitleProperty.title'),
+      },
+    ]
+  }
+];
+
+export const CONTENTS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
+  {
+    type: "group",
+    displayName: t('contents.title'),
+    items: [
+      {
+        key: "contentVisibility",
+        default: CONTENTS_CONFIG_DEFAULTS.contentVisibility,
+        type: "dropdown",
+        displayName: t('contents.visibility.title'),
+        options: {
+          always: t('contents.visibility.always'),
+          hover: t('contents.visibility.hover'),
+        }
+      },
+      {
+        key: "contentFont",
+        default: CONTENTS_CONFIG_DEFAULTS.contentFont,
+        type: "text",
+        displayName: t('contents.font.title'),
+      },
+      {
+        key: "contentShowPropertyTitles",
+        default: CONTENTS_CONFIG_DEFAULTS.contentShowPropertyTitles,
+        type: "toggle",
+        displayName: t('contents.showPropertyTitles.title'),
+      },
+      {
+        key: "contentShowMarkdown",
+        default: CONTENTS_CONFIG_DEFAULTS.contentShowMarkdown,
+        type: "toggle",
+        displayName: t('contents.showMarkdown.title'),
+      },
+      {
+        key: "contentMarkdownMaxLength",
+        default: CONTENTS_CONFIG_DEFAULTS.contentMarkdownMaxLength,
+        shouldHide: (config) => config.get("contentShowMarkdown") === false,
+        type: "slider",
+        displayName: t('contents.markdownMaxLength.title'),
+        min: 0,
+        max: 1000,
+        step: 10,
+      },
+      {
+        key: "contentMarkdownMaxHeight",
+        default: CONTENTS_CONFIG_DEFAULTS.contentMarkdownMaxHeight,
+        shouldHide: (config) => config.get("contentShowMarkdown") === false,
+        type: "slider",
+        displayName: t('contents.markdownMaxHeight.title'),
+        min: 0,
+        max: 1000,
+        step: 10,
+      }
+    ]
+  }
+];
+
+export const IMAGES_CONFIG_VIEW_OPTIONS: ViewOption[] = [
+  {
+    type: "group",
+    displayName: t('images.title'),
+    items: [
+      {
+        key: "imageProperty",
+        default: IMAGES_CONFIG_DEFAULTS.imageProperty,
+        type: "property",
+        displayName: t('images.property.title'),
+      },
+      {
+        key: "imageAspectRatio",
+        default: IMAGES_CONFIG_DEFAULTS.imageAspectRatio,
+        shouldHide: (config) => config.get("imageProperty") === undefined,
+        type: "slider",
+        displayName: t('images.aspectRatio.title'),
+        min: 0.25,
+        max: 2.5,
+        step: 0.05,
+      },
+      {
+        key: "imageFit",
+        default: IMAGES_CONFIG_DEFAULTS.imageFit,
+        shouldHide: (config) => config.get("imageProperty") === undefined,
+        type: "dropdown",
+        displayName: t('images.fit.title'),
+        options: {
+          cover: t('images.fit.cover'),
+          contain: t('images.fit.contain'),
+        }
+      }
+    ]
+  }
+];
+
+export const COLORS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
+  {
+    type: "group",
+    displayName: t('colors.title'),
+    items: [
+      {
+        key: "colorProperty",
+        default: COLORS_CONFIG_DEFAULTS.colorProperty,
+        type: "property",
+        displayName: t('colors.property.title'),
+      },
+      {
+        key: "colorApplyTo",
+        default: COLORS_CONFIG_DEFAULTS.colorApplyTo,
+        shouldHide: (config) => config.get("colorProperty") === undefined,
+        type: "dropdown",
+        displayName: t('colors.applyTo.title'),
+        options: {
+          image: t('colors.applyTo.image'),
+          content: t('colors.applyTo.content'),
+          both: t('colors.applyTo.both'),
+        }
+      }
+    ]
+  }
+];
+
+export const ICONS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
+  {
+    type: "group",
+    displayName: t('icons.title'),
+    items: [
+      {
+        key: "iconProperty",
+        default: ICONS_CONFIG_DEFAULTS.iconProperty,
+        type: "property",
+        displayName: t('icons.property.title'),
+      },
+      {
+        key: "iconFileExtensionAsFallback",
+        default: ICONS_CONFIG_DEFAULTS.iconFileExtensionAsFallback,
+        type: "toggle",
+        displayName: t('icons.fileExtensionAsFallback.title'),
+      }
+    ]
+  }
+];
+
+export const BADGES_CONFIG_VIEW_OPTIONS: ViewOption[] = [
+  {
+    type: "group",
+    displayName: t('badges.title'),
+    items: [
+      {
+        key: "badgeProperty",
+        default: BADGES_CONFIG_DEFAULTS.badgeProperty,
+        type: "property",
+        displayName: t('badges.property.title'),
+      },
+      {
+        key: "badgeFont",
+        default: BADGES_CONFIG_DEFAULTS.badgeFont,
+        shouldHide: (config) => config.get("badgeProperty") === undefined,
+        type: "text",
+        displayName: t('badges.font.title'),
+      },
+      {
+        key: "badgeIconProperty",
+        default: BADGES_CONFIG_DEFAULTS.badgeIconProperty,
+        shouldHide: (config) => config.get("badgeProperty") === undefined,
+        type: "property",
+        displayName: t('badges.iconProperty.title'),
+      },
+      {
+        key: "badgeColorProperty",
+        default: BADGES_CONFIG_DEFAULTS.badgeColorProperty,
+        shouldHide: (config) => config.get("badgeProperty") === undefined,
+        type: "property",
+        displayName: t('badges.colorProperty.title'),
+      },
+      {
+        key: "groupCounterPosition",
+        default: BADGES_CONFIG_DEFAULTS.groupCounterPosition,
+        type: "dropdown",
+        displayName: t('badges.counterPosition.title'),
+        options: {
+          none: t('badges.counterPosition.none'),
+          inside: t('badges.counterPosition.inside'),
+          outside: t('badges.counterPosition.outside'),
+        }
+      },
+    ]
+  }
+];
+
+export const ACTIONS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
+  {
+    type: "group",
+    displayName: t('actions.title'),
+    items: [
+      {
+        key: "actionLinkProperty",
+        default: ACTIONS_CONFIG_DEFAULTS.actionLinkProperty,
+        type: "property",
+        displayName: t('actions.property.title'),
+      },
+      {
+        key: "groupActionClickBehavior",
+        default: ACTIONS_CONFIG_DEFAULTS.groupActionClickBehavior,
+        type: "dropdown",
+        displayName: t('actions.groupClickBehavior.title'),
+        options: {
+          none: t('actions.groupClickBehavior.none'),
+          expand: t('actions.groupClickBehavior.expand'),
+          navigate: t('actions.groupClickBehavior.navigate'),
+        }
+      },
+      {
+        key: 'actionHoverProperty',
+        default: ACTIONS_CONFIG_DEFAULTS.actionHoverProperty,
+        type: "property",
+        displayName: t('actions.hoverProperty.title'),
+      },
+      {
+        key: 'actionHoverStyle',
+        default: ACTIONS_CONFIG_DEFAULTS.actionHoverStyle,
+        shouldHide: (config) => config.get("actionHoverProperty") === undefined,
+        type: "dropdown",
+        displayName: t('actions.hoverStyle.title'),
+        options: {
+          overlay: t('actions.hoverStyle.overlay'),
+          // tooltip: t('actions.hoverStyle.tooltip'),
+        }
+      }
+    ]
+  }
+];
+
+export const FACETS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
+  ...LAYOUT_CONFIG_VIEW_OPTIONS,
+  ...GROUPS_CONFIG_VIEW_OPTIONS,
+  ...CARDS_CONFIG_VIEW_OPTIONS,
+  ...TITLES_CONFIG_VIEW_OPTIONS,
+  ...CONTENTS_CONFIG_VIEW_OPTIONS,
+  ...IMAGES_CONFIG_VIEW_OPTIONS,
+  ...COLORS_CONFIG_VIEW_OPTIONS,
+  ...ICONS_CONFIG_VIEW_OPTIONS,
+  ...BADGES_CONFIG_VIEW_OPTIONS,
+  ...ACTIONS_CONFIG_VIEW_OPTIONS,
+];

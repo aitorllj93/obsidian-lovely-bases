@@ -1,49 +1,73 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 
-import { MOVIES_ENTRIES, PHOTOS_ENTRIES, VIRTUAL_SCROLL_BOOKS_ENTRIES, VIRTUAL_SCROLL_MOVIES_ENTRIES, VIRTUAL_SCROLL_PHOTOS_ENTRIES } from "@/__fixtures__/entries";
+import {
+  MOVIES_ENTRIES,
+  PHOTOS_ENTRIES,
+  VIRTUAL_SCROLL_ARTICLES_ENTRIES,
+  VIRTUAL_SCROLL_MOVIES_ENTRIES,
+  VIRTUAL_SCROLL_PHOTOS_ENTRIES,
+} from "@/__fixtures__/entries";
+import {
+  With3x2Image,
+  With4x5Image,
+  WithAlternatingTilt,
+  WithBadge,
+  WithBadgeColor,
+  WithBadgeIcon,
+  WithColor,
+  WithContentReversed,
+  WithContentVisibilityOnHover,
+  WithHorizontalLayout,
+  WithImage,
+  WithMarkdownContent,
+  WithOverlayLayout,
+  WithoutPropertyTitles,
+  WithPolaroidLayout,
+  WithSize2XS,
+  WithSize3XS,
+  WithSquareImage,
+} from "@/__fixtures__/facets/configs";
 import { aBasesEntryGroup } from "@/__mocks__";
-import CardMeta from '@/components/Card/stories/meta';
+import { FACETS_CONFIG_DEFAULTS } from "@/components/Facets/config";
+import { FACETS_CONFIG_ARG_TYPES } from "@/components/Facets/config/stories.argTypes";
 import { type NamespacedTranslationKey, translate } from "@/lib/i18n";
 import {
-	createViewRenderer,
-	Providers,
-	ScrollViewWrapper,
+  createViewRenderer,
+  Providers,
+  ScrollViewWrapper,
 } from "@/stories/decorators";
 
 import INFINITE_GALLERY_VIEW from ".";
-import {
-	DEFAULT_BASE_CONFIG,
-	FULL_BASE_CONFIG,
-	MASONRY_BASE_CONFIG,
-	POLAROID_BASE_CONFIG,
-} from "./__fixtures__/config";
+
 import InfiniteGalleryView, {
-	type InfiniteGalleryConfig,
+  type InfiniteGalleryConfig,
 } from "./InfiniteGalleryView";
 
-const t = (key: NamespacedTranslationKey<'infiniteGallery'>) => translate("en", 'infiniteGallery', key);
+const t = (key: NamespacedTranslationKey<"infiniteGallery">) =>
+  translate("en", "infiniteGallery", key);
 const View = createViewRenderer<InfiniteGalleryConfig>(InfiniteGalleryView);
 
 const meta = {
-	title: "Views/Infinite Gallery",
-	component: View,
-	tags: ["autodocs", "desktop-only"],
-	decorators: [ScrollViewWrapper, Providers],
-	parameters: {
-    layout: 'fullscreen',
+  title: "Views/Infinite Gallery",
+  component: View,
+  tags: ["autodocs", "desktop-only"],
+  decorators: [ScrollViewWrapper, Providers],
+  parameters: {
+    layout: "fullscreen",
     extraNotes: [
       {
-        title: 'Performance issues on mobile devices',
-        description: 'The view may freeze or crash on some mobile devices even with small datasets (<100 items). Use this view only in desktop devices unless you know what you are doing.',
-      }
+        title: "Performance issues on mobile devices",
+        description:
+          "The view may freeze or crash on some mobile devices even with small datasets (<100 items). Use this view only in desktop devices unless you know what you are doing.",
+      },
     ],
-		docs: {
-			icon: INFINITE_GALLERY_VIEW.icon,
-			subtitle:
-				"An immersive, infinite virtualized grid for exploring your notes visually, perfect for browsing large collections of images or media-rich content.",
-			description: {
-				component: `### Features
+    docs: {
+      icon: INFINITE_GALLERY_VIEW.icon,
+      subtitle:
+        "An immersive, infinite virtualized grid for exploring your notes visually, perfect for browsing large collections of images or media-rich content.",
+      description: {
+        component: `### Features
 
 - **Infinite Virtual Grid**: Seamlessly navigate through any number of notes without performance lag.
 - **Momentum Drag & Scroll**: Fluid, natural-feeling navigation with momentum and smooth wheel support.
@@ -56,41 +80,48 @@ const meta = {
 - **Rich Content**: Display titles, properties, and note content with customizable visibility.
 
 ### Configuration`,
-			},
-		},
-	},
-	argTypes: {
-		masonry: {
-			control: "boolean",
-			name: t("options.grid.masonry.title"),
-			description: "Enable masonry-style staggered layout.",
-			table: {
-				category: t("options.grid.title"),
-			},
-		},
-    ...CardMeta.argTypes,
-		// Internal props (disabled)
-		data: {
-			table: {
-				disable: true,
-			},
-		},
-		groupedData: {
-			table: {
-				disable: true,
-			},
-		},
-		onEntryClick: {
-			table: {
-				disable: true,
-			},
-		},
-		onEntryHover: {
-			table: {
-				disable: true,
-			},
-		},
-	},
+      },
+    },
+  },
+  argTypes: {
+    masonry: {
+      control: "boolean",
+      name: t("options.grid.masonry.title"),
+      description: "Enable masonry-style staggered layout.",
+      table: {
+        category: t("options.grid.title"),
+      },
+    },
+    ...FACETS_CONFIG_ARG_TYPES,
+    // Internal props (disabled)
+    data: {
+      table: {
+        disable: true,
+      },
+    },
+    groupedData: {
+      table: {
+        disable: true,
+      },
+    },
+    onEntryClick: {
+      table: {
+        disable: true,
+      },
+    },
+    onEntryHover: {
+      table: {
+        disable: true,
+      },
+    },
+  },
+  args: {
+    data: VIRTUAL_SCROLL_MOVIES_ENTRIES,
+    groupedData: [aBasesEntryGroup("", MOVIES_ENTRIES)],
+    onEntryClick: fn(),
+    ...FACETS_CONFIG_DEFAULTS,
+    ...WithImage,
+  },
 } satisfies Meta<typeof View>;
 
 export default meta;
@@ -98,59 +129,71 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const FullExample: Story = {
-	args: {
-		data: VIRTUAL_SCROLL_BOOKS_ENTRIES,
-		groupedData: [aBasesEntryGroup("", VIRTUAL_SCROLL_BOOKS_ENTRIES)],
-		onEntryClick: fn(),
-		...FULL_BASE_CONFIG,
-	},
+  args: {
+    data: VIRTUAL_SCROLL_ARTICLES_ENTRIES,
+    groupedData: [aBasesEntryGroup("", VIRTUAL_SCROLL_ARTICLES_ENTRIES)],
+    onEntryClick: fn(),
+    masonry: true,
+    properties: ["note.author"],
+    ...WithSize2XS,
+    ...WithColor,
+    ...WithImage,
+    ...With4x5Image,
+    ...WithHorizontalLayout,
+    ...WithContentReversed,
+    ...WithMarkdownContent,
+    ...WithAlternatingTilt,
+    ...WithoutPropertyTitles,
+  },
 };
 
 export const Default: Story = {
-	parameters: {
-		docs: {
-			description: {
-				story:
-					"By default, the infinite gallery displays entries in a vertical layout with square cards.",
-			},
-		},
-	},
-	args: {
-		data: VIRTUAL_SCROLL_MOVIES_ENTRIES,
-		groupedData: [aBasesEntryGroup("", MOVIES_ENTRIES)],
-		onEntryClick: fn(),
-		...DEFAULT_BASE_CONFIG,
-	},
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "By default, the infinite gallery displays entries in a vertical layout with square cards.",
+      },
+    },
+  },
+  args: {},
 };
 
 // === LAYOUT STORIES ===
 
 export const Masonry: Story = {
-	parameters: {
-		docs: {
-			description: {
-				story: `Display entries in a dynamic masonry layout with staggered rows.
+  parameters: {
+    docs: {
+      description: {
+        story: `Display entries in a dynamic masonry layout with staggered rows.
 
 \`\`\`yml
 masonry: true
 \`\`\`
 `,
-			},
-		},
-	},
-	args: {
-		data: VIRTUAL_SCROLL_MOVIES_ENTRIES,
-		groupedData: [aBasesEntryGroup("", MOVIES_ENTRIES)],
-		onEntryClick: fn(),
-		...MASONRY_BASE_CONFIG,
-	},
+      },
+    },
+  },
+  args: {
+    ...WithSize3XS,
+    ...WithImage,
+    ...With3x2Image,
+    ...WithOverlayLayout,
+    ...WithBadge,
+    ...WithBadgeColor,
+    ...WithBadgeIcon,
+    ...WithContentVisibilityOnHover,
+    ...WithMarkdownContent,
+    ...WithoutPropertyTitles,
+    masonry: true,
+  },
 };
 
 export const Polaroid: Story = {
-	parameters: {
-		docs: {
-			description: {
-				story: `Display entries with a classic photo-album aesthetic, featuring borders and playful rotations by using the polaroid layout with alternating tilt.
+  parameters: {
+    docs: {
+      description: {
+        story: `Display entries with a classic photo-album aesthetic, featuring borders and playful rotations by using the polaroid layout with alternating tilt.
 
 \`\`\`yml
 layout: polaroid
@@ -158,13 +201,17 @@ tilt: alternating
 masonry: true
 \`\`\`
 `,
-			},
-		},
-	},
-	args: {
-		data: VIRTUAL_SCROLL_PHOTOS_ENTRIES,
-		groupedData: [aBasesEntryGroup("", PHOTOS_ENTRIES)],
-		onEntryClick: fn(),
-		...POLAROID_BASE_CONFIG,
-	},
+      },
+    },
+  },
+  args: {
+    ...WithSize3XS,
+    ...WithImage,
+    ...WithSquareImage,
+    ...WithPolaroidLayout,
+    ...WithAlternatingTilt,
+    data: VIRTUAL_SCROLL_PHOTOS_ENTRIES,
+    groupedData: [aBasesEntryGroup("", PHOTOS_ENTRIES)],
+    onEntryClick: fn(),
+  },
 };

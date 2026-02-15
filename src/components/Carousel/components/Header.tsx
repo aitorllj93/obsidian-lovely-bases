@@ -1,25 +1,25 @@
 import type { BasesEntry, BasesViewConfig } from "obsidian";
 
-import type { GroupConfig } from "@/components/Group/types";
+import type { FacetsConfig } from "@/components/Facets/config";
 import { useEntryProperty } from "@/hooks/use-property";
 
 type Props = {
   groupKey: string;
   config: BasesViewConfig;
-  groupConfig: GroupConfig;
+  facetsConfig: FacetsConfig;
   items: BasesEntry[];
 };
 
-export default function Header({ groupKey, config, groupConfig, items }: Props) {
+export default function Header({ groupKey, config, facetsConfig, items }: Props) {
   const title = useEntryProperty(
     items[0],
     config,
-    groupConfig.groupTitleProperty,
+    facetsConfig.groupTitleProperty,
   );
   const subtitle = useEntryProperty(
     items[0],
     config,
-    groupConfig.groupSubtitleProperty,
+    facetsConfig.groupSubtitleProperty,
   );
 
   return (

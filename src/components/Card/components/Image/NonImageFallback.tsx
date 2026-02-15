@@ -1,10 +1,11 @@
 import type { BasesEntry, BasesViewConfig } from "obsidian";
 
+import type { FacetsConfig } from "@/components/Facets/config";
 import LucideIcon from "@/components/Obsidian/LucideIcon";
 import { useEntryProperty } from "@/hooks/use-property";
 import { cn } from "@/lib/utils";
 
-import type { CardColors, CardConfig } from "../../types";
+import type { CardColors } from "../../types";
 
 const ICON_BY_EXTENSION = {
   md: "text-align-start",
@@ -17,13 +18,13 @@ const ICON_BY_EXTENSION = {
 
 type Props = {
   entry: BasesEntry;
-  cardConfig: CardConfig;
+  facetsConfig: FacetsConfig;
   config: BasesViewConfig;
   colors: Pick<CardColors, "imageBackground" | "imageForeground">;
 };
 
-const NonImageFallback = ({ entry, cardConfig, colors, config }: Props) => {
-  const { iconProperty } = cardConfig;
+const NonImageFallback = ({ entry, facetsConfig, colors, config }: Props) => {
+  const { iconProperty } = facetsConfig;
   const iconValue = useEntryProperty(entry, config, iconProperty);
 
   const icon =

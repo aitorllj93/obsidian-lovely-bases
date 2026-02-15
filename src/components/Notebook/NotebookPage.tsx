@@ -2,7 +2,7 @@ import type { BasesEntry, BasesViewConfig } from "obsidian";
 import { forwardRef, type MouseEventHandler, useMemo } from "react";
 
 import Card from "@/components/Card";
-import type { CardConfig } from "@/components/Card/types";
+import type { FacetsConfig } from "@/components/Facets/config";
 
 import { getPageDimensions } from "./helpers/get-page-dimensions";
 import { getPageEffects } from "./helpers/get-page-effects";
@@ -13,7 +13,7 @@ import type { NotebookColors, PageStyle } from "./types";
 type Props = {
 	entry: BasesEntry;
 	config: BasesViewConfig;
-	cardConfig: CardConfig;
+	facetsConfig: FacetsConfig;
 	delay: number;
 	isVisible: boolean;
 	index: number;
@@ -35,7 +35,7 @@ const NotebookPage = forwardRef<HTMLDivElement, Props>(
 		{
 			entry,
 			config,
-			cardConfig,
+			facetsConfig,
 			delay,
 			isVisible,
 			index,
@@ -93,9 +93,11 @@ const NotebookPage = forwardRef<HTMLDivElement, Props>(
 					<Card
 						entry={entry}
 						config={config}
-						{...cardConfig}
-						cardSize={Math.min(dimensions.width, dimensions.height) - dimensions.padding * 2}
-						adaptToSize
+            {...facetsConfig}
+						layoutItemSize={Math.min(dimensions.width, dimensions.height) - dimensions.padding * 2}
+						cardAdaptToSize
+            titlePosition="inside"
+            className="h-auto"
 					/>
 				</div>
 			</div>

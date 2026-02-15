@@ -7,6 +7,20 @@ export const BOOK_ENTRIES: BasesEntry[] = [
   aBasesEntry(
     {
       file: aFile({
+        basename: 'El Señor de los Anillos',
+      })
+    },
+    {
+      title: "El Señor de los Anillos",
+      author: [
+        "J.R.R. Tolkien",
+      ],
+      cover: 'https://www.tiposinfames.com/media/img/portadas/9788445011119.jpg',
+    }
+  ),
+  aBasesEntry(
+    {
+      file: aFile({
         basename: 'Steve Jobs',
       })
     },
@@ -90,20 +104,6 @@ export const BOOK_ENTRIES: BasesEntry[] = [
   aBasesEntry(
     {
       file: aFile({
-        basename: 'Guerra y Paz',
-      })
-    },
-    {
-      title: "El Señor de los Anillos",
-      author: [
-        "J.R.R. Tolkien",
-      ],
-      cover: 'https://www.tiposinfames.com/media/img/portadas/9788445011119.jpg',
-    }
-  ),
-  aBasesEntry(
-    {
-      file: aFile({
         basename: 'Harry Potter y la piedra filosofal',
       })
     },
@@ -117,9 +117,7 @@ export const BOOK_ENTRIES: BasesEntry[] = [
   ),
 ];
 
-export const VIRTUAL_SCROLL_BOOKS_ENTRIES: BasesEntry[] = []
-
-Array.from({ length: 25 }, (_) => VIRTUAL_SCROLL_BOOKS_ENTRIES.push(
-  ...BOOK_ENTRIES,
-));
+export const VIRTUAL_SCROLL_BOOKS_ENTRIES: BasesEntry[] = Array.from({ length: 25 }).flatMap(_ => ([
+  ...BOOK_ENTRIES
+]));
 

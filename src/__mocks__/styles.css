@@ -91,6 +91,7 @@
   --background-modifier-border: #e0e0e0;
   --background-secondary: #F6F6F6;
   --bases-cards-background: #FFFFFF;
+  --bases-cards-cover-background: #FAFAFA;
   --interactive-accent: #8A5CF4;
   --primary: #8A5CF4;
 
@@ -115,6 +116,7 @@
 .dark {
   --scrollbar-color: var(--color-base-900);
   --bases-cards-background: var(--color-black);
+  --bases-cards-cover-background: var(--color-base-950);
   --background-modifier-border: var(--color-base-900);
 
   --background: var(--color-black);
@@ -156,6 +158,7 @@
 .obsidian.dark {
   --scrollbar-color: #363636;
   --bases-cards-background: #1E1E1E;
+  --bases-cards-cover-background: #242424;
   --background: #1E1E1E;
   --background-secondary: #262626;
   --background-modifier-border: #363636;
@@ -193,12 +196,14 @@ h3, .markdown-rendered h3 {
   color: var(--h3-color);
 }
 
-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: var(--input-height);
-  padding: var(--size-4-1) var(--size-4-3);
+@layer base {
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--input-height);
+    padding: var(--size-4-1) var(--size-4-3);
+  }
 }
 
 [data-layout="overlay"] h3, [data-layout="overlay"] .markdown-rendered h3 {

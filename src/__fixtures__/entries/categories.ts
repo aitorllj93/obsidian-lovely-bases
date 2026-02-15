@@ -65,8 +65,6 @@ export const CATEGORIES_ENTRIES: BasesEntry[] = [
   ),
 ];
 
-export const VIRTUAL_SCROLL_CATEGORIES_ENTRIES: BasesEntry[] = []
-
-Array.from({ length: 25 }, (_) => VIRTUAL_SCROLL_CATEGORIES_ENTRIES.push(
-  ...CATEGORIES_ENTRIES,
-));
+export const VIRTUAL_SCROLL_CATEGORIES_ENTRIES: BasesEntry[] = Array.from({ length: 25 }).flatMap(_ => ([
+  ...CATEGORIES_ENTRIES
+]));
