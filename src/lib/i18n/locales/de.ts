@@ -1,181 +1,193 @@
-import type { LocaleTranslations } from "../types";
-
-export const de: LocaleTranslations = {
-  card: {
-    options: {
-      layoutAndDisplay: {
-        title: "Layout & Anzeige",
-        layout: {
-          title: "Layout",
-          horizontal: "Horizontal",
-          vertical: "Vertikal",
-          overlay: "Überlagerung",
-          polaroid: "Polaroid",
-        },
-        contentVisibility: {
-          title: "Inhalts-Sichtbarkeit",
-          always: "Immer sichtbar",
-          hover: "Bei Hover anzeigen",
-        },
-        cardSize: {
-          title: "Kartengröße",
-        },
-        shape: {
-          title: "Form",
-          square: "Quadrat",
-          circle: "Kreis",
-          rounded: "Abgerundet",
-        },
-        tilt: {
-          title: "Neigung",
-          none: "Keine",
-          alternating: "Wechselnd",
-        },
+export const de = {
+  facets: {
+    layout: {
+      title: "Layout",
+      size: {
+        title: "Elementgröße",
       },
-      image: {
-        title: "Bild",
-        imageProperty: {
-          title: "Bildeigenschaft",
-        },
-        imageAspectRatio: {
-          title: "Bild-Seitenverhältnis",
-        },
-        imageFit: {
-          title: "Bildanpassung",
-          cover: "Abdecken",
-          contain: "Enthalten",
-        },
-        reverseContent: {
-          title: "Bild und Inhalt umkehren",
-        },
+      gap: {
+        title: "Abstand",
       },
-      content: {
-        title: "Inhalt",
-        showTitle: {
-          title: "Titel anzeigen",
-        },
-        showPropertyTitles: {
-          title: "Eigenschaftstitel anzeigen",
-        },
-        showContent: {
-          title: "Notizinhalt anzeigen",
-        },
-        contentMaxLength: {
-          title: "Maximale Inhaltslänge",
-        },
+      border: {
+        title: "Rahmen",
+        none: "Keine",
+        solid: "Durchgehend",
+        dashed: "Gestrichelt",
+        dotted: "Gepunktet",
       },
-      appearance: {
-        title: "Erscheinungsbild",
-        titleFont: {
-          title: "Schriftfamilie des Titels",
-        },
-        contentFont: {
-          title: "Schriftfamilie des Inhalts",
-        },
-        badgesFont: {
-          title: "Schriftfamilie der Abzeichen",
-        },
-        backgroundColorProperty: {
-          title: "Hintergrundfarbe-Eigenschaft",
-        },
-        backgroundColorApplyTo: {
-          title: "Hintergrundfarbe anwenden auf",
-          image: "Bild",
-          content: "Inhalt",
-          both: "Beides",
-        },
-        iconProperty: {
-          title: "Symbol-Eigenschaft",
-        },
-      },
-      badges: {
-        title: "Abzeichen",
-        badgeProperty: {
-          title: "Abzeichen-Eigenschaft",
-        },
-        badgeIcon: {
-          title: "Abzeichen-Symbol",
-        },
-        badgeColor: {
-          title: "Abzeichen-Farbe",
-        },
-      },
-      interactivity: {
-        title: "Interaktivität",
-        linkProperty: {
-          title: "Link-Eigenschaft",
-        },
-        hoverStyle: {
-          title: "Hover-Stil",
-          none: "Keine",
-          overlay: "Überlagerung",
-          tooltip: "Tooltip",
-        },
-        hoverProperty: {
-          title: "Hover-Eigenschaft",
-        },
+      spacing: {
+        title: "Abstand",
       },
     },
-  },
-  group: {
-    options: {
-      behavior: {
-        title: "Gruppenverhalten",
-        clickOnGroup: {
-          title: "Klick auf Gruppe",
-          expand: "Erweitern",
-          navigate: "Navigieren",
-          none: "Keine",
-        },
+    groups: {
+      title: "Gruppen",
+      layout: {
+        title: "Layout",
+        sections: "Sektionen",
+        grid: "Raster",
       },
-      layoutAndDisplay: {
-        title: "Gruppen-Layout",
-        groupLayout: {
-          title: "Layout",
-          sections: "Sektionen",
-          grid: "Raster",
-        },
-        groupShape: {
-          title: "Form",
-          folder: "Ordner",
-          notebook: "Notizbuch",
-        },
-        groupBorder: {
-          title: "Rahmen",
-          none: "Keine",
-          solid: "Durchgehend",
-          dotted: "Gepunktet",
-          dashed: "Gestrichelt",
-        },
-        groupSpacing: {
-          title: "Abstand",
-        },
-        groupCounterPosition: {
-          title: "Zählerposition",
-          inside: "Innen",
-          outside: "Außen",
-          none: "Versteckt",
-        },
-        groupTitlePosition: {
-          title: "Titelposition",
-          inside: "Innen",
-          outside: "Außen",
-          none: "Versteckt",
-        },
+      shape: {
+        title: "Form",
+        folder: "Ordner",
+        notebook: "Notizbuch",
       },
-      appearance: {
-        title: "Gruppen-Erscheinungsbild",
-        iconProperty: {
-          title: "Symbol-Eigenschaft",
-        },
-        colorProperty: {
-          title: "Farb-Eigenschaft",
-        },
-        inferPropertiesFromLinkedNotes: {
-          title: "Eigenschaften aus verknüpften Notizen ableiten",
-        },
+      ungroupedItemsDisplay: {
+        title: "Anzeige Nicht Gruppierter Elemente",
+        group: "Gruppieren",
+        inline: "Inline",
+        hidden: "Versteckt",
+      },
+      inferPropertiesFromLinkedNotes: {
+        title: "Eigenschaften aus Verknüpften Notizen Ableiten",
+      }
+    },
+    cards: {
+      title: "Karten",
+      layout: {
+        title: "Layout",
+        horizontal: "Horizontal",
+        vertical: "Vertikal",
+        overlay: "Überlagerung",
+        polaroid: "Polaroid",
+      },
+      shape: {
+        title: "Form",
+        square: "Quadrat",
+        circle: "Kreis",
+        rounded: "Abgerundet",
+      },
+      tilt: {
+        title: "Neigung",
+        none: "Keine",
+        clockwise: "Im Uhrzeigersinn",
+        counterclockwise: "Gegen den Uhrzeigersinn",
+        alternating: "Wechselnd",
+      },
+      adaptToSize: {
+        title: "An Größe Anpassen",
+      },
+      reverseContent: {
+        title: "Inhalt Umkehren",
       },
     },
+    titles: {
+      title: "Titel",
+      position: {
+        title: "Position",
+        none: "Keine",
+        inside: "Innen",
+        outside: "Außen",
+      },
+      font: {
+        title: "Schriftfamilie",
+      },
+      groupTitleProperty: {
+        title: "Gruppentitel-Eigenschaft",
+      },
+      groupSubtitleProperty: {
+        title: "Gruppenuntertitel-Eigenschaft",
+      },
+    },
+    contents: {
+      title: "Inhalte",
+      visibility: {
+        title: 'Inhalts-Sichtbarkeit',
+        always: 'Immer sichtbar',
+        hover: 'Bei Hover anzeigen',
+      },
+      font: {
+        title: "Schriftfamilie",
+      },
+      showPropertyTitles: {
+        title: "Eigenschaftstitel Anzeigen",
+      },
+      showMarkdown: {
+        title: "Markdown Anzeigen",
+      },
+      markdownMaxLength: {
+        title: "Maximale Markdown-Länge",
+      },
+      markdownMaxHeight: {
+        title: "Maximale Markdown-Höhe",
+      },
+    },
+    images: {
+      title: "Bilder",
+      property: {
+        title: "Eigenschaft",
+      },
+      aspectRatio: {
+        title: "Seitenverhältnis",
+      },
+      fit: {
+        title: "Anpassung",
+        cover: "Abdecken",
+        contain: "Enthalten",
+      },
+    },
+    colors: {
+      title: "Farben",
+      property: {
+        title: "Eigenschaft",
+      },
+      applyTo: {
+        title: "Anwenden Auf",
+        image: "Bild",
+        content: "Inhalt",
+        both: "Beides",
+      },
+    },
+    icons: {
+      title: "Symbole",
+      property: {
+        title: "Eigenschaft",
+      },
+      fileExtensionAsFallback: {
+        title: "Dateierweiterungs-Symbole als Fallback Verwenden",
+      },
+    },
+    badges: {
+      title: 'Abzeichen',
+      property: {
+        title: "Eigenschaft",
+      },
+      font: {
+        title: "Schriftfamilie",
+      },
+      iconProperty: {
+        title: "Symbol-Eigenschaft",
+      },
+      colorProperty: {
+        title: "Farb-Eigenschaft",
+      },
+      counterPosition: {
+        title: "Gruppenzähler-Position",
+        none: "Keine",
+        inside: "Innen",
+        outside: "Außen",
+      }
+    },
+    actions: {
+      title: 'Aktionen',
+      property: {
+        title: "Link-Eigenschaft",
+      },
+      groupClickBehavior: {
+        title: "Gruppen-Klick-Verhalten",
+        expand: "Erweitern",
+        navigate: "Navigieren",
+        none: "Keine",
+      },
+      hoverStyle: {
+        title: "Hover-Stil",
+        overlay: "Überlagerung",
+        tooltip: "Tooltip",
+        none: "Keine",
+      },
+      hoverProperty: {
+        title: "Hover-Eigenschaft",
+      }
+    }
   },
   infiniteGallery: {
     options: {
@@ -275,16 +287,16 @@ export const de: LocaleTranslations = {
           "month-grid": "Monatsraster (Kalender-Stil)",
         },
         showDayLabels: {
-          title: "Tagesbeschriftungen anzeigen",
+          title: "Tagesbeschriftungen Anzeigen",
         },
         showMonthLabels: {
-          title: "Monatsbeschriftungen anzeigen",
+          title: "Monatsbeschriftungen Anzeigen",
         },
         showYearLabels: {
-          title: "Jahresbeschriftungen anzeigen",
+          title: "Jahresbeschriftungen Anzeigen",
         },
         showLegend: {
-          title: "Legende anzeigen",
+          title: "Legende Anzeigen",
         },
       },
       valueRange: {
@@ -308,7 +320,7 @@ export const de: LocaleTranslations = {
           title: "Farbschema",
         },
         reverseColors: {
-          title: "Farben umkehren",
+          title: "Farben Umkehren",
         },
         customColors: {
           title: "Benutzerdefinierte Farben (kommagetrennte Hex-Werte)",
@@ -320,48 +332,6 @@ export const de: LocaleTranslations = {
         },
       },
     },
-  },
-  projectFolders: {
-    options: {
-      dataProperties: {
-        title: "Dateneigenschaften",
-        imageProperty: {
-          title: "Bild-Eigenschaft",
-        },
-        iconProperty: {
-          title: "Symbol-Eigenschaft",
-        },
-        colorProperty: {
-          title: "Farb-Eigenschaft",
-        },
-      },
-      display: {
-        title: "Anzeige",
-        groupShape: {
-          title: "Gruppenform",
-          folder: "Ordner",
-          notebook: "Notizbuch",
-        },
-        colorizeFiles: {
-          title: "Dateien einfärben",
-        },
-        groupCounterPosition: {
-          title: "Position des Gruppenzählers",
-          inside: "Innen",
-          outside: "Außen",
-          none: "Versteckt",
-        },
-        groupTitlePosition: {
-          title: "Position des Gruppentitels",
-          inside: "Innen",
-          outside: "Außen",
-          none: "Versteckt",
-        },
-      },
-    },
-    back: "Zurück",
-    totalItems: "{count} Dateien",
-    singleItem: "{count} Datei",
   },
   radarChart: {
     options: {
@@ -388,13 +358,13 @@ export const de: LocaleTranslations = {
       display: {
         title: "Anzeige",
         showAxisLabels: {
-          title: "Achsenbeschriftungen anzeigen",
+          title: "Achsenbeschriftungen Anzeigen",
         },
         showAxisTicks: {
-          title: "Achsenmarkierungen anzeigen",
+          title: "Achsenmarkierungen Anzeigen",
         },
         showLegend: {
-          title: "Legende anzeigen",
+          title: "Legende Anzeigen",
         },
         legendPosition: {
           title: "Legendenposition",
@@ -422,16 +392,10 @@ export const de: LocaleTranslations = {
   common: {
     loading: "Laden...",
     error: "Fehler",
+    back: "Zurück",
+    totalItems: "{count} Einträge",
+    singleItem: "{count} Eintrag",
     options: {
-      grouping: {
-        title: "Gruppierung",
-        groupTitleProperty: {
-          title: "Gruppentitel-Eigenschaft",
-        },
-        groupSubtitleProperty: {
-          title: "Gruppenuntertitel-Eigenschaft",
-        },
-      },
       colors: {
         palettes: {
           red: "Rot",
@@ -452,4 +416,4 @@ export const de: LocaleTranslations = {
       },
     },
   },
-};
+} as const;

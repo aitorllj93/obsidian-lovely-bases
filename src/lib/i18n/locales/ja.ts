@@ -1,181 +1,193 @@
-import type { LocaleTranslations } from "../types";
-
-export const ja: LocaleTranslations = {
-  card: {
-    options: {
-      layoutAndDisplay: {
-        title: "レイアウトと表示",
-        layout: {
-          title: "レイアウト",
-          horizontal: "横",
-          vertical: "縦",
-          overlay: "オーバーレイ",
-          polaroid: "ポラロイド",
-        },
-        contentVisibility: {
-          title: "コンテンツの表示",
-          always: "常に表示",
-          hover: "ホバー時に表示",
-        },
-        cardSize: {
-          title: "カードサイズ",
-        },
-        shape: {
-          title: "形状",
-          square: "正方形",
-          circle: "円",
-          rounded: "角丸",
-        },
-        tilt: {
-          title: "傾き",
-          none: "なし",
-          alternating: "交互",
-        },
+export const ja = {
+  facets: {
+    layout: {
+      title: "レイアウト",
+      size: {
+        title: "アイテムサイズ",
       },
-      image: {
-        title: "画像",
-        imageProperty: {
-          title: "画像プロパティ",
-        },
-        imageAspectRatio: {
-          title: "画像アスペクト比",
-        },
-        imageFit: {
-          title: "画像フィット",
-          cover: "カバー",
-          contain: "含む",
-        },
-        reverseContent: {
-          title: "画像とコンテンツを反転",
-        },
+      gap: {
+        title: "間隔",
       },
-      content: {
-        title: "コンテンツ",
-        showTitle: {
-          title: "タイトルを表示",
-        },
-        showPropertyTitles: {
-          title: "プロパティタイトルを表示",
-        },
-        showContent: {
-          title: "ノートコンテンツを表示",
-        },
-        contentMaxLength: {
-          title: "コンテンツ最大長",
-        },
+      border: {
+        title: "ボーダー",
+        none: "なし",
+        solid: "実線",
+        dashed: "破線",
+        dotted: "点線",
       },
-      appearance: {
-        title: "外観",
-        titleFont: {
-          title: "タイトルフォントファミリー",
-        },
-        contentFont: {
-          title: "コンテンツフォントファミリー",
-        },
-        badgesFont: {
-          title: "バッジフォントファミリー",
-        },
-        backgroundColorProperty: {
-          title: "背景色プロパティ",
-        },
-        backgroundColorApplyTo: {
-          title: "背景色の適用先",
-          image: "画像",
-          content: "コンテンツ",
-          both: "両方",
-        },
-        iconProperty: {
-          title: "アイコンプロパティ",
-        },
-      },
-      badges: {
-        title: "バッジ",
-        badgeProperty: {
-          title: "バッジプロパティ",
-        },
-        badgeIcon: {
-          title: "バッジアイコン",
-        },
-        badgeColor: {
-          title: "バッジの色",
-        },
-      },
-      interactivity: {
-        title: "インタラクティビティ",
-        linkProperty: {
-          title: "リンクプロパティ",
-        },
-        hoverStyle: {
-          title: "ホバースタイル",
-          none: "なし",
-          overlay: "オーバーレイ",
-          tooltip: "ツールチップ",
-        },
-        hoverProperty: {
-          title: "ホバープロパティ",
-        },
+      spacing: {
+        title: "間隔",
       },
     },
-  },
-  group: {
-    options: {
-      behavior: {
-        title: "グループの動作",
-        clickOnGroup: {
-          title: "グループをクリック",
-          expand: "展開",
-          navigate: "ナビゲート",
-          none: "なし",
-        },
+    groups: {
+      title: "グループ",
+      layout: {
+        title: "レイアウト",
+        sections: "セクション",
+        grid: "グリッド",
       },
-      layoutAndDisplay: {
-        title: "グループレイアウト",
-        groupLayout: {
-          title: "レイアウト",
-          sections: "セクション",
-          grid: "グリッド",
-        },
-        groupShape: {
-          title: "形状",
-          folder: "フォルダー",
-          notebook: "ノートブック",
-        },
-        groupBorder: {
-          title: "枠線",
-          none: "なし",
-          solid: "実線",
-          dotted: "点線",
-          dashed: "破線",
-        },
-        groupSpacing: {
-          title: "間隔",
-        },
-        groupCounterPosition: {
-          title: "カウンターの位置",
-          inside: "内側",
-          outside: "外側",
-          none: "非表示",
-        },
-        groupTitlePosition: {
-          title: "タイトルの位置",
-          inside: "内側",
-          outside: "外側",
-          none: "非表示",
-        },
+      shape: {
+        title: "形状",
+        folder: "フォルダー",
+        notebook: "ノートブック",
       },
-      appearance: {
-        title: "グループの外観",
-        iconProperty: {
-          title: "アイコンプロパティ",
-        },
-        colorProperty: {
-          title: "色プロパティ",
-        },
-        inferPropertiesFromLinkedNotes: {
-          title: "リンクされたノートからプロパティを推測",
-        },
+      ungroupedItemsDisplay: {
+        title: "グループ化されていないアイテムの表示",
+        group: "グループ",
+        inline: "インライン",
+        hidden: "非表示",
+      },
+      inferPropertiesFromLinkedNotes: {
+        title: "リンクされたノートからプロパティを推測",
+      }
+    },
+    cards: {
+      title: "カード",
+      layout: {
+        title: "レイアウト",
+        horizontal: "横",
+        vertical: "縦",
+        overlay: "オーバーレイ",
+        polaroid: "ポラロイド",
+      },
+      shape: {
+        title: "形状",
+        square: "正方形",
+        circle: "円",
+        rounded: "角丸",
+      },
+      tilt: {
+        title: "傾き",
+        none: "なし",
+        clockwise: "時計回り",
+        counterclockwise: "反時計回り",
+        alternating: "交互",
+      },
+      adaptToSize: {
+        title: "サイズに適応",
+      },
+      reverseContent: {
+        title: "コンテンツを反転",
       },
     },
+    titles: {
+      title: "タイトル",
+      position: {
+        title: "位置",
+        none: "なし",
+        inside: "内側",
+        outside: "外側",
+      },
+      font: {
+        title: "フォントファミリー",
+      },
+      groupTitleProperty: {
+        title: "グループタイトルプロパティ",
+      },
+      groupSubtitleProperty: {
+        title: "グループサブタイトルプロパティ",
+      },
+    },
+    contents: {
+      title: "コンテンツ",
+      visibility: {
+        title: 'コンテンツの表示',
+        always: '常に表示',
+        hover: 'ホバー時に表示',
+      },
+      font: {
+        title: "フォントファミリー",
+      },
+      showPropertyTitles: {
+        title: "プロパティタイトルを表示",
+      },
+      showMarkdown: {
+        title: "Markdownを表示",
+      },
+      markdownMaxLength: {
+        title: "Markdown最大長",
+      },
+      markdownMaxHeight: {
+        title: "Markdown最大高さ",
+      },
+    },
+    images: {
+      title: "画像",
+      property: {
+        title: "プロパティ",
+      },
+      aspectRatio: {
+        title: "アスペクト比",
+      },
+      fit: {
+        title: "フィット",
+        cover: "カバー",
+        contain: "含む",
+      },
+    },
+    colors: {
+      title: "色",
+      property: {
+        title: "プロパティ",
+      },
+      applyTo: {
+        title: "適用先",
+        image: "画像",
+        content: "コンテンツ",
+        both: "両方",
+      },
+    },
+    icons: {
+      title: "アイコン",
+      property: {
+        title: "プロパティ",
+      },
+      fileExtensionAsFallback: {
+        title: "ファイル拡張子アイコンをフォールバックとして使用",
+      },
+    },
+    badges: {
+      title: 'バッジ',
+      property: {
+        title: "プロパティ",
+      },
+      font: {
+        title: "フォントファミリー",
+      },
+      iconProperty: {
+        title: "アイコンプロパティ",
+      },
+      colorProperty: {
+        title: "色プロパティ",
+      },
+      counterPosition: {
+        title: "グループカウンターの位置",
+        none: "なし",
+        inside: "内側",
+        outside: "外側",
+      }
+    },
+    actions: {
+      title: 'アクション',
+      property: {
+        title: "リンクプロパティ",
+      },
+      groupClickBehavior: {
+        title: "グループクリック動作",
+        expand: "展開",
+        navigate: "ナビゲート",
+        none: "なし",
+      },
+      hoverStyle: {
+        title: "ホバースタイル",
+        overlay: "オーバーレイ",
+        tooltip: "ツールチップ",
+        none: "なし",
+      },
+      hoverProperty: {
+        title: "ホバープロパティ",
+      }
+    }
   },
   infiniteGallery: {
     options: {
@@ -321,48 +333,6 @@ export const ja: LocaleTranslations = {
       },
     },
   },
-  projectFolders: {
-    options: {
-      dataProperties: {
-        title: "データプロパティ",
-        imageProperty: {
-          title: "画像プロパティ",
-        },
-        iconProperty: {
-          title: "アイコンプロパティ",
-        },
-        colorProperty: {
-          title: "色プロパティ",
-        },
-      },
-      display: {
-        title: "表示",
-        groupShape: {
-          title: "グループの形状",
-          folder: "フォルダー",
-          notebook: "ノートブック",
-        },
-        colorizeFiles: {
-          title: "ファイルに色を付ける",
-        },
-        groupCounterPosition: {
-          title: "グループカウンターの位置",
-          inside: "内側",
-          outside: "外側",
-          none: "非表示",
-        },
-        groupTitlePosition: {
-          title: "グループタイトルの位置",
-          inside: "内側",
-          outside: "外側",
-          none: "非表示",
-        },
-      },
-    },
-    back: "戻る",
-    totalItems: "{count} ファイル",
-    singleItem: "{count} ファイル",
-  },
   radarChart: {
     options: {
       data: {
@@ -422,16 +392,10 @@ export const ja: LocaleTranslations = {
   common: {
     loading: "読み込み中...",
     error: "エラー",
+    back: "戻る",
+    totalItems: "{count} エントリ",
+    singleItem: "{count} エントリ",
     options: {
-      grouping: {
-        title: "グループ化",
-        groupTitleProperty: {
-          title: "グループタイトルプロパティ",
-        },
-        groupSubtitleProperty: {
-          title: "グループサブタイトルプロパティ",
-        },
-      },
       colors: {
         palettes: {
           red: "赤",
@@ -452,4 +416,4 @@ export const ja: LocaleTranslations = {
       },
     },
   },
-};
+} as const;

@@ -1,181 +1,193 @@
-import type { LocaleTranslations } from "../types";
-
-export const fr: LocaleTranslations = {
-  card: {
-    options: {
-      layoutAndDisplay: {
-        title: "Disposition et Affichage",
-        layout: {
-          title: "Disposition",
-          horizontal: "Horizontal",
-          vertical: "Vertical",
-          overlay: "Superposition",
-          polaroid: "Polaroid",
-        },
-        contentVisibility: {
-          title: "Visibilité du Contenu",
-          always: "Toujours Visible",
-          hover: "Afficher au Survol",
-        },
-        cardSize: {
-          title: "Taille de Carte",
-        },
-        shape: {
-          title: "Forme",
-          square: "Carré",
-          circle: "Cercle",
-          rounded: "Arrondi",
-        },
-        tilt: {
-          title: "Inclinaison",
-          none: "Aucune",
-          alternating: "Alternant",
-        },
+export const fr = {
+  facets: {
+    layout: {
+      title: "Disposition",
+      size: {
+        title: "Taille de l'Élément",
       },
-      image: {
-        title: "Image",
-        imageProperty: {
-          title: "Propriété d'Image",
-        },
-        imageAspectRatio: {
-          title: "Ratio d'Aspect de l'Image",
-        },
-        imageFit: {
-          title: "Ajustement de l'Image",
-          cover: "Couvrir",
-          contain: "Contenir",
-        },
-        reverseContent: {
-          title: "Inverser Image et Contenu",
-        },
+      gap: {
+        title: "Espacement",
       },
-      content: {
-        title: "Contenu",
-        showTitle: {
-          title: "Afficher le Titre",
-        },
-        showPropertyTitles: {
-          title: "Afficher les Titres de Propriétés",
-        },
-        showContent: {
-          title: "Afficher le Contenu de la Note",
-        },
-        contentMaxLength: {
-          title: "Longueur Maximale du Contenu",
-        },
+      border: {
+        title: "Bordure",
+        none: "Aucune",
+        solid: "Pleine",
+        dashed: "Tirets",
+        dotted: "Pointillée",
       },
-      appearance: {
-        title: "Apparence",
-        titleFont: {
-          title: "Famille de Police du Titre",
-        },
-        contentFont: {
-          title: "Famille de Police du Contenu",
-        },
-        badgesFont: {
-          title: "Famille de Police des Badges",
-        },
-        backgroundColorProperty: {
-          title: "Propriété de Couleur de Fond",
-        },
-        backgroundColorApplyTo: {
-          title: "Appliquer la Couleur de Fond à",
-          image: "Image",
-          content: "Contenu",
-          both: "Les Deux",
-        },
-        iconProperty: {
-          title: "Propriété d'Icône",
-        },
-      },
-      badges: {
-        title: "Badges",
-        badgeProperty: {
-          title: "Propriété de Badge",
-        },
-        badgeIcon: {
-          title: "Icône de Badge",
-        },
-        badgeColor: {
-          title: "Couleur de Badge",
-        },
-      },
-      interactivity: {
-        title: "Interactivité",
-        linkProperty: {
-          title: "Propriété de Lien",
-        },
-        hoverStyle: {
-          title: "Style au Survol",
-          none: "Aucun",
-          overlay: "Superposition",
-          tooltip: "Info-bulle",
-        },
-        hoverProperty: {
-          title: "Propriété au Survol",
-        },
+      spacing: {
+        title: "Espacement",
       },
     },
-  },
-  group: {
-    options: {
-      behavior: {
-        title: "Comportement du Groupe",
-        clickOnGroup: {
-          title: "Clic sur le Groupe",
-          expand: "Développer",
-          navigate: "Naviguer",
-          none: "Aucun",
-        },
+    groups: {
+      title: "Groupes",
+      layout: {
+        title: "Disposition",
+        sections: "Sections",
+        grid: "Grille",
       },
-      layoutAndDisplay: {
-        title: "Disposition du Groupe",
-        groupLayout: {
-          title: "Disposition",
-          sections: "Sections",
-          grid: "Grille",
-        },
-        groupShape: {
-          title: "Forme",
-          folder: "Dossier",
-          notebook: "Carnet",
-        },
-        groupBorder: {
-          title: "Bordure",
-          none: "Aucune",
-          solid: "Pleine",
-          dotted: "Pointillée",
-          dashed: "Tirets",
-        },
-        groupSpacing: {
-          title: "Espacement",
-        },
-        groupCounterPosition: {
-          title: "Position du Compteur",
-          inside: "Intérieur",
-          outside: "Extérieur",
-          none: "Masqué",
-        },
-        groupTitlePosition: {
-          title: "Position du Titre",
-          inside: "Intérieur",
-          outside: "Extérieur",
-          none: "Masqué",
-        },
+      shape: {
+        title: "Forme",
+        folder: "Dossier",
+        notebook: "Carnet",
       },
-      appearance: {
-        title: "Apparence du Groupe",
-        iconProperty: {
-          title: "Propriété d'Icône",
-        },
-        colorProperty: {
-          title: "Propriété de Couleur",
-        },
-        inferPropertiesFromLinkedNotes: {
-          title: "Déduire les Propriétés des Notes Liées",
-        },
+      ungroupedItemsDisplay: {
+        title: "Affichage des Éléments Non Groupés",
+        group: "Grouper",
+        inline: "En ligne",
+        hidden: "Masqué",
+      },
+      inferPropertiesFromLinkedNotes: {
+        title: "Déduire les Propriétés des Notes Liées",
+      }
+    },
+    cards: {
+      title: "Cartes",
+      layout: {
+        title: "Disposition",
+        horizontal: "Horizontal",
+        vertical: "Vertical",
+        overlay: "Superposition",
+        polaroid: "Polaroid",
+      },
+      shape: {
+        title: "Forme",
+        square: "Carré",
+        circle: "Cercle",
+        rounded: "Arrondi",
+      },
+      tilt: {
+        title: "Inclinaison",
+        none: "Aucune",
+        clockwise: "Dans le sens des aiguilles d'une montre",
+        counterclockwise: "Dans le sens inverse des aiguilles d'une montre",
+        alternating: "Alternant",
+      },
+      adaptToSize: {
+        title: "Adapter à la Taille",
+      },
+      reverseContent: {
+        title: "Inverser le Contenu",
       },
     },
+    titles: {
+      title: "Titres",
+      position: {
+        title: "Position",
+        none: "Aucun",
+        inside: "Intérieur",
+        outside: "Extérieur",
+      },
+      font: {
+        title: "Famille de Police",
+      },
+      groupTitleProperty: {
+        title: "Propriété de Titre de Groupe",
+      },
+      groupSubtitleProperty: {
+        title: "Propriété de Sous-titre de Groupe",
+      },
+    },
+    contents: {
+      title: "Contenus",
+      visibility: {
+        title: 'Visibilité du Contenu',
+        always: 'Toujours Visible',
+        hover: 'Afficher au Survol',
+      },
+      font: {
+        title: "Famille de Police",
+      },
+      showPropertyTitles: {
+        title: "Afficher les Titres de Propriétés",
+      },
+      showMarkdown: {
+        title: "Afficher le Markdown",
+      },
+      markdownMaxLength: {
+        title: "Longueur Maximale du Markdown",
+      },
+      markdownMaxHeight: {
+        title: "Hauteur Maximale du Markdown",
+      },
+    },
+    images: {
+      title: "Images",
+      property: {
+        title: "Propriété",
+      },
+      aspectRatio: {
+        title: "Ratio d'Aspect",
+      },
+      fit: {
+        title: "Ajustement",
+        cover: "Couvrir",
+        contain: "Contenir",
+      },
+    },
+    colors: {
+      title: "Couleurs",
+      property: {
+        title: "Propriété",
+      },
+      applyTo: {
+        title: "Appliquer À",
+        image: "Image",
+        content: "Contenu",
+        both: "Les Deux",
+      },
+    },
+    icons: {
+      title: "Icônes",
+      property: {
+        title: "Propriété",
+      },
+      fileExtensionAsFallback: {
+        title: "Utiliser les Icônes d'Extension de Fichier comme Repli",
+      },
+    },
+    badges: {
+      title: 'Badges',
+      property: {
+        title: "Propriété",
+      },
+      font: {
+        title: "Famille de Police",
+      },
+      iconProperty: {
+        title: "Propriété d'Icône",
+      },
+      colorProperty: {
+        title: "Propriété de Couleur",
+      },
+      counterPosition: {
+        title: "Position du Compteur de Groupe",
+        none: "Aucun",
+        inside: "Intérieur",
+        outside: "Extérieur",
+      }
+    },
+    actions: {
+      title: 'Actions',
+      property: {
+        title: "Propriété de Lien",
+      },
+      groupClickBehavior: {
+        title: "Comportement de Clic sur le Groupe",
+        expand: "Développer",
+        navigate: "Naviguer",
+        none: "Aucun",
+      },
+      hoverStyle: {
+        title: "Style au Survol",
+        overlay: "Superposition",
+        tooltip: "Info-bulle",
+        none: "Aucun",
+      },
+      hoverProperty: {
+        title: "Propriété au Survol",
+      }
+    }
   },
   infiniteGallery: {
     options: {
@@ -321,48 +333,6 @@ export const fr: LocaleTranslations = {
       },
     },
   },
-  projectFolders: {
-    options: {
-      dataProperties: {
-        title: "Propriétés des Données",
-        imageProperty: {
-          title: "Propriété d'Image",
-        },
-        iconProperty: {
-          title: "Propriété d'Icône",
-        },
-        colorProperty: {
-          title: "Propriété de Couleur",
-        },
-      },
-      display: {
-        title: "Affichage",
-        groupShape: {
-          title: "Forme du Groupe",
-          folder: "Dossier",
-          notebook: "Carnet",
-        },
-        colorizeFiles: {
-          title: "Coloriser les Fichiers",
-        },
-        groupCounterPosition: {
-          title: "Position du Compteur du Groupe",
-          inside: "Intérieur",
-          outside: "Extérieur",
-          none: "Masqué",
-        },
-        groupTitlePosition: {
-          title: "Position du Titre du Groupe",
-          inside: "Intérieur",
-          outside: "Extérieur",
-          none: "Masqué",
-        },
-      },
-    },
-    back: "Retour",
-    totalItems: "{count} fichiers",
-    singleItem: "{count} fichier",
-  },
   radarChart: {
     options: {
       data: {
@@ -422,16 +392,10 @@ export const fr: LocaleTranslations = {
   common: {
     loading: "Chargement...",
     error: "Erreur",
+    back: "Retour",
+    totalItems: "{count} entrées",
+    singleItem: "{count} entrée",
     options: {
-      grouping: {
-        title: "Regroupement",
-        groupTitleProperty: {
-          title: "Propriété de Titre de Groupe",
-        },
-        groupSubtitleProperty: {
-          title: "Propriété de Sous-titre de Groupe",
-        },
-      },
       colors: {
         palettes: {
           red: "Rouge",
@@ -452,4 +416,4 @@ export const fr: LocaleTranslations = {
       },
     },
   },
-};
+} as const;

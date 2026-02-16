@@ -1,181 +1,193 @@
-import type { LocaleTranslations } from "../types";
-
-export const ko: LocaleTranslations = {
-  card: {
-    options: {
-      layoutAndDisplay: {
-        title: "레이아웃 및 표시",
-        layout: {
-          title: "레이아웃",
-          horizontal: "가로",
-          vertical: "세로",
-          overlay: "오버레이",
-          polaroid: "폴라로이드",
-        },
-        contentVisibility: {
-          title: "콘텐츠 표시",
-          always: "항상 표시",
-          hover: "호버 시 표시",
-        },
-        cardSize: {
-          title: "카드 크기",
-        },
-        shape: {
-          title: "모양",
-          square: "정사각형",
-          circle: "원형",
-          rounded: "둥근 모서리",
-        },
-        tilt: {
-          title: "기울기",
-          none: "없음",
-          alternating: "교대",
-        },
+export const ko = {
+  facets: {
+    layout: {
+      title: "레이아웃",
+      size: {
+        title: "항목 크기",
       },
-      image: {
-        title: "이미지",
-        imageProperty: {
-          title: "이미지 속성",
-        },
-        imageAspectRatio: {
-          title: "이미지 종횡비",
-        },
-        imageFit: {
-          title: "이미지 맞춤",
-          cover: "덮기",
-          contain: "포함",
-        },
-        reverseContent: {
-          title: "이미지와 콘텐츠 반전",
-        },
+      gap: {
+        title: "간격",
       },
-      content: {
-        title: "콘텐츠",
-        showTitle: {
-          title: "제목 표시",
-        },
-        showPropertyTitles: {
-          title: "속성 제목 표시",
-        },
-        showContent: {
-          title: "노트 콘텐츠 표시",
-        },
-        contentMaxLength: {
-          title: "콘텐츠 최대 길이",
-        },
+      border: {
+        title: "테두리",
+        none: "없음",
+        solid: "실선",
+        dashed: "파선",
+        dotted: "점선",
       },
-      appearance: {
-        title: "외관",
-        titleFont: {
-          title: "제목 글꼴 패밀리",
-        },
-        contentFont: {
-          title: "콘텐츠 글꼴 패밀리",
-        },
-        badgesFont: {
-          title: "배지 글꼴 패밀리",
-        },
-        backgroundColorProperty: {
-          title: "배경색 속성",
-        },
-        backgroundColorApplyTo: {
-          title: "배경색 적용 대상",
-          image: "이미지",
-          content: "콘텐츠",
-          both: "둘 다",
-        },
-        iconProperty: {
-          title: "아이콘 속성",
-        },
-      },
-      badges: {
-        title: "배지",
-        badgeProperty: {
-          title: "배지 속성",
-        },
-        badgeIcon: {
-          title: "배지 아이콘",
-        },
-        badgeColor: {
-          title: "배지 색상",
-        },
-      },
-      interactivity: {
-        title: "상호작용",
-        linkProperty: {
-          title: "링크 속성",
-        },
-        hoverStyle: {
-          title: "호버 스타일",
-          none: "없음",
-          overlay: "오버레이",
-          tooltip: "툴팁",
-        },
-        hoverProperty: {
-          title: "호버 속성",
-        },
+      spacing: {
+        title: "간격",
       },
     },
-  },
-  group: {
-    options: {
-      behavior: {
-        title: "그룹 동작",
-        clickOnGroup: {
-          title: "그룹 클릭",
-          expand: "확장",
-          navigate: "탐색",
-          none: "없음",
-        },
+    groups: {
+      title: "그룹",
+      layout: {
+        title: "레이아웃",
+        sections: "섹션",
+        grid: "그리드",
       },
-      layoutAndDisplay: {
-        title: "그룹 레이아웃",
-        groupLayout: {
-          title: "레이아웃",
-          sections: "섹션",
-          grid: "그리드",
-        },
-        groupShape: {
-          title: "모양",
-          folder: "폴더",
-          notebook: "노트북",
-        },
-        groupBorder: {
-          title: "테두리",
-          none: "없음",
-          solid: "실선",
-          dotted: "점선",
-          dashed: "파선",
-        },
-        groupSpacing: {
-          title: "간격",
-        },
-        groupCounterPosition: {
-          title: "카운터 위치",
-          inside: "내부",
-          outside: "외부",
-          none: "숨김",
-        },
-        groupTitlePosition: {
-          title: "제목 위치",
-          inside: "내부",
-          outside: "외부",
-          none: "숨김",
-        },
+      shape: {
+        title: "모양",
+        folder: "폴더",
+        notebook: "노트북",
       },
-      appearance: {
-        title: "그룹 외관",
-        iconProperty: {
-          title: "아이콘 속성",
-        },
-        colorProperty: {
-          title: "색상 속성",
-        },
-        inferPropertiesFromLinkedNotes: {
-          title: "연결된 노트에서 속성 추론",
-        },
+      ungroupedItemsDisplay: {
+        title: "그룹화되지 않은 항목 표시",
+        group: "그룹",
+        inline: "인라인",
+        hidden: "숨김",
+      },
+      inferPropertiesFromLinkedNotes: {
+        title: "연결된 노트에서 속성 추론",
+      }
+    },
+    cards: {
+      title: "카드",
+      layout: {
+        title: "레이아웃",
+        horizontal: "가로",
+        vertical: "세로",
+        overlay: "오버레이",
+        polaroid: "폴라로이드",
+      },
+      shape: {
+        title: "모양",
+        square: "정사각형",
+        circle: "원형",
+        rounded: "둥근 모서리",
+      },
+      tilt: {
+        title: "기울기",
+        none: "없음",
+        clockwise: "시계 방향",
+        counterclockwise: "반시계 방향",
+        alternating: "교대",
+      },
+      adaptToSize: {
+        title: "크기에 맞추기",
+      },
+      reverseContent: {
+        title: "콘텐츠 반전",
       },
     },
+    titles: {
+      title: "제목",
+      position: {
+        title: "위치",
+        none: "없음",
+        inside: "내부",
+        outside: "외부",
+      },
+      font: {
+        title: "글꼴 패밀리",
+      },
+      groupTitleProperty: {
+        title: "그룹 제목 속성",
+      },
+      groupSubtitleProperty: {
+        title: "그룹 부제목 속성",
+      },
+    },
+    contents: {
+      title: "콘텐츠",
+      visibility: {
+        title: '콘텐츠 표시',
+        always: '항상 표시',
+        hover: '호버 시 표시',
+      },
+      font: {
+        title: "글꼴 패밀리",
+      },
+      showPropertyTitles: {
+        title: "속성 제목 표시",
+      },
+      showMarkdown: {
+        title: "Markdown 표시",
+      },
+      markdownMaxLength: {
+        title: "Markdown 최대 길이",
+      },
+      markdownMaxHeight: {
+        title: "Markdown 최대 높이",
+      },
+    },
+    images: {
+      title: "이미지",
+      property: {
+        title: "속성",
+      },
+      aspectRatio: {
+        title: "종횡비",
+      },
+      fit: {
+        title: "맞춤",
+        cover: "덮기",
+        contain: "포함",
+      },
+    },
+    colors: {
+      title: "색상",
+      property: {
+        title: "속성",
+      },
+      applyTo: {
+        title: "적용 대상",
+        image: "이미지",
+        content: "콘텐츠",
+        both: "둘 다",
+      },
+    },
+    icons: {
+      title: "아이콘",
+      property: {
+        title: "속성",
+      },
+      fileExtensionAsFallback: {
+        title: "파일 확장자 아이콘을 폴백으로 사용",
+      },
+    },
+    badges: {
+      title: '배지',
+      property: {
+        title: "속성",
+      },
+      font: {
+        title: "글꼴 패밀리",
+      },
+      iconProperty: {
+        title: "아이콘 속성",
+      },
+      colorProperty: {
+        title: "색상 속성",
+      },
+      counterPosition: {
+        title: "그룹 카운터 위치",
+        none: "없음",
+        inside: "내부",
+        outside: "외부",
+      }
+    },
+    actions: {
+      title: '작업',
+      property: {
+        title: "링크 속성",
+      },
+      groupClickBehavior: {
+        title: "그룹 클릭 동작",
+        expand: "확장",
+        navigate: "탐색",
+        none: "없음",
+      },
+      hoverStyle: {
+        title: "호버 스타일",
+        overlay: "오버레이",
+        tooltip: "툴팁",
+        none: "없음",
+      },
+      hoverProperty: {
+        title: "호버 속성",
+      }
+    }
   },
   infiniteGallery: {
     options: {
@@ -321,48 +333,6 @@ export const ko: LocaleTranslations = {
       },
     },
   },
-  projectFolders: {
-    options: {
-      dataProperties: {
-        title: "데이터 속성",
-        imageProperty: {
-          title: "이미지 속성",
-        },
-        iconProperty: {
-          title: "아이콘 속성",
-        },
-        colorProperty: {
-          title: "색상 속성",
-        },
-      },
-      display: {
-        title: "표시",
-        groupShape: {
-          title: "그룹 모양",
-          folder: "폴더",
-          notebook: "노트북",
-        },
-        colorizeFiles: {
-          title: "파일 색상 지정",
-        },
-        groupCounterPosition: {
-          title: "그룹 카운터 위치",
-          inside: "내부",
-          outside: "외부",
-          none: "숨김",
-        },
-        groupTitlePosition: {
-          title: "그룹 제목 위치",
-          inside: "내부",
-          outside: "외부",
-          none: "숨김",
-        },
-      },
-    },
-    back: "뒤로",
-    totalItems: "{count}개 파일",
-    singleItem: "{count}개 파일",
-  },
   radarChart: {
     options: {
       data: {
@@ -422,16 +392,10 @@ export const ko: LocaleTranslations = {
   common: {
     loading: "로딩 중...",
     error: "오류",
+    back: "뒤로",
+    totalItems: "{count}개 항목",
+    singleItem: "{count}개 항목",
     options: {
-      grouping: {
-        title: "그룹화",
-        groupTitleProperty: {
-          title: "그룹 제목 속성",
-        },
-        groupSubtitleProperty: {
-          title: "그룹 부제목 속성",
-        },
-      },
       colors: {
         palettes: {
           red: "빨강",
@@ -452,4 +416,4 @@ export const ko: LocaleTranslations = {
       },
     },
   },
-};
+} as const;

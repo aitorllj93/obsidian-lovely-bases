@@ -1,181 +1,193 @@
-import type { LocaleTranslations } from "../types";
-
-export const ru: LocaleTranslations = {
-  card: {
-    options: {
-      layoutAndDisplay: {
-        title: "Макет и Отображение",
-        layout: {
-          title: "Макет",
-          horizontal: "Горизонтальный",
-          vertical: "Вертикальный",
-          overlay: "Наложение",
-          polaroid: "Полароид",
-        },
-        contentVisibility: {
-          title: "Видимость Контента",
-          always: "Всегда Видимый",
-          hover: "Показать при Наведении",
-        },
-        cardSize: {
-          title: "Размер Карточки",
-        },
-        shape: {
-          title: "Форма",
-          square: "Квадрат",
-          circle: "Круг",
-          rounded: "Скругленный",
-        },
-        tilt: {
-          title: "Наклон",
-          none: "Нет",
-          alternating: "Чередующийся",
-        },
+export const ru = {
+  facets: {
+    layout: {
+      title: "Макет",
+      size: {
+        title: "Размер Элемента",
       },
-      image: {
-        title: "Изображение",
-        imageProperty: {
-          title: "Свойство Изображения",
-        },
-        imageAspectRatio: {
-          title: "Соотношение Сторон Изображения",
-        },
-        imageFit: {
-          title: "Подгонка Изображения",
-          cover: "Покрыть",
-          contain: "Содержать",
-        },
-        reverseContent: {
-          title: "Обратить Изображение и Контент",
-        },
+      gap: {
+        title: "Промежуток",
       },
-      content: {
-        title: "Контент",
-        showTitle: {
-          title: "Показать Заголовок",
-        },
-        showPropertyTitles: {
-          title: "Показать Заголовки Свойств",
-        },
-        showContent: {
-          title: "Показать Содержимое Заметки",
-        },
-        contentMaxLength: {
-          title: "Максимальная Длина Контента",
-        },
+      border: {
+        title: "Граница",
+        none: "Нет",
+        solid: "Сплошная",
+        dashed: "Пунктирная",
+        dotted: "Точечная",
       },
-      appearance: {
-        title: "Внешний вид",
-        titleFont: {
-          title: "Семейство Шрифтов Заголовка",
-        },
-        contentFont: {
-          title: "Семейство Шрифтов Контента",
-        },
-        badgesFont: {
-          title: "Семейство Шрифтов Значков",
-        },
-        backgroundColorProperty: {
-          title: "Свойство Цвета Фона",
-        },
-        backgroundColorApplyTo: {
-          title: "Применить Цвет Фона к",
-          image: "Изображение",
-          content: "Контент",
-          both: "Оба",
-        },
-        iconProperty: {
-          title: "Свойство Иконки",
-        },
-      },
-      badges: {
-        title: "Значки",
-        badgeProperty: {
-          title: "Свойство Значка",
-        },
-        badgeIcon: {
-          title: "Иконка Значка",
-        },
-        badgeColor: {
-          title: "Цвет Значка",
-        },
-      },
-      interactivity: {
-        title: "Интерактивность",
-        linkProperty: {
-          title: "Свойство Ссылки",
-        },
-        hoverStyle: {
-          title: "Стиль при Наведении",
-          none: "Нет",
-          overlay: "Наложение",
-          tooltip: "Подсказка",
-        },
-        hoverProperty: {
-          title: "Свойство при Наведении",
-        },
+      spacing: {
+        title: "Отступ",
       },
     },
-  },
-  group: {
-    options: {
-      behavior: {
-        title: "Поведение Группы",
-        clickOnGroup: {
-          title: "Клик по Группе",
-          expand: "Развернуть",
-          navigate: "Перейти",
-          none: "Нет",
-        },
+    groups: {
+      title: "Группы",
+      layout: {
+        title: "Макет",
+        sections: "Секции",
+        grid: "Сетка",
       },
-      layoutAndDisplay: {
-        title: "Макет Группы",
-        groupLayout: {
-          title: "Макет",
-          sections: "Секции",
-          grid: "Сетка",
-        },
-        groupShape: {
-          title: "Форма",
-          folder: "Папка",
-          notebook: "Блокнот",
-        },
-        groupBorder: {
-          title: "Граница",
-          none: "Нет",
-          solid: "Сплошная",
-          dotted: "Точечная",
-          dashed: "Пунктирная",
-        },
-        groupSpacing: {
-          title: "Отступ",
-        },
-        groupCounterPosition: {
-          title: "Позиция Счётчика",
-          inside: "Внутри",
-          outside: "Снаружи",
-          none: "Скрыто",
-        },
-        groupTitlePosition: {
-          title: "Позиция Заголовка",
-          inside: "Внутри",
-          outside: "Снаружи",
-          none: "Скрыто",
-        },
+      shape: {
+        title: "Форма",
+        folder: "Папка",
+        notebook: "Блокнот",
       },
-      appearance: {
-        title: "Внешний вид Группы",
-        iconProperty: {
-          title: "Свойство Иконки",
-        },
-        colorProperty: {
-          title: "Свойство Цвета",
-        },
-        inferPropertiesFromLinkedNotes: {
-          title: "Выводить Свойства из Связанных Заметок",
-        },
+      ungroupedItemsDisplay: {
+        title: "Отображение Несгруппированных Элементов",
+        group: "Группировать",
+        inline: "Встроенный",
+        hidden: "Скрыто",
+      },
+      inferPropertiesFromLinkedNotes: {
+        title: "Выводить Свойства из Связанных Заметок",
+      }
+    },
+    cards: {
+      title: "Карточки",
+      layout: {
+        title: "Макет",
+        horizontal: "Горизонтальный",
+        vertical: "Вертикальный",
+        overlay: "Наложение",
+        polaroid: "Полароид",
+      },
+      shape: {
+        title: "Форма",
+        square: "Квадрат",
+        circle: "Круг",
+        rounded: "Скругленный",
+      },
+      tilt: {
+        title: "Наклон",
+        none: "Нет",
+        clockwise: "По часовой стрелке",
+        counterclockwise: "Против часовой стрелки",
+        alternating: "Чередующийся",
+      },
+      adaptToSize: {
+        title: "Адаптировать к Размеру",
+      },
+      reverseContent: {
+        title: "Обратить Контент",
       },
     },
+    titles: {
+      title: "Заголовки",
+      position: {
+        title: "Позиция",
+        none: "Нет",
+        inside: "Внутри",
+        outside: "Снаружи",
+      },
+      font: {
+        title: "Семейство Шрифтов",
+      },
+      groupTitleProperty: {
+        title: "Свойство Заголовка Группы",
+      },
+      groupSubtitleProperty: {
+        title: "Свойство Подзаголовка Группы",
+      },
+    },
+    contents: {
+      title: "Контент",
+      visibility: {
+        title: 'Видимость Контента',
+        always: 'Всегда Видимый',
+        hover: 'Показать при Наведении',
+      },
+      font: {
+        title: "Семейство Шрифтов",
+      },
+      showPropertyTitles: {
+        title: "Показать Заголовки Свойств",
+      },
+      showMarkdown: {
+        title: "Показать Markdown",
+      },
+      markdownMaxLength: {
+        title: "Максимальная Длина Markdown",
+      },
+      markdownMaxHeight: {
+        title: "Максимальная Высота Markdown",
+      },
+    },
+    images: {
+      title: "Изображения",
+      property: {
+        title: "Свойство",
+      },
+      aspectRatio: {
+        title: "Соотношение Сторон",
+      },
+      fit: {
+        title: "Подгонка",
+        cover: "Покрыть",
+        contain: "Содержать",
+      },
+    },
+    colors: {
+      title: "Цвета",
+      property: {
+        title: "Свойство",
+      },
+      applyTo: {
+        title: "Применить К",
+        image: "Изображение",
+        content: "Контент",
+        both: "Оба",
+      },
+    },
+    icons: {
+      title: "Иконки",
+      property: {
+        title: "Свойство",
+      },
+      fileExtensionAsFallback: {
+        title: "Использовать Иконки Расширения Файлов как Резерв",
+      },
+    },
+    badges: {
+      title: 'Значки',
+      property: {
+        title: "Свойство",
+      },
+      font: {
+        title: "Семейство Шрифтов",
+      },
+      iconProperty: {
+        title: "Свойство Иконки",
+      },
+      colorProperty: {
+        title: "Свойство Цвета",
+      },
+      counterPosition: {
+        title: "Позиция Счётчика Группы",
+        none: "Нет",
+        inside: "Внутри",
+        outside: "Снаружи",
+      }
+    },
+    actions: {
+      title: 'Действия',
+      property: {
+        title: "Свойство Ссылки",
+      },
+      groupClickBehavior: {
+        title: "Поведение Клика по Группе",
+        expand: "Развернуть",
+        navigate: "Перейти",
+        none: "Нет",
+      },
+      hoverStyle: {
+        title: "Стиль при Наведении",
+        overlay: "Наложение",
+        tooltip: "Подсказка",
+        none: "Нет",
+      },
+      hoverProperty: {
+        title: "Свойство при Наведении",
+      }
+    }
   },
   infiniteGallery: {
     options: {
@@ -321,48 +333,6 @@ export const ru: LocaleTranslations = {
       },
     },
   },
-  projectFolders: {
-    options: {
-      dataProperties: {
-        title: "Свойства Данных",
-        imageProperty: {
-          title: "Свойство Изображения",
-        },
-        iconProperty: {
-          title: "Свойство Иконки",
-        },
-        colorProperty: {
-          title: "Свойство Цвета",
-        },
-      },
-      display: {
-        title: "Отображение",
-        groupShape: {
-          title: "Форма Группы",
-          folder: "Папка",
-          notebook: "Блокнот",
-        },
-        colorizeFiles: {
-          title: "Раскрасить Файлы",
-        },
-        groupCounterPosition: {
-          title: "Позиция Счётчика Группы",
-          inside: "Внутри",
-          outside: "Снаружи",
-          none: "Скрыто",
-        },
-        groupTitlePosition: {
-          title: "Позиция Заголовка Группы",
-          inside: "Внутри",
-          outside: "Снаружи",
-          none: "Скрыто",
-        },
-      },
-    },
-    back: "Назад",
-    totalItems: "{count} файлов",
-    singleItem: "{count} файл",
-  },
   radarChart: {
     options: {
       data: {
@@ -422,16 +392,10 @@ export const ru: LocaleTranslations = {
   common: {
     loading: "Загрузка...",
     error: "Ошибка",
+    back: "Назад",
+    totalItems: "{count} записей",
+    singleItem: "{count} запись",
     options: {
-      grouping: {
-        title: "Группировка",
-        groupTitleProperty: {
-          title: "Свойство Заголовка Группы",
-        },
-        groupSubtitleProperty: {
-          title: "Свойство Подзаголовка Группы",
-        },
-      },
       colors: {
         palettes: {
           red: "Красный",
@@ -452,4 +416,4 @@ export const ru: LocaleTranslations = {
       },
     },
   },
-};
+} as const;

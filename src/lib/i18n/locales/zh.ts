@@ -1,181 +1,193 @@
-import type { LocaleTranslations } from "../types";
-
-export const zh: LocaleTranslations = {
-  card: {
-    options: {
-      layoutAndDisplay: {
-        title: "布局和显示",
-        layout: {
-          title: "布局",
-          horizontal: "横向",
-          vertical: "纵向",
-          overlay: "叠加",
-          polaroid: "宝丽来",
-        },
-        contentVisibility: {
-          title: "内容可见性",
-          always: "始终可见",
-          hover: "悬停时显示",
-        },
-        cardSize: {
-          title: "卡片大小",
-        },
-        shape: {
-          title: "形状",
-          square: "方形",
-          circle: "圆形",
-          rounded: "圆角",
-        },
-        tilt: {
-          title: "倾斜",
-          none: "无",
-          alternating: "交替",
-        },
+export const zh = {
+  facets: {
+    layout: {
+      title: "布局",
+      size: {
+        title: "项目大小",
       },
-      image: {
-        title: "图像",
-        imageProperty: {
-          title: "图像属性",
-        },
-        imageAspectRatio: {
-          title: "图像宽高比",
-        },
-        imageFit: {
-          title: "图像适配",
-          cover: "覆盖",
-          contain: "包含",
-        },
-        reverseContent: {
-          title: "反转图像和内容",
-        },
+      gap: {
+        title: "间距",
       },
-      content: {
-        title: "内容",
-        showTitle: {
-          title: "显示标题",
-        },
-        showPropertyTitles: {
-          title: "显示属性标题",
-        },
-        showContent: {
-          title: "显示笔记内容",
-        },
-        contentMaxLength: {
-          title: "内容最大长度",
-        },
+      border: {
+        title: "边框",
+        none: "无",
+        solid: "实线",
+        dashed: "虚线",
+        dotted: "点线",
       },
-      appearance: {
-        title: "外观",
-        titleFont: {
-          title: "标题字体系列",
-        },
-        contentFont: {
-          title: "内容字体系列",
-        },
-        badgesFont: {
-          title: "徽章字体系列",
-        },
-        backgroundColorProperty: {
-          title: "背景颜色属性",
-        },
-        backgroundColorApplyTo: {
-          title: "应用背景颜色到",
-          image: "图像",
-          content: "内容",
-          both: "两者",
-        },
-        iconProperty: {
-          title: "图标属性",
-        },
-      },
-      badges: {
-        title: "徽章",
-        badgeProperty: {
-          title: "徽章属性",
-        },
-        badgeIcon: {
-          title: "徽章图标",
-        },
-        badgeColor: {
-          title: "徽章颜色",
-        },
-      },
-      interactivity: {
-        title: "交互性",
-        linkProperty: {
-          title: "链接属性",
-        },
-        hoverStyle: {
-          title: "悬停样式",
-          none: "无",
-          overlay: "叠加",
-          tooltip: "工具提示",
-        },
-        hoverProperty: {
-          title: "悬停属性",
-        },
+      spacing: {
+        title: "间距",
       },
     },
-  },
-  group: {
-    options: {
-      behavior: {
-        title: "组行为",
-        clickOnGroup: {
-          title: "点击组",
-          expand: "展开",
-          navigate: "导航",
-          none: "无",
-        },
+    groups: {
+      title: "组",
+      layout: {
+        title: "布局",
+        sections: "分区",
+        grid: "网格",
       },
-      layoutAndDisplay: {
-        title: "组布局",
-        groupLayout: {
-          title: "布局",
-          sections: "分区",
-          grid: "网格",
-        },
-        groupShape: {
-          title: "形状",
-          folder: "文件夹",
-          notebook: "笔记本",
-        },
-        groupBorder: {
-          title: "边框",
-          none: "无",
-          solid: "实线",
-          dotted: "点线",
-          dashed: "虚线",
-        },
-        groupSpacing: {
-          title: "间距",
-        },
-        groupCounterPosition: {
-          title: "计数器位置",
-          inside: "内部",
-          outside: "外部",
-          none: "隐藏",
-        },
-        groupTitlePosition: {
-          title: "标题位置",
-          inside: "内部",
-          outside: "外部",
-          none: "隐藏",
-        },
+      shape: {
+        title: "形状",
+        folder: "文件夹",
+        notebook: "笔记本",
       },
-      appearance: {
-        title: "组外观",
-        iconProperty: {
-          title: "图标属性",
-        },
-        colorProperty: {
-          title: "颜色属性",
-        },
-        inferPropertiesFromLinkedNotes: {
-          title: "从链接笔记推断属性",
-        },
+      ungroupedItemsDisplay: {
+        title: "未分组项目显示",
+        group: "分组",
+        inline: "内联",
+        hidden: "隐藏",
+      },
+      inferPropertiesFromLinkedNotes: {
+        title: "从链接笔记推断属性",
+      }
+    },
+    cards: {
+      title: "卡片",
+      layout: {
+        title: "布局",
+        horizontal: "横向",
+        vertical: "纵向",
+        overlay: "叠加",
+        polaroid: "宝丽来",
+      },
+      shape: {
+        title: "形状",
+        square: "方形",
+        circle: "圆形",
+        rounded: "圆角",
+      },
+      tilt: {
+        title: "倾斜",
+        none: "无",
+        clockwise: "顺时针",
+        counterclockwise: "逆时针",
+        alternating: "交替",
+      },
+      adaptToSize: {
+        title: "适应大小",
+      },
+      reverseContent: {
+        title: "反转内容",
       },
     },
+    titles: {
+      title: "标题",
+      position: {
+        title: "位置",
+        none: "无",
+        inside: "内部",
+        outside: "外部",
+      },
+      font: {
+        title: "字体系列",
+      },
+      groupTitleProperty: {
+        title: "组标题属性",
+      },
+      groupSubtitleProperty: {
+        title: "组副标题属性",
+      },
+    },
+    contents: {
+      title: "内容",
+      visibility: {
+        title: '内容可见性',
+        always: '始终可见',
+        hover: '悬停时显示',
+      },
+      font: {
+        title: "字体系列",
+      },
+      showPropertyTitles: {
+        title: "显示属性标题",
+      },
+      showMarkdown: {
+        title: "显示 Markdown",
+      },
+      markdownMaxLength: {
+        title: "Markdown 最大长度",
+      },
+      markdownMaxHeight: {
+        title: "Markdown 最大高度",
+      },
+    },
+    images: {
+      title: "图像",
+      property: {
+        title: "属性",
+      },
+      aspectRatio: {
+        title: "宽高比",
+      },
+      fit: {
+        title: "适配",
+        cover: "覆盖",
+        contain: "包含",
+      },
+    },
+    colors: {
+      title: "颜色",
+      property: {
+        title: "属性",
+      },
+      applyTo: {
+        title: "应用到",
+        image: "图像",
+        content: "内容",
+        both: "两者",
+      },
+    },
+    icons: {
+      title: "图标",
+      property: {
+        title: "属性",
+      },
+      fileExtensionAsFallback: {
+        title: "使用文件扩展名图标作为后备",
+      },
+    },
+    badges: {
+      title: '徽章',
+      property: {
+        title: "属性",
+      },
+      font: {
+        title: "字体系列",
+      },
+      iconProperty: {
+        title: "图标属性",
+      },
+      colorProperty: {
+        title: "颜色属性",
+      },
+      counterPosition: {
+        title: "组计数器位置",
+        none: "无",
+        inside: "内部",
+        outside: "外部",
+      }
+    },
+    actions: {
+      title: '操作',
+      property: {
+        title: "链接属性",
+      },
+      groupClickBehavior: {
+        title: "组点击行为",
+        expand: "展开",
+        navigate: "导航",
+        none: "无",
+      },
+      hoverStyle: {
+        title: "悬停样式",
+        overlay: "叠加",
+        tooltip: "工具提示",
+        none: "无",
+      },
+      hoverProperty: {
+        title: "悬停属性",
+      }
+    }
   },
   infiniteGallery: {
     options: {
@@ -321,48 +333,6 @@ export const zh: LocaleTranslations = {
       },
     },
   },
-  projectFolders: {
-    options: {
-      dataProperties: {
-        title: "数据属性",
-        imageProperty: {
-          title: "图像属性",
-        },
-        iconProperty: {
-          title: "图标属性",
-        },
-        colorProperty: {
-          title: "颜色属性",
-        },
-      },
-      display: {
-        title: "显示",
-        groupShape: {
-          title: "组形状",
-          folder: "文件夹",
-          notebook: "笔记本",
-        },
-        colorizeFiles: {
-          title: "为文件着色",
-        },
-        groupCounterPosition: {
-          title: "组计数器位置",
-          inside: "内部",
-          outside: "外部",
-          none: "隐藏",
-        },
-        groupTitlePosition: {
-          title: "组标题位置",
-          inside: "内部",
-          outside: "外部",
-          none: "隐藏",
-        },
-      },
-    },
-    back: "返回",
-    totalItems: "{count} 个文件",
-    singleItem: "{count} 个文件",
-  },
   radarChart: {
     options: {
       data: {
@@ -422,16 +392,10 @@ export const zh: LocaleTranslations = {
   common: {
     loading: "加载中...",
     error: "错误",
+    back: "返回",
+    totalItems: "{count} 个条目",
+    singleItem: "{count} 个条目",
     options: {
-      grouping: {
-        title: "分组",
-        groupTitleProperty: {
-          title: "组标题属性",
-        },
-        groupSubtitleProperty: {
-          title: "组副标题属性",
-        },
-      },
       colors: {
         palettes: {
           red: "红色",
@@ -452,4 +416,4 @@ export const zh: LocaleTranslations = {
       },
     },
   },
-};
+} as const;
