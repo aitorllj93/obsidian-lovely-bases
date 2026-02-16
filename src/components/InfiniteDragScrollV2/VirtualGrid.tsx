@@ -71,7 +71,7 @@ export const VirtualGrid = ({
 					height={cellHeight}
 				>
 					<Facets
-            className="mx-auto h-fit"
+            className="mx-auto min-h-fit"
             data={items[realIndex]}
 						config={config}
             isDraggable

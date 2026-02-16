@@ -21,7 +21,7 @@ export function Next({ onClick }: Props) {
   return (
     <button
       aria-label="Scroll right"
-      className="h-10 w-10 absolute -right-10 top-1/2 -translate-y-1/2 z-60 p-2 rounded-full bg-background/60 backdrop-blur-sm border border-border text-foreground shadow-md transition-opacity hover:bg-background/80 disabled:opacity-0"
+      className="h-10 w-10 absolute -right-2 top-1/2 -translate-y-1/2 z-60 p-2 rounded-full bg-background/60 backdrop-blur-sm border border-border text-foreground shadow-md transition-opacity hover:bg-background/80 disabled:opacity-0"
       onClick={onClick}
       type="button"
     >

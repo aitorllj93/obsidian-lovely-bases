@@ -148,7 +148,7 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
               isDraggable={props.isDraggable}
               layoutItemSize={width}
               className={props.className}
-              contentClassName="h-fit"
+              contentClassName="min-h-fit"
               config={props.config}
               entry={props.data}
               ref={ref}

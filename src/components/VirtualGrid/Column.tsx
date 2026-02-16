@@ -36,7 +36,7 @@ const PureColumn = forwardRef<HTMLDivElement, Props>(
       >
         {data.map((item, dataIndex) => (
           <Facets
-            className="mx-auto h-fit"
+            className="mx-auto min-h-fit"
             initialAnimation
             index={dataIndex}
             key={

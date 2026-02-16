@@ -13,7 +13,7 @@ export const LAYOUT_CONFIG_VIEW_OPTIONS: ViewOption[] = [
     displayName: t('layout.title'),
     items: [
       {
-        key: "size",
+        key: "layoutItemSize",
         default: LAYOUT_CONFIG_DEFAULTS.layoutItemSize,
         type: "slider",
         displayName: t('layout.size.title'),
@@ -22,7 +22,7 @@ export const LAYOUT_CONFIG_VIEW_OPTIONS: ViewOption[] = [
         step: 10,
       },
       {
-        key: "gap",
+        key: "layoutGap",
         default: LAYOUT_CONFIG_DEFAULTS.layoutGap,
         type: "slider",
         displayName: t('layout.gap.title'),
@@ -31,7 +31,7 @@ export const LAYOUT_CONFIG_VIEW_OPTIONS: ViewOption[] = [
         step: 1,
       },
       {
-        key: "border",
+        key: "layoutItemBorder",
         default: LAYOUT_CONFIG_DEFAULTS.layoutItemBorder,
         type: "dropdown",
         displayName: t('layout.border.title'),
@@ -43,7 +43,7 @@ export const LAYOUT_CONFIG_VIEW_OPTIONS: ViewOption[] = [
         }
       },
       {
-        key: "spacing",
+        key: "layoutItemSpacing",
         default: LAYOUT_CONFIG_DEFAULTS.layoutItemSpacing,
         type: "slider",
         displayName: t('layout.spacing.title'),

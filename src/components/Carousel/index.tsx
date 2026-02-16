@@ -37,7 +37,10 @@ const Carousel = forwardRef<HTMLDivElement, Props>(
 
           <div className="relative">
             <div
-              className="flex w-full py-4 px-4 space-x-4 overflow-x-auto pb-4 scrollbar-hide"
+              className="flex w-full py-4 px-4 overflow-x-auto pb-4 scrollbar-hide"
+              style={{
+                gap: `${facetsConfig.layoutGap}px`,
+              }}
               ref={carouselRef}
             >
               {items.map((item, index) => (
