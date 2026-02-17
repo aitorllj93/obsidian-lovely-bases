@@ -4,7 +4,16 @@ import type { GroupProps } from "@/components/Facets/types";
 import LucideIcon from "@/components/Obsidian/LucideIcon";
 import { useTranslation } from "@/lib/i18n";
 
-export function Header(props: GroupProps) {
+type Props = GroupProps & {
+  isCollapsed?: boolean;
+  onToggleCollapse?: () => void;
+}
+
+export function Header({
+  isCollapsed,
+  onToggleCollapse,
+  ...props
+}: Props) {
   const { t } = useTranslation("common");
   const { color, icon, title } = useContainerData(props, {
     color: 'var(--color-foreground)'
@@ -12,11 +21,14 @@ export function Header(props: GroupProps) {
   const entries = props.data.entries ?? [];
 
   return (
-    <header className="flex items-center gap-3 px-3 py-2 border-b border-border bg-background/95 backdrop-blur-sm"
+    <header className="flex items-center gap-3 px-3 py-2 border-b border-border bg-background/95 backdrop-blur-sm cursor-pointer"
       style={{
         ...props.style,
         color,
-      }}>
+      }}
+      onClick={onToggleCollapse}
+      role="button"
+      aria-expanded={!isCollapsed}>
       {icon && (
         <div
           className="shrink-0 size-5"

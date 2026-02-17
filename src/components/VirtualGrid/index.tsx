@@ -1,6 +1,12 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
 import type { BasesEntry, BasesEntryGroup, BasesViewConfig } from "obsidian";
-import { type CSSProperties, memo, useMemo } from "react";
+import {
+  type CSSProperties,
+  memo,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 
 import { estimateCardHeight } from "@/components/Card/helpers/estimate-card-height";
 import type { FacetsConfig } from "@/components/Facets/config";
@@ -37,17 +43,25 @@ function PureVirtualGrid({
     () => estimateCardHeight(facetsConfig),
     [facetsConfig],
   );
+  const [collapsedSectionKeys, setCollapsedSectionKeys] = useState<Set<string>>(
+    () => new Set(),
+  );
 
-  const {
-    columnCount,
-    itemWidth,
-    columnStyle,
-  } = useMemo(
+  const { columnCount, itemWidth, columnStyle } = useMemo(
     () => getGridConfig(width, facetsConfig.layoutGap, minItemWidth),
     [width, facetsConfig.layoutGap, minItemWidth],
   );
 
-  const rows = useMemo(() => getRows(facetsConfig.groupLayout, items, columnCount), [items, facetsConfig.groupLayout, columnCount]);
+  const rows = useMemo(
+    () =>
+      getRows(
+        facetsConfig.groupLayout,
+        items,
+        columnCount,
+        collapsedSectionKeys,
+      ),
+    [items, facetsConfig.groupLayout, columnCount, collapsedSectionKeys],
+  );
 
   const virtualizer = useVirtualizer({
     count: rows.length,
@@ -61,9 +75,18 @@ function PureVirtualGrid({
 
   useVirtualGridImagePrefetch(vitems, rows, (entry) =>
     [imageProperty && entry.getValue(imageProperty)?.toString()].filter(
-      (v) => v !== undefined && v !== null && v !== 'null',
+      (v) => v !== undefined && v !== null && v !== "null",
     ),
   );
+
+  const handleToggleSection = useCallback((key: string) => {
+    setCollapsedSectionKeys((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  }, []);
 
   return (
     <div
@@ -90,15 +113,20 @@ function PureVirtualGrid({
           >
             {scrollRef.current
               ? vitems.map((vRow) => (
-                  <div key={vRow.key} style={{ paddingBottom: facetsConfig.layoutGap }}>
+                  <div
+                    key={vRow.key}
+                    style={{ paddingBottom: facetsConfig.layoutGap }}
+                  >
                     <Column
-                      itemsPerColumn={columnCount}
-                      facetsConfig={facetsConfig}
-                      itemWidth={itemWidth}
+                      collapsedSectionKeys={collapsedSectionKeys}
                       config={config}
                       data={rows[vRow.index] ?? []}
+                      facetsConfig={facetsConfig}
                       index={vRow.index}
+                      itemWidth={itemWidth}
+                      itemsPerColumn={columnCount}
                       layoutIdPrefix={layoutIdPrefix}
+                      onToggleSection={handleToggleSection}
                       ref={virtualizer.measureElement}
                       style={columnStyle}
                     />

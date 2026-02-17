@@ -38,7 +38,8 @@ export const getGridConfig = (
 export const getRows = (
   groupLayout: FacetsConfig['groupLayout'],
   items: (BasesEntry | BasesEntryGroup)[],
-  columnCount: number
+  columnCount: number,
+  collapsedSectionKeys?: Set<string>,
 ) => {
   if (groupLayout !== 'sections') {
     return chunk(items, columnCount);
@@ -57,7 +58,7 @@ export const getRows = (
 
       rows.push([item]);
 
-      if (item.entries?.length) {
+      if (item.entries?.length && !collapsedSectionKeys.has(item.key.toString())) {
         rows.push(...chunk(item.entries, columnCount));
       }
 
