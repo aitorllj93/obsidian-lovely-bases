@@ -107,7 +107,6 @@ const DayCell = memo(
 				className={cn(
 					classVariants({ shape }),
 					cellStyle.className,
-					cellStyle.isOverflow && overflowColor && "ring-1 ring-destructive",
 					!isCurrentMonth && "opacity-30",
 					occurrence && onEntryClick && "cursor-pointer",
 				)}

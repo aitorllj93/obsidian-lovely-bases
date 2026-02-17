@@ -12,7 +12,7 @@ type Props = {
 };
 
 const classVariants = cva(
-	"w-3 h-3",
+	"size-3",
 	{
 		variants: {
 			shape: {
@@ -48,7 +48,7 @@ export const Legend = ({ classNames, overflowColor, shape }: Props) => {
 				<>
 					<span className="ml-2">|</span>
 					<div
-						className="w-3 h-3 rounded-[4px] ring-1 ring-destructive"
+						className={cn(classVariants({ shape }))}
 						style={{ backgroundColor: overflowColor }}
 					/>
 					<span>{t("legend.overflow")}</span>

@@ -37,7 +37,7 @@ const containerVariants = cva("", {
       layout: "vertical",
       showMonthLabels: true,
       showYearLabels: false,
-      class: "ml-2"
+      class: ""
     },
     {
       layout: "vertical",

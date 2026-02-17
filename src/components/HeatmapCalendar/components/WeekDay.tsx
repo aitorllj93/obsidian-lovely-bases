@@ -67,7 +67,6 @@ const PureWeekDay = ({
       className={cn(
         classVariants({ shape }),
         cellStyle.className,
-        cellStyle.isOverflow && overflowColor && "ring-1 ring-destructive",
         occurrence && onEntryClick && "cursor-pointer",
       )}
       style={cellStyle.style}
