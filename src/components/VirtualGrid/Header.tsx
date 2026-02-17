@@ -1,15 +1,20 @@
 
+import { motion } from 'motion/react';
+
 import { useContainerData } from "@/components/Facets/hooks/use-container-data";
 import type { GroupProps } from "@/components/Facets/types";
 import LucideIcon from "@/components/Obsidian/LucideIcon";
 import { useTranslation } from "@/lib/i18n";
 
 type Props = GroupProps & {
+  id?: string;
   isCollapsed?: boolean;
   onToggleCollapse?: () => void;
 }
 
 export function Header({
+  active,
+  id,
   isCollapsed,
   onToggleCollapse,
   ...props
@@ -20,8 +25,13 @@ export function Header({
   });
   const entries = props.data.entries ?? [];
 
+  console.log(active);
+
   return (
-    <header className="flex items-center gap-3 px-3 py-2 border-b border-border bg-background/95 backdrop-blur-sm cursor-pointer"
+    // biome-ignore lint/a11y/useSemanticElements: header
+    <header
+      id={id}
+      className="flex items-center gap-1 px-3 py-2 border-b border-border bg-background/95 backdrop-blur-sm cursor-pointer"
       style={{
         ...props.style,
         color,
@@ -30,20 +40,37 @@ export function Header({
       role="button"
       aria-expanded={!isCollapsed}>
       {icon && (
-        <div
+        <motion.div
           className="shrink-0 size-5"
+          animate={{
+            scale: active ? 1.5 : 1,
+            rotate: active ? -3 : 0,
+          }}
+          transition={{
+            scale: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+            rotate: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+          }}
         >
           <LucideIcon
             name={icon}
             className="size-full"
           />
-        </div>
+        </motion.div>
       )}
-      <h2
-        className="text-base m-0 font-semibold flex-1 line-clamp-1"
-      >
-        {title !== '' ? title : t('ungrouped')}
-      </h2>
+      <div className="flex flex-1">
+        <motion.h2
+          className="inline-block text-base m-0 font-semibold line-clamp-1"
+          animate={{
+            scale: active ? 1.5 : 1,
+            translateX: active ? 25 : 0,
+          }}
+          transition={{
+            scale: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+          }}
+        >
+          {title !== '' ? title : t('ungrouped')}
+        </motion.h2>
+      </div>
       <span
         className="text-sm  shrink-0"
       >

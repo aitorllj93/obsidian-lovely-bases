@@ -393,6 +393,7 @@ export const ja = {
     loading: "読み込み中...",
     error: "エラー",
     back: "戻る",
+    ungrouped: "なし",
     totalItems: "{count} エントリ",
     singleItem: "{count} エントリ",
     options: {

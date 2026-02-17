@@ -393,6 +393,7 @@ export const ru = {
     loading: "Загрузка...",
     error: "Ошибка",
     back: "Назад",
+    ungrouped: "Нет",
     totalItems: "{count} записей",
     singleItem: "{count} запись",
     options: {

@@ -41,16 +41,25 @@ export function pick<T extends object, K extends keyof T = keyof T>(obj: T, keys
   }, {} as Pick<T, K>);
 };
 
-export function chunk<T>(items: T[], size: number): T[][] {
-  if (size <= 0) return [];
+export function chunk<T, R = T>(
+  items: readonly T[],
+  size: number,
+  mapFn?: (item: T, i: number, row: number, col: number) => R,
+): R[][] {
+  if (size <= 0 || items.length === 0) return [];
 
-  const result: T[][] = [];
+  const out: R[][] = [];
+  let row = -1;
 
-  for (let start = 0; start < items.length; start += size) {
-    result.push(items.slice(start, start + size));
+  for (let i = 0; i < items.length; i++) {
+    const col = i % size;
+    if (col === 0) out[++row] = new Array<R>(Math.min(size, items.length - i));
+
+    const item = items[i] as T;
+    out[row][col] = mapFn ? mapFn(item, i, row, col) : (item as unknown as R);
   }
 
-  return result;
+  return out;
 }
 
 /**
@@ -94,3 +103,6 @@ export function isOdd(n: number) {
 export function isEven(n: number) {
   return n % 2 === 0;
 }
+
+export const clamp = (n: number, min: number, max: number) =>
+  Math.max(min, Math.min(max, n));

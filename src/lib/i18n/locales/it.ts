@@ -393,6 +393,7 @@ export const it = {
     loading: "Caricamento...",
     error: "Errore",
     back: "Indietro",
+    ungrouped: "Nessuno",
     totalItems: "{count} voci",
     singleItem: "{count} voce",
     options: {

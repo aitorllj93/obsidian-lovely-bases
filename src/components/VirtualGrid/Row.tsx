@@ -1,8 +1,4 @@
-import {
-  type BasesEntry,
-  BasesEntryGroup,
-  type BasesViewConfig,
-} from "obsidian";
+import type { BasesEntryGroup, BasesViewConfig } from "obsidian";
 import { type CSSProperties, forwardRef, memo } from "react";
 
 import Facets from "@/components/Facets";
@@ -11,44 +7,51 @@ import { shallowEqual } from "@/lib/utils";
 import type { FacetsConfig } from "../Facets/config";
 import { Header } from "./Header";
 
+import type { Column } from "./types";
+
 type Props = {
+  activeItemIndex?: number;
+  activeItemKey?: string;
   collapsedSectionKeys?: Set<string>;
   config: BasesViewConfig;
-  data: (BasesEntry | BasesEntryGroup)[];
+  columns: Column[];
   facetsConfig: FacetsConfig;
   onToggleSection?: (key: string) => void;
   itemsPerColumn: number;
   itemWidth: number;
   index: number;
   layoutIdPrefix?: string;
+  onSetActiveIndex?: (activeItemIndex: number) => void;
   style?: CSSProperties;
 };
 
-const PureColumn = forwardRef<HTMLDivElement, Props>(
+const PureRow = forwardRef<HTMLDivElement, Props>(
   (
     {
+      activeItemIndex,
+      activeItemKey,
       facetsConfig,
       collapsedSectionKeys,
       config,
-      data,
+      columns,
       onToggleSection,
       index,
       itemsPerColumn,
       itemWidth,
       layoutIdPrefix,
+      onSetActiveIndex,
       style,
     },
     ref,
   ) => {
     const isSection =
       facetsConfig.groupLayout === "sections" &&
-      data.length === 1 &&
-      data[0] instanceof BasesEntryGroup;
-    const groupKey = isSection ? (data[0] as BasesEntryGroup).key?.toString() : undefined;
+      columns.length === 1 &&
+      columns[0].type === "header";
 
     return (
       <div
-        className="w-full grid box-border justify-evenly will-change-transform items-center"
+        className="w-full grid box-border justify-evenly will-change-transform items-center focus-visible:outline-none"
         data-index={index}
         ref={ref}
         tabIndex={index === 0 ? 0 : undefined}
@@ -56,14 +59,12 @@ const PureColumn = forwardRef<HTMLDivElement, Props>(
       >
         {isSection ? (
           <Header
-            data={data[0] as BasesEntryGroup}
-            key={
-              data[0] instanceof BasesEntryGroup
-                ? data[0].key?.toString()
-                : data[0].file.path
-            }
-            isCollapsed={collapsedSectionKeys?.has(groupKey)}
-            onToggleCollapse={() => onToggleSection?.(groupKey)}
+            active={activeItemKey === columns[0].key}
+            id={`row-${columns[0].row}-${columns[0].key}`}
+            data={columns[0].data as BasesEntryGroup}
+            key={columns[0].key}
+            isCollapsed={collapsedSectionKeys?.has(columns[0].key)}
+            onToggleCollapse={() => onToggleSection?.(columns[0].key)}
             facetsConfig={facetsConfig}
             config={config}
             style={{
@@ -71,17 +72,15 @@ const PureColumn = forwardRef<HTMLDivElement, Props>(
             }}
           />
         ) : (
-          data.map((item, dataIndex) => (
+          columns.map((col, dataIndex) => (
             <Facets
+              active={activeItemKey === col.key}
               className="mx-auto min-h-fit"
+              id={`row-${col.row}-${col.key}`}
               initialAnimation
               index={dataIndex}
-              key={
-                item instanceof BasesEntryGroup
-                  ? item.key?.toString()
-                  : item.file.path
-              }
-              data={item as BasesEntryGroup}
+              key={col.key}
+              data={col.data as BasesEntryGroup}
               facetsConfig={{
                 ...facetsConfig,
                 layoutItemSize: itemWidth,
@@ -96,8 +95,10 @@ const PureColumn = forwardRef<HTMLDivElement, Props>(
   },
 );
 
-const Column = memo(PureColumn, (prevProps, nextProps) => {
+const Row = memo(PureRow, (prevProps, nextProps) => {
   return (
+    prevProps.activeItemIndex === nextProps.activeItemIndex &&
+    prevProps.activeItemKey === nextProps.activeItemKey &&
     prevProps.index === nextProps.index &&
     prevProps.itemWidth === nextProps.itemWidth &&
     prevProps.collapsedSectionKeys === nextProps.collapsedSectionKeys &&
@@ -108,4 +109,4 @@ const Column = memo(PureColumn, (prevProps, nextProps) => {
   );
 });
 
-export default Column;
+export default Row;

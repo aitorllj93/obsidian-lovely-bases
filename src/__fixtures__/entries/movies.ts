@@ -62,7 +62,7 @@ export const MOVIES_ENTRIES: BasesEntry[] = [
   aBasesEntry(
     {
       file: aFile({
-        basename: 'Steve Jobs',
+        basename: 'Steve Jobs (2015)',
       },
     'Steve Jobs takes us behind the scenes of the digital revolution, to paint a portrait of the man at its epicenter. The story unfolds backstage at three iconic product launches, ending in 1998 with the unveiling of the iMac.')
     },

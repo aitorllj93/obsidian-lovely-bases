@@ -393,6 +393,7 @@ export const zh = {
     loading: "加载中...",
     error: "错误",
     back: "返回",
+    ungrouped: "无",
     totalItems: "{count} 个条目",
     singleItem: "{count} 个条目",
     options: {

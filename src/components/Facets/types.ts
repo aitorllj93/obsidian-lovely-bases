@@ -3,12 +3,15 @@ import type { CSSProperties } from "react";
 import type { FacetsConfig } from "./config";
 
 export type CommonProps = {
+  active?: boolean;
+  id?: string;
   className?: string;
   config: BasesViewConfig;
   facetsConfig: FacetsConfig;
   index?: number;
   initialAnimation?: boolean;
   layoutIdPrefix?: string;
+  onSetActive?: (isActive: boolean) => void;
   style?: CSSProperties;
 }
 

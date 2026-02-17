@@ -15,25 +15,69 @@ import { cn, mergeRefs } from "@/lib/utils";
 import ExpandedView from "./components/ExpandedView";
 import Group from "./components/Group";
 import OutsideContent from "./components/OutsideContent";
-import type { Border } from "./config";
 import { useContainerData } from "./hooks/use-container-data";
 import { useExpand } from "./hooks/use-expand";
 import { isGroup, type Props } from "./types";
 import { getLayoutIds } from "./utils";
+import { cva } from "class-variance-authority";
 
-const BORDER_CLASSES: Record<Border, string> = {
-  none: "",
-  solid:
-    "bg-card border border-border border-solid hover:shadow-2xl hover:shadow-(--folder-color)/20 hover:border-(--folder-color)/40",
-  dotted:
-    "bg-card bi-dotted bi-color-border hover:shadow-2xl hover:shadow-(--folder-color)/20 hover:bi-color-[color-mix(in_srgb,var(--folder-color)_40%,transparent)]",
-  dashed:
-    "bg-card bi-dashed bi-color-border hover:shadow-2xl hover:shadow-(--folder-color)/20 hover:bi-color-[color-mix(in_srgb,var(--folder-color)_40%,transparent)]",
-};
+const borderVariants = cva(
+  "bg-card",
+  {
+    variants: {
+      border: {
+        none: "",
+        solid: "border-solid",
+        dotted: "bi-dotted",
+        dashed: "bi-dashed"
+      },
+      active: {
+        true: "shadow-2xl shadow-(--folder-color)/20",
+        false: "",
+      }
+    },
+    compoundVariants: [
+      {
+        border: "solid",
+        active: false,
+        class: "border-border",
+      },
+      {
+        border: "solid",
+        active: true,
+        class: "border-(--folder-color)/40",
+      },
+      {
+        border: "dotted",
+        active: false,
+        class: "bi-color-border",
+      },
+      {
+        border: "dotted",
+        active: true,
+        class: "bi-color-[color-mix(in_srgb,var(--folder-color)_40%,transparent)]"
+      },
+      {
+        border: "dashed",
+        active: false,
+        class: "bi-color-border",
+      },
+      {
+        border: "dashed",
+        active: true,
+        class: "bi-color-[color-mix(in_srgb,var(--folder-color)_40%,transparent)]"
+      }
+    ],
+    defaultVariants: {
+      border: "none",
+      active: false,
+    },
+  }
+)
 
 const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const layoutNS = useId();
-  const { config, facetsConfig } = props;
+  const { active, id, config, facetsConfig, onSetActive } = props;
   const { color, file, icon, title } = useContainerData(props);
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -56,7 +100,18 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
     isPressing,
   } = useExpand();
 
-  const borderClass = BORDER_CLASSES[facetsConfig?.layoutItemBorder ?? "none"];
+  const borderClass = borderVariants({
+    border: facetsConfig?.layoutItemBorder ?? "none",
+    active: active || isHovered,
+  });
+
+  const handleOnMouseEnter = (_: React.MouseEvent<HTMLDivElement>) => {
+     setIsHovered(true);
+     onSetActive?.(true);
+  }
+  const handleOnMouseLeave = (_: React.MouseEvent<HTMLDivElement>) => {
+    setIsHovered(false);
+  }
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (facetsConfig.groupActionClickBehavior === "expand") {
@@ -69,6 +124,7 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
   return (
     <LayoutGroup id={layoutIds.container}>
       <motion.div
+        id={id}
         layoutId={layoutIds.content}
         ref={mergeRefs(cardRef, ref)}
         className={cn(
@@ -80,7 +136,7 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
             padding: `${facetsConfig.layoutItemSpacing ?? 0}px`,
             perspective: "1200px",
             "--folder-color": color,
-            zIndex: isHovered ? 50 : 1,
+            zIndex: (isHovered || active) ? 50 : 1,
           } as CSSProperties
         }
         initial={props.initialAnimation && { opacity: 0, y: 20 }}
@@ -91,8 +147,8 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
                 y: 0,
               }
             : {}),
-          scale: isPressing ? 0.98 : isHovered ? 1.04 : 1,
-          rotate: isHovered ? -1.5 : 0,
+          scale: isPressing ? 0.98 : (isHovered || active) ? 1.04 : 1,
+          rotate: (isHovered || active) ? -1.5 : 0,
         }}
         transition={{
           ...(props.initialAnimation
@@ -104,8 +160,8 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
           scale: { duration: isPressing ? 0.08 : 0.7, ease: [0.16, 1, 0.3, 1] },
           rotate: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
         }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onMouseEnter={handleOnMouseEnter}
+        onMouseLeave={handleOnMouseLeave}
         {...(isGroup(props)
           ? {
               onPointerDown: handlePointerDown,
@@ -119,7 +175,7 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
           style={{
             background:
               "radial-gradient(circle at 50% 70%, var(--folder-color) 0%, transparent 70%)",
-            opacity: isHovered ? 0.12 : 0,
+            opacity: (isHovered || active) ? 0.12 : 0,
           }}
         />
         <div style={{ opacity: isExpanded ? 0 : 1 }}>
@@ -159,7 +215,7 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
           facetsConfig={facetsConfig}
           title={title}
           count={isGroup(props) ? props.data.entries.length : undefined}
-          isHovered={isHovered}
+          isHovered={isHovered || active}
           layoutIds={layoutIds}
         />
       </motion.div>

@@ -393,6 +393,7 @@ export const ko = {
     loading: "로딩 중...",
     error: "오류",
     back: "뒤로",
+    ungrouped: "없음",
     totalItems: "{count}개 항목",
     singleItem: "{count}개 항목",
     options: {

@@ -393,6 +393,7 @@ export const pt = {
     loading: "Carregando...",
     error: "Erro",
     back: "Voltar",
+    ungrouped: "Nenhum",
     totalItems: "{count} entradas",
     singleItem: "{count} entrada",
     options: {

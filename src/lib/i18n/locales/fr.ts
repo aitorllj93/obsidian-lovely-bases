@@ -393,6 +393,7 @@ export const fr = {
     loading: "Chargement...",
     error: "Erreur",
     back: "Retour",
+    ungrouped: "Aucun",
     totalItems: "{count} entrées",
     singleItem: "{count} entrée",
     options: {
