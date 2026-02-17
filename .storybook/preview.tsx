@@ -17,6 +17,9 @@ import { Status } from './blocks/Status';
 import { Title } from './blocks/Title';
 
 const preview: Preview = {
+  initialGlobals: {
+    obsidianShowHeader: false,
+  },
   parameters: {
     backgrounds: { disable: true },
     decorators: [

@@ -8,10 +8,16 @@ import { Providers, ViewWrapper } from '@/stories/decorators';
 import { ICONS_BASE_CONFIG } from './__fixtures__/configs/icons';
 
 import ThreeDCarouselView from './3DCarouselView';
+import THREE_D_CAROUSEL_VIEW from '.';
 
 const meta = {
   title: 'Views/3D Carousel',
   tags: ['autodocs', 'experimental'],
+  parameters: {
+    docs: {
+      def: THREE_D_CAROUSEL_VIEW,
+    }
+  },
   component: ThreeDCarouselView,
   decorators: [ViewWrapper, Providers],
 } satisfies Meta<typeof ThreeDCarouselView>;

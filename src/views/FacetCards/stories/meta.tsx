@@ -80,6 +80,7 @@ export const meta = {
 
 ### Configuration`,
       },
+      def: FACET_CARDS_VIEW,
     },
   },
   argTypes: {
