@@ -9,6 +9,7 @@ import Facets from "@/components/Facets";
 import { shallowEqual } from "@/lib/utils";
 
 import type { FacetsConfig } from "../Facets/config";
+import { Header } from "./Header";
 
 type Props = {
   config: BasesViewConfig;
@@ -23,9 +24,13 @@ type Props = {
 
 const PureColumn = forwardRef<HTMLDivElement, Props>(
   (
-    { facetsConfig, config, data, index, itemWidth, layoutIdPrefix, style },
+    { facetsConfig, config, data, index, itemsPerColumn, itemWidth, layoutIdPrefix, style },
     ref,
   ) => {
+    const isSection = facetsConfig.groupLayout === 'sections' &&
+      data.length === 1
+      && data[0] instanceof BasesEntryGroup;
+
     return (
       <div
         className="w-full grid box-border justify-evenly will-change-transform items-center"
@@ -34,7 +39,21 @@ const PureColumn = forwardRef<HTMLDivElement, Props>(
         tabIndex={index === 0 ? 0 : undefined}
         style={style}
       >
-        {data.map((item, dataIndex) => (
+        {isSection ? (
+          <Header
+            data={data[0] as BasesEntryGroup}
+            key={
+              data[0] instanceof BasesEntryGroup
+                ? data[0].key?.toString()
+                : data[0].file.path
+            }
+            facetsConfig={facetsConfig}
+            config={config}
+            style={{
+              gridColumn: `span ${itemsPerColumn}`
+            }}
+          />
+        ) : (data.map((item, dataIndex) => (
           <Facets
             className="mx-auto min-h-fit"
             initialAnimation
@@ -52,7 +71,7 @@ const PureColumn = forwardRef<HTMLDivElement, Props>(
             config={config}
             layoutIdPrefix={layoutIdPrefix}
           />
-        ))}
+        )))}
       </div>
     );
   },

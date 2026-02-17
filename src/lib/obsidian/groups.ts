@@ -4,10 +4,12 @@ import type { FacetsConfig } from "@/components/Facets/config";
 
 import { parseWikilink } from "./link";
 
+type GroupedGridData = BasesEntryGroup|BasesEntry;
+
 export function getGroupedData(
   groups: BasesEntryGroup[],
-  { groupUngroupedItemsDisplay }: Pick<FacetsConfig, 'groupUngroupedItemsDisplay'>
-): (BasesEntryGroup|BasesEntry)[] {
+  { groupLayout, groupUngroupedItemsDisplay }: Pick<FacetsConfig, 'groupUngroupedItemsDisplay' | 'groupLayout'>
+): GroupedGridData[] {
   const resultGroups: BasesEntryGroup[] = [];
   let resultEntries: BasesEntry[];
 
@@ -23,7 +25,7 @@ export function getGroupedData(
 
       if (isEmpty && groupUngroupedItemsDisplay === 'hidden') continue;
 
-      if (isEmpty && groupUngroupedItemsDisplay === 'inline') {
+      if (isEmpty && groupLayout !== 'sections' && groupUngroupedItemsDisplay === 'inline') {
         resultEntries = group.entries;
         continue;
       }
@@ -31,7 +33,7 @@ export function getGroupedData(
       const title = isEmpty ? "" : parseWikilink(key);
       const newKey = isEmpty ? "" : `[[${title}]]`;
 
-      let resultGroup: BasesEntryGroup | undefined = resultGroups.find((g) => g.key?.toString() === newKey);
+      let resultGroup: BasesEntryGroup | undefined = resultGroups.find((g) => 'key' in g && g.key?.toString() === newKey);
 
       if (!resultGroup) {
         resultGroup = new BasesEntryGroup();
@@ -45,7 +47,7 @@ export function getGroupedData(
   }
 
   if (resultEntries) {
-    return (resultGroups as (BasesEntryGroup|BasesEntry)[]).concat(resultEntries);
+    return (resultGroups as GroupedGridData[]).concat(resultEntries);
   } else {
     return resultGroups;
   }

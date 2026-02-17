@@ -4,6 +4,7 @@ import { forwardRef, type MouseEventHandler, useRef, useState } from "react";
 
 import type { FacetsConfig } from "@/components/Facets/config";
 import LucideIcon from "@/components/Obsidian/LucideIcon";
+import { useTranslation } from "@/lib/i18n";
 
 import FolderCard from "./FolderCard";
 import { useFolderColors } from "./hooks/use-folder-colors";
@@ -45,6 +46,7 @@ const Folder = forwardRef<HTMLDivElement, Props>(({
 	iconLayoutId,
 	titleLayoutId,
 }, ref) => {
+  const { t } = useTranslation('common');
 	const [isHovered, setIsHovered] = useState(false);
 	const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -176,7 +178,7 @@ const Folder = forwardRef<HTMLDivElement, Props>(({
 						/>
 					</motion.div>
 				)}
-        {title && (
+        {typeof title === "string" && (
           <motion.div
             className="rounded-sm shadow-sm border border-border flex items-center justify-center transition-all duration-500"
             style={{
@@ -196,7 +198,7 @@ const Folder = forwardRef<HTMLDivElement, Props>(({
                 letterSpacing: "0.01em",
               }}
             >
-              {title}
+              {title === "" ? t('ungrouped') : title}
             </motion.span>
           </motion.div>
         )}

@@ -4,12 +4,12 @@ import { type CSSProperties, memo, useMemo } from "react";
 
 import { estimateCardHeight } from "@/components/Card/helpers/estimate-card-height";
 import type { FacetsConfig } from "@/components/Facets/config";
-import { arrayEqual, chunk, cn, shallowEqual } from "@/lib/utils";
+import { arrayEqual, cn, shallowEqual } from "@/lib/utils";
 
 import Column from "./Column";
 import { useElementWidth } from "./hooks/use-element-width";
 import { useVirtualGridImagePrefetch } from "./hooks/use-images-prefetch";
-import { getGridConfig } from "./utils";
+import { getGridConfig, getRows } from "./utils";
 
 type Props = {
   facetsConfig: FacetsConfig;
@@ -47,7 +47,7 @@ function PureVirtualGrid({
     [width, facetsConfig.layoutGap, minItemWidth],
   );
 
-  const rows = useMemo(() => chunk(items, columnCount), [items, columnCount]);
+  const rows = useMemo(() => getRows(facetsConfig.groupLayout, items, columnCount), [items, facetsConfig.groupLayout, columnCount]);
 
   const virtualizer = useVirtualizer({
     count: rows.length,

@@ -9,6 +9,10 @@ export const WithGap5XS: LayoutConfigInput = {
   layoutGap: SPACINGS['5XS']
 }
 
+export const WithGap2XS: LayoutConfigInput = {
+  layoutGap: SPACINGS['2XS']
+}
+
 export const WithoutGap: LayoutConfigInput = {
   layoutGap: 0,
 };

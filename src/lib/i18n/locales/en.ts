@@ -393,6 +393,7 @@ export const en = {
     loading: "Loading...",
     error: "Error",
     back: "Back",
+    ungrouped: "None",
     totalItems: "{count} entries",
     singleItem: "{count} entry",
     options: {

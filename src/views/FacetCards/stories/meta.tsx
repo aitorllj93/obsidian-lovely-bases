@@ -8,9 +8,8 @@ import {
   VIRTUAL_SCROLL_BOOKS_ENTRIES,
   VIRTUAL_SCROLL_MOVIES_ENTRIES,
   VIRTUAL_SCROLL_PERSON_ENTRIES,
-  VIRTUAL_SCROLL_PHOTOS_ENTRIES
+  VIRTUAL_SCROLL_PHOTOS_ENTRIES,
 } from "@/__fixtures__/entries";
-
 import {
   With3x2Image,
   With4x5Image,
@@ -48,17 +47,21 @@ import {
 } from "@/__fixtures__/facets/configs";
 import { FACETS_CONFIG_DEFAULTS } from "@/components/Facets/config";
 import { FACETS_CONFIG_ARG_TYPES } from "@/components/Facets/config/stories.argTypes";
-import { createViewRenderer, Providers, ViewWrapper } from "@/stories/decorators";
+import {
+  createViewRenderer,
+  Providers,
+  ViewWrapper,
+} from "@/stories/decorators";
 
-import FACET_CARDS_VIEW from ".";
-import FacetCardsView, { type FacetCardsConfig } from "./FacetCardsView";
+import FACET_CARDS_VIEW from "..";
+import FacetCardsView, { type FacetCardsConfig } from "../FacetCardsView";
 
-const View = createViewRenderer<FacetCardsConfig>(FacetCardsView);
+export const View = createViewRenderer<FacetCardsConfig>(FacetCardsView);
 
-const meta = {
+export const meta = {
   title: "Views/Facet Cards",
   component: View,
-  tags: ["autodocs", "status:testing"],
+  tags: ["autodocs"],
   decorators: [ViewWrapper, Providers],
   parameters: {
     layout: "fullscreen",
@@ -110,11 +113,11 @@ const meta = {
   },
 } satisfies Meta<typeof View>;
 
-type Story = StoryObj<typeof meta>;
-
 export default meta;
 
-export const FullExample: Story = {
+export type FacetCardsViewStory = StoryObj<typeof meta>;
+
+export const FullExample: FacetCardsViewStory = {
   args: {
     ...WithSize6XSAndSpacing,
     ...WithBorderDashed,
@@ -136,33 +139,33 @@ export const FullExample: Story = {
   },
 };
 
-export const Default: Story = {
-	parameters: {
-		docs: {
-			description: {
-				story:
-					"By default, the view displays cards in a vertical layout with square shape, showing titles and property labels.",
-			},
-		},
-	},
+export const Default: FacetCardsViewStory = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "By default, the view displays cards in a vertical layout with square shape, showing titles and property labels.",
+      },
+    },
+  },
   args: {
     properties: ["note.author", "note.published", "note.excerpt"],
-  }
+  },
 };
 
-export const HorizontalLayout: Story = {
+export const HorizontalLayout: FacetCardsViewStory = {
   parameters: {
-		docs: {
-			description: {
-				story: `Horizontal layout displays the image on the side of the card content.
+    docs: {
+      description: {
+        story: `Horizontal layout displays the image on the side of the card content.
 
 \`\`\`yml
 cardLayout: horizontal
 \`\`\`
 `,
-			},
-		},
-	},
+      },
+    },
+  },
   args: {
     ...WithSize2XS,
     ...WithImage,
@@ -181,7 +184,7 @@ cardLayout: horizontal
   },
 };
 
-export const VerticalLayout: Story = {
+export const VerticalLayout: FacetCardsViewStory = {
   args: {
     ...WithSize3XS,
     ...WithImage,
@@ -196,20 +199,20 @@ export const VerticalLayout: Story = {
   },
 };
 
-export const Overlay: Story = {
-	parameters: {
-		docs: {
-			description: {
-				story: `Overlay layout displays the content in an overlay. Additionally, you can configure the overlay content visibility to always show or only show when hovering.
+export const OverlayLayout: FacetCardsViewStory = {
+  parameters: {
+    docs: {
+      description: {
+        story: `Overlay layout displays the content in an overlay. Additionally, you can configure the overlay content visibility to always show or only show when hovering.
 
 \`\`\`yml
 cardLayout: overlay
 contentVisibility: always
 \`\`\`
 `,
-			},
-		},
-	},
+      },
+    },
+  },
   args: {
     ...WithSize3XS,
     ...WithImage,
@@ -219,66 +222,66 @@ contentVisibility: always
     ...WithBadgeColor,
     ...WithBadgeIcon,
     data: VIRTUAL_SCROLL_BOOKS_ENTRIES,
-  }
-}
+  },
+};
 
-export const OverlayOnHover: Story = {
-	parameters: {
-		docs: {
-			description: {
-				story: `Overlay layout with the content displayed on hover.
+export const OverlayOnHoverLayout: FacetCardsViewStory = {
+  parameters: {
+    docs: {
+      description: {
+        story: `Overlay layout with the content displayed on hover.
 
 \`\`\`yml
 cardLayout: overlay
 contentVisibility: hover
 \`\`\`
 `,
-			},
-		},
-	},
+      },
+    },
+  },
   args: {
-    ...Overlay.args,
+    ...OverlayLayout.args,
     ...WithContentVisibilityOnHover,
     ...WithMarkdownContent,
     data: VIRTUAL_SCROLL_MOVIES_ENTRIES,
-  }
-}
+  },
+};
 
-export const Polaroid: Story = {
-  	parameters: {
-		docs: {
-			description: {
-				story: `Polaroid layout displays cards with a classic photo-album aesthetic, featuring white borders and a larger bottom margin.
+export const PolaroidLayout: FacetCardsViewStory = {
+  parameters: {
+    docs: {
+      description: {
+        story: `Polaroid layout displays cards with a classic photo-album aesthetic, featuring white borders and a larger bottom margin.
 
 \`\`\`yml
 cardLayout: polaroid
 \`\`\`
 `,
-			},
-		},
-	},
+      },
+    },
+  },
   args: {
     ...WithSize3XS,
     ...WithImage,
     ...WithSquareImage,
     ...WithPolaroidLayout,
     data: VIRTUAL_SCROLL_PHOTOS_ENTRIES,
-  }
-}
+  },
+};
 
-export const Circle: Story = {
-  	parameters: {
-		docs: {
-			description: {
-				story: `Circle shape creates rounded cards perfect for profile images or avatars.
+export const CircleShape: FacetCardsViewStory = {
+  parameters: {
+    docs: {
+      description: {
+        story: `Circle shape creates rounded cards perfect for profile images or avatars.
 
 \`\`\`yml
 cardShape: circle
 \`\`\`
 `,
-			},
-		},
-	},
+      },
+    },
+  },
   args: {
     ...WithSize3XSAndSpacing,
     ...WithoutGap,
@@ -288,22 +291,22 @@ cardShape: circle
     ...WithSquareImage,
     ...WithoutTitle,
     data: VIRTUAL_SCROLL_PERSON_ENTRIES,
-  }
+  },
 };
 
-export const Rounded: Story = {
-	parameters: {
-		docs: {
-			description: {
-				story: `Rounded shape provides a softer, more modern appearance.
+export const RoundedShape: FacetCardsViewStory = {
+  parameters: {
+    docs: {
+      description: {
+        story: `Rounded shape provides a softer, more modern appearance.
 
 \`\`\`yml
 cardShape: rounded
 \`\`\`
 `,
-			},
-		},
-	},
+      },
+    },
+  },
   args: {
     ...WithSize3XSAndSpacing,
     ...WithoutGap,
@@ -313,5 +316,5 @@ cardShape: rounded
     ...WithSquareImage,
     ...WithoutTitle,
     data: VIRTUAL_SCROLL_APPLICATION_ENTRIES,
-  }
+  },
 };

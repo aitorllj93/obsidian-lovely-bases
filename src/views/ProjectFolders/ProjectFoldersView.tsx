@@ -10,12 +10,15 @@ import type { ReactBaseViewProps } from "@/types";
 export type ProjectFoldersConfig = FacetsConfig;
 
 const ProjectFoldersView = ({ config, data, isEmbedded }: ReactBaseViewProps) => {
-	const facetsConfig = useFacetsConfig(config);
-  const { groupUngroupedItemsDisplay } = facetsConfig;
+  const facetsConfig = useFacetsConfig(config);
+  const { groupLayout, groupUngroupedItemsDisplay } = facetsConfig;
+  const groupBy = (config as { groupBy?: string }).groupBy;
 
   const items = useMemo(() => {
-    return getGroupedData(data.groupedData, { groupUngroupedItemsDisplay });
-  }, [data, groupUngroupedItemsDisplay]);
+    return groupBy === undefined
+      ? data.data
+      : getGroupedData(data.groupedData, { groupUngroupedItemsDisplay, groupLayout });
+  }, [data, groupBy, groupLayout, groupUngroupedItemsDisplay]);
 
 	return (
     <Container isEmbedded={isEmbedded}>

@@ -43,7 +43,7 @@ const OutsideContent = ({
             letterSpacing: isHovered ? "-0.01em" : "0",
           }}
         >
-          {title}
+          {title === '' ? t('ungrouped') : title}
         </motion.h3>
       )}
       {shouldShowCount && (

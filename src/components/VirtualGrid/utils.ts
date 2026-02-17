@@ -1,4 +1,7 @@
+import { type BasesEntry, BasesEntryGroup } from "obsidian";
 import type { CSSProperties } from "react";
+import type { FacetsConfig } from "@/components/Facets/config";
+import { chunk } from "@/lib/utils";
 
 const getItemWidth = (columns: number, gap: number, width: number): number => {
   if (!width) return 0;
@@ -31,3 +34,49 @@ export const getGridConfig = (
     columnStyle,
   };
 };
+
+export const getRows = (
+  groupLayout: FacetsConfig['groupLayout'],
+  items: (BasesEntry | BasesEntryGroup)[],
+  columnCount: number
+) => {
+  if (groupLayout !== 'sections') {
+    return chunk(items, columnCount);
+  }
+
+  const rows: (BasesEntry | BasesEntryGroup)[][] = [];
+  let currentRow: (BasesEntry | BasesEntryGroup)[] = [];
+
+  for (const item of items) {
+    if (item instanceof BasesEntryGroup) {
+      // flush current row
+      if (currentRow.length > 0) {
+        rows.push(currentRow);
+        currentRow = [];
+      }
+
+      rows.push([item]);
+
+      if (item.entries?.length) {
+        rows.push(...chunk(item.entries, columnCount));
+      }
+
+      continue;
+    }
+
+    currentRow.push(item);
+
+    if (currentRow.length === columnCount) {
+      rows.push(currentRow);
+      currentRow = [];
+    }
+  }
+
+  // flush final
+  if (currentRow.length > 0) {
+    rows.push(currentRow);
+  }
+
+  return rows;
+
+}

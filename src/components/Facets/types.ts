@@ -1,4 +1,5 @@
 import { type BasesEntry, BasesEntryGroup, type BasesViewConfig } from "obsidian";
+import type { CSSProperties } from "react";
 import type { FacetsConfig } from "./config";
 
 export type CommonProps = {
@@ -8,6 +9,7 @@ export type CommonProps = {
   index?: number;
   initialAnimation?: boolean;
   layoutIdPrefix?: string;
+  style?: CSSProperties;
 }
 
 export type EntryProps = CommonProps & {

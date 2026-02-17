@@ -3,6 +3,7 @@ import type { BasesEntry } from "obsidian";
 import { memo } from "react";
 
 import LucideIcon from "@/components/Obsidian/LucideIcon";
+import { useTranslation } from "@/lib/i18n";
 
 import type { NotebookColors } from "./types";
 
@@ -37,6 +38,7 @@ const NotebookCover = memo(({
   titleFont,
   files,
 }: Props) => {
+  const { t } = useTranslation('common');
   const elasticBandGradient = `linear-gradient(
 		to right,
 		${notebookColors.elasticBandDark} 0%,
@@ -160,7 +162,7 @@ const NotebookCover = memo(({
             />
           </motion.div>
         )}
-        {title && (
+        {typeof title === 'string' && (
           <motion.h3
             layoutId={titleLayoutId}
             layout={false}
@@ -172,7 +174,7 @@ const NotebookCover = memo(({
               color: notebookColors.foreground,
             }}
           >
-            {title}
+            {title === "" ? t('ungrouped') : title}
           </motion.h3>
         )}
 

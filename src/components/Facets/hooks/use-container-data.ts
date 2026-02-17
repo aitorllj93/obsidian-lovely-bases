@@ -14,7 +14,7 @@ type ContainerData = {
   file?: TFile;
 };
 
-export function useContainerData(props: Props): ContainerData {
+export function useContainerData(props: Props, fallback?: Partial<ContainerData>): ContainerData {
   const { facetsConfig } = props;
   const { app, containerEl } = useObsidian();
 
@@ -22,7 +22,7 @@ export function useContainerData(props: Props): ContainerData {
     const colorProperty = facetsConfig.colorProperty;
 
     return {
-      color: getPropertyValue(props.data, colorProperty) ?? accent(containerEl),
+      color: getPropertyValue(props.data, colorProperty) ?? fallback?.color ?? accent(containerEl),
       title: getTitle(props.data),
       file: props.data.file,
     };
@@ -32,7 +32,7 @@ export function useContainerData(props: Props): ContainerData {
 
   if (key === 'null') {
     return {
-      color: accent(containerEl),
+      color: fallback?.color ?? accent(containerEl),
       title: '',
     };
   }
@@ -42,7 +42,7 @@ export function useContainerData(props: Props): ContainerData {
 
   if (!isLink || !facetsConfig.groupInferPropertiesFromLinkedNotes) {
     return {
-      color: accent(containerEl),
+      color: fallback?.color ?? accent(containerEl),
       title,
     };
   }
@@ -54,7 +54,7 @@ export function useContainerData(props: Props): ContainerData {
 
   if (!file || !(file instanceof TFile)) {
     return {
-      color: accent(containerEl),
+      color: fallback?.color ?? accent(containerEl),
       title,
     };
   }
@@ -66,8 +66,8 @@ export function useContainerData(props: Props): ContainerData {
     app.metadataCache.getFileCache(file)?.frontmatter;
 
   return {
-    color: (frontmatter?.[colorProperty] as string | null) ?? accent(containerEl),
-    icon: (frontmatter?.[iconProperty] as string | null) ?? undefined,
+    color: (frontmatter?.[colorProperty] as string | null) ?? fallback?.color ?? accent(containerEl),
+    icon: (frontmatter?.[iconProperty] as string | null) ?? fallback?.icon ?? undefined,
     title,
     file,
   };

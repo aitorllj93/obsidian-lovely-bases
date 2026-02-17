@@ -14,14 +14,14 @@ export type FacetCardsConfig = FacetsConfig;
 
 const FacetCardsView = ({ data, config, isEmbedded }: ReactBaseViewProps) => {
   const facetsConfig = useFacetsConfig(config);
-  const { groupUngroupedItemsDisplay } = facetsConfig;
+  const { groupLayout, groupUngroupedItemsDisplay } = facetsConfig;
   const groupBy = (config as { groupBy?: string }).groupBy;
 
   const items = useMemo(() => {
     return groupBy === undefined
       ? data.data
-      : getGroupedData(data.groupedData, { groupUngroupedItemsDisplay });
-  }, [groupBy, data, groupUngroupedItemsDisplay]);
+      : getGroupedData(data.groupedData, { groupUngroupedItemsDisplay, groupLayout });
+  }, [data, groupBy, groupLayout, groupUngroupedItemsDisplay]);
 
   return (
     <Container isEmbedded={isEmbedded}>
