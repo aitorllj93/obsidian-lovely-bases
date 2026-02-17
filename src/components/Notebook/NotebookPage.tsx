@@ -96,7 +96,7 @@ const NotebookPage = forwardRef<HTMLDivElement, Props>(
             {...facetsConfig}
 						layoutItemSize={Math.min(dimensions.width, dimensions.height) - dimensions.padding * 2}
 						cardAdaptToSize
-            titlePosition="inside"
+            titlePosition={facetsConfig.titlePosition === "outside" ? "inside" : facetsConfig.titlePosition}
             className="h-auto"
 					/>
 				</div>

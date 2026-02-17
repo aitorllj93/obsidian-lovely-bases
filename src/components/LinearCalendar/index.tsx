@@ -37,7 +37,7 @@ export const LinearCalendar = ({
   const monthIndices = getDisplayedMonthIndices(calendarConfig.focus, referenceDate);
 
   return (
-    <div className="flex flex-col w-full h-full overflow-auto bg-background text-foreground p-4">
+    <div className="flex flex-col w-full h-full overflow-auto bg-background text-foreground">
       <Header currentYear={currentYear} />
 
       {/* Rows for Months */}
