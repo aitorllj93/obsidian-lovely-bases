@@ -22,6 +22,8 @@ export const DEFAULTS: HeatmapCalendarConfig = {
   showYearLabels: false,
   showLegend: true,
   /* Value Range */
+  autoValueRange: false,
+  logScale: false,
   minValue: 0,
   maxValue: 10,
   /* Appearance */
@@ -139,6 +141,18 @@ export const HEATMAP_CALENDAR_OPTIONS: ViewOption[] = [
     displayName: t("options.valueRange.title"),
     items: [
       {
+        type: "toggle",
+        displayName: t("options.valueRange.autoValueRange.title"),
+        key: "autoValueRange",
+        default: DEFAULTS.autoValueRange,
+      },
+      {
+        type: "toggle",
+        displayName: t("options.valueRange.logScale.title"),
+        key: "logScale",
+        default: DEFAULTS.logScale,
+      },
+      {
         type: "slider",
         displayName: t("options.valueRange.minValue.title"),
         key: "minValue",
@@ -146,6 +160,7 @@ export const HEATMAP_CALENDAR_OPTIONS: ViewOption[] = [
         min: 0,
         max: 100,
         step: 1,
+        shouldHide: (config) => config.get("autoValueRange") === true,
       },
       {
         type: "slider",
@@ -155,6 +170,7 @@ export const HEATMAP_CALENDAR_OPTIONS: ViewOption[] = [
         min: 0,
         max: 100,
         step: 1,
+        shouldHide: (config) => config.get("autoValueRange") === true,
       },
     ],
   },

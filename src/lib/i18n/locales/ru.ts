@@ -284,6 +284,12 @@ export const ru: LocaleTranslations = {
       },
       valueRange: {
         title: "Диапазон Значений",
+        autoValueRange: {
+          title: "Автоматический Диапазон Значений",
+        },
+        logScale: {
+          title: "Логарифмическая Шкала",
+        },
         minValue: {
           title: "Минимальное Значение",
         },

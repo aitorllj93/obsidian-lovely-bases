@@ -29,6 +29,7 @@ type Props = {
   minValue: number;
   maxValue: number;
   overflowColor?: string;
+  logScale?: boolean;
   onEntryClick?: EntryClickEventHandler;
   rangeStartDate?: Date;
   rangeEndDate?: Date;
@@ -42,6 +43,7 @@ const PureWeekDay = ({
   minValue,
   maxValue,
   overflowColor,
+  logScale = false,
   onEntryClick,
   rangeStartDate,
   rangeEndDate,
@@ -59,7 +61,7 @@ const PureWeekDay = ({
   const occurrence = occurrenceMap.get(dateKey);
   const count = occurrence?.count ?? 0;
   const cellStyle = occurrence
-    ? getCellStyle(count, classNames, minValue, maxValue, overflowColor)
+    ? getCellStyle(count, classNames, minValue, maxValue, overflowColor, logScale)
     : { className: classNames[0], isOverflow: false };
 
   return (
@@ -85,6 +87,7 @@ export const WeekDay = memo(PureWeekDay, (prevProps, nextProps) => {
     prevProps.minValue === nextProps.minValue &&
     prevProps.maxValue === nextProps.maxValue &&
     prevProps.overflowColor === nextProps.overflowColor &&
+    prevProps.logScale === nextProps.logScale &&
     prevProps.rangeStartDate?.getTime() === nextProps.rangeStartDate?.getTime() &&
     prevProps.rangeEndDate?.getTime() === nextProps.rangeEndDate?.getTime() &&
     prevProps.shape === nextProps.shape

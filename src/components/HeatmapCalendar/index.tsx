@@ -47,6 +47,7 @@ type Props = {
   minValue?: number;
   maxValue?: number;
   trackType?: TrackType;
+  logScale?: boolean;
   shape?: "circle" | "square" | "rounded";
   customColors?: string[];
   overflowColor?: string;
@@ -69,6 +70,7 @@ export const HeatmapCalendar = ({
   minValue,
   maxValue,
   trackType,
+  logScale = false,
   customColors,
   overflowColor,
   onEntryClick,
@@ -116,6 +118,7 @@ export const HeatmapCalendar = ({
           minValue={minValue}
           maxValue={maxValue}
           overflowColor={overflowColor}
+          logScale={logScale}
           showDayLabels={showDayLabels}
           layout={layout}
           onEntryClick={onEntryClick}
@@ -193,6 +196,7 @@ export const HeatmapCalendar = ({
                 minValue={minValue}
                 maxValue={maxValue}
                 overflowColor={overflowColor}
+                logScale={logScale}
                 onEntryClick={onEntryClick}
                 rangeStartDate={startDate}
                 rangeEndDate={endDate}
@@ -220,6 +224,7 @@ export const HeatmapCalendar = ({
                 minValue={minValue}
                 maxValue={maxValue}
                 overflowColor={overflowColor}
+                logScale={logScale}
                 onEntryClick={onEntryClick}
                 rangeStartDate={startDate}
                 rangeEndDate={endDate}

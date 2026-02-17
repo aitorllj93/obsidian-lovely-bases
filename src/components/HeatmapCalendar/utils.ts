@@ -88,6 +88,7 @@ export const normalizeValue = (
   minValue: number,
   maxValue: number,
   steps: number,
+  logScale = false,
 ): { normalizedIndex: number; isOverflow: boolean } => {
   if (value > maxValue) {
     return { normalizedIndex: steps - 1, isOverflow: true };
@@ -98,8 +99,25 @@ export const normalizeValue = (
   if (maxValue <= minValue) {
     return { normalizedIndex: value >= maxValue ? steps - 1 : 0, isOverflow: false };
   }
-  const range = maxValue - minValue;
-  const normalized = (value - minValue) / range;
+  
+  let normalized: number;
+  if (logScale) {
+    // Log scale: ensure values are positive for logarithm
+    const adjustedMin = Math.max(minValue, 1);
+    const adjustedMax = Math.max(maxValue, adjustedMin + 1);
+    const adjustedValue = Math.max(value, adjustedMin);
+    
+    const logMin = Math.log(adjustedMin);
+    const logMax = Math.log(adjustedMax);
+    const logValue = Math.log(adjustedValue);
+    
+    normalized = (logValue - logMin) / (logMax - logMin);
+  } else {
+    // Linear scale
+    const range = maxValue - minValue;
+    normalized = (value - minValue) / range;
+  }
+  
   const index = Math.ceil(normalized * (steps - 1));
   return { normalizedIndex: index, isOverflow: false };
 };
@@ -110,12 +128,14 @@ export const getCellStyle = (
   minValue: number,
   maxValue: number,
   overflowColor?: string,
+  logScale = false,
 ): { className: string; style?: React.CSSProperties; isOverflow: boolean } => {
   const { normalizedIndex, isOverflow } = normalizeValue(
     count,
     minValue,
     maxValue,
     classNames.length,
+    logScale,
   );
   if (isOverflow && overflowColor) {
     return {

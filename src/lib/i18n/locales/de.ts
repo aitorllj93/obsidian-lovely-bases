@@ -284,6 +284,12 @@ export const de: LocaleTranslations = {
       },
       valueRange: {
         title: "Wertebereich",
+        autoValueRange: {
+          title: "Automatischer Wertebereich",
+        },
+        logScale: {
+          title: "Logarithmische Skala",
+        },
         minValue: {
           title: "Minimalwert",
         },

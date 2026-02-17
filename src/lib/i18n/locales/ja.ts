@@ -284,6 +284,12 @@ export const ja: LocaleTranslations = {
       },
       valueRange: {
         title: "値の範囲",
+        autoValueRange: {
+          title: "自動値範囲",
+        },
+        logScale: {
+          title: "対数スケール",
+        },
         minValue: {
           title: "最小値",
         },

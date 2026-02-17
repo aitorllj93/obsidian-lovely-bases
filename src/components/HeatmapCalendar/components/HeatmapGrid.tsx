@@ -45,6 +45,7 @@ type Props = {
   minValue?: number;
   maxValue?: number;
   overflowColor?: string;
+  logScale?: boolean;
   onEntryClick?: EntryClickEventHandler;
   rangeStartDate?: Date;
   rangeEndDate?: Date;
@@ -60,6 +61,7 @@ export const HeatmapGrid = ({
   minValue = 0,
   maxValue = 10,
   overflowColor,
+  logScale = false,
   onEntryClick,
   rangeStartDate,
   rangeEndDate,
@@ -107,6 +109,7 @@ export const HeatmapGrid = ({
               minValue={minValue}
               maxValue={maxValue}
               overflowColor={overflowColor}
+              logScale={logScale}
               onEntryClick={onEntryClick}
               rangeStartDate={rangeStartDate}
               rangeEndDate={rangeEndDate}

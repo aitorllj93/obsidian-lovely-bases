@@ -41,6 +41,7 @@ type Props = {
 	minValue?: number;
 	maxValue?: number;
 	overflowColor?: string;
+	logScale?: boolean;
 	showDayLabels?: boolean;
 	layout?: "horizontal" | "vertical";
 	onEntryClick?: EntryClickEventHandler;
@@ -67,6 +68,7 @@ type DayCellProps = {
 	minValue: number;
 	maxValue: number;
 	overflowColor?: string;
+	logScale?: boolean;
 	onEntryClick?: EntryClickEventHandler;
 	rangeStartDate?: Date;
 	rangeEndDate?: Date;
@@ -82,6 +84,7 @@ const DayCell = memo(
 		minValue,
 		maxValue,
 		overflowColor,
+		logScale = false,
 		onEntryClick,
 		rangeStartDate,
 		rangeEndDate,
@@ -99,7 +102,7 @@ const DayCell = memo(
 		const occurrence = occurrenceMap.get(dateKey);
 		const count = occurrence?.count ?? 0;
 		const cellStyle = occurrence
-			? getCellStyle(count, classNames, minValue, maxValue, overflowColor)
+			? getCellStyle(count, classNames, minValue, maxValue, overflowColor, logScale)
 			: { className: classNames[0], isOverflow: false };
 
 		return (
@@ -132,6 +135,7 @@ const DayCell = memo(
 			prevProps.minValue === nextProps.minValue &&
 			prevProps.maxValue === nextProps.maxValue &&
 			prevProps.overflowColor === nextProps.overflowColor &&
+			prevProps.logScale === nextProps.logScale &&
 			prevProps.rangeStartDate?.getTime() === nextProps.rangeStartDate?.getTime() &&
 			prevProps.rangeEndDate?.getTime() === nextProps.rangeEndDate?.getTime() &&
 			prevProps.shape === nextProps.shape
@@ -150,6 +154,7 @@ type MonthBlockProps = {
 	minValue: number;
 	maxValue: number;
 	overflowColor?: string;
+	logScale?: boolean;
 	showDayLabels: boolean;
 	onEntryClick?: EntryClickEventHandler;
 	rangeStartDate?: Date;
@@ -167,6 +172,7 @@ const MonthBlock = memo(
 		minValue,
 		maxValue,
 		overflowColor,
+		logScale = false,
 		showDayLabels,
 		onEntryClick,
 		rangeStartDate,
@@ -206,6 +212,7 @@ const MonthBlock = memo(
 									minValue={minValue}
 									maxValue={maxValue}
 									overflowColor={overflowColor}
+									logScale={logScale}
 									onEntryClick={onEntryClick}
 									rangeStartDate={rangeStartDate}
 									rangeEndDate={rangeEndDate}
@@ -230,6 +237,7 @@ const MonthGridViewComponent = ({
 	minValue = 0,
 	maxValue = 10,
 	overflowColor,
+	logScale = false,
 	showDayLabels = true,
 	layout = "vertical",
 	onEntryClick,
@@ -303,6 +311,7 @@ const MonthGridViewComponent = ({
 					minValue={minValue}
 					maxValue={maxValue}
 					overflowColor={overflowColor}
+					logScale={logScale}
 					showDayLabels={showDayLabels}
 					onEntryClick={onEntryClick}
 					rangeStartDate={rangeStartDate}

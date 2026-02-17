@@ -67,6 +67,8 @@ export type HeatmapCalendarConfig = {
   showMonthLabels?: boolean;
   showYearLabels?: boolean;
   showLegend?: boolean;
+  autoValueRange?: boolean;
+  logScale?: boolean;
   minValue?: number;
   maxValue?: number;
   trackType?: TrackType;
@@ -84,6 +86,8 @@ const HeatmapCalendarView = ({
     dateProperty: DEFAULTS.dateProperty,
     trackProperty: DEFAULTS.trackProperty,
     trackType: DEFAULTS.trackType,
+    autoValueRange: DEFAULTS.autoValueRange,
+    logScale: DEFAULTS.logScale,
     minValue: DEFAULTS.minValue,
     maxValue: DEFAULTS.maxValue,
     colorScheme: DEFAULTS.colorScheme,
@@ -154,18 +158,54 @@ const HeatmapCalendarView = ({
 
     return data.groupedData.map((group) => {
       let trackType: TrackType = viewConfig.trackType ?? "number";
-      const minValue: number = viewConfig.minValue ?? 0;
-      const maxValue: number = viewConfig.maxValue ?? 10;
+      
+      // First pass: extract all values to determine track type and calculate min/max if auto is enabled
+      const extractedValues: number[] = [];
+      
+      group.entries.forEach((entry, index) => {
+        const dateValue = entry.getValue(viewConfig.dateProperty);
+        const countValue = entry.getValue(viewConfig.trackProperty);
+        
+        // Skip entries without valid dates
+        if (!dateValue) return;
+        
+        // Validate date (check if it can be parsed)
+        if (!(dateValue instanceof Date)) {
+          const parsedDate = parse(dateValue.toString());
+          if (!parsedDate || Number.isNaN(parsedDate.getTime())) return;
+        }
+        
+        if (index === 0 && !viewConfig.trackType) {
+          // infer track type from the first value
+          trackType = detectTrackType(countValue);
+        }
+        
+        // Extract raw value for min/max calculation (using default min/max for extraction)
+        const rawValue = extractTrackValue(countValue, trackType, 0, 1);
+        extractedValues.push(rawValue);
+      });
 
+      // Calculate min/max from data if auto is enabled
+      let minValue: number;
+      let maxValue: number;
+      
+      if (viewConfig.autoValueRange && extractedValues.length > 0) {
+        minValue = Math.min(...extractedValues);
+        maxValue = Math.max(...extractedValues);
+        // Ensure max is at least min + 1 to avoid division by zero
+        if (maxValue <= minValue) {
+          maxValue = minValue + 1;
+        }
+      } else {
+        minValue = viewConfig.minValue ?? 0;
+        maxValue = viewConfig.maxValue ?? 10;
+      }
+
+      // Second pass: create entries with proper min/max values
       const entries = group.entries
-        .map((entry, index) => {
+        .map((entry) => {
           const dateValue = entry.getValue(viewConfig.dateProperty);
           const countValue = entry.getValue(viewConfig.trackProperty);
-
-          if (index === 0 && !viewConfig.trackType) {
-            // infer track type from the first value
-            trackType = detectTrackType(countValue);
-          }
 
           if (!dateValue) return null;
 
@@ -197,7 +237,7 @@ const HeatmapCalendarView = ({
         entries,
       };
     });
-  }, [data, viewConfig.dateProperty, viewConfig.trackProperty, viewConfig.trackType, viewConfig.minValue, viewConfig.maxValue]);
+  }, [data, viewConfig.dateProperty, viewConfig.trackProperty, viewConfig.trackType, viewConfig.autoValueRange, viewConfig.minValue, viewConfig.maxValue]);
 
   return (
     <Container isEmbedded={isEmbedded} style={{ userSelect: "none" }}>
@@ -218,6 +258,7 @@ const HeatmapCalendarView = ({
           minValue={g.minValue}
           maxValue={g.maxValue}
           trackType={g.trackType}
+          logScale={viewConfig.logScale}
           shape={viewConfig.shape}
           customColors={parsedCustomColors}
           overflowColor={parsedOverflowColor}

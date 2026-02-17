@@ -284,6 +284,12 @@ export const ko: LocaleTranslations = {
       },
       valueRange: {
         title: "값 범위",
+        autoValueRange: {
+          title: "자동 값 범위",
+        },
+        logScale: {
+          title: "로그 스케일",
+        },
         minValue: {
           title: "최소값",
         },

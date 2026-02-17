@@ -18,6 +18,8 @@ export type HeatmapCalendarConfig = {
   showMonthLabels?: boolean;
   showYearLabels?: boolean;
   showLegend?: boolean;
+  autoValueRange?: boolean;
+  logScale?: boolean;
   minValue?: number;
   maxValue?: number;
   trackType?: TrackType;
