@@ -8,7 +8,7 @@ export const ExtraNotes = () => {
   const resolvedOf = useOf( 'meta', ['story', 'meta']);
 
 
-  const extraNotes = resolvedOf.type === "meta" ? (resolvedOf.preparedMeta.parameters.extraNotes || []) : [];
+  const extraNotes = (resolvedOf.type === "meta" ? (resolvedOf.preparedMeta.parameters.extraNotes || []) : []) as { title: string; description: string; }[];
 
   if (extraNotes.length === 0) return null;
 

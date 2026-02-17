@@ -165,6 +165,7 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
       </motion.div>
       {isGroup(props) && (
         <ExpandedView
+          color={color}
           isOpen={isExpanded}
           title={title}
           icon={icon}

@@ -14,6 +14,7 @@ import type { FacetsConfig } from "../config";
 import type { LayoutIds } from "../utils";
 
 type Props = {
+  color?: string;
   isOpen: boolean;
   title: string;
   icon: string | null;
@@ -29,6 +30,7 @@ const COLLAPSE_DURATION = 0.2;
 const EASING = [0.32, 0.72, 0, 1] as const;
 
 const ExpandedView = ({
+  color,
   isOpen,
   title,
   icon,
@@ -105,7 +107,9 @@ const ExpandedView = ({
             exit={{ transition: collapseTransition }}
           >
             {/* Header with shared elements */}
-            <header className="flex items-center gap-3 px-3 py-2 border-b border-border bg-background/95 backdrop-blur-sm">
+            <header className="flex items-center gap-3 px-3 py-2 border-b border-border bg-background/95 backdrop-blur-sm" style={{
+        color: color ?? 'var(--color-foreground)',
+      }}>
               {icon && (
                 <motion.div
                   layoutId={layoutIds.icon}
@@ -115,13 +119,13 @@ const ExpandedView = ({
                 >
                   <LucideIcon
                     name={icon}
-                    className="size-full text-foreground"
+                    className="size-full"
                   />
                 </motion.div>
               )}
               <motion.h2
                 layoutId={layoutIds.title}
-                className="text-base m-0 font-semibold text-foreground flex-1 line-clamp-1"
+                className="text-base m-0 font-semibold flex-1 line-clamp-1"
                 transition={expandTransition}
                 exit={{ transition: collapseTransition }}
               >
@@ -129,7 +133,7 @@ const ExpandedView = ({
               </motion.h2>
               <motion.span
                 layoutId={layoutIds.counter}
-                className="text-sm text-muted-foreground shrink-0"
+                className="text-sm shrink-0"
                 transition={expandTransition}
                 exit={{ transition: collapseTransition }}
               >
