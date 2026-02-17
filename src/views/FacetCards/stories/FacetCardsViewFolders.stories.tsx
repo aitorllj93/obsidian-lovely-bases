@@ -7,6 +7,7 @@ import FacetCardsViewMeta, {
   Counter as BaseCounter,
   Default as BaseDefault,
   FullExample as BaseFullExample,
+  InlineUngroupedContent as BaseInlineUngroupedContent,
   OutsideLabels as BaseOutsideLabels,
   Spacing as BaseSpacing,
   View
@@ -33,3 +34,5 @@ export const Counter = BaseCounter;
 export const Spacing = BaseSpacing;
 export const Borders = BaseBorders;
 export const OutsideLabels = BaseOutsideLabels;
+export const InlineUngroupedContent = BaseInlineUngroupedContent;
+

@@ -57,7 +57,7 @@ const View = createViewRenderer<CarouselConfig>(CarouselView);
 const meta = {
   title: "Views/Carousel",
   component: View,
-  tags: ["autodocs"],
+  tags: ["autodocs", "status:ready"],
   decorators: [ViewWrapper, Providers],
   parameters: {
     layout: "fullscreen",

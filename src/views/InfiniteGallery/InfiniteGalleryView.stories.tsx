@@ -57,6 +57,7 @@ const meta = {
     layout: "fullscreen",
     extraNotes: [
       {
+        kind: "warning",
         title: "Performance issues on mobile devices",
         description:
           "The view may freeze or crash on some mobile devices even with small datasets (<100 items). Use this view only in desktop devices unless you know what you are doing.",

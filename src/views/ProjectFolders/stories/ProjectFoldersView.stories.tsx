@@ -16,7 +16,7 @@ import ProjectFoldersViewMeta, {
 const meta = {
   ...ProjectFoldersViewMeta,
   title: "Views/Project Folders",
-  tags: ["autodocs"],
+  tags: ["autodocs", "status:deprecated"],
   component: View,
   args: {
     ...ProjectFoldersViewMeta.args,

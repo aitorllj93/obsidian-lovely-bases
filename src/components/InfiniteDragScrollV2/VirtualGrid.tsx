@@ -79,6 +79,7 @@ export const VirtualGrid = ({
               ...facetsConfig,
               layoutItemSize: cellWidth,
             }}
+            initialAnimation={false}
 					/>
 				</GridItem>
 			))}

@@ -61,7 +61,7 @@ export const View = createViewRenderer<FacetCardsConfig>(FacetCardsView);
 export const meta = {
   title: "Views/Facet Cards",
   component: View,
-  tags: ["autodocs"],
+  tags: ["autodocs", "status:ready"],
   decorators: [ViewWrapper, Providers],
   parameters: {
     layout: "fullscreen",

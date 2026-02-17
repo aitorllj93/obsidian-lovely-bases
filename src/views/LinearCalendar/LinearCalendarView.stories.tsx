@@ -31,7 +31,7 @@ const t = (key: NamespacedTranslationKey<'linearCalendar'>) => translate("en", '
 const meta = {
   title: "Views/Linear Calendar",
   component: View,
-  tags: ["autodocs"],
+  tags: ["autodocs", "status:ready"],
   decorators: [ViewWrapper, Providers],
   parameters: {
     layout: 'fullscreen',

@@ -17,6 +17,7 @@ import {
   WithSize5XSAndSpacing,
   WithSquareImage,
   WithUngroupedItemsInline,
+  WithAdaptiveContentSize,
 } from "@/__fixtures__/facets/configs";
 
 import CardsMeta, { type FacetCardsViewStory, View } from './meta';
@@ -35,6 +36,7 @@ export const meta = {
     ...WithSquareImage,
     ...WithPolaroidLayout,
     ...WithoutCounter,
+    ...WithAdaptiveContentSize,
   }
 };
 
@@ -159,5 +161,26 @@ layoutItemBorder: solid
     ...WithBorderSolid,
     ...WithOuterTitle,
     ...WithOuterCounter,
+  },
+};
+
+export const InlineUngroupedContent: FacetCardsViewStory = {
+  parameters: {
+    docs: {
+      description: {
+        story: `You can display the items without group inline with the folders
+
+\`\`\`yml
+groupUngroupedItemsDisplay: inline
+\`\`\`
+`,
+      },
+    },
+  },
+  args: {
+    layoutItemSpacing: 50,
+    ...WithIcon,
+    ...WithBorderSolid,
+    ...WithUngroupedItemsInline,
   },
 };

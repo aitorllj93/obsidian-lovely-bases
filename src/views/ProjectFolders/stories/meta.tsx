@@ -19,6 +19,7 @@ import {
   WithSize5XSAndSpacing,
   WithSquareImage,
   WithUngroupedItemsInline,
+  WithGridLayout,
 } from "@/__fixtures__/facets/configs";
 import { FACETS_CONFIG_DEFAULTS } from "@/components/Facets/config";
 import { FACETS_CONFIG_ARG_TYPES } from "@/components/Facets/config/stories.argTypes";
@@ -39,10 +40,18 @@ export const View =
 export const meta = {
   title: "Views/Project Folders",
   component: View,
-  tags: ["autodocs"],
+  tags: ["autodocs", "status:deprecated"],
   decorators: [ViewWrapper, Providers],
   parameters: {
     layout: "fullscreen",
+    extraNotes: [
+      {
+        kind: "error",
+        title: "Deprecated",
+        description:
+          "This feature has been reworked under the <bold>Grouping</bold> features for Card based components such as <a href='./?path=/story/views-facet-cards-groups-folders--full-example'>Facet Cards</a>. Please use them instead.",
+      },
+    ],
     docs: {
       icon: PROJECT_FOLDERS_VIEW.icon,
       subtitle:
@@ -94,6 +103,7 @@ export const meta = {
     ...WithSquareImage,
     ...WithPolaroidLayout,
     ...WithoutCounter,
+    ...WithGridLayout,
   },
 } satisfies Meta<typeof View>;
 
