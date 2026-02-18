@@ -1,24 +1,17 @@
-import { useVirtualizer } from "@tanstack/react-virtual";
 import type { BasesEntry, BasesEntryGroup, BasesViewConfig } from "obsidian";
 import {
   type CSSProperties,
   memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
+  useMemo
 } from "react";
 
 import { estimateCardHeight } from "@/components/Card/helpers/estimate-card-height";
 import type { FacetsConfig } from "@/components/Facets/config";
 import { arrayEqual, cn, shallowEqual } from "@/lib/utils";
 
-import { useElementWidth } from "./hooks/use-element-width";
-import { useVirtualGridImagePrefetch } from "./hooks/use-images-prefetch";
+import { useVirtualGrid } from "./hooks/use-virtual-grid";
+
 import Row from "./Row";
-import { getGridConfig, getNextItemFromRows, getRows } from "./utils";
-import type { Direction } from "./types";
 
 type Props = {
   facetsConfig: FacetsConfig;
@@ -41,146 +34,37 @@ function PureVirtualGrid({
   style,
 }: Props) {
   const { imageProperty } = facetsConfig;
-  const [scrollRef, width] = useElementWidth<HTMLDivElement>();
   const estimatedRowHeight = useMemo(
     () => estimateCardHeight(facetsConfig),
     [facetsConfig],
   );
-  const [activeItemKey, setActiveItemKey] = useState<string>();
-  const [activeItemPosition, setActiveItemPosition] = useState<{
-    col: number;
-    row: number;
-  }>({ col: 0, row: 0 });
-  const [collapsedSectionKeys, setCollapsedSectionKeys] = useState<Set<string>>(
-    () => new Set(),
-  );
-
-  const { columnCount, itemWidth, columnStyle } = useMemo(
-    () => getGridConfig(width, facetsConfig.layoutGap, minItemWidth),
-    [width, facetsConfig.layoutGap, minItemWidth],
-  );
-
-  const rows = useMemo(
-    () =>
-      getRows(
-        facetsConfig.groupLayout,
-        items,
-        columnCount,
-        collapsedSectionKeys,
-      ),
-    [items, facetsConfig.groupLayout, columnCount, collapsedSectionKeys],
-  );
-
-  const colsByKey = useMemo(() => {
-    return new Map(rows.flatMap(r => r.map(c => ([
-      c.key,
-      c,
-    ]))));
-  }, [rows]);
-  const colsByIndex = useMemo(() => {
-    return new Map(rows.flatMap(r => r.map(c => ([
-      `${c.row}-${c.col}`,
-      c,
-    ]))));
-  }, [rows]);
-
-  useEffect(() => {
-    if (rows.length === 0 || columnCount === 0) return;
-
-    const activeCol = activeItemKey ? colsByKey.get(activeItemKey) : null;
-
-    if (activeCol) {
-      if (activeItemPosition.row !== activeCol.row || activeItemPosition.col !== activeCol.col) {
-        setActiveItemPosition({
-          row: activeCol.row,
-          col: activeCol.col,
-        });
-      }
-      return;
-    }
-
-    const activeColByIndex = colsByIndex.get(`${activeItemPosition.row}-${activeItemPosition.col}`) ?? null;
-
-    setActiveItemKey(activeColByIndex?.key);
-}, [rows, columnCount, colsByKey, activeItemPosition, colsByIndex, activeItemKey]);
-
-  const virtualizer = useVirtualizer({
-    count: rows.length,
-    getScrollElement: () => scrollRef.current,
-    estimateSize: () => estimatedRowHeight,
-    overscan: 6,
-    gap: facetsConfig.layoutGap,
-  });
-
-  const vitems = virtualizer.getVirtualItems();
-
-  useVirtualGridImagePrefetch(vitems, rows, (entry) =>
-    [imageProperty && entry.getValue(imageProperty)?.toString()].filter(
-      (v) => v !== undefined && v !== null && v !== "null",
-    ),
-  );
-
-  const handleToggleSection = useCallback((key: string) => {
-    setCollapsedSectionKeys((prev) => {
-      const next = new Set(prev);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
-      return next;
-    });
-  }, []);
-
-  const rafRef = useRef<number | null>(null);
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (columnCount === 0) return;
-
-    const navigateTo = (direction: Direction) => {
-      if (rafRef.current) return; // ya hay uno pendiente
-
-      rafRef.current = requestAnimationFrame(() => {
-        rafRef.current = null;
-        const nextItemPosition = getNextItemFromRows(
-          rows,
-          activeItemPosition,
-          direction,
-        );
-        const nextItem = colsByIndex.get(`${nextItemPosition.row}-${nextItemPosition.col}`);
-
-        setActiveItemPosition(nextItemPosition);
-        setActiveItemKey(nextItem.key);
-        virtualizer.scrollToIndex(nextItem.row, {
-          align: "center",
-          behavior: e.repeat ? "auto" : "smooth",
-        })
-      });
-    }
-
-    switch (e.key) {
-      case "ArrowLeft":
-        navigateTo('left');
-        break;
-      case "ArrowRight":
-        navigateTo('right');
-        break;
-      case "ArrowUp":
-        navigateTo('up');
-        break;
-      case "ArrowDown":
-        navigateTo('down');
-        break;
-      case " ":
-      case "Enter":
-        console.log('triggerEvent');
-        break;
-      default:
-        return;
-    }
-
-    e.preventDefault();
-}, [rows, activeItemPosition, colsByIndex, columnCount, virtualizer]);
+  const {
+    activeItemKey,
+    activeItemPosition,
+    collapsedSectionKeys,
+    columnCount,
+    columnStyle,
+    itemWidth,
+    handleKeyDown,
+    handleToggleSection,
+    rows,
+    scrollRef,
+    vitems,
+    virtualizer,
+    width,
+  } = useVirtualGrid({
+    estimatedRowHeight,
+    facetsConfig,
+    imageProperty,
+    items,
+    minItemWidth
+  })
 
   return (
     // biome-ignore lint/a11y/useAriaPropsSupportedByRole: virtual navigation
     <div
+      // biome-ignore lint/a11y/noAutofocus: navigation
+      autoFocus
       className={cn(
         "h-full overflow-auto [overflow-anchor:none] outline-none",
         width === 0 ? "opacity-0" : "opacity-100",

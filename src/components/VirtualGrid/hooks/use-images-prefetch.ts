@@ -1,14 +1,12 @@
-import { type BasesEntry, BasesEntryGroup } from "obsidian";
+import { BasesEntryGroup, type BasesPropertyId } from "obsidian";
 import { useEffect, useRef } from "react";
 
-import type { Column } from '../types'
-
-type GetUrls = (entry: BasesEntry) => string[];
+import type { Column } from '../types';
 
 export function useVirtualGridImagePrefetch(
   vitems: Array<{ index: number }>,
   rows: Column[][],
-  getUrls: GetUrls,
+  imageProperty?: BasesPropertyId,
   opts?: { marginRows?: number; enabled?: boolean }
 ) {
   const marginRows = opts?.marginRows ?? 8;
@@ -29,7 +27,10 @@ export function useVirtualGridImagePrefetch(
 
       for (const col of row) {
         if (col.data instanceof BasesEntryGroup) continue;
-        const urls = getUrls(col.data);
+
+        const urls = [imageProperty && col.data.getValue(imageProperty)?.toString()].filter(
+          (v) => v !== undefined && v !== null && v !== "null",
+        );
         for (const url of urls) {
           if (!url || prefetched.current.has(url)) continue;
           prefetched.current.add(url);
@@ -41,5 +42,5 @@ export function useVirtualGridImagePrefetch(
         }
       }
     }
-  }, [enabled, marginRows, rows, vitems, getUrls]);
+  }, [enabled, marginRows, rows, vitems, imageProperty]);
 }

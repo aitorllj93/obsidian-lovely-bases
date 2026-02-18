@@ -126,6 +126,8 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
       <motion.div
         id={id}
         layoutId={layoutIds.content}
+        role="button"
+        tabIndex={0}
         ref={mergeRefs(cardRef, ref)}
         className={cn(
           "relative flex flex-col items-center justify-center rounded cursor-pointer group h-[stretch]",
@@ -161,14 +163,11 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
           rotate: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
         }}
         onClick={handleNavigate}
+        onKeyDown={handleNavigate}
         onMouseEnter={handleOnMouseEnter}
         onMouseLeave={handleOnMouseLeave}
-        {...(isGroup(props)
-          ? {
-              onPointerDown: handlePointerDown,
-              onPointerUp: handlePointerUp,
-            }
-          : {})}
+        onPointerUp={handlePointerUp}
+        onPointerDown={handlePointerDown}
       >
         <div
           className="absolute inset-0 rounded-2xl transition-opacity duration-700"
