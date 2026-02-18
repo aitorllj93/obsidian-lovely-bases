@@ -70,9 +70,14 @@ export const linear = (color: string, lightness: number, deg = 135) => {
   return `linear-gradient(${deg}deg, ${color}, ${lighten(color, lightness)})`;
 }
 
+let cachedAccentColor: string;
 export const accent = (
   containerElement?: HTMLElement,
 ): string | null => {
+  if (cachedAccentColor) {
+    return cachedAccentColor;
+  }
+
   const container =
     containerElement ??
     document.querySelector(".app-container") ??
@@ -89,14 +94,16 @@ export const accent = (
     const rgb = getComputedStyle(probe).color;
     if (rgb && rgb !== "rgba(0, 0, 0, 0)") {
       probe.remove();
-      return rgbaToHex(rgb);
+      cachedAccentColor = rgbaToHex(rgb);
+      return cachedAccentColor;
     }
   }
 
   probe.remove();
 
   // Fallback to Obsidian's default primary color
-  return OBSIDIAN_PRIMARY;
+  cachedAccentColor = OBSIDIAN_PRIMARY;
+  return cachedAccentColor;
 }
 
 

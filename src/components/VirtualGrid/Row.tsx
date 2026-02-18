@@ -2,7 +2,7 @@ import type { BasesEntryGroup, BasesViewConfig } from "obsidian";
 import { type CSSProperties, forwardRef, memo } from "react";
 
 import Facets from "@/components/Facets";
-import { shallowEqual } from "@/lib/utils";
+import { arrayEqual, shallowEqual } from "@/lib/utils";
 
 import type { FacetsConfig } from "../Facets/config";
 import { Header } from "./Header";
@@ -28,7 +28,6 @@ type Props = {
 const PureRow = forwardRef<HTMLDivElement, Props>(
   (
     {
-      activeItemIndex,
       activeItemKey,
       facetsConfig,
       collapsedSectionKeys,
@@ -39,7 +38,6 @@ const PureRow = forwardRef<HTMLDivElement, Props>(
       itemsPerColumn,
       itemWidth,
       layoutIdPrefix,
-      onSetActiveIndex,
       style,
     },
     ref,
@@ -101,10 +99,12 @@ const Row = memo(PureRow, (prevProps, nextProps) => {
     prevProps.activeItemKey === nextProps.activeItemKey &&
     prevProps.index === nextProps.index &&
     prevProps.itemWidth === nextProps.itemWidth &&
+    prevProps.itemsPerColumn === nextProps.itemsPerColumn &&
     prevProps.collapsedSectionKeys === nextProps.collapsedSectionKeys &&
     prevProps.onToggleSection === nextProps.onToggleSection &&
     shallowEqual(prevProps.style, nextProps.style) &&
     shallowEqual(prevProps.facetsConfig, nextProps.facetsConfig) &&
+    arrayEqual(prevProps.columns, nextProps.columns) &&
     prevProps.config === nextProps.config
   );
 });

@@ -23,6 +23,7 @@ import { useNavigate } from "./hooks/use-navigate";
 
 import { isGroup, type Props } from "./types";
 import { getLayoutIds } from "./utils";
+import { getAnimations } from "./helpers/get-animations";
 
 const borderVariants = cva("bg-card", {
   variants: {
@@ -33,7 +34,7 @@ const borderVariants = cva("bg-card", {
       dashed: "bi-dashed",
     },
     active: {
-      true: "shadow-2xl shadow-(--folder-color)/20",
+      true: "shadow-2xl shadow-(--facets-color)/20",
       false: "",
     },
   },
@@ -46,7 +47,7 @@ const borderVariants = cva("bg-card", {
     {
       border: "solid",
       active: true,
-      class: "border-(--folder-color)/40",
+      class: "border-(--facets-color)/40",
     },
     {
       border: "dotted",
@@ -57,7 +58,7 @@ const borderVariants = cva("bg-card", {
       border: "dotted",
       active: true,
       class:
-        "bi-color-[color-mix(in_srgb,var(--folder-color)_40%,transparent)]",
+        "bi-color-[color-mix(in_srgb,var(--facets-color)_40%,transparent)]",
     },
     {
       border: "dashed",
@@ -68,7 +69,7 @@ const borderVariants = cva("bg-card", {
       border: "dashed",
       active: true,
       class:
-        "bi-color-[color-mix(in_srgb,var(--folder-color)_40%,transparent)]",
+        "bi-color-[color-mix(in_srgb,var(--facets-color)_40%,transparent)]",
     },
   ],
   defaultVariants: {
@@ -108,6 +109,16 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
     toggleExpanded: (e) => handleExpand(e, cardRef),
   });
 
+  const animations = useMemo(() => {
+    return getAnimations({
+      active,
+      initialAnimationDelay: (props.index ?? 0) * 0.1,
+      isHovered,
+      isPressing,
+      showInitialAnimation: props.initialAnimation,
+    });
+  }, [active, props.index, isHovered, isPressing, props.initialAnimation])
+
   const handleOnMouseEnter = (_: React.MouseEvent<HTMLDivElement>) => {
     setIsHovered(true);
     onSetActive?.(true);
@@ -130,38 +141,20 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
         tabIndex={0}
         ref={mergeRefs(cardRef, ref)}
         className={cn(
-          "relative flex flex-col items-center justify-center rounded cursor-pointer group h-[stretch]",
+          "focus-visible:outline-none relative flex flex-col items-center justify-center rounded cursor-pointer group h-[stretch]",
           borderClass,
         )}
         style={
           {
             padding: `${facetsConfig.layoutItemSpacing ?? 0}px`,
             perspective: "1200px",
-            "--folder-color": color,
+            "--facets-color": color,
             zIndex: isHovered || active ? 50 : 1,
           } as CSSProperties
         }
-        initial={props.initialAnimation && { opacity: 0, y: 20 }}
-        animate={{
-          ...(props.initialAnimation
-            ? {
-                opacity: 1,
-                y: 0,
-              }
-            : {}),
-          scale: isPressing ? 0.98 : isHovered || active ? 1.04 : 1,
-          rotate: isHovered || active ? -1.5 : 0,
-        }}
-        transition={{
-          ...(props.initialAnimation
-            ? {
-                opacity: { delay: (props.index ?? 0) * 0.1, duration: 0.5 },
-                y: { delay: (props.index ?? 0) * 0.1, duration: 0.5 },
-              }
-            : {}),
-          scale: { duration: isPressing ? 0.08 : 0.7, ease: [0.16, 1, 0.3, 1] },
-          rotate: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
-        }}
+        initial={animations.initial}
+        animate={animations.animate}
+        transition={animations.transition}
         onClick={handleNavigate}
         onKeyDown={handleNavigate}
         onMouseEnter={handleOnMouseEnter}
@@ -173,7 +166,7 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
           className="absolute inset-0 rounded-2xl transition-opacity duration-700"
           style={{
             background:
-              "radial-gradient(circle at 50% 70%, var(--folder-color) 0%, transparent 70%)",
+              "radial-gradient(circle at 50% 70%, var(--facets-color) 0%, transparent 70%)",
             opacity: isHovered || active ? 0.12 : 0,
           }}
         />
