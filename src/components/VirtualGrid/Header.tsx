@@ -1,5 +1,6 @@
 
 import { motion } from 'motion/react';
+import type { KeyboardEvent, MouseEvent } from 'react';
 
 import { useContainerData } from "@/components/Facets/hooks/use-container-data";
 import type { GroupProps } from "@/components/Facets/types";
@@ -25,17 +26,39 @@ export function Header({
   });
   const entries = props.data.entries ?? [];
 
+  const handleNavigate = (
+    event: MouseEvent | KeyboardEvent
+  ) => {
+    const evt = event.nativeEvent;
+
+    if (evt instanceof MouseEvent && evt.button !== 0 && evt.button !== 1)
+      return;
+    if (
+      evt instanceof KeyboardEvent &&
+      evt.key !== "Enter" &&
+      evt.key !== " "
+    )
+      return;
+
+    evt.preventDefault();
+    evt.stopPropagation();
+
+    onToggleCollapse();
+  }
+
   return (
     // biome-ignore lint/a11y/useSemanticElements: header
     <header
       id={id}
-      className="flex items-center gap-1 px-3 py-2 border-b border-border bg-background/95 backdrop-blur-sm cursor-pointer"
+      className="focus-visible:outline-none flex items-center gap-1 px-3 py-2 border-b border-border bg-background/95 backdrop-blur-sm cursor-pointer"
       style={{
         ...props.style,
         color,
       }}
-      onClick={onToggleCollapse}
+      onClick={handleNavigate}
+      onKeyDown={handleNavigate}
       role="button"
+      tabIndex={0}
       aria-expanded={!isCollapsed}>
       {icon && (
         <motion.div

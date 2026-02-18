@@ -17,13 +17,13 @@ import ExpandedView from "./components/ExpandedView";
 import Group from "./components/Group";
 import OutsideContent from "./components/OutsideContent";
 
+import { getAnimations } from "./helpers/get-animations";
 import { useContainerData } from "./hooks/use-container-data";
 import { useExpand } from "./hooks/use-expand";
 import { useNavigate } from "./hooks/use-navigate";
 
 import { isGroup, type Props } from "./types";
 import { getLayoutIds } from "./utils";
-import { getAnimations } from "./helpers/get-animations";
 
 const borderVariants = cva("bg-card", {
   variants: {

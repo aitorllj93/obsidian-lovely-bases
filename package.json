@@ -61,6 +61,7 @@
     "vitest": "^4.0.17"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.9",
     "@tanstack/react-virtual": "^3.13.18",
     "@toolwind/corner-shape": "0.0.8-3",
     "class-variance-authority": "^0.7.1",
