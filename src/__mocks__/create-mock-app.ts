@@ -2,6 +2,7 @@
 import type { App, TFile } from "obsidian"
 
 import { ALL_ENTRIES } from "@/__fixtures__/entries";
+
 import type { MockTFile } from "./aFile";
 
 type MockAppParams = {
@@ -12,7 +13,10 @@ const DEFAULT_MOCK_APP_PARAMS: MockAppParams = {
   markdown: true,
 }
 
-export const createMockApp = (params: MockAppParams = DEFAULT_MOCK_APP_PARAMS): App => {
+export const createMockApp = (
+  params: MockAppParams = DEFAULT_MOCK_APP_PARAMS,
+  overrides?: Partial<App>,
+): App => {
   return {
     metadataCache: {
 			getFirstLinkpathDest: (linkpath: string, _: string) => {
@@ -52,6 +56,7 @@ export const createMockApp = (params: MockAppParams = DEFAULT_MOCK_APP_PARAMS): 
 				// Stub method
 			},
       trigger: (_event: string, _data: unknown) => {},
+      ...(overrides?.workspace ?? {}),
     },
   } as unknown as App;
 }

@@ -25,8 +25,6 @@ export function Header({
   });
   const entries = props.data.entries ?? [];
 
-  console.log(active);
-
   return (
     // biome-ignore lint/a11y/useSemanticElements: header
     <header

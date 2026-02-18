@@ -23,6 +23,7 @@ type Props = FacetsConfig & {
   index?: number;
 	isDraggable?: boolean;
   style?: React.CSSProperties;
+  onClick?: (e: React.MouseEvent) => void;
 };
 
 const cardContentVariants = cva(
@@ -95,6 +96,7 @@ const PureCard = forwardRef<HTMLDivElement, Props>(({
   index = 0,
   isDraggable = false,
   style,
+  onClick,
   ...facetsConfig
 }: Props, ref) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -120,8 +122,8 @@ const PureCard = forwardRef<HTMLDivElement, Props>(({
       }
     }
 
-    handleEntryOpen(event);
-  }, [handleEntryOpen, isDraggable]);
+    onClick ? onClick(event) : handleEntryOpen(event);
+  }, [handleEntryOpen, isDraggable, onClick]);
 
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);

@@ -1,5 +1,7 @@
 import type { Decorator } from "@storybook/react-vite";
+import type { App } from "obsidian";
 import { useEffect, useRef, useState } from "react";
+import { fn } from "storybook/test";
 
 import { cn } from "@/lib/utils";
 
@@ -28,7 +30,11 @@ const Providers: Decorator = (Story, ctx) => {
       {mounted && containerRef.current && (
         <ObsidianProvider
           value={{
-            app: createMockApp(params),
+            app: createMockApp(params, {
+              workspace: {
+                openLinkText: ctx.args.onEntryClick ?? fn(),
+              }
+            } as unknown as Partial<App>),
             component: createMockComponent(),
             containerEl: containerRef.current,
             isEmbedded: true,

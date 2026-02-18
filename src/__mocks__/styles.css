@@ -122,6 +122,7 @@
   --background: var(--color-black);
   --background-secondary: var(--color-base-950);
   --foreground: var(--color-base-50);
+  --color-foreground: var(--color-base-50);
 
   --card: var(--bases-cards-background);
   --card-foreground: var(--color-base-50);

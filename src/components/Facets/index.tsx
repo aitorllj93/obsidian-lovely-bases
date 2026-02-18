@@ -1,3 +1,5 @@
+
+import { cva } from "class-variance-authority";
 import { LayoutGroup, motion } from "motion/react";
 import {
   type CSSProperties,
@@ -9,71 +11,71 @@ import {
 } from "react";
 
 import Card from "@/components/Card";
-import { useFileOpen } from "@/hooks/use-file-open";
 import { cn, mergeRefs } from "@/lib/utils";
 
 import ExpandedView from "./components/ExpandedView";
 import Group from "./components/Group";
 import OutsideContent from "./components/OutsideContent";
+
 import { useContainerData } from "./hooks/use-container-data";
 import { useExpand } from "./hooks/use-expand";
+import { useNavigate } from "./hooks/use-navigate";
+
 import { isGroup, type Props } from "./types";
 import { getLayoutIds } from "./utils";
-import { cva } from "class-variance-authority";
 
-const borderVariants = cva(
-  "bg-card",
-  {
-    variants: {
-      border: {
-        none: "",
-        solid: "border-solid",
-        dotted: "bi-dotted",
-        dashed: "bi-dashed"
-      },
-      active: {
-        true: "shadow-2xl shadow-(--folder-color)/20",
-        false: "",
-      }
+const borderVariants = cva("bg-card", {
+  variants: {
+    border: {
+      none: "",
+      solid: "border-solid",
+      dotted: "bi-dotted",
+      dashed: "bi-dashed",
     },
-    compoundVariants: [
-      {
-        border: "solid",
-        active: false,
-        class: "border-border",
-      },
-      {
-        border: "solid",
-        active: true,
-        class: "border-(--folder-color)/40",
-      },
-      {
-        border: "dotted",
-        active: false,
-        class: "bi-color-border",
-      },
-      {
-        border: "dotted",
-        active: true,
-        class: "bi-color-[color-mix(in_srgb,var(--folder-color)_40%,transparent)]"
-      },
-      {
-        border: "dashed",
-        active: false,
-        class: "bi-color-border",
-      },
-      {
-        border: "dashed",
-        active: true,
-        class: "bi-color-[color-mix(in_srgb,var(--folder-color)_40%,transparent)]"
-      }
-    ],
-    defaultVariants: {
-      border: "none",
+    active: {
+      true: "shadow-2xl shadow-(--folder-color)/20",
+      false: "",
+    },
+  },
+  compoundVariants: [
+    {
+      border: "solid",
       active: false,
+      class: "border-border",
     },
-  }
-)
+    {
+      border: "solid",
+      active: true,
+      class: "border-(--folder-color)/40",
+    },
+    {
+      border: "dotted",
+      active: false,
+      class: "bi-color-border",
+    },
+    {
+      border: "dotted",
+      active: true,
+      class:
+        "bi-color-[color-mix(in_srgb,var(--folder-color)_40%,transparent)]",
+    },
+    {
+      border: "dashed",
+      active: false,
+      class: "bi-color-border",
+    },
+    {
+      border: "dashed",
+      active: true,
+      class:
+        "bi-color-[color-mix(in_srgb,var(--folder-color)_40%,transparent)]",
+    },
+  ],
+  defaultVariants: {
+    border: "none",
+    active: false,
+  },
+});
 
 const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const layoutNS = useId();
@@ -90,7 +92,6 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
       : undefined;
   }, [facetsConfig.layoutItemSize, facetsConfig.layoutItemSpacing]);
 
-  const handleNavigate = useFileOpen(file);
   const {
     handlePointerDown,
     handlePointerUp,
@@ -100,26 +101,25 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
     isPressing,
   } = useExpand();
 
+  const handleNavigate = useNavigate({
+    data: props.data,
+    config: props.facetsConfig,
+    file,
+    toggleExpanded: (e) => handleExpand(e, cardRef),
+  });
+
+  const handleOnMouseEnter = (_: React.MouseEvent<HTMLDivElement>) => {
+    setIsHovered(true);
+    onSetActive?.(true);
+  };
+  const handleOnMouseLeave = (_: React.MouseEvent<HTMLDivElement>) => {
+    setIsHovered(false);
+  };
+
   const borderClass = borderVariants({
     border: facetsConfig?.layoutItemBorder ?? "none",
     active: active || isHovered,
   });
-
-  const handleOnMouseEnter = (_: React.MouseEvent<HTMLDivElement>) => {
-     setIsHovered(true);
-     onSetActive?.(true);
-  }
-  const handleOnMouseLeave = (_: React.MouseEvent<HTMLDivElement>) => {
-    setIsHovered(false);
-  }
-
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (facetsConfig.groupActionClickBehavior === "expand") {
-      handleExpand(e, cardRef);
-    } else if (facetsConfig.groupActionClickBehavior === "navigate") {
-      handleNavigate(e);
-    }
-  };
 
   return (
     <LayoutGroup id={layoutIds.container}>
@@ -136,7 +136,7 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
             padding: `${facetsConfig.layoutItemSpacing ?? 0}px`,
             perspective: "1200px",
             "--folder-color": color,
-            zIndex: (isHovered || active) ? 50 : 1,
+            zIndex: isHovered || active ? 50 : 1,
           } as CSSProperties
         }
         initial={props.initialAnimation && { opacity: 0, y: 20 }}
@@ -147,8 +147,8 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
                 y: 0,
               }
             : {}),
-          scale: isPressing ? 0.98 : (isHovered || active) ? 1.04 : 1,
-          rotate: (isHovered || active) ? -1.5 : 0,
+          scale: isPressing ? 0.98 : isHovered || active ? 1.04 : 1,
+          rotate: isHovered || active ? -1.5 : 0,
         }}
         transition={{
           ...(props.initialAnimation
@@ -160,13 +160,13 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
           scale: { duration: isPressing ? 0.08 : 0.7, ease: [0.16, 1, 0.3, 1] },
           rotate: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
         }}
+        onClick={handleNavigate}
         onMouseEnter={handleOnMouseEnter}
         onMouseLeave={handleOnMouseLeave}
         {...(isGroup(props)
           ? {
               onPointerDown: handlePointerDown,
               onPointerUp: handlePointerUp,
-              onClick: handleClick,
             }
           : {})}
       >
@@ -175,7 +175,7 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
           style={{
             background:
               "radial-gradient(circle at 50% 70%, var(--folder-color) 0%, transparent 70%)",
-            opacity: (isHovered || active) ? 0.12 : 0,
+            opacity: isHovered || active ? 0.12 : 0,
           }}
         />
         <div style={{ opacity: isExpanded ? 0 : 1 }}>
@@ -189,7 +189,7 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
               groupShape={facetsConfig.groupShape}
               icon={icon}
               iconLayoutId={layoutIds.icon}
-              onClick={handleClick}
+              onClick={() => {}}
               showCounter={facetsConfig.groupCounterPosition === "inside"}
               title={
                 facetsConfig.titlePosition === "inside" ? title : undefined
@@ -208,6 +208,7 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
               config={props.config}
               entry={props.data}
               ref={ref}
+              onClick={() => {}}
             />
           )}
         </div>

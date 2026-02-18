@@ -22,7 +22,7 @@ const Header = ({
   const icon = ctx.parameters.docs.def?.icon ?? "layout-grid";
 
   return (
-    <header className="flex justify-between m-2">
+    <header className="flex justify-between m-2 text-foreground">
       <div className="flex gap-2 items-center">
         <div className="flex gap-1 items-center text-sm">
           <LucideIcon name={icon} className="size-3.5" />
