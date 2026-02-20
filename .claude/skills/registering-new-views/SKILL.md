@@ -34,7 +34,7 @@ Start with basic questions, then deepen based on responses.
 ### Level 3 - Data (adaptive)
 
 4. **Properties**: "What entry properties does it need to display?"
-   - If images mentioned → ask about `aspectRatio`, `imageFit`, `imageProperty`
+   - If images mentioned → ask about `aspectRatio`, `mediaFit`, `mediaProperty`
    - If dates mentioned → ask about format, range display
    - If text mentioned → ask about truncation
 
@@ -616,7 +616,7 @@ export const FULL_CONFIG: {ViewName}Config = {
 	...DEFAULT_CONFIG,
 	layout: "horizontal",
 	cardSize: 400,
-	imageProperty: "formula.image",
+	mediaProperty: "formula.image",
 	// ... all other options
 };
 
@@ -823,20 +823,20 @@ options: () => [
 		items: [
 			{
 				type: "property",
-				displayName: "Image Property",
-				key: "imageProperty",
+				displayName: "Media Property",
+				key: "mediaProperty",
 				default: undefined,
 			},
 			{
 				type: "slider",
 				displayName: "Aspect Ratio",
-				key: "imageAspectRatio",
+				key: "mediaAspectRatio",
 				default: 1.5,
 				min: 0.25,
 				max: 2.5,
 				step: 0.05,
-				// Only show when imageProperty is set
-				shouldHide: (config) => config.get("imageProperty") === undefined,
+				// Only show when mediaProperty is set
+				shouldHide: (config) => config.get("mediaProperty") === undefined,
 			},
 		],
 	},

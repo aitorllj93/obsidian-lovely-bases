@@ -11,6 +11,7 @@ type Props = Pick<
   | "cardAdaptToSize"
   | "cardLayout"
   | "contentFont"
+  | "contentPosition"
   | "properties"
   | "contentShowPropertyTitles"
 > & {
@@ -22,12 +23,13 @@ const PurePropertyList = ({
   cardAdaptToSize,
   cardLayout,
   contentFont,
+  contentPosition,
   contentShowPropertyTitles,
   properties,
   entry,
   config,
 }: Props) => {
-  if (properties.length === 0) return null;
+  if (contentPosition !== 'inside' || properties.length === 0) return null;
 
   return (
     <div
@@ -64,6 +66,7 @@ const PropertyList = memo(PurePropertyList, (prevProps, nextProps) =>
   prevProps.cardAdaptToSize === nextProps.cardAdaptToSize &&
   prevProps.cardLayout === nextProps.cardLayout &&
   prevProps.contentFont === nextProps.contentFont &&
+  prevProps.contentPosition === nextProps.contentPosition &&
   prevProps.contentShowPropertyTitles === nextProps.contentShowPropertyTitles &&
   arrayEqual(prevProps.properties, nextProps.properties) &&
   prevProps.entry === nextProps.entry &&

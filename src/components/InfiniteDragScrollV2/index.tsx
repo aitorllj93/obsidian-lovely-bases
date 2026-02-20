@@ -21,7 +21,7 @@ const InfiniteDragScrollV2 = ({ items, facetsConfig, config, masonry = false }: 
 	const cellWidth = facetsConfig.layoutItemSize;
 	// For polaroid layout, add extra height for borders (10px top + 28px bottom) and content area
 	const polaroidExtraHeight = facetsConfig.cardLayout === "polaroid" ? 38 + 40 : 0;
-	const cellHeight = facetsConfig.layoutItemSize * facetsConfig.imageAspectRatio + polaroidExtraHeight;
+	const cellHeight = facetsConfig.layoutItemSize * facetsConfig.mediaAspectRatio + polaroidExtraHeight;
 	const gap = facetsConfig.layoutItemSize / 2;
 	const gapX = gap;
 	const gapY = gap;

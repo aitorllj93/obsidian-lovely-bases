@@ -11,8 +11,8 @@ import MediaWrapper from "./components/Wrapper";
 type Props = Pick<FacetsConfig,
   'cardLayout' |
   'iconProperty' |
-  'imageFit' |
-  'imageProperty' |
+  'mediaFit' |
+  'mediaProperty' |
   'mediaThumbnailProperty'
 > & {
   accentColor?: string;
@@ -28,13 +28,13 @@ const PureMedia = ({
   autoPlay,
   cardLayout,
   entry,
-  imageFit,
-  imageProperty,
+  mediaFit,
+  mediaProperty,
   iconProperty,
   mediaThumbnailProperty,
   width,
 }: Props) => {
-  const { type, value } = useCardMedia(entry, imageProperty) ?? { type: undefined, value: undefined };
+  const { type, value } = useCardMedia(entry, mediaProperty) ?? { type: undefined, value: undefined };
   const thumbnail = useCardMedia(entry, mediaThumbnailProperty);
   const title = getTitle(entry);
 
@@ -51,7 +51,7 @@ const PureMedia = ({
         <MediaContent
           aspectRatio={aspectRatio}
           autoPlay={autoPlay}
-          fit={imageFit}
+          fit={mediaFit}
           layout={cardLayout}
           thumbnail={thumbnail}
           title={title}

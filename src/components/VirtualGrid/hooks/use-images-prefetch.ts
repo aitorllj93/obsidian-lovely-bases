@@ -6,7 +6,7 @@ import type { Column } from '../types';
 export function useVirtualGridImagePrefetch(
   vitems: Array<{ index: number }>,
   rows: Column[][],
-  imageProperty?: BasesPropertyId,
+  mediaProperty?: BasesPropertyId,
   opts?: { marginRows?: number; enabled?: boolean }
 ) {
   const marginRows = opts?.marginRows ?? 8;
@@ -28,7 +28,7 @@ export function useVirtualGridImagePrefetch(
       for (const col of row) {
         if (col.data instanceof BasesEntryGroup) continue;
 
-        const urls = [imageProperty && col.data.getValue(imageProperty)?.toString()].filter(
+        const urls = [mediaProperty && col.data.getValue(mediaProperty)?.toString()].filter(
           (v) => v !== undefined && v !== null && v !== "null",
         );
         for (const url of urls) {
@@ -42,5 +42,5 @@ export function useVirtualGridImagePrefetch(
         }
       }
     }
-  }, [enabled, marginRows, rows, vitems, imageProperty]);
+  }, [enabled, marginRows, rows, vitems, mediaProperty]);
 }

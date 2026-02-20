@@ -7,7 +7,7 @@ import { getPropertyValue } from "@/lib/obsidian/entry";
 
 type GetBaseColorParams = Pick<FacetsConfig,
   'colorProperty' |
-  'imageProperty'
+  'mediaProperty'
 >;
 
 export const getAccentColor = (
@@ -21,7 +21,7 @@ export const getAccentColor = (
     }
   }
 
-  if (params.imageProperty) {
+  if (params.mediaProperty) {
     const imageVal = getPropertyValue(entry, params.colorProperty);
     if (imageVal && isHexColor(imageVal)) {
       return imageVal;

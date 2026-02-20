@@ -7,8 +7,8 @@ import type {
   FacetsConfig,
   GroupsConfig,
   IconsConfig,
-  ImagesConfig,
   LayoutConfig,
+  MediaConfig,
   TitlesConfig,
 } from "./types";
 
@@ -42,6 +42,7 @@ export const TITLES_CONFIG_DEFAULTS: TitlesConfig = {
 };
 
 export const CONTENTS_CONFIG_DEFAULTS: ContentsConfig = {
+  contentPosition: "inside",
   contentVisibility: "always",
   contentFont: undefined,
   contentShowPropertyTitles: true,
@@ -50,11 +51,11 @@ export const CONTENTS_CONFIG_DEFAULTS: ContentsConfig = {
   contentMarkdownMaxHeight: 0,
 };
 
-export const IMAGES_CONFIG_DEFAULTS: ImagesConfig = {
-  imageProperty: undefined,
+export const MEDIA_CONFIG_DEFAULTS: MediaConfig = {
+  mediaProperty: undefined,
   mediaThumbnailProperty: undefined,
-  imageAspectRatio: 1.5,
-  imageFit: "cover",
+  mediaAspectRatio: 1.5,
+  mediaFit: "cover",
 };
 
 export const COLORS_CONFIG_DEFAULTS: ColorsConfig = {
@@ -88,7 +89,7 @@ export const FACETS_CONFIG_DEFAULTS: FacetsConfig = {
   ...CARDS_CONFIG_DEFAULTS,
   ...TITLES_CONFIG_DEFAULTS,
   ...CONTENTS_CONFIG_DEFAULTS,
-  ...IMAGES_CONFIG_DEFAULTS,
+  ...MEDIA_CONFIG_DEFAULTS,
   ...COLORS_CONFIG_DEFAULTS,
   ...ICONS_CONFIG_DEFAULTS,
   ...BADGES_CONFIG_DEFAULTS,

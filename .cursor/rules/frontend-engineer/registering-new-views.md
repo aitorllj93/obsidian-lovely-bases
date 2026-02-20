@@ -34,7 +34,7 @@ Start with basic questions, then deepen based on responses.
 ### Level 3 - Data (adaptive)
 
 4. **Properties**: "What entry properties does it need to display?"
-   - If images mentioned → ask about `aspectRatio`, `imageFit`, `imageProperty`
+   - If images mentioned → ask about `aspectRatio`, `mediaFit`, `mediaProperty`
    - If dates mentioned → ask about format, range display
    - If text mentioned → ask about truncation
 
@@ -363,7 +363,7 @@ options: () => [
 			{
 				type: "property",
 				displayName: "Image Property",
-				key: "imageProperty",
+				key: "mediaProperty",
 			},
 			{
 				type: "toggle",

@@ -1,7 +1,7 @@
 import type { Meta } from "@storybook/react-vite";
 
 import { MOVIES_ENTRIES } from "@/__fixtures__/entries";
-import { With3x2Image, WithBadge, WithBadgeColor, WithBadgeIcon, WithImage, WithOverlayLayout, WithSize3XS } from "@/__fixtures__/facets/configs";
+import { With3x2Ratio, WithBadge, WithBadgeColor, WithBadgeIcon, WithImage, WithOverlayLayout, WithSize3XS } from "@/__fixtures__/facets/configs";
 import { FACETS_CONFIG_DEFAULTS } from "@/components/Facets/config";
 import { Providers } from "@/stories/decorators";
 
@@ -18,7 +18,7 @@ const meta = {
       ...FACETS_CONFIG_DEFAULTS,
       ...WithSize3XS,
       ...WithImage,
-      ...With3x2Image,
+      ...With3x2Ratio,
       ...WithOverlayLayout,
       ...WithBadge,
       ...WithBadgeColor,

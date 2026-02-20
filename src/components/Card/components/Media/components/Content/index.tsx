@@ -1,7 +1,7 @@
 import type { ComponentType } from "react";
 
 import type { CardMedia, CardMediaType } from "@/components/Card/types";
-import type { CardLayout, ImageFit } from "@/components/Facets/config";
+import type { CardLayout, MediaFit } from "@/components/Facets/config";
 
 import Image from "./Image";
 import type { ContentProps } from "./types";
@@ -12,7 +12,7 @@ import Youtube from "./Youtube";
 type Props = {
   aspectRatio: number;
   autoPlay?: boolean;
-  fit: ImageFit;
+  fit: MediaFit;
   layout: CardLayout;
   thumbnail?: CardMedia;
   title: string;
@@ -45,7 +45,7 @@ const MediaContent = ({
   url,
   width,
 }: Props) => {
-  const imageAspectRatio = (layout === 'vertical' || layout === 'polaroid') ?
+  const mediaAspectRatio = (layout === 'vertical' || layout === 'polaroid') ?
     1 / aspectRatio : undefined;
   const height = layout === 'vertical' ?
     width * aspectRatio :
@@ -62,7 +62,7 @@ const MediaContent = ({
     <>
       {ThumbnailComponent && (
         <ThumbnailComponent
-          aspectRatio={imageAspectRatio}
+          aspectRatio={mediaAspectRatio}
           autoPlay={autoPlay}
           className={autoPlay ? 'hidden' : undefined}
           fit={fit}
@@ -74,7 +74,7 @@ const MediaContent = ({
         />
       )}
       <Component
-        aspectRatio={imageAspectRatio}
+        aspectRatio={mediaAspectRatio}
         autoPlay={autoPlay}
         className={!autoPlay && thumbnail ? 'hidden' : undefined}
         fit={fit}

@@ -77,6 +77,7 @@ export const en = {
         none: "None",
         inside: "Inside",
         outside: "Outside",
+        layout: "Layout"
       },
       font: {
         title: "Font Family",
@@ -90,6 +91,11 @@ export const en = {
     },
     contents: {
       title: "Contents",
+      position: {
+        title: "Position",
+        inside: "Inside",
+        layout: "Layout"
+      },
       visibility: {
         title: 'Content Visibility',
         always: 'Always Visible',

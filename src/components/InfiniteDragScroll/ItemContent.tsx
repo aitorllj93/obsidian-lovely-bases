@@ -4,7 +4,7 @@ import { memo, useRef } from "react";
 import { useEntryTitle } from "@/hooks/use-title";
 import { cn } from "@/lib/utils";
 
-import { getMedia } from "../Card/helpers/get-media";
+import { getCardMedia } from "../Card/helpers/get-media";
 import { useObsidian } from "../Obsidian/Context";
 
 import { GridItem } from "./GridItem";
@@ -32,8 +32,8 @@ const getShapeClass = (shape: "square" | "circle" | "rounded" | "squircle") => {
 
 
 export type ItemConfig = {
-  imageProperty: BasesPropertyId | undefined;
-	imageFit: "cover" | "contain";
+  mediaProperty: BasesPropertyId | undefined;
+	mediaFit: "cover" | "contain";
 	cardSize: number;
 	aspectRatio: number;
 	shape: "square" | "circle" | "rounded" | "squircle";
@@ -47,7 +47,7 @@ type Props = ItemConfig & {
 const DRAG_THRESHOLD = 5;
 
 const ItemContent = memo(
-	({ imageFit, item, imageProperty, cardSize, shape, tabIndex }: Props) => {
+	({ mediaFit, item, mediaProperty, cardSize, shape, tabIndex }: Props) => {
     const { app, containerEl } = useObsidian();
     const dragStartPos = useRef<{ x: number; y: number } | null>(null);
 		const linkRef = useRef<HTMLAnchorElement>(null);
@@ -56,7 +56,7 @@ const ItemContent = memo(
 		const shapeClass = getShapeClass(shape);
 
     const title = useEntryTitle(item);
-    const image = getMedia(app, item, imageProperty);
+    const image = getCardMedia(app, item, mediaProperty);
 
 		const onPointerDown = (event: React.PointerEvent) => {
 			dragStartPos.current = { x: event.clientX, y: event.clientY };
@@ -114,7 +114,7 @@ const ItemContent = memo(
 							className={cn(
 								"pointer-events-none absolute h-full w-full",
 								shapeClass,
-								imageFit === "cover" ? "object-cover" : "object-contain",
+								mediaFit === "cover" ? "object-cover" : "object-contain",
 							)}
 						/>
 					)}
@@ -143,8 +143,8 @@ const ItemContent = memo(
 		return (
 			prevProps.item.file.path === nextProps.item.file.path &&
 			prevProps.item.file.name === nextProps.item.file.name &&
-			prevProps.imageProperty === nextProps.imageProperty &&
-			prevProps.imageFit === nextProps.imageFit &&
+			prevProps.mediaProperty === nextProps.mediaProperty &&
+			prevProps.mediaFit === nextProps.mediaFit &&
 			prevProps.cardSize === nextProps.cardSize &&
 			prevProps.shape === nextProps.shape &&
 			prevProps.tabIndex === nextProps.tabIndex

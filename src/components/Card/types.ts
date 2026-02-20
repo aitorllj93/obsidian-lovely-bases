@@ -12,9 +12,9 @@ export type CardConfig = {
 	tilt: "none" | "left" | "right" | "alternating";
   spacing: number;
   /* Image */
-	imageProperty: BasesPropertyId | undefined;
-	imageAspectRatio: number;
-	imageFit: "cover" | "contain";
+	mediaProperty: BasesPropertyId | undefined;
+	mediaAspectRatio: number;
+	mediaFit: "cover" | "contain";
 	reverseContent: boolean;
   /* Content */
 	showTitle: boolean;

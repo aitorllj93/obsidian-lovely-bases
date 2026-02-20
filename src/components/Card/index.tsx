@@ -53,7 +53,7 @@ const PureCard = forwardRef<HTMLDivElement, Props>(
     },
     ref,
   ) => {
-    const height = facetsConfig.layoutItemSize * facetsConfig.imageAspectRatio;
+    const height = facetsConfig.layoutItemSize * facetsConfig.mediaAspectRatio;
     const width = facetsConfig.layoutItemSize;
     const aspectRatio = height / width;
 
@@ -71,9 +71,9 @@ const PureCard = forwardRef<HTMLDivElement, Props>(
       () =>
         getAccentColor(entry, {
           colorProperty: facetsConfig.colorProperty,
-          imageProperty: facetsConfig.imageProperty,
+          mediaProperty: facetsConfig.mediaProperty,
         }),
-      [entry, facetsConfig.colorProperty, facetsConfig.imageProperty],
+      [entry, facetsConfig.colorProperty, facetsConfig.mediaProperty],
     );
 
     const handlePointerDown = (event: React.PointerEvent) => {
@@ -122,8 +122,8 @@ const PureCard = forwardRef<HTMLDivElement, Props>(
       entry,
       iconProperty: facetsConfig.iconProperty,
       aspectRatio,
-      imageFit: facetsConfig.imageFit,
-      imageProperty: facetsConfig.imageProperty,
+      mediaFit: facetsConfig.mediaFit,
+      mediaProperty: facetsConfig.mediaProperty,
       width,
       mediaThumbnailProperty: facetsConfig.mediaThumbnailProperty,
     };
@@ -136,6 +136,7 @@ const PureCard = forwardRef<HTMLDivElement, Props>(
       contentFont: facetsConfig.contentFont,
       contentMarkdownMaxHeight: facetsConfig.contentMarkdownMaxHeight,
       contentMarkdownMaxLength: facetsConfig.contentMarkdownMaxLength,
+      contentPosition: facetsConfig.contentPosition,
       contentShowMarkdown: facetsConfig.contentShowMarkdown,
       contentShowPropertyTitles: facetsConfig.contentShowPropertyTitles,
       entry,

@@ -9,8 +9,8 @@ import {
   VIRTUAL_SCROLL_PHOTOS_ENTRIES,
 } from "@/__fixtures__/entries";
 import {
-  With3x2Image,
-  With4x5Image,
+  With3x2Ratio,
+  With4x5Ratio,
   WithAlternatingTilt,
   WithBadge,
   WithBadgeColor,
@@ -140,7 +140,7 @@ export const FullExample: Story = {
     ...WithSize2XS,
     ...WithColor,
     ...WithImage,
-    ...With4x5Image,
+    ...With4x5Ratio,
     ...WithHorizontalLayout,
     ...WithContentReversed,
     ...WithMarkdownContent,
@@ -179,7 +179,7 @@ masonry: true
   args: {
     ...WithSize3XS,
     ...WithImage,
-    ...With3x2Image,
+    ...With3x2Ratio,
     ...WithOverlayLayout,
     ...WithBadge,
     ...WithBadgeColor,

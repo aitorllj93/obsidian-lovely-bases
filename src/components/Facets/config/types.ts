@@ -35,7 +35,7 @@ export type CardsConfig = {
 }
 export type CardsConfigInput = Partial<CardsConfig>;
 
-export type TitlePosition = 'none' | 'inside' | 'outside';
+export type TitlePosition = 'none' | 'inside' | 'outside' | 'layout';
 
 export type TitlesConfig = {
   titlePosition: TitlePosition;
@@ -45,9 +45,13 @@ export type TitlesConfig = {
 }
 export type TitlesConfigInput = Partial<TitlesConfig>;
 
+export type ContentPosition = 'inside' | 'layout';
+
 export type ContentVisibility = 'always' | 'hover';
 
+
 export type ContentsConfig = {
+  contentPosition: ContentPosition;
   contentVisibility: ContentVisibility;
   contentFont?: string;
   contentShowPropertyTitles: boolean;
@@ -57,15 +61,15 @@ export type ContentsConfig = {
 }
 export type ContentsConfigInput = Partial<ContentsConfig>;
 
-export type ImageFit = 'cover' | 'contain';
+export type MediaFit = 'cover' | 'contain';
 
-export type ImagesConfig = {
-  imageProperty?: BasesPropertyId;
+export type MediaConfig = {
+  mediaProperty?: BasesPropertyId;
   mediaThumbnailProperty?: BasesPropertyId;
-  imageAspectRatio: number;
-  imageFit: ImageFit;
+  mediaAspectRatio: number;
+  mediaFit: MediaFit;
 }
-export type ImagesConfigInput = Partial<ImagesConfig>;
+export type MediaConfigInput = Partial<MediaConfig>;
 
 export type ColorApplyTo = 'image' | 'content' | 'both';
 
@@ -108,7 +112,7 @@ export type FacetsConfig = LayoutConfig &
   CardsConfig &
   TitlesConfig &
   ContentsConfig &
-  ImagesConfig &
+  MediaConfig &
   ColorsConfig &
   IconsConfig &
   BadgesConfig &

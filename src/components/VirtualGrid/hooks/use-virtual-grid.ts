@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import type { FacetsConfig } from "@/components/Facets/config";
 
-import type { Direction, Position } from "../types";
+import type { Column, Direction, Position } from "../types";
 import { getGridConfig, getNextItemFromRows, getRows } from "../utils";
 
 import { useElementWidth } from "./use-element-width";
@@ -13,7 +13,7 @@ import { useVirtualGridImagePrefetch } from "./use-images-prefetch";
 type UseVirtualGridParams = {
   estimatedRowHeight: number;
   facetsConfig: FacetsConfig;
-  imageProperty?: BasesPropertyId,
+  mediaProperty?: BasesPropertyId,
   items: (BasesEntry | BasesEntryGroup)[];
   minItemWidth: number;
 }
@@ -99,7 +99,7 @@ export function useVirtualGrid({
   useVirtualGridImagePrefetch(
     vitems,
     rows,
-    facetsConfig.imageProperty
+    facetsConfig.mediaProperty
   );
 
   const handleToggleSection = useCallback((key: string) => {
@@ -165,6 +165,7 @@ export function useVirtualGrid({
 }, [rows, activeItemPosition, colsByIndex, columnCount, virtualizer]);
 
   return {
+    activeItem: colsByKey.get(activeItemKey) as Column|undefined,
     activeItemKey,
     activeItemPosition,
     collapsedSectionKeys,

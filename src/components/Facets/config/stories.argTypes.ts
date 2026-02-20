@@ -3,8 +3,8 @@ import type { ArgTypes } from "@storybook/react-vite";
 
 import { type NamespacedTranslationKey, translate } from "@/lib/i18n";
 
-import { ACTIONS_CONFIG_DEFAULTS, BADGES_CONFIG_DEFAULTS, CARDS_CONFIG_DEFAULTS, COLORS_CONFIG_DEFAULTS, CONTENTS_CONFIG_DEFAULTS, GROUPS_CONFIG_DEFAULTS, ICONS_CONFIG_DEFAULTS, IMAGES_CONFIG_DEFAULTS, LAYOUT_CONFIG_DEFAULTS, TITLES_CONFIG_DEFAULTS } from "./defaults";
-import type { ActionsConfig, BadgesConfig, CardsConfig, ColorsConfig, ContentsConfig, FacetsConfig, GroupsConfig, IconsConfig, ImagesConfig, LayoutConfig, TitlesConfig } from "./types";
+import { ACTIONS_CONFIG_DEFAULTS, BADGES_CONFIG_DEFAULTS, CARDS_CONFIG_DEFAULTS, COLORS_CONFIG_DEFAULTS, CONTENTS_CONFIG_DEFAULTS, GROUPS_CONFIG_DEFAULTS, ICONS_CONFIG_DEFAULTS, MEDIA_CONFIG_DEFAULTS, LAYOUT_CONFIG_DEFAULTS, TITLES_CONFIG_DEFAULTS } from "./defaults";
+import type { ActionsConfig, BadgesConfig, CardsConfig, ColorsConfig, ContentsConfig, FacetsConfig, GroupsConfig, IconsConfig, MediaConfig, LayoutConfig, TitlesConfig } from "./types";
 
 
 const t = (key: NamespacedTranslationKey<"facets">) =>
@@ -256,6 +256,7 @@ export const TITLES_CONFIG_ARG_TYPES: ArgTypes<TitlesConfig> = {
         none: t("titles.position.none"),
         inside: t("titles.position.inside"),
         outside: t("titles.position.outside"),
+        layout: t("titles.position.layout"),
       }
     },
     name: t("titles.position.title"),
@@ -263,7 +264,8 @@ export const TITLES_CONFIG_ARG_TYPES: ArgTypes<TitlesConfig> = {
     options: [
       "none",
       "inside",
-      "outside"
+      "outside",
+      "layout"
     ],
     table: {
       category: t("titles.title"),
@@ -314,6 +316,27 @@ export const TITLES_CONFIG_ARG_TYPES: ArgTypes<TitlesConfig> = {
 }
 
 export const CONTENTS_CONFIG_ARG_TYPES: ArgTypes<ContentsConfig> = {
+  contentPosition: {
+    control: {
+      type: "select",
+      labels: {
+        inside: t("contents.position.inside"),
+        layout: t("contents.position.layout"),
+      }
+    },
+    name: t("contents.position.title"),
+    description: "Where to show the content.",
+    options: [
+      "inside",
+      "layout"
+    ],
+    table: {
+      category: t("contents.title"),
+      defaultValue: {
+        summary: CONTENTS_CONFIG_DEFAULTS.contentPosition.toString(),
+      }
+    }
+  },
   contentVisibility: {
     control: {
       type: "select",
@@ -392,8 +415,8 @@ export const CONTENTS_CONFIG_ARG_TYPES: ArgTypes<ContentsConfig> = {
   },
 }
 
-export const IMAGES_CONFIG_ARG_TYPES: ArgTypes<ImagesConfig> = {
-  imageProperty: {
+export const IMAGES_CONFIG_ARG_TYPES: ArgTypes<MediaConfig> = {
+  mediaProperty: {
     control: { type: "text" },
     name: t("images.property.title"),
     description: "The property that contains the image to display on the cards.",
@@ -404,22 +427,22 @@ export const IMAGES_CONFIG_ARG_TYPES: ArgTypes<ImagesConfig> = {
         detail: "Wikilink or URL"
       },
       defaultValue: {
-        summary: IMAGES_CONFIG_DEFAULTS.imageProperty?.toString(),
+        summary: MEDIA_CONFIG_DEFAULTS.mediaProperty?.toString(),
       }
     }
   },
-  imageAspectRatio: {
+  mediaAspectRatio: {
     control: { type: "range", min: 0.25, max: 2.5, step: 0.05 },
     name: t("images.aspectRatio.title"),
     description: "The aspect ratio of the image (width/height).",
     table: {
       category: t("images.title"),
       defaultValue: {
-        summary: IMAGES_CONFIG_DEFAULTS.imageAspectRatio?.toString(),
+        summary: MEDIA_CONFIG_DEFAULTS.mediaAspectRatio?.toString(),
       }
     }
   },
-  imageFit: {
+  mediaFit: {
     control: {
       type: "select",
       labels: {
@@ -436,7 +459,7 @@ export const IMAGES_CONFIG_ARG_TYPES: ArgTypes<ImagesConfig> = {
     table: {
       category: t("images.title"),
       defaultValue: {
-        summary: IMAGES_CONFIG_DEFAULTS.imageFit?.toString(),
+        summary: MEDIA_CONFIG_DEFAULTS.mediaFit?.toString(),
       }
     }
   }

@@ -18,7 +18,6 @@ import { Streamdown } from "streamdown";
 // Nota: No re-exportamos BasesView y TFile como tipos porque también los exportamos como clases
 export type {
 	App,
-	BasesEntry,
 	BasesPropertyId,
 	BasesQueryResult,
 	BasesViewConfig,
@@ -111,6 +110,9 @@ export class NullValue {
 export { MockTFile as TFile } from './aFile'
 // Re-exportar TFile como tipo también para compatibilidad
 export type { TFile as TFileType } from 'obsidian';
+
+export { MockBasesEntry as BasesEntry } from './aBasesEntry';
+export type { BasesEntry as BasesEntryType } from 'obsidian';
 
 export { MockBasesEntryGroup as BasesEntryGroup } from './aBasesEntryGroup';
 export type { BasesEntryGroup as BasesEntryGroupType } from 'obsidian';

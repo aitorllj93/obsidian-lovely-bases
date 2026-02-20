@@ -12,20 +12,20 @@ import {
 } from "@/__fixtures__/entries";
 
 import {
-  With3x2Image,
-  With4x5Image,
+  With3x2Ratio,
+  With4x5Ratio,
   WithBadge,
   WithBadgeColor,
   WithBadgeIcon,
   WithCircleShape,
   WithContentReversed,
+  WithContentVisibilityOnHover,
   WithGroupSubtitle,
   WithGroupTitle,
   WithHorizontalLayout,
   WithHover,
   WithHoverOverlay,
   WithImage,
-  WithVideo,
   WithMarkdownContent,
   WithOverlayLayout,
   WithoutGap,
@@ -38,7 +38,7 @@ import {
   WithSize3XSAndSpacing,
   WithSquareImage,
   WithVerticalLayout,
-  WithContentVisibilityOnHover,
+  WithVideo,
 } from "@/__fixtures__/facets/configs";
 import { FACETS_CONFIG_DEFAULTS } from "@/components/Facets/config";
 import { FACETS_CONFIG_ARG_TYPES } from "@/components/Facets/config/stories.argTypes";
@@ -122,7 +122,7 @@ export const FullExample: Story = {
     groupedData: MOVIES_ENTRIES_GROUPED,
     ...WithSize3XS,
     ...WithVideo,
-    ...With3x2Image,
+    ...With3x2Ratio,
     ...WithOverlayLayout,
     ...WithContentVisibilityOnHover,
     ...WithBadge,
@@ -163,7 +163,7 @@ cardLayout: horizontal
     data: ARTICLE_ENTRIES,
     ...WithSize2XS,
     ...WithImage,
-    ...With4x5Image,
+    ...With4x5Ratio,
     ...WithHorizontalLayout,
     ...WithContentReversed,
     ...WithoutPropertyTitles,
@@ -197,7 +197,7 @@ badgeColorProperty: "#D0A215"
     data: MOVIES_ENTRIES,
     ...WithSize3XS,
     ...WithImage,
-    ...With3x2Image,
+    ...With3x2Ratio,
     ...WithOverlayLayout,
     ...WithBadge,
     ...WithBadgeColor,
@@ -238,7 +238,7 @@ export const CircleShape: Story = {
 
 \`\`\`yml
 cardShape: circle
-imageAspectRatio: 1
+mediaAspectRatio: 1
 \`\`\`
 `,
       },

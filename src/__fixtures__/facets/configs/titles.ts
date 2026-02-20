@@ -9,6 +9,10 @@ export const WithOuterTitle: TitlesConfigInput = {
   titlePosition: "outside",
 }
 
+export const WithLayoutTitle: TitlesConfigInput = {
+  titlePosition: "layout",
+}
+
 export const WithoutTitle: TitlesConfigInput = {
   titlePosition: "none",
 }

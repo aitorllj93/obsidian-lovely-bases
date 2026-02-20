@@ -7,8 +7,8 @@ import {
   PHOTOS_ENTRIES,
 } from "@/__fixtures__/entries";
 import {
-  With3x2Image,
-  With4x5Image,
+  With3x2Ratio,
+  With4x5Ratio,
   WithBadge,
   WithBadgeColor,
   WithBadgeIcon,
@@ -64,7 +64,7 @@ export const Vertical: Story = {
   args: {
     ...WithSize3XS,
     ...WithImage,
-    ...With4x5Image,
+    ...With4x5Ratio,
     ...WithVerticalLayout,
     ...WithoutPropertyTitles,
     ...WithBadge,
@@ -79,7 +79,7 @@ export const Horizontal: Story = {
   args: {
     ...WithSize2XS,
     ...WithImage,
-    ...With4x5Image,
+    ...With4x5Ratio,
     ...WithHorizontalLayout,
     ...WithContentReversed,
     ...WithoutPropertyTitles,
@@ -98,7 +98,7 @@ export const Overlay: Story = {
   args: {
     ...WithSize3XS,
     ...WithImage,
-    ...With3x2Image,
+    ...With3x2Ratio,
     ...WithOverlayLayout,
     ...WithBadge,
     ...WithBadgeColor,

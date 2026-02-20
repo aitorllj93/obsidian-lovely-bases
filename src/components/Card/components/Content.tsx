@@ -96,17 +96,19 @@ const contentVariants = cva("flex flex-col min-h-0 min-w-0 overflow-hidden", {
   ],
 });
 
-type Props = Pick<FacetsConfig,
-  'cardAdaptToSize' |
-  'cardLayout' |
-  'contentFont' |
-  'contentMarkdownMaxHeight' |
-  'contentMarkdownMaxLength' |
-  'contentShowMarkdown' |
-  'contentShowPropertyTitles' |
-  'titleFont' |
-  'titlePosition' |
-  'properties'
+type Props = Pick<
+  FacetsConfig,
+  | "cardAdaptToSize"
+  | "cardLayout"
+  | "contentFont"
+  | "contentMarkdownMaxHeight"
+  | "contentMarkdownMaxLength"
+  | "contentPosition"
+  | "contentShowMarkdown"
+  | "contentShowPropertyTitles"
+  | "titleFont"
+  | "titlePosition"
+  | "properties"
 > & {
   accentColor?: string;
   entry: BasesEntry;
@@ -123,6 +125,7 @@ const PureContent = ({
   contentFont,
   contentMarkdownMaxHeight,
   contentMarkdownMaxLength,
+  contentPosition,
   contentShowMarkdown,
   contentShowPropertyTitles,
   entry,
@@ -132,7 +135,9 @@ const PureContent = ({
   width,
 }: Props) => {
   const shouldShow =
-    titlePosition === "inside" || contentShowMarkdown || properties.length > 0;
+    titlePosition === "inside" ||
+    (contentPosition === "inside" &&
+      (contentShowMarkdown || properties.length > 0));
 
   const className = contentVariants({
     cardAdaptToSize,
@@ -164,16 +169,19 @@ const PureContent = ({
         cardAdaptToSize={cardAdaptToSize}
         cardLayout={cardLayout}
         contentFont={contentFont}
+        contentPosition={contentPosition}
         contentShowPropertyTitles={contentShowPropertyTitles}
         config={config}
         entry={entry}
-        properties={properties} />
+        properties={properties}
+      />
 
       <MarkdownContent
         cardAdaptToSize={cardAdaptToSize}
         contentFont={contentFont}
         contentMarkdownMaxHeight={contentMarkdownMaxHeight}
         contentMarkdownMaxLength={contentMarkdownMaxLength}
+        contentPosition={contentPosition}
         contentShowMarkdown={contentShowMarkdown}
         entry={entry}
       />

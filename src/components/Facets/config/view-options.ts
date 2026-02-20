@@ -2,7 +2,7 @@ import type { ViewOption } from "obsidian";
 
 import { detectLocale, type NamespacedTranslationKey, translate } from "@/lib/i18n";
 
-import { ACTIONS_CONFIG_DEFAULTS, BADGES_CONFIG_DEFAULTS, CARDS_CONFIG_DEFAULTS, COLORS_CONFIG_DEFAULTS, CONTENTS_CONFIG_DEFAULTS, GROUPS_CONFIG_DEFAULTS, ICONS_CONFIG_DEFAULTS, IMAGES_CONFIG_DEFAULTS, LAYOUT_CONFIG_DEFAULTS, TITLES_CONFIG_DEFAULTS } from "./defaults";
+import { ACTIONS_CONFIG_DEFAULTS, BADGES_CONFIG_DEFAULTS, CARDS_CONFIG_DEFAULTS, COLORS_CONFIG_DEFAULTS, CONTENTS_CONFIG_DEFAULTS, GROUPS_CONFIG_DEFAULTS, ICONS_CONFIG_DEFAULTS, LAYOUT_CONFIG_DEFAULTS, MEDIA_CONFIG_DEFAULTS, TITLES_CONFIG_DEFAULTS } from "./defaults";
 
 const locale = detectLocale();
 const t = (key: NamespacedTranslationKey<'facets'>) => translate(locale, 'facets', key);
@@ -168,6 +168,7 @@ export const TITLES_CONFIG_VIEW_OPTIONS: ViewOption[] = [
           none: t('titles.position.none'),
           inside: t('titles.position.inside'),
           outside: t('titles.position.outside'),
+          layout: t('titles.position.layout'),
         }
       },
       {
@@ -197,6 +198,16 @@ export const CONTENTS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
     type: "group",
     displayName: t('contents.title'),
     items: [
+      {
+        key: "contentPosition",
+        default: CONTENTS_CONFIG_DEFAULTS.contentPosition,
+        type: "dropdown",
+        displayName: t('contents.position.title'),
+        options: {
+          inside: t('contents.position.inside'),
+          layout: t('contents.position.layout'),
+        }
+      },
       {
         key: "contentVisibility",
         default: CONTENTS_CONFIG_DEFAULTS.contentVisibility,
@@ -255,15 +266,15 @@ export const IMAGES_CONFIG_VIEW_OPTIONS: ViewOption[] = [
     displayName: t('images.title'),
     items: [
       {
-        key: "imageProperty",
-        default: IMAGES_CONFIG_DEFAULTS.imageProperty,
+        key: "mediaProperty",
+        default: MEDIA_CONFIG_DEFAULTS.mediaProperty,
         type: "property",
         displayName: t('images.property.title'),
       },
       {
-        key: "imageAspectRatio",
-        default: IMAGES_CONFIG_DEFAULTS.imageAspectRatio,
-        shouldHide: (config) => config.get("imageProperty") === undefined,
+        key: "mediaAspectRatio",
+        default: MEDIA_CONFIG_DEFAULTS.mediaAspectRatio,
+        shouldHide: (config) => config.get("mediaProperty") === undefined,
         type: "slider",
         displayName: t('images.aspectRatio.title'),
         min: 0.25,
@@ -271,9 +282,9 @@ export const IMAGES_CONFIG_VIEW_OPTIONS: ViewOption[] = [
         step: 0.05,
       },
       {
-        key: "imageFit",
-        default: IMAGES_CONFIG_DEFAULTS.imageFit,
-        shouldHide: (config) => config.get("imageProperty") === undefined,
+        key: "mediaFit",
+        default: MEDIA_CONFIG_DEFAULTS.mediaFit,
+        shouldHide: (config) => config.get("mediaProperty") === undefined,
         type: "dropdown",
         displayName: t('images.fit.title'),
         options: {

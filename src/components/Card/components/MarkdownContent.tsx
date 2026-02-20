@@ -10,6 +10,7 @@ type Props = Pick<FacetsConfig,
   'contentFont' |
   'contentMarkdownMaxHeight' |
   'contentMarkdownMaxLength' |
+  'contentPosition' |
   'contentShowMarkdown'
 > & {
   entry: BasesEntry;
@@ -21,11 +22,12 @@ export default function MarkdownContent({
   contentFont,
   contentMarkdownMaxHeight,
   contentMarkdownMaxLength,
+  contentPosition,
   contentShowMarkdown,
   entry,
   showSkeleton = false,
 }: Props) {
-  if (!contentShowMarkdown) return null;
+  if (!contentShowMarkdown || contentPosition !== 'inside') return null;
 
   return (
     <div className="overflow-hidden">

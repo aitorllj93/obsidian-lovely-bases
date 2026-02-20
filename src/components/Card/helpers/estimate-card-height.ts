@@ -28,10 +28,10 @@ export function estimateCardHeight(facetsConfig: FacetsConfig, padding = DEFAULT
 
   if (
     facetsConfig.cardLayout !== "horizontal" &&
-    facetsConfig.imageProperty &&
-    facetsConfig.imageAspectRatio
+    facetsConfig.mediaProperty &&
+    facetsConfig.mediaAspectRatio
   ) {
-    contentHeight += facetsConfig.imageAspectRatio * facetsConfig.layoutItemSize;
+    contentHeight += facetsConfig.mediaAspectRatio * facetsConfig.layoutItemSize;
   }
 
 	return contentHeight;

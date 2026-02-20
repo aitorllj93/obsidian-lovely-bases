@@ -1,28 +1,37 @@
 import { SANS_SERIF_FONTS } from "@/__fixtures__/typographies";
-import type { ContentsConfig } from "@/components/Facets/config";
+import type { ContentsConfigInput } from "@/components/Facets/config";
 
-export const WithContentVisibilityOnHover: Partial<ContentsConfig> = {
+
+export const WithInnerContent: ContentsConfigInput = {
+  contentPosition: "inside",
+}
+
+export const WithLayoutContent: ContentsConfigInput = {
+  contentPosition: "layout",
+}
+
+export const WithContentVisibilityOnHover: ContentsConfigInput = {
   contentVisibility: "hover",
 }
 
-export const WithCustomContentFont: Partial<ContentsConfig> = {
+export const WithCustomContentFont: ContentsConfigInput = {
   contentFont: SANS_SERIF_FONTS,
 }
 
-export const WithPropertyTitles: Partial<ContentsConfig> = {
+export const WithPropertyTitles: ContentsConfigInput = {
   contentShowPropertyTitles: true,
 }
 
-export const WithoutPropertyTitles: Partial<ContentsConfig> = {
+export const WithoutPropertyTitles: ContentsConfigInput = {
   contentShowPropertyTitles: false,
 }
 
-export const WithMarkdownContent: Partial<ContentsConfig> = {
+export const WithMarkdownContent: ContentsConfigInput = {
   contentShowMarkdown: true,
   contentMarkdownMaxLength: 200,
   contentMarkdownMaxHeight: 60,
 }
 
-export const WithoutMarkdownContent: Partial<ContentsConfig> = {
+export const WithoutMarkdownContent: ContentsConfigInput = {
   contentShowMarkdown: false,
 }

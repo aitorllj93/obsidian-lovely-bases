@@ -11,8 +11,8 @@ import {
   VIRTUAL_SCROLL_PHOTOS_ENTRIES,
 } from "@/__fixtures__/entries";
 import {
-  With3x2Image,
-  With4x5Image,
+  With3x2Ratio,
+  With4x5Ratio,
   WithBadge,
   WithBadgeColor,
   WithBadgeIcon,
@@ -43,7 +43,9 @@ import {
   WithSize6XSAndSpacing,
   WithSquareImage,
   WithUngroupedItemsInline,
-  WithVerticalLayout
+  WithVerticalLayout,
+  WithLayoutTitle,
+  WithLayoutContent
 } from "@/__fixtures__/facets/configs";
 import { FACETS_CONFIG_DEFAULTS } from "@/components/Facets/config";
 import { FACETS_CONFIG_ARG_TYPES } from "@/components/Facets/config/stories.argTypes";
@@ -136,6 +138,8 @@ export const FullExample: FacetCardsViewStory = {
     ...WithCustomTitleFont,
     ...WithCustomContentFont,
     ...WithCustomBadgeFont,
+    ...WithLayoutTitle,
+    ...WithLayoutContent,
     groupedData: GROUPED_ENTRIES,
   },
 };
@@ -170,7 +174,7 @@ cardLayout: horizontal
   args: {
     ...WithSize2XS,
     ...WithImage,
-    ...With4x5Image,
+    ...With4x5Ratio,
     ...WithHorizontalLayout,
     ...WithContentReversed,
     ...WithoutPropertyTitles,
@@ -189,7 +193,7 @@ export const VerticalLayout: FacetCardsViewStory = {
   args: {
     ...WithSize3XS,
     ...WithImage,
-    ...With4x5Image,
+    ...With4x5Ratio,
     ...WithVerticalLayout,
     ...WithoutPropertyTitles,
     ...WithBadge,
@@ -217,7 +221,7 @@ contentVisibility: always
   args: {
     ...WithSize3XS,
     ...WithImage,
-    ...With3x2Image,
+    ...With3x2Ratio,
     ...WithOverlayLayout,
     ...WithBadge,
     ...WithBadgeColor,
