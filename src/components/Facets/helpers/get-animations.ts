@@ -18,9 +18,9 @@ const getInitialAnimation = (
 });
 
 const getHoverAnimation = (
-  active: boolean,
-  isHovered: boolean,
-  isPressing: boolean,
+  active: boolean | undefined,
+  isHovered: boolean | undefined,
+  isPressing: boolean | undefined,
 ): HTMLMotionProps<'div'> => ({
   animate: {
     scale: isPressing ? 0.98 : isHovered || active ? 1.04 : 1,
@@ -40,7 +40,7 @@ export const getAnimations = ({
   showInitialAnimation,
 }: GetAnimationsParams): HTMLMotionProps<'div'> => {
   const initialAnimation: HTMLMotionProps<'div'> | undefined = showInitialAnimation ?
-    getInitialAnimation(initialAnimationDelay) : undefined;
+    getInitialAnimation(initialAnimationDelay ?? 0) : undefined;
   const hoverAnimation = getHoverAnimation(active, isHovered, isPressing)
 
   return {

@@ -17,7 +17,7 @@ type Props = {
   color?: string;
   isOpen: boolean;
   title: string;
-  icon: string | null;
+  icon?: string;
   entries: BasesEntry[];
   facetsConfig: FacetsConfig;
   config: BasesViewConfig;

@@ -1,3 +1,6 @@
+
+import type { ReactElement } from "react";
+
 import {
 	addDays,
 	differenceInWeeks,
@@ -56,7 +59,7 @@ export const YearLabels = ({
 		);
 	}
 
-	const years = [];
+	const years: ReactElement[] = [];
 	for (let year = startYear; year <= endYear; year++) {
 		const yearStart = startOfYear(new Date(year, 0, 1));
 		const weekIndex = differenceInWeeks(yearStart, firstWeekStart);

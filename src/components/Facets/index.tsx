@@ -90,7 +90,7 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const width = useMemo(() => {
     return facetsConfig.layoutItemSize
       ? facetsConfig.layoutItemSize - (facetsConfig.layoutItemSpacing ?? 0) * 2
-      : undefined;
+      : 0;
   }, [facetsConfig.layoutItemSize, facetsConfig.layoutItemSpacing]);
 
   const {
@@ -193,6 +193,7 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
           ) : (
             <Card
               {...facetsConfig}
+              active={active}
               isDraggable={props.isDraggable}
               layoutItemSize={width}
               className={props.className}

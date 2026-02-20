@@ -5,8 +5,8 @@ import type { COLOR_SCHEMES } from "@/components/HeatmapCalendar/utils";
 
 
 export type HeatmapCalendarConfig = {
-  dateProperty: BasesPropertyId;
-  trackProperty: BasesPropertyId;
+  dateProperty?: BasesPropertyId;
+  trackProperty?: BasesPropertyId;
   colorScheme?: keyof typeof COLOR_SCHEMES;
   shape?: "circle" | "square" | "rounded";
   reverseColors?: boolean;

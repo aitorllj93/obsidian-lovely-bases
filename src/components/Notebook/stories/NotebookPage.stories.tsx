@@ -9,13 +9,6 @@ import {
   PERSON_ENTRIES,
   PHOTOS_ENTRIES,
 } from "@/__fixtures__/entries";
-import { aBasesViewConfig } from "@/__mocks__";
-import {
-  FACETS_CONFIG_DEFAULTS,
-  type FacetsConfigInput,
-} from "@/components/Facets/config";
-import { Providers } from "@/stories/decorators";
-import { WithVariants } from "@/stories/decorators/WithVariants";
 
 import {
   With3x2Image,
@@ -30,10 +23,10 @@ import {
   WithHoverOverlay,
   WithImage,
   WithMarkdownContent,
+  WithOverlayLayout,
   WithoutGap,
   WithoutPropertyTitles,
   WithoutTitle,
-  WithOverlayLayout,
   WithPolaroidLayout,
   WithRoundedShape,
   WithSize2XS,
@@ -42,16 +35,25 @@ import {
   WithSquareImage,
   WithVerticalLayout,
 } from "@/__fixtures__/facets/configs";
+
+import { aBasesViewConfig } from "@/__mocks__";
+import {
+  FACETS_CONFIG_DEFAULTS,
+  type FacetsConfigInput,
+} from "@/components/Facets/config";
+import { Providers } from "@/stories/decorators";
+import { WithVariants } from "@/stories/decorators/WithVariants";
+
 import { getNotebookColors } from "../helpers/get-notebook-colors";
 import NotebookPage from "../NotebookPage";
 import type { NotebookColors, PageStyle } from "../types";
 
 type NotebookStoryProps = {
-  entry: BasesEntry;
+  entry?: BasesEntry;
   facetsConfig: FacetsConfigInput;
   padContent?: boolean;
-  pageStyle: PageStyle;
-  colors: NotebookColors;
+  pageStyle?: PageStyle;
+  colors?: NotebookColors;
 };
 
 const VIEW_CONFIG = aBasesViewConfig({});

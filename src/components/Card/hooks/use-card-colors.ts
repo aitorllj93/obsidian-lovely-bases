@@ -4,37 +4,37 @@ import type { FacetsConfig } from "@/components/Facets/config";
 import { useEntryPropertyValue } from "@/hooks/use-property";
 import { darken, lighten, luminance } from "@/lib/colors";
 
-import type { CardColors, CardImage } from "../types";
+import type { CardColors, CardMedia } from "../types";
 
 export function useCardColors(
   entry: BasesEntry,
   facetsConfig: FacetsConfig,
-  image: CardImage
+  media?: CardMedia
 ): CardColors {
   const { colorApplyTo, colorProperty, cardLayout } = facetsConfig;
 
-  const backgroundColorValue = useEntryPropertyValue(entry, colorProperty);
+  const backgroundColorValue = useEntryPropertyValue(entry, colorProperty) ?? undefined;
 
-  const imageBackground = colorApplyTo !== 'content' ?
-    (image?.isColor ? image.url : backgroundColorValue) : null;
-  const imageForeground = imageBackground ? (
-    luminance(imageBackground) > 0.5 ?
-      darken(imageBackground, 0.2) :
-      lighten(imageBackground, 0.2)
-  ) : null;
+  const mediaBackground = colorApplyTo !== 'content' ?
+    (media?.type === 'color' ? (media.value ?? undefined) : backgroundColorValue) : undefined;
+  const mediaForeground = mediaBackground ? (
+    luminance(mediaBackground) > 0.5 ?
+      darken(mediaBackground, 0.2) :
+      lighten(mediaBackground, 0.2)
+  ) : undefined;
   if (cardLayout === 'overlay') {
     return {
       contentBackground: 'transparent',
       contentForeground: '#fff',
-      imageBackground: imageBackground,
-      imageForeground: imageForeground,
+      mediaBackground,
+      mediaForeground,
       linkForeground: '#e6e6e6',
       titleForeground: '#fff',
     }
   }
 
   let contentBackground = colorApplyTo !== 'image' && backgroundColorValue ?
-    backgroundColorValue : null;
+    backgroundColorValue : undefined;
 
   if (contentBackground) {
     if (luminance(contentBackground) > 0.5) {
@@ -48,14 +48,14 @@ export function useCardColors(
     luminance(contentBackground) > 0.5 ?
       darken(contentBackground, 0.3) :
       lighten(contentBackground, 0.3)
-  ) : null;
-  const contentForeground = contentBackground ? backgroundColorValue : null;
+  ) : undefined;
+  const contentForeground = contentBackground ? backgroundColorValue : undefined;
 
   return {
     contentBackground,
     contentForeground,
-    imageBackground,
-    imageForeground,
+    mediaBackground,
+    mediaForeground,
     linkForeground,
     titleForeground: linkForeground,
   }

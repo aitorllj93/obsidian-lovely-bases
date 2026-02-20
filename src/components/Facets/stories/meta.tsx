@@ -36,9 +36,10 @@ export const GroupStory = ({
     <Group
       width={width ?? facetsConfig.layoutItemSize}
       color={color}
+      // biome-ignore lint/suspicious/noExplicitAny: group colors
       colors={colors as any}
       icon={icon}
-      files={files}
+      files={files ?? []}
       config={obsConfig}
       onClick={onClick}
       showCounter={showCounter}

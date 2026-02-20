@@ -1,11 +1,12 @@
 import { type BasesEntry, type BasesPropertyId, Keymap } from "obsidian";
 import { memo, useRef } from "react";
 
-import { useEntryImage } from "@/hooks/use-image";
 import { useEntryTitle } from "@/hooks/use-title";
 import { cn } from "@/lib/utils";
 
+import { getMedia } from "../Card/helpers/get-media";
 import { useObsidian } from "../Obsidian/Context";
+
 import { GridItem } from "./GridItem";
 
 
@@ -55,7 +56,7 @@ const ItemContent = memo(
 		const shapeClass = getShapeClass(shape);
 
     const title = useEntryTitle(item);
-    const image = useEntryImage(item, imageProperty);
+    const image = getMedia(app, item, imageProperty);
 
 		const onPointerDown = (event: React.PointerEvent) => {
 			dragStartPos.current = { x: event.clientX, y: event.clientY };
@@ -104,9 +105,9 @@ const ItemContent = memo(
 					className="pointer-events-none absolute h-full w-full select-none"
 					draggable={false}
 				>
-					{image && (
+					{image?.value && (
 						<img
-							src={image.url}
+							src={image.value}
 							alt={title}
 							draggable={false}
 							loading="lazy"

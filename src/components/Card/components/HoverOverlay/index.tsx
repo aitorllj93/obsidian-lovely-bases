@@ -2,21 +2,31 @@ import type { BasesEntry, BasesViewConfig } from "obsidian";
 import { memo } from "react";
 
 import type { FacetsConfig } from "@/components/Facets/config";
-import { useEntryProperty } from "@/hooks/use-property";
+import { getPropertyValue } from "@/lib/obsidian/entry";
 
 import OverlayContent from "./OverlayContent";
 
-type Props = {
+type Props = Pick<FacetsConfig,
+  'actionHoverProperty' |
+  'actionHoverStyle' |
+  'cardAdaptToSize' |
+  'contentShowPropertyTitles'
+> & {
   entry: BasesEntry;
-  facetsConfig: FacetsConfig;
   config: BasesViewConfig;
 };
 
-const HoverOverlay = memo(({ facetsConfig, config, entry }: Props) => {
-  const { cardAdaptToSize, actionHoverProperty, actionHoverStyle, contentShowPropertyTitles } = facetsConfig;
-  const property = useEntryProperty(entry, config, actionHoverProperty);
+const PureHoverOverlay = ({
+  actionHoverStyle,
+  actionHoverProperty,
+  cardAdaptToSize,
+  contentShowPropertyTitles,
+  config,
+  entry
+}: Props) => {
+  const property = getPropertyValue(entry, actionHoverProperty);
 
-  if (!actionHoverProperty || !property || !property.value) return null;
+  if (!actionHoverProperty || !property) return null;
 
   if (actionHoverStyle === "overlay") {
     return (
@@ -46,7 +56,9 @@ const HoverOverlay = memo(({ facetsConfig, config, entry }: Props) => {
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-8 border-transparent border-t-popover" />
     </div>
   );
-});
+};
+
+const HoverOverlay = memo(PureHoverOverlay);
 
 HoverOverlay.displayName = "HoverOverlay";
 

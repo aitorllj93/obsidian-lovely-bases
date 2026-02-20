@@ -73,7 +73,7 @@ export const linear = (color: string, lightness: number, deg = 135) => {
 let cachedAccentColor: string;
 export const accent = (
   containerElement?: HTMLElement,
-): string | null => {
+): string => {
   if (cachedAccentColor) {
     return cachedAccentColor;
   }
@@ -150,7 +150,8 @@ function parseColor(input: string) {
     g: +m[2],
     b: +m[3],
     a: m[4] !== undefined ? +m[4] : 1,
-    format: m[4] !== undefined ? "rgba" : "rgb"
+    format: m[4] !== undefined ? "rgba" : "rgb",
+    hasAlpha: m[4] !== undefined,
   };
 }
 
@@ -293,7 +294,8 @@ export function saturate(color, amount = 0.1) {
   return formatColor({ ...rgb, a: c.a, format: c.format, hasAlpha: c.hasAlpha });
 }
 
-export function isHexColor(str: string): boolean {
+export function isHexColor(str): boolean {
+  if (!str) return false;
   const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
   return hexColorRegex.test(str.trim());
 }

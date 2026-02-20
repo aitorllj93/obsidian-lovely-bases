@@ -25,11 +25,14 @@ export function shallowEqual<T>(a: T, b: T): boolean {
   const keysA = Object.keys(a);
   const keysB = Object.keys(b);
   if (keysA.length !== keysB.length) return false;
-  return keysA.every(key => Object.is((a as unknown)[key], (b as unknown)[key]));
+  return keysA.every(key => {
+    return Array.isArray(a[key]) ?
+      arrayEqual(a[key], b[key]) :
+      Object.is((a)[key], (b)[key]);
+  });
 }
 
 export function arrayEqual<T>(a: T[], b: T[]): boolean {
-  if (a === b) return true;
   if (a.length !== b.length) return false;
   return a.length === 0 || a[0] === b[0];
 }

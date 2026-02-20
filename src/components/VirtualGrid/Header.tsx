@@ -43,7 +43,7 @@ export function Header({
     evt.preventDefault();
     evt.stopPropagation();
 
-    onToggleCollapse();
+    onToggleCollapse?.();
   }
 
   return (

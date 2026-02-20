@@ -36,8 +36,8 @@ export const createViewRenderer = <T extends Record<string, unknown> = Record<st
     const { properties = [], onEntryClick, onEntryHover, ...config } = rendererProps;
     const isGrouped = isGroupedViewRenderer(rendererProps);
 
-    const data = isGrouped ? rendererProps.groupedData.flatMap(group => group.entries) : rendererProps.data;
-    const groupedData = isGrouped ? rendererProps.groupedData : [aBasesEntryGroup('', data)];
+    const data = isGrouped ? rendererProps.groupedData?.flatMap(group => group.entries) : rendererProps.data;
+    const groupedData = isGrouped ? rendererProps.groupedData : [aBasesEntryGroup('', data ?? [])];
 
     const props: ReactBaseViewProps = {
       isEmbedded,

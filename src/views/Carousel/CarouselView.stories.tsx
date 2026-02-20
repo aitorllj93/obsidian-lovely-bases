@@ -25,6 +25,7 @@ import {
   WithHover,
   WithHoverOverlay,
   WithImage,
+  WithVideo,
   WithMarkdownContent,
   WithOverlayLayout,
   WithoutGap,
@@ -120,7 +121,7 @@ export const FullExample: Story = {
   args: {
     groupedData: MOVIES_ENTRIES_GROUPED,
     ...WithSize3XS,
-    ...WithImage,
+    ...WithVideo,
     ...With3x2Image,
     ...WithOverlayLayout,
     ...WithContentVisibilityOnHover,

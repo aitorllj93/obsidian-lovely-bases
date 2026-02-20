@@ -4,6 +4,11 @@ export const WithImage: ImagesConfigInput = {
   imageProperty: "formula.image",
 }
 
+export const WithVideo: ImagesConfigInput = {
+  imageProperty: "formula.video",
+  mediaThumbnailProperty: "formula.image",
+}
+
 export const WithEmptyImage: ImagesConfigInput = {
   imageProperty: "formula.emptyImage",
 }

@@ -1,7 +1,4 @@
-import type { App, BasesEntry, BasesPropertyId, BasesViewConfig, Value } from "obsidian";
-
-import { isHexColor } from "../colors";
-import { getResourcePath } from "./link";
+import type { BasesEntry, BasesPropertyId, BasesViewConfig, Value } from "obsidian";
 
 export type Property = {
   displayName: string;
@@ -14,16 +11,24 @@ export const getTitle = (entry: BasesEntry): string => {
   return entry.file.basename.replace(/\.[^.]+$/, '');
 }
 
+
+export const getProperty = (entry: BasesEntry, propertyId?: BasesPropertyId) => {
+  if (!propertyId || !entry) return null;
+  const property = entry.getValue(propertyId);
+
+  return property;
+}
+
 export const getPropertyValue = (entry: BasesEntry, propertyId?: BasesPropertyId): string | null => {
   if (!propertyId || !entry) return null;
   const property = entry.getValue(propertyId);
-  const propertyValue = property.toString();
+  const propertyValue = property?.toString() ?? null;
 
   return propertyValue === 'null' ? null : propertyValue;
 }
 
 export const getLabeledProperty = (entry: BasesEntry, config: BasesViewConfig, propertyId: BasesPropertyId): Property => {
-  const value = entry.getValue(propertyId);
+  const value = entry.getValue(propertyId) as Value;
   const displayName = config.getDisplayName(propertyId) as string;
 
   const isEmpty = value === null || value === undefined || value.toString() === 'null';
@@ -34,41 +39,4 @@ export const getLabeledProperty = (entry: BasesEntry, config: BasesViewConfig, p
     value,
     isEmpty,
   }
-}
-
-const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'ico', 'bmp', 'tiff', 'tif', 'heic', 'heif'];
-
-type Image = {
-  url: string;
-  isColor: boolean;
-}
-
-export const getImage = (app: App, entry?: BasesEntry, propertyId?: BasesPropertyId): Image | null => {
-  const isImage = entry?.file.extension && imageExtensions.includes(entry.file.extension);
-  if (!entry || (!propertyId && !isImage)) return null;
-
-  const imageUrl = isImage ? entry.file.path : entry.getValue(propertyId)?.toString();
-  let imageSrc: string | undefined;
-
-  if (imageUrl === 'null' || imageUrl === '') {
-    return null;
-  }
-
-  if (isHexColor(imageUrl)) {
-    return {
-      url: imageUrl,
-      isColor: true,
-    };
-  }
-
-  if (imageUrl && imageUrl !== 'null') {
-    imageSrc = imageUrl.startsWith('http')
-      ? imageUrl
-      : getResourcePath(app, imageUrl, entry.file.path) ?? undefined;
-  }
-
-  return {
-    url: imageSrc,
-    isColor: false,
-  };
 }

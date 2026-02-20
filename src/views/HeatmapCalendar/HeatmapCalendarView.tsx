@@ -54,8 +54,8 @@ const extractTrackValue = (
 };
 
 export type HeatmapCalendarConfig = {
-  dateProperty: BasesPropertyId;
-  trackProperty: BasesPropertyId;
+  dateProperty?: BasesPropertyId;
+  trackProperty?: BasesPropertyId;
   colorScheme?: keyof typeof COLOR_SCHEMES;
   shape?: "circle" | "square" | "rounded";
   reverseColors?: boolean;
@@ -159,6 +159,10 @@ const HeatmapCalendarView = ({
 
       const entries = group.entries
         .map((entry, index) => {
+          if (!viewConfig.dateProperty || !viewConfig.trackProperty) {
+            return null;
+          }
+
           const dateValue = entry.getValue(viewConfig.dateProperty);
           const countValue = entry.getValue(viewConfig.trackProperty);
 

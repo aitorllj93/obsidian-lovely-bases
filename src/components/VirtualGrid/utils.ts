@@ -38,7 +38,7 @@ export const getGridConfig = (
 };
 
 export const getGridItemId = (item: BasesEntry | BasesEntryGroup) =>
-  item instanceof BasesEntryGroup ? item.key?.toString() : item.file.path;
+  (item instanceof BasesEntryGroup ? item.key?.toString() : item.file.path) as string;
 
 
 
@@ -147,7 +147,7 @@ export const getRows = (
         uniqueId,
         totalCols,
         headerRowIndex,
-        !collapsedSectionKeys.has(uniqueId)
+        !collapsedSectionKeys?.has(uniqueId)
       )]);
 
       const isCollapsed = collapsed.has(String(item.key));

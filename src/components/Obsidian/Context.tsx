@@ -6,7 +6,7 @@ export type ObsidianContextValue = {
   app: App;
   component: Component;
   containerEl: HTMLElement;
-  contentRef: React.RefObject<HTMLDivElement>;
+  contentRef: React.RefObject<HTMLDivElement | null>;
   isEmbedded: boolean;
   locale: SupportedLocale;
 }

@@ -9,7 +9,7 @@ type Props = {
   facetsConfig?: FacetsConfig;
   title?: string;
   count?: number;
-  isHovered: boolean;
+  isHovered?: boolean;
   layoutIds: LayoutIds;
 };
 

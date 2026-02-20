@@ -2,66 +2,72 @@ import type { BasesEntry, BasesViewConfig } from "obsidian";
 import { memo } from "react";
 
 import type { FacetsConfig } from "@/components/Facets/config";
-import { cn } from "@/lib/utils";
+import { arrayEqual, cn } from "@/lib/utils";
 
 import Property from "./Property";
 
-type Props = {
+type Props = Pick<
+  FacetsConfig,
+  | "cardAdaptToSize"
+  | "cardLayout"
+  | "contentFont"
+  | "properties"
+  | "contentShowPropertyTitles"
+> & {
   entry: BasesEntry;
-  facetsConfig: FacetsConfig;
   config: BasesViewConfig;
-  isOverlayMode?: boolean;
 };
 
-const PropertyList = memo(
-  ({
-    entry,
-    facetsConfig,
-    config,
-    isOverlayMode,
-  }: Props) => {
-    const { cardAdaptToSize, contentFont, properties, contentShowPropertyTitles } = facetsConfig;
+const PurePropertyList = ({
+  cardAdaptToSize,
+  cardLayout,
+  contentFont,
+  contentShowPropertyTitles,
+  properties,
+  entry,
+  config,
+}: Props) => {
+  if (properties.length === 0) return null;
 
-    if (properties.length === 0) return null;
-
-    return (
+  return (
+    <div
+      className={cn(!(cardLayout === "overlay") && "flex-1 min-h-0")}
+      style={{
+        fontFamily: contentFont,
+      }}
+    >
       <div
-        className={cn(!isOverlayMode && "flex-1 min-h-0")}
-        style={{
-          fontFamily: contentFont,
-        }}
+        className={cn(
+          "flex flex-col overflow-y-auto",
+          !cardAdaptToSize && "gap-2",
+          cardAdaptToSize &&
+            "@[0px]/lovely-card:gap-1 @7xs/lovely-card:gap-1.5 @5xs/lovely-card:gap-2",
+        )}
       >
-        <div
-          className={cn(
-            "flex flex-col overflow-y-auto",
-            !cardAdaptToSize && "gap-2",
-            cardAdaptToSize &&
-              "@[0px]/lovely-card:gap-1 @7xs/lovely-card:gap-1.5 @5xs/lovely-card:gap-2",
-          )}
-        >
-          {properties.map((property) => (
-            <Property
-              adaptToSize={cardAdaptToSize}
-              key={property}
-              entry={entry}
-              propertyId={property}
-              showPropertyTitles={contentShowPropertyTitles}
-              config={config}
-              isOverlayMode={isOverlayMode}
-            />
-          ))}
-        </div>
+        {properties.map((property) => (
+          <Property
+            adaptToSize={cardAdaptToSize}
+            key={property}
+            entry={entry}
+            propertyId={property}
+            showPropertyTitles={contentShowPropertyTitles}
+            config={config}
+            isOverlayMode={cardLayout === "overlay"}
+          />
+        ))}
       </div>
-    );
-  },
-  (prevProps, nextProps) => {
-    return (
-      prevProps.entry === nextProps.entry &&
-      prevProps.facetsConfig === nextProps.facetsConfig &&
-      prevProps.config === nextProps.config &&
-      prevProps.isOverlayMode === nextProps.isOverlayMode
-    );
-  },
+    </div>
+  );
+};
+
+const PropertyList = memo(PurePropertyList, (prevProps, nextProps) =>
+  prevProps.cardAdaptToSize === nextProps.cardAdaptToSize &&
+  prevProps.cardLayout === nextProps.cardLayout &&
+  prevProps.contentFont === nextProps.contentFont &&
+  prevProps.contentShowPropertyTitles === nextProps.contentShowPropertyTitles &&
+  arrayEqual(prevProps.properties, nextProps.properties) &&
+  prevProps.entry === nextProps.entry &&
+  prevProps.config === nextProps.config
 );
 
 PropertyList.displayName = "PropertyList";

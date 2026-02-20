@@ -1,5 +1,5 @@
-import { type App, type BasesEntry, type BasesPropertyId, type BasesViewConfig, type FrontMatterCache, TFile, type Value } from "obsidian";
 
+import { type App, type BasesEntry, type BasesPropertyId, type BasesViewConfig, type FrontMatterCache, TFile, type Value } from "obsidian";
 
 export type Property = {
   displayName: string;
@@ -21,18 +21,44 @@ export const getProperty = (entry: BasesEntry, config: BasesViewConfig, property
   return {
     id: propertyId,
     displayName,
-    value,
+    value: value as Value,
     isEmpty,
   }
 }
 
-export const isWikiLink = (raw: string): boolean => {
-  return raw.startsWith("[") && raw.endsWith("]");
+export const isObsidianEmbed = (raw: string): boolean =>
+  raw.startsWith("![[") && raw.endsWith("]]");
+
+export const isWikiLink = (raw: string): boolean =>
+  raw.startsWith("[[") && raw.endsWith("]]");
+
+export const isWikiLinkOrEmbed = (raw: string) => isObsidianEmbed(raw) || isWikiLink(raw);
+
+/** captures: ["!", string, string] | ["!", string, undefined] | [undefined, string, string] | [undefined, string, undefined] */
+const WikiLinkRegex = /(!)?\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/;
+
+export const parseWikilinkObject = (raw: string): {
+  link?: string;
+  alias?: string;
+  isEmbed?: boolean;
+} => {
+  const match = raw.match(WikiLinkRegex);
+
+  if (!match) {
+    return { isEmbed: false };
+  }
+
+  return {
+    isEmbed: !match[1],
+    link: match[2],
+    alias: match[3],
+  }
 }
 
 export const parseWikilink = (raw: string): string => {
-  const inner = raw.replace(/^\[\[|\]\]$/g, "");
-  return inner.split("|")[0].trim();
+  const parsed = parseWikilinkObject(raw);
+
+  return parsed.link as string;
 }
 
 
@@ -46,7 +72,7 @@ export const resolveFileFrontmatter = (
   const dest = app.metadataCache.getFirstLinkpathDest(link, sourcePath);
   if (!(dest instanceof TFile)) return null;
 
-  const frontmatter = app.metadataCache.getFileCache(dest)?.frontmatter;
+  const frontmatter = app.metadataCache.getFileCache(dest)?.frontmatter ?? null;
 
   return frontmatter;
 }
@@ -90,5 +116,5 @@ export const getImage = (app: App, entry: BasesEntry, propertyId: BasesPropertyI
       ? imageUrl
       : getImageResourcePath(app, imageUrl, entry.file.path) ?? undefined;
   }
-  return imageSrc;
+  return imageSrc ?? null;
 }

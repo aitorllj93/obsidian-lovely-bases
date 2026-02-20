@@ -5,19 +5,26 @@ import Markdown from "@/components/Obsidian/Markdown";
 import MarkdownSkeleton from "@/components/Obsidian/Markdown/Skeleton";
 import { cn } from "@/lib/utils";
 
-type Props = {
-  facetsConfig: FacetsConfig;
+type Props = Pick<FacetsConfig,
+  'cardAdaptToSize' |
+  'contentFont' |
+  'contentMarkdownMaxHeight' |
+  'contentMarkdownMaxLength' |
+  'contentShowMarkdown'
+> & {
   entry: BasesEntry;
   showSkeleton?: boolean;
 };
 
 export default function MarkdownContent({
-  facetsConfig,
+  cardAdaptToSize,
+  contentFont,
+  contentMarkdownMaxHeight,
+  contentMarkdownMaxLength,
+  contentShowMarkdown,
   entry,
   showSkeleton = false,
 }: Props) {
-  const { cardAdaptToSize, contentFont, contentMarkdownMaxHeight, contentMarkdownMaxLength, contentShowMarkdown } = facetsConfig;
-
   if (!contentShowMarkdown) return null;
 
   return (

@@ -22,7 +22,7 @@ export const useExpand = () => {
   }, []);
 
   const handleExpand = useCallback(
-    (e: React.MouseEvent|React.KeyboardEvent, cardRef: React.RefObject<HTMLDivElement>) => {
+    (e: React.MouseEvent|React.KeyboardEvent, cardRef: React.RefObject<HTMLDivElement | null>) => {
       e.preventDefault();
       e.stopPropagation();
 

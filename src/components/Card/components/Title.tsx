@@ -1,21 +1,24 @@
-import type { BasesEntry } from "obsidian";
 import { memo } from "react";
 
 import type { FacetsConfig } from "@/components/Facets/config";
-import { useEntryTitle } from "@/hooks/use-title";
 import { cn } from "@/lib/utils";
 
 
-type Props = {
-  entry: BasesEntry;
-  facetsConfig: FacetsConfig;
-  isOverlayMode?: boolean;
+type Props = Pick<FacetsConfig,
+  'cardAdaptToSize'|
+  'layoutItemSize' |
+  'titleFont' |
+  'titlePosition'> & {
+  title: string;
 };
 
-const Title = memo(({ entry, facetsConfig }: Props) => {
-  const title = useEntryTitle(entry);
-  const { cardAdaptToSize, layoutItemSize, titleFont, titlePosition } = facetsConfig;
-
+const PureTitle = ({
+  cardAdaptToSize,
+  layoutItemSize,
+  title,
+  titleFont,
+  titlePosition,
+}: Props) => {
   if (titlePosition !== 'inside') return null;
 
   return (
@@ -38,7 +41,9 @@ const Title = memo(({ entry, facetsConfig }: Props) => {
       {title}
     </h3>
   );
-});
+};
+
+const Title = memo(PureTitle);
 
 Title.displayName = "Title";
 

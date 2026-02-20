@@ -1,5 +1,8 @@
 import type { BasesPropertyId } from "obsidian";
 
+import type { MediaObject } from "@/lib/media";
+import type { ExternalMediaObject } from "@/lib/external-media";
+
 export type CardConfig = {
   /* Layout & Display */
 	layout: "vertical" | "horizontal" | "overlay" | "polaroid";
@@ -40,15 +43,18 @@ export type CardConfig = {
 }
 
 export type CardColors = {
-  imageBackground: string | null;
-  imageForeground: string | null;
-  contentBackground: string | null;
-  titleForeground: string | null;
-  contentForeground: string | null;
-  linkForeground: string | null;
+  mediaBackground?: string;
+  mediaForeground?: string;
+  contentBackground?: string;
+  titleForeground?: string;
+  contentForeground?: string;
+  linkForeground?: string;
 }
 
 export type CardImage = {
   url?: string;
   isColor?: boolean;
 }
+
+export type CardMediaType = MediaObject['type'] | ExternalMediaObject['type'];
+export type CardMedia = MediaObject | ExternalMediaObject;

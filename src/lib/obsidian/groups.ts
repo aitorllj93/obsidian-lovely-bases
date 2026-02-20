@@ -11,10 +11,14 @@ export function getGroupedData(
   { groupLayout, groupUngroupedItemsDisplay }: Pick<FacetsConfig, 'groupUngroupedItemsDisplay' | 'groupLayout'>
 ): GroupedGridData[] {
   const resultGroups: BasesEntryGroup[] = [];
-  let resultEntries: BasesEntry[];
+  let resultEntries: BasesEntry[] = [];
 
   for (const group of groups) {
-    const groupKey = group.key.toString();
+    const groupKey = group.key?.toString();
+    if (!groupKey) {
+      continue;
+    }
+
     const isMulti = groupKey.includes(",");
     const keys = isMulti
       ? groupKey.split(", ")
@@ -57,10 +61,15 @@ export function flattenGroups(groups: BasesEntryGroup[]): BasesEntryGroup[] {
   const result: BasesEntryGroup[] = [];
 
   for (const group of groups) {
-    const isMulti = group.key.toString().includes(",");
+    const groupKey = group.key?.toString();
+    if (!groupKey) {
+      continue;
+    }
+
+    const isMulti = groupKey.includes(",");
     const keys = isMulti
-      ? group.key.toString().split(", ")
-      : [group.key.toString()];
+      ? groupKey.split(", ")
+      : [groupKey];
 
     for (const key of keys) {
       const title = key !== "null" ? parseWikilink(key) : "";

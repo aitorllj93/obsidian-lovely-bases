@@ -14,7 +14,7 @@ export const getFrontmatter = (
 
   const frontmatter = app.metadataCache.getFileCache(dest)?.frontmatter;
 
-  return frontmatter;
+  return frontmatter ?? null;
 }
 
 export const getFrontmatterValue = <T = unknown>(

@@ -15,7 +15,7 @@ export function useEntryPropertyValue(entry: BasesEntry | undefined, propertyId?
   return useMemo(() => {
     if (!propertyId || !entry) return null;
     const property = entry.getValue(propertyId);
-    const propertyValue = property.toString();
+    const propertyValue = property?.toString() ?? 'null';
 
     return propertyValue === 'null' ? null : propertyValue;
   }, [entry, propertyId]);

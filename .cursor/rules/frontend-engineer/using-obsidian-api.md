@@ -46,9 +46,6 @@ const layout = useConfigValue<"vertical" | "horizontal">("layout", "vertical");
 // Get entry property
 const property = useEntryProperty(entryId, propertyId);
 
-// Get entry image
-const imageSrc = useEntryImage(entryId);
-
 // Get entry title
 const title = useEntryTitle(entryId);
 

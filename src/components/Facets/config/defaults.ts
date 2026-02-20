@@ -52,6 +52,7 @@ export const CONTENTS_CONFIG_DEFAULTS: ContentsConfig = {
 
 export const IMAGES_CONFIG_DEFAULTS: ImagesConfig = {
   imageProperty: undefined,
+  mediaThumbnailProperty: undefined,
   imageAspectRatio: 1.5,
   imageFit: "cover",
 };

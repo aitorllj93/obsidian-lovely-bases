@@ -1,90 +1,187 @@
+import { cva } from "class-variance-authority";
 import type { BasesEntry, BasesViewConfig } from "obsidian";
-import { type CSSProperties, memo } from "react";
+import { type CSSProperties, memo, useMemo } from "react";
 
-import type { FacetsConfig } from "@/components/Facets/config";
-import { cn } from "@/lib/utils";
+import type { CardLayout, FacetsConfig } from "@/components/Facets/config";
+import { getTitle } from "@/lib/obsidian/entry";
 
-import type { CardColors } from "../types";
+import {
+  getContentBackgroundColor,
+  getContentMutedColor,
+} from "../helpers/get-colors";
 
 import MarkdownContent from "./MarkdownContent";
 import PropertyList from "./PropertyList";
 import Title from "./Title";
 
-type Props = {
-  entry: BasesEntry;
-  facetsConfig: FacetsConfig;
-  colors: CardColors;
-  config: BasesViewConfig;
-  isOverlayMode?: boolean;
+const ADAPT_CLASSES = {
+  GAP: "@[0px]/lovely-card:gap-1 @7xs/lovely-card:gap-1.5 @5xs/lovely-card:gap-2",
+  PADDING_BOTTOM:
+    "@[0px]/lovely-card:pb-1 @7xs/lovely-card:pb-1.5 @5xs/lovely-card:pb-2",
+  PADDING_INLINE: "@[0px]/lovely-card:px-1 @4xs/lovely-card:px-(--size-4-2)",
+  PADDING_TOP:
+    "@[0px]/lovely-card:pt-1 @7xs/lovely-card:pt-1.5 @5xs/lovely-card:pt-2",
 };
 
-const Content = memo(
-  ({
-    entry,
-    facetsConfig,
-    colors,
-    config,
-    isOverlayMode,
-  }: Props) => {
-    const { titlePosition, cardAdaptToSize, contentShowMarkdown, contentFont, cardLayout, properties } =
-      facetsConfig;
+const getContentStyle = (
+  accentColor: string | undefined,
+  cardLayout: CardLayout,
+  contentFont: string | undefined,
+) => {
+  const background = getContentBackgroundColor(accentColor, cardLayout);
+  const foreground = cardLayout === "overlay" ? "#fff" : accentColor;
+  const muted = getContentMutedColor(background, cardLayout);
 
-    if (titlePosition === "none" && !contentShowMarkdown && properties.length === 0) {
-      return null;
+  return {
+    backgroundColor: background,
+    "--font-interface": contentFont,
+    "--foreground": foreground,
+    "--h3-color": cardLayout === "overlay" ? foreground : muted,
+    "--pill-color": foreground,
+    "--link-color": muted,
+    "--link-external-color": muted,
+    "--link-unresolved-color": muted,
+    "--link-color-hover": foreground,
+    "--link-external-color-hover": foreground,
+  } as CSSProperties;
+};
+
+const contentVariants = cva("flex flex-col min-h-0 min-w-0 overflow-hidden", {
+  variants: {
+    cardLayout: {
+      horizontal: "flex-1 h-full",
+      vertical: "flex-1 h-full",
+      polaroid: "flex-1 h-full",
+      overlay: "",
+    },
+    cardAdaptToSize: {
+      true: `${ADAPT_CLASSES.PADDING_INLINE} ${ADAPT_CLASSES.GAP} ${ADAPT_CLASSES.PADDING_TOP}`,
+    },
+  },
+  defaultVariants: {
+    cardLayout: "vertical",
+    cardAdaptToSize: false,
+  },
+  compoundVariants: [
+    {
+      cardAdaptToSize: false,
+      cardLayout: "horizontal",
+      className: "p-(--size-4-2)",
+    },
+    {
+      cardAdaptToSize: true,
+      cardLayout: "horizontal",
+      className: ADAPT_CLASSES.PADDING_BOTTOM,
+    },
+    {
+      cardAdaptToSize: false,
+      cardLayout: "vertical",
+      className: "p-(--size-4-2)",
+    },
+    {
+      cardAdaptToSize: true,
+      cardLayout: "vertical",
+      className: ADAPT_CLASSES.PADDING_BOTTOM,
+    },
+    {
+      cardAdaptToSize: false,
+      cardLayout: "overlay",
+      className: "p-(--size-4-2)",
+    },
+    {
+      cardAdaptToSize: true,
+      cardLayout: "overlay",
+      className: ADAPT_CLASSES.PADDING_BOTTOM,
+    },
+  ],
+});
+
+type Props = Pick<FacetsConfig,
+  'cardAdaptToSize' |
+  'cardLayout' |
+  'contentFont' |
+  'contentMarkdownMaxHeight' |
+  'contentMarkdownMaxLength' |
+  'contentShowMarkdown' |
+  'contentShowPropertyTitles' |
+  'titleFont' |
+  'titlePosition' |
+  'properties'
+> & {
+  accentColor?: string;
+  entry: BasesEntry;
+  config: BasesViewConfig;
+  isOverlayMode?: boolean;
+  width: number;
+};
+
+const PureContent = ({
+  accentColor,
+  cardAdaptToSize,
+  cardLayout,
+  config,
+  contentFont,
+  contentMarkdownMaxHeight,
+  contentMarkdownMaxLength,
+  contentShowMarkdown,
+  contentShowPropertyTitles,
+  entry,
+  titleFont,
+  titlePosition,
+  properties,
+  width,
+}: Props) => {
+  const shouldShow =
+    titlePosition === "inside" || contentShowMarkdown || properties.length > 0;
+
+  const className = contentVariants({
+    cardAdaptToSize,
+    cardLayout,
+  });
+  const style = useMemo(() => {
+    if (!shouldShow) {
+      return {};
     }
 
-    return (
-      <div
-        className={cn(
-          "flex flex-col min-h-0 min-w-0 overflow-hidden",
-          !isOverlayMode && "flex-1 h-full",
-          !cardAdaptToSize && cardLayout !== "polaroid" && "p-(--size-4-2)",
-          cardAdaptToSize &&
-            "@[0px]/lovely-card:px-1 @4xs/lovely-card:px-(--size-4-2)",
-          cardAdaptToSize &&
-            "@[0px]/lovely-card:gap-1 @7xs/lovely-card:gap-1.5 @5xs/lovely-card:gap-2",
-          cardAdaptToSize &&
-            "@[0px]/lovely-card:pt-1 @7xs/lovely-card:pt-1.5 @5xs/lovely-card:pt-2",
-          cardAdaptToSize &&
-            cardLayout !== "polaroid" &&
-            "@[0px]/lovely-card:pb-1 @7xs/lovely-card:pb-1.5 @5xs/lovely-card:pb-2",
-        )}
-        style={
-          {
-            backgroundColor: colors.contentBackground,
-            "--font-interface": contentFont,
-            "--foreground": colors.contentForeground,
-            "--h3-color": colors.titleForeground,
-            "--pill-color": colors.contentForeground,
-            "--link-color": colors.linkForeground,
-            "--link-external-color": colors.linkForeground,
-            "--link-unresolved-color": colors.linkForeground,
-            "--link-color-hover": colors.contentForeground,
-            "--link-external-color-hover": colors.contentForeground,
-          } as CSSProperties
-        }
-      >
-        <Title
-          facetsConfig={facetsConfig}
-          entry={entry}
-          isOverlayMode={isOverlayMode}
-        />
+    return getContentStyle(accentColor, cardLayout, contentFont);
+  }, [accentColor, cardLayout, contentFont, shouldShow]);
 
-        <PropertyList
-          facetsConfig={facetsConfig}
-          config={config}
-          entry={entry}
-          isOverlayMode={isOverlayMode}
-        />
+  if (!shouldShow) {
+    return null;
+  }
 
-        <MarkdownContent
-          facetsConfig={facetsConfig}
-          entry={entry}
-        />
-      </div>
-    );
-  },
-);
+  return (
+    <div className={className} style={style}>
+      <Title
+        cardAdaptToSize={cardAdaptToSize}
+        layoutItemSize={width}
+        title={getTitle(entry)}
+        titleFont={titleFont}
+        titlePosition={titlePosition}
+      />
+
+      <PropertyList
+        cardAdaptToSize={cardAdaptToSize}
+        cardLayout={cardLayout}
+        contentFont={contentFont}
+        contentShowPropertyTitles={contentShowPropertyTitles}
+        config={config}
+        entry={entry}
+        properties={properties} />
+
+      <MarkdownContent
+        cardAdaptToSize={cardAdaptToSize}
+        contentFont={contentFont}
+        contentMarkdownMaxHeight={contentMarkdownMaxHeight}
+        contentMarkdownMaxLength={contentMarkdownMaxLength}
+        contentShowMarkdown={contentShowMarkdown}
+        entry={entry}
+      />
+    </div>
+  );
+};
+
+const Content = memo(PureContent);
 
 Content.displayName = "Content";
 

@@ -3,7 +3,7 @@ import { useCallback } from "react";
 
 import { useObsidian } from "@/components/Obsidian/Context";
 
-export function useEntryHover(entryId: string, linkRef: React.RefObject<HTMLAnchorElement>) {
+export function useEntryHover(entryId: string, linkRef: React.RefObject<HTMLAnchorElement|null>) {
   const { app, containerEl } = useObsidian();
 
   return useCallback((event: React.MouseEvent) => {

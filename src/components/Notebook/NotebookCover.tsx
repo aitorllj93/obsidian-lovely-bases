@@ -14,12 +14,12 @@ type Props = {
   notebookColors: NotebookColors;
   isHovered: boolean;
   showCounter: boolean;
-  counterLayoutId: string;
-  icon: string | null;
-  iconLayoutId: string;
-  title: string | null;
-  titleLayoutId: string;
-  titleFont: string;
+  counterLayoutId?: string;
+  icon?: string;
+  iconLayoutId?: string;
+  title?: string | null;
+  titleLayoutId?: string;
+  titleFont?: string;
   files: BasesEntry[];
 };
 

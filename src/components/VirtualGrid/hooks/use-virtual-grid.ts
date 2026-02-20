@@ -13,7 +13,7 @@ import { useVirtualGridImagePrefetch } from "./use-images-prefetch";
 type UseVirtualGridParams = {
   estimatedRowHeight: number;
   facetsConfig: FacetsConfig;
-  imageProperty: BasesPropertyId,
+  imageProperty?: BasesPropertyId,
   items: (BasesEntry | BasesEntryGroup)[];
   minItemWidth: number;
 }
@@ -81,7 +81,9 @@ export function useVirtualGrid({
 
     const activeColByIndex = colsByIndex.get(`${activeItemPosition.row}-${activeItemPosition.col}`) ?? null;
 
-    setActiveItemKey(activeColByIndex?.key);
+    if (activeColByIndex) {
+      setActiveItemKey(activeColByIndex.key);
+    }
 }, [rows, columnCount, colsByKey, activeItemPosition, colsByIndex, activeItemKey]);
 
   const virtualizer = useVirtualizer({

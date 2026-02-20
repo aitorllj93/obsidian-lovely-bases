@@ -61,6 +61,7 @@ export type ImageFit = 'cover' | 'contain';
 
 export type ImagesConfig = {
   imageProperty?: BasesPropertyId;
+  mediaThumbnailProperty?: BasesPropertyId;
   imageAspectRatio: number;
   imageFit: ImageFit;
 }

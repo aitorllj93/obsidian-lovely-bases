@@ -17,7 +17,7 @@ type Props = {
 	width?: number;
   color?: string;
 	colors?: NotebookColors;
-	icon: string | null;
+	icon?: string;
 	title?: string;
 	titleFont?: string;
 	files: BasesEntry[];

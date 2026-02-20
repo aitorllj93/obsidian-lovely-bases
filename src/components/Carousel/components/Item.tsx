@@ -4,15 +4,17 @@ import Facets from "@/components/Facets";
 import type { FacetsConfig } from "@/components/Facets/config";
 
 type Props = {
+  active: boolean;
   facetsConfig: FacetsConfig;
   config: BasesViewConfig;
   entry: BasesEntry;
   index: number;
 };
 
-export default function Item({ facetsConfig, config, entry, index }: Props) {
+export default function Item({ active, facetsConfig, config, entry, index }: Props) {
   return (
       <Facets
+        active={active}
         index={index}
         key={entry.file.path}
         data={entry as BasesEntry}

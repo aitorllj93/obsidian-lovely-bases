@@ -8,6 +8,9 @@ export const useCalendarItems = (
   if (!linearCalendarConfig.startDateProperty) return [];
 
   return data.map((entry) => {
+    if (!linearCalendarConfig.startDateProperty) {
+      return null;
+    }
     const startVal = entry.getValue(
       linearCalendarConfig.startDateProperty,
     );

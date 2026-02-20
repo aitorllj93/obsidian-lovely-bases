@@ -1,3 +1,6 @@
+
+import type { ReactElement } from "react";
+
 import {
   addMonths,
   differenceInWeeks,
@@ -57,7 +60,7 @@ export const MonthLabels = ({ startDate, weeks, endDate, layout = "horizontal" }
 		);
 	}
 
-	const months = [];
+	const months: ReactElement[] = [];
 	let currentMonth = startOfMonth(startDate);
 	let monthIndex = 0;
 
@@ -75,7 +78,7 @@ export const MonthLabels = ({ startDate, weeks, endDate, layout = "horizontal" }
 					style={{ left: `${leftPosition}px` }}
 				>
 					{format(monthStart, FORMATS.MONTH_SHORT)}
-				</span>,
+				</span>
 			);
 		}
 

@@ -39,6 +39,18 @@ export class MockBasesEntry implements BasesEntry {
       }
     }
 
+    if (formulaName === 'video') {
+      if ('trailer' in this._frontmatter) {
+        return aValue(this._frontmatter.trailer);
+      }
+      if ('banner' in this._frontmatter) {
+        return aValue(this._frontmatter.banner);
+      }
+      if ('cover' in this._frontmatter) {
+        return aValue(this._frontmatter.cover);
+      }
+    }
+
     if (formulaName === 'icon') {
       if ('icon' in this._frontmatter) {
         return aValue(this._frontmatter.icon);
