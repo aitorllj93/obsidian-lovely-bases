@@ -19,6 +19,17 @@ export const en = {
         title: "Spacing",
       },
     },
+    background: {
+      title: 'Background',
+      inferFrom: {
+        title: 'Infer From',
+        active: 'Active Item',
+        'first-item': 'First Item'
+      },
+      property: {
+        title: 'Property'
+      }
+    },
     groups: {
       title: "Groups",
       layout: {
@@ -37,8 +48,11 @@ export const en = {
         inline: "Inline",
         hidden: "Hidden",
       },
-      inferPropertiesFromLinkedNotes: {
-        title: "Infer Properties from Linked Notes",
+      inferPropertiesFrom: {
+        title: "Infer Properties from",
+        none: "None",
+        "first-item": "First Item",
+        "linked-note": "Linked Note",
       }
     },
     cards: {
@@ -172,6 +186,18 @@ export const en = {
         inside: "Inside",
         outside: "Outside",
       }
+    },
+    active: {
+      title: 'Active',
+      effect: {
+        title: 'Effect',
+        none: 'None',
+        tilted: 'Tilted',
+        bordered: 'Bordered'
+      },
+      aspectRatio: {
+        title: 'Aspect Ratio'
+      },
     },
     actions: {
       title: 'Actions',

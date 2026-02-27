@@ -29,9 +29,9 @@ export const WithUngroupedItemsHidden: GroupsConfigInput = {
 }
 
 export const WithInferPropertiesFromLinkedNotes: GroupsConfigInput = {
-  groupInferPropertiesFromLinkedNotes: true,
+  groupInferPropertiesFrom: "linked-note",
 }
 
-export const WithoutInferPropertiesFromLinkedNotes: GroupsConfigInput = {
-  groupInferPropertiesFromLinkedNotes: false,
+export const WithInferPropertiesFromFirstItem: GroupsConfigInput = {
+  groupInferPropertiesFrom: "first-item",
 }

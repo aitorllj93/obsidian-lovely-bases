@@ -113,6 +113,11 @@ export const getMedia = (app: App, entry: BasesEntry, propertyId?: BasesProperty
 
   if (propertyId) {
     const val = getPropertyValue(entry, propertyId);
+
+    if (!val && entry.file.extension === 'md') {
+      return undefined;
+    }
+
     if (val) {
       src = isWikiLinkOrEmbed(val) ? parseWikilink(val) : val;
       file = null;

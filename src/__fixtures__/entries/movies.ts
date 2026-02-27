@@ -30,6 +30,7 @@ export const MOVIES_ENTRIES: BasesEntry[] = [
       sectionTitle: 'Watch Again',
       trailer: 'https://www.youtube.com/watch?v=dJTU48_yghs',
       cover: 'https://m.media-amazon.com/images/M/MV5BMjA1Nzk0OTM2OF5BMl5BanBnXkFtZTgwNjU2NjEwMDE@._V1_SX300.jpg',
+      banner: 'https://image.tmdb.org/t/p/original/sPPsR9f4K0movWVQ99u4uMqFzEL.jpg',
       link: 'https://www.themoviedb.org/movie/152601-her',
     }
   ),
@@ -59,7 +60,8 @@ export const MOVIES_ENTRIES: BasesEntry[] = [
       times_watched: 3,
       sectionTitle: 'Favorites',
       trailer: 'https://www.youtube.com/watch?v=FrvkCS0ZGPU&pp=ygUMam9icyB0cmFpbGVy',
-      cover: 'https://m.media-amazon.com/images/M/MV5BMTM5NTQ3MTYxN15BMl5BanBnXkFtZTcwODE2Nzk3OQ@@._V1_SX300.jpg'
+      cover: 'https://m.media-amazon.com/images/M/MV5BMTM5NTQ3MTYxN15BMl5BanBnXkFtZTcwODE2Nzk3OQ@@._V1_SX300.jpg',
+      banner: 'https://image.tmdb.org/t/p/original/1GlZNA9L5trst3ItgRiyQTUH1uf.jpg',
     }
   ),
   aBasesEntry(
@@ -75,6 +77,7 @@ export const MOVIES_ENTRIES: BasesEntry[] = [
       sectionTitle: 'Seen',
       trailer: 'https://www.youtube.com/watch?v=aEr6K1bwIVs',
       cover: 'https://m.media-amazon.com/images/M/MV5BMjE0NTA2MTEwOV5BMl5BanBnXkFtZTgwNzg4NzU2NjE@._V1_SX300.jpg',
+      banner: 'https://image.tmdb.org/t/p/original/mCbB9wUe9KHjGCcYGCzMLYyMjjE.jpg'
     }
   ),
   aBasesEntry(
@@ -90,6 +93,7 @@ export const MOVIES_ENTRIES: BasesEntry[] = [
       sectionTitle: 'Seen',
       trailer: 'https://www.youtube.com/watch?v=d0oskTqbi0I',
       cover: 'https://m.media-amazon.com/images/M/MV5BYzEzZDM5NWEtODgzNC00MTE5LWFhZTYtMGE2YTkxMzFiZWIyXkEyXkFqcGc@._V1_SX300.jpg',
+      banner: 'https://image.tmdb.org/t/p/original/iSj5vCxUgRALvrb5tbEX7RirDzn.jpg'
     }
   ),
   aBasesEntry(
@@ -103,6 +107,7 @@ export const MOVIES_ENTRIES: BasesEntry[] = [
       sectionTitle: 'Recently Added',
       trailer: 'https://www.youtube.com/watch?v=nuPZUUED5uk',
       cover: 'https://m.media-amazon.com/images/M/MV5BNjI3NjY1Mjg3MV5BMl5BanBnXkFtZTgwMzk5MDQ3MjE@._V1_SX300.jpg',
+      banner: 'https://image.tmdb.org/t/p/original/gLQoJ9P79g501oEEtrN8zMlCPpx.jpg'
     }
   ),
   aBasesEntry(
@@ -116,6 +121,7 @@ export const MOVIES_ENTRIES: BasesEntry[] = [
       sectionTitle: 'Recently Added',
       trailer: 'https://www.youtube.com/watch?v=gyKqHOgMi4g',
       cover: 'https://m.media-amazon.com/images/M/MV5BMTUxNzc0OTIxMV5BMl5BanBnXkFtZTgwNDI3NzU2NDE@._V1_SX300.jpg',
+      banner: 'https://image.tmdb.org/t/p/original/uqOuJ50EtTj7kkDIXP8LCg7G45D.jpg'
     }
   ),
   aBasesEntry(
@@ -129,6 +135,7 @@ export const MOVIES_ENTRIES: BasesEntry[] = [
       sectionTitle: 'Recently Added',
       trailer: 'https://www.youtube.com/watch?v=oR_e9y-bka0',
       cover: 'https://m.media-amazon.com/images/M/MV5BNjU0NDFkMTQtZWY5OS00MmZhLTg3Y2QtZmJhMzMzMWYyYjc2XkEyXkFqcGc@._V1_SX300.jpg',
+      banner: 'https://image.tmdb.org/t/p/original/w5IDXtifKntw0ajv2co7jFlTQDM.jpg'
     }
   ),
   aBasesEntry(
@@ -142,6 +149,7 @@ export const MOVIES_ENTRIES: BasesEntry[] = [
       sectionTitle: 'Recently Added',
       trailer: 'https://www.youtube.com/watch?v=eogpIG53Cis',
       cover: 'https://m.media-amazon.com/images/M/MV5BOWQ4YTBmNTQtMDYxMC00NGFjLTkwOGQtNzdhNmY1Nzc1MzUxXkEyXkFqcGc@._V1_SX300.jpg',
+      banner: 'https://image.tmdb.org/t/p/original/hJ5R9d6QuH3tzr8L8neZZTuzNXm.jpg',
     }
   ),
   aBasesEntry(
@@ -155,6 +163,7 @@ export const MOVIES_ENTRIES: BasesEntry[] = [
       sectionTitle: 'Recently Added',
       trailer: 'https://www.youtube.com/watch?v=PkqHVGFAhbU',
       cover: 'https://m.media-amazon.com/images/M/MV5BNzA1Njg4NzYxOV5BMl5BanBnXkFtZTgwODk5NjU3MzI@._V1_SX300.jpg',
+      banner: 'https://image.tmdb.org/t/p/original/ilRyazdMJwN05exqhwK4tMKBYZs.jpg'
     }
   )
 ];

@@ -1,9 +1,11 @@
-import { type BasesEntry, BasesEntryGroup } from "obsidian";
+import { BasesEntryGroup } from "obsidian";
 import type { CSSProperties } from "react";
 
 import type { FacetsConfig } from "@/components/Facets/config";
+import { getPositionId } from "@/lib/navigation/grid";
+import { getIdentifier } from "@/lib/obsidian/entry";
 import { chunk } from "@/lib/utils";
-import type { Column, ColumnData, Direction, Position } from "./types";
+import type { Column, ColumnData } from "./types";
 
 const getItemWidth = (columns: number, gap: number, width: number): number => {
   if (!width) return 0;
@@ -37,40 +39,38 @@ export const getGridConfig = (
   };
 };
 
-export const getGridItemId = (item: BasesEntry | BasesEntryGroup) =>
-  (item instanceof BasesEntryGroup ? item.key?.toString() : item.file.path) as string;
 
+const makeItem = (
+  data: ColumnData,
+  index: number,
+  row: number,
+  col: number
+): Column => ({
+  type: "item",
+  id: getPositionId({ col, row }),
+  key: getIdentifier(data),
+  index,
+  row,
+  col,
+  data,
+});
 
-
-  const makeItem = (
-    data: ColumnData,
-    index: number,
-    row: number,
-    col: number
-  ): Column => ({
-    type: "item",
-    key: getGridItemId(data),
-    index,
-    row,
-    col,
-    data,
-  });
-
-  const makeHeader = (
-    group: BasesEntryGroup,
-    key: string,
-    index: number,
-    row: number,
-    isExpanded: boolean,
-  ): Column => ({
-    type: "header",
-    key,
-    index,
-    row,
-    col: 0,
-    data: group,
-    isExpanded,
-  });
+const makeHeader = (
+  group: BasesEntryGroup,
+  key: string,
+  index: number,
+  row: number,
+  isExpanded: boolean,
+): Column => ({
+  type: "header",
+  id: getPositionId({ col: 0, row }),
+  key,
+  index,
+  row,
+  col: 0,
+  data: group,
+  isExpanded,
+});
 
 export const getRows = (
   groupLayout: FacetsConfig["groupLayout"],
@@ -78,6 +78,10 @@ export const getRows = (
   columnCount: number,
   collapsedSectionKeys?: Set<string>,
 ): Column[][] => {
+  if (columnCount === 0) {
+    return [];
+  }
+
   let totalCols = 0;
   const cols = Math.max(1, columnCount);
   const collapsed = collapsedSectionKeys ?? new Set<string>();
@@ -141,7 +145,7 @@ export const getRows = (
       flushPending();
 
       const headerRowIndex = rows.length;
-      const uniqueId = getGridItemId(item);
+      const uniqueId = getIdentifier(item);
       rows.push([makeHeader(
         item,
         uniqueId,
@@ -176,86 +180,3 @@ export const getRows = (
   flushPending();
   return rows;
 };
-
-export const getNextItemFromRows = (
-  rows: Column[][],
-  current: Position,
-  direction: Direction,
-): Position => {
-  if (!rows.length) return { row: 0, col: 0 };
-
-  const itemColsInRow = (r: number) =>
-    rows[r].map(r => r.col) ?? [];
-
-  const clampRow = (r: number) => Math.max(0, Math.min(r, rows.length - 1));
-
-  const findNearestCol = (r: number, targetCol: number): number => {
-    const cols = itemColsInRow(r);
-    if (cols.length === 0) return 0;
-    let best = cols[0];
-    let bestDist = Math.abs(best - targetCol);
-    for (let i = 1; i < cols.length; i++) {
-      const d = Math.abs(cols[i] - targetCol);
-      if (d < bestDist) {
-        bestDist = d;
-        best = cols[i];
-      }
-    }
-    return best;
-  };
-
-  const getCols = (r: number) => rows[r]?.map(x => x.col) ?? [];
-
-  const findRowWithItems = (start: number, step: number): number => {
-    for (let r = start; r >= 0 && r < rows.length; r += step) {
-      if (getCols(r).length) return r;
-    }
-    return -1;
-  };
-
-  const row = clampRow(current.row);
-  const cols = getCols(row);
-  if (cols.length === 0) {
-    const down = findRowWithItems(row, +1);
-    const up = findRowWithItems(row, -1);
-
-    let pick = row;
-    if (down === -1 && up === -1) pick = row;
-    else if (down === -1) pick = up;
-    else if (up === -1) pick = down;
-    else pick = (row - up) <= (down - row) ? up : down; // empate → arriba
-
-    const pickCols = getCols(pick);
-    return { row: pick, col: pickCols[0] ?? 0 };
-  }
-
-  // normaliza col a una existente en la fila
-  const col = cols.includes(current.col)
-    ? current.col
-    : findNearestCol(row, current.col);
-
-  if (direction === "left" || direction === "right") {
-    const sorted = cols.slice().sort((a, b) => a - b);
-    const i = sorted.indexOf(col);
-    const nextI =
-      direction === "left" ? Math.max(0, i - 1) : Math.min(sorted.length - 1, i + 1);
-    return { row, col: sorted[nextI] };
-  }
-
-  // top/bottom
-  const step = direction === "up" ? -1 : +1;
-  let targetRow = row + step;
-
-  // salta filas sin items (headers/separadores)
-  while (targetRow >= 0 && targetRow < rows.length && itemColsInRow(targetRow).length === 0) {
-    targetRow += step;
-  }
-
-  if (targetRow < 0 || targetRow >= rows.length) {
-    // borde: no se mueve
-    return { row: row, col: col };
-  }
-
-  const targetCol = findNearestCol(targetRow, col);
-  return { row: targetRow, col: targetCol };
-}

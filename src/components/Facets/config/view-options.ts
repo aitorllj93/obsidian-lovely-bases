@@ -2,7 +2,7 @@ import type { ViewOption } from "obsidian";
 
 import { detectLocale, type NamespacedTranslationKey, translate } from "@/lib/i18n";
 
-import { ACTIONS_CONFIG_DEFAULTS, BADGES_CONFIG_DEFAULTS, CARDS_CONFIG_DEFAULTS, COLORS_CONFIG_DEFAULTS, CONTENTS_CONFIG_DEFAULTS, GROUPS_CONFIG_DEFAULTS, ICONS_CONFIG_DEFAULTS, LAYOUT_CONFIG_DEFAULTS, MEDIA_CONFIG_DEFAULTS, TITLES_CONFIG_DEFAULTS } from "./defaults";
+import { ACTIONS_CONFIG_DEFAULTS, ACTIVE_CONFIG_DEFAULTS, BACKGROUND_CONFIG_DEFAULTS, BADGES_CONFIG_DEFAULTS, CARDS_CONFIG_DEFAULTS, COLORS_CONFIG_DEFAULTS, CONTENTS_CONFIG_DEFAULTS, GROUPS_CONFIG_DEFAULTS, ICONS_CONFIG_DEFAULTS, LAYOUT_CONFIG_DEFAULTS, MEDIA_CONFIG_DEFAULTS, TITLES_CONFIG_DEFAULTS } from "./defaults";
 
 const locale = detectLocale();
 const t = (key: NamespacedTranslationKey<'facets'>) => translate(locale, 'facets', key);
@@ -55,6 +55,32 @@ export const LAYOUT_CONFIG_VIEW_OPTIONS: ViewOption[] = [
   }
 ];
 
+export const BACKGROUND_CONFIG_VIEW_OPTIONS: ViewOption[] = [
+  {
+    type: "group",
+    displayName: t('background.title'),
+    items: [
+      {
+        key: 'backgroundProperty',
+        default: BACKGROUND_CONFIG_DEFAULTS.backgroundProperty,
+        type: 'property',
+        displayName: t('background.property.title'),
+      },
+      {
+        key: 'backgroundInferFrom',
+        default: BACKGROUND_CONFIG_DEFAULTS.backgroundInferFrom,
+        type: 'dropdown',
+        displayName: t('background.inferFrom.title'),
+        shouldHide: (config) => !!config.get('backgroundProperty'),
+        options: {
+          'active': t('background.inferFrom.active'),
+          'first-item': t('background.inferFrom.first-item')
+        }
+      }
+    ]
+  }
+]
+
 export const GROUPS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
   {
     type: "group",
@@ -94,11 +120,16 @@ export const GROUPS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
         }
       },
       {
-        key: "groupInferPropertiesFromLinkedNotes",
-        default: GROUPS_CONFIG_DEFAULTS.groupInferPropertiesFromLinkedNotes,
+        key: "groupInferPropertiesFrom",
+        default: GROUPS_CONFIG_DEFAULTS.groupInferPropertiesFrom,
         shouldHide: (config) => config.get("groupLayout") === "sections",
-        type: "toggle",
-        displayName: t('groups.inferPropertiesFromLinkedNotes.title'),
+        type: "dropdown",
+        displayName: t('groups.inferPropertiesFrom.title'),
+        options: {
+          none: t('groups.inferPropertiesFrom.none'),
+          "first-item": t('groups.inferPropertiesFrom.first-item'),
+          "linked-note": t('groups.inferPropertiesFrom.linked-note')
+        }
       }
     ]
   }
@@ -391,6 +422,36 @@ export const BADGES_CONFIG_VIEW_OPTIONS: ViewOption[] = [
   }
 ];
 
+export const ACTIVE_CONFIG_VIEW_OPTIONS: ViewOption[] = [
+  {
+    type: "group",
+    displayName: t('active.title'),
+    items: [
+      {
+        key: "activeEffect",
+        default: ACTIVE_CONFIG_DEFAULTS.activeEffect,
+        type: "dropdown",
+        displayName: t('active.effect.title'),
+        options: {
+          none: t('active.effect.none'),
+          tilted: t('active.effect.tilted'),
+          bordered: t('active.effect.bordered')
+        }
+      },
+      {
+        key: 'activeMediaAspectRatio',
+        default: ACTIVE_CONFIG_DEFAULTS.activeMediaAspectRatio,
+        shouldHide: (config) => config.get("mediaProperty") === undefined,
+        type: "slider",
+        displayName: t('active.aspectRatio.title'),
+        min: 0,
+        max: 2.5,
+        step: 0.05,
+      },
+    ]
+  }
+]
+
 export const ACTIONS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
   {
     type: "group",
@@ -436,6 +497,7 @@ export const ACTIONS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
 
 export const FACETS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
   ...LAYOUT_CONFIG_VIEW_OPTIONS,
+  ...BACKGROUND_CONFIG_VIEW_OPTIONS,
   ...GROUPS_CONFIG_VIEW_OPTIONS,
   ...CARDS_CONFIG_VIEW_OPTIONS,
   ...TITLES_CONFIG_VIEW_OPTIONS,
@@ -444,5 +506,6 @@ export const FACETS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
   ...COLORS_CONFIG_VIEW_OPTIONS,
   ...ICONS_CONFIG_VIEW_OPTIONS,
   ...BADGES_CONFIG_VIEW_OPTIONS,
+  ...ACTIVE_CONFIG_VIEW_OPTIONS,
   ...ACTIONS_CONFIG_VIEW_OPTIONS,
 ];

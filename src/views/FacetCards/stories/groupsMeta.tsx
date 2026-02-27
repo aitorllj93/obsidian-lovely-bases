@@ -1,12 +1,14 @@
 
 import { GROUPED_ENTRIES } from "@/__fixtures__/entries";
 import {
+  WithAdaptiveContentSize,
   WithBorderDashed,
   WithBorderSolid,
   WithColor,
   WithGap5XS,
   WithIcon,
   WithImage,
+  WithInferPropertiesFromLinkedNotes,
   WithInnerCounter,
   WithInnerTitle,
   WithNotebookShape,
@@ -17,13 +19,12 @@ import {
   WithSize5XSAndSpacing,
   WithSquareImage,
   WithUngroupedItemsInline,
-  WithAdaptiveContentSize,
 } from "@/__fixtures__/facets/configs";
 
 import CardsMeta, { type FacetCardsViewStory, View } from './meta';
 
-export type { FacetCardsViewStory };
 export { View };
+export type { FacetCardsViewStory };
 
 
 export const meta = {
@@ -33,6 +34,7 @@ export const meta = {
     ...CardsMeta.args,
     ...WithSize5XSAndSpacing,
     ...WithImage,
+    ...WithInferPropertiesFromLinkedNotes,
     ...WithSquareImage,
     ...WithPolaroidLayout,
     ...WithoutCounter,

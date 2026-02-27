@@ -10,15 +10,24 @@ export type LayoutConfig = {
 }
 export type LayoutConfigInput = Partial<LayoutConfig>;
 
+export type BackgroundInferFrom = 'active' | 'first-item';
+
+export type BackgroundConfig = {
+  backgroundInferFrom: BackgroundInferFrom;
+  backgroundProperty?: BasesPropertyId;
+}
+export type BackgroundConfigInput = Partial<BackgroundConfig>;
+
 export type GroupLayout = 'sections' | 'grid';
 export type GroupShape = 'folder'  | 'notebook';
 export type UngroupedItemsDisplay = 'group' | 'inline' | 'hidden';
+export type GroupInferPropertiesFrom = 'none' | 'first-item' | 'linked-note';
 
 export type GroupsConfig = {
   groupLayout: GroupLayout;
   groupShape: GroupShape;
   groupUngroupedItemsDisplay: UngroupedItemsDisplay;
-  groupInferPropertiesFromLinkedNotes: boolean;
+  groupInferPropertiesFrom: GroupInferPropertiesFrom;
 }
 export type GroupsConfigInput = Partial<GroupsConfig>;
 
@@ -96,6 +105,15 @@ export type BadgesConfig = {
 }
 export type BadgesConfigInput = Partial<BadgesConfig>;
 
+export type ActiveEffect = 'none' | 'tilted' | 'bordered';
+
+export type ActiveConfig = {
+  activeEffect: ActiveEffect;
+  activeMediaAspectRatio?: number;
+}
+
+export type ActiveConfigInput = Partial<ActiveConfig>;
+
 export type ActionClickBehavior = 'expand' | 'navigate' | 'none';
 export type ActionHoverStyle = 'overlay' | 'tooltip';
 
@@ -108,6 +126,7 @@ export type ActionsConfig = {
 export type ActionsConfigInput = Partial<ActionsConfig>;
 
 export type FacetsConfig = LayoutConfig &
+  BackgroundConfig &
   GroupsConfig &
   CardsConfig &
   TitlesConfig &
@@ -116,6 +135,7 @@ export type FacetsConfig = LayoutConfig &
   ColorsConfig &
   IconsConfig &
   BadgesConfig &
+  ActiveConfig &
   ActionsConfig &
   {
     properties: BasesPropertyId[];

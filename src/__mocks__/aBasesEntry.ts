@@ -30,12 +30,18 @@ export class MockBasesEntry implements BasesEntry {
   }
 
   private resolveFormula(formulaName: string) {
-    if (formulaName === 'image') {
+    if (formulaName === 'banner') {
       if ('banner' in this._frontmatter) {
         return aValue(this._frontmatter.banner);
       }
+    }
+
+    if (formulaName === 'image') {
       if ('cover' in this._frontmatter) {
         return aValue(this._frontmatter.cover);
+      }
+      if ('banner' in this._frontmatter) {
+        return aValue(this._frontmatter.banner);
       }
     }
 

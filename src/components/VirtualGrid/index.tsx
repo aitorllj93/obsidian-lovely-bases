@@ -1,20 +1,20 @@
-import { BasesEntry, type BasesEntryGroup, type BasesViewConfig } from "obsidian";
+import type { BasesEntry, BasesEntryGroup, BasesViewConfig } from "obsidian";
 import { type CSSProperties, memo, useMemo } from "react";
 
 import { estimateCardHeight } from "@/components/Card/helpers/estimate-card-height";
 import type { FacetsConfig } from "@/components/Facets/config";
 import { arrayEqual, cn, shallowEqual } from "@/lib/utils";
 
-import CardOutside from "../Card/Outside";
+import FacetsOutside from "../Facets/Outside";
 
 import { useVirtualGrid } from "./hooks/use-virtual-grid";
 
 import Row from "./Row";
 
 type Props = {
-  facetsConfig: FacetsConfig;
   className?: string;
   config: BasesViewConfig;
+  facetsConfig: FacetsConfig;
   gap?: number;
   items: (BasesEntry | BasesEntryGroup)[];
   layoutIdPrefix?: string;
@@ -38,14 +38,12 @@ function PureVirtualGrid({
   );
   const {
     activeItem,
-    activeItemKey,
-    activeItemPosition,
-    collapsedSectionKeys,
+    collapsedSections,
     columnCount,
     columnStyle,
     itemWidth,
     handleKeyDown,
-    handleToggleSection,
+    toggleSectionCollapse,
     rows,
     scrollRef,
     vitems,
@@ -74,7 +72,7 @@ function PureVirtualGrid({
         style={style}
         // biome-ignore lint/a11y/noNoninteractiveTabindex: virtual scrollable
         tabIndex={0}
-        aria-activedescendant={`row-${activeItemPosition.row}-${activeItemPosition.col}`}
+        aria-activedescendant={`row-${activeItem?.id}`}
         onKeyDown={handleKeyDown}
       >
         {width !== 0 && (
@@ -98,8 +96,8 @@ function PureVirtualGrid({
                       style={{ paddingBottom: facetsConfig.layoutGap }}
                     >
                       <Row
-                        activeItemKey={activeItemKey}
-                        collapsedSectionKeys={collapsedSectionKeys}
+                        activeItemId={activeItem?.id}
+                        collapsedSections={collapsedSections}
                         config={config}
                         columns={rows[vRow.index] ?? []}
                         facetsConfig={facetsConfig}
@@ -107,7 +105,7 @@ function PureVirtualGrid({
                         itemWidth={itemWidth}
                         itemsPerColumn={columnCount}
                         layoutIdPrefix={layoutIdPrefix}
-                        onToggleSection={handleToggleSection}
+                        onToggleSection={toggleSectionCollapse}
                         ref={virtualizer.measureElement}
                         style={columnStyle}
                       />
@@ -119,20 +117,12 @@ function PureVirtualGrid({
         )}
       </div>
       {
-         (activeItem?.data instanceof BasesEntry && (
-          <CardOutside
-            className="absolute bottom-0 bg-background/30 backdrop-blur-lg w-full"
+        (activeItem && activeItem.type === 'item' && (
+          <FacetsOutside
+            className="absolute bottom-0 bg-background/60 backdrop-blur w-full"
             config={config}
-            contentFont={facetsConfig.contentFont}
-            contentMarkdownMaxHeight={facetsConfig.contentMarkdownMaxHeight}
-            contentMarkdownMaxLength={facetsConfig.contentMarkdownMaxLength}
-            contentPosition={facetsConfig.contentPosition}
-            contentShowMarkdown={facetsConfig.contentShowMarkdown}
-            contentShowPropertyTitles={facetsConfig.contentShowPropertyTitles}
-            entry={activeItem.data}
-            properties={facetsConfig.properties}
-            titlePosition={facetsConfig.titlePosition}
-            titleFont={facetsConfig.titleFont}
+            facetsConfig={facetsConfig}
+            item={activeItem.data}
           />
         ))
       }
@@ -149,5 +139,7 @@ const VirtualGrid = memo(PureVirtualGrid, (prevProps, nextProps) => {
     prevProps.config === nextProps.config
   );
 });
+
+VirtualGrid.displayName = 'VirtualGrid';
 
 export default VirtualGrid;

@@ -1,5 +1,7 @@
 import type {
   ActionsConfig,
+  ActiveConfig,
+  BackgroundConfig,
   BadgesConfig,
   CardsConfig,
   ColorsConfig,
@@ -19,11 +21,16 @@ export const LAYOUT_CONFIG_DEFAULTS: LayoutConfig = {
   layoutItemSpacing: 0,
 };
 
+export const BACKGROUND_CONFIG_DEFAULTS: BackgroundConfig = {
+  backgroundInferFrom: 'active',
+  backgroundProperty: undefined,
+}
+
 export const GROUPS_CONFIG_DEFAULTS: GroupsConfig = {
   groupLayout: "sections",
   groupShape: "folder",
   groupUngroupedItemsDisplay: "group",
-  groupInferPropertiesFromLinkedNotes: true,
+  groupInferPropertiesFrom: "none",
 };
 
 export const CARDS_CONFIG_DEFAULTS: CardsConfig = {
@@ -83,8 +90,14 @@ export const ACTIONS_CONFIG_DEFAULTS: ActionsConfig = {
   actionHoverStyle: 'overlay',
 };
 
+export const ACTIVE_CONFIG_DEFAULTS: ActiveConfig = {
+  activeEffect: 'none',
+  activeMediaAspectRatio: undefined,
+}
+
 export const FACETS_CONFIG_DEFAULTS: FacetsConfig = {
   ...LAYOUT_CONFIG_DEFAULTS,
+  ...BACKGROUND_CONFIG_DEFAULTS,
   ...GROUPS_CONFIG_DEFAULTS,
   ...CARDS_CONFIG_DEFAULTS,
   ...TITLES_CONFIG_DEFAULTS,
@@ -93,6 +106,7 @@ export const FACETS_CONFIG_DEFAULTS: FacetsConfig = {
   ...COLORS_CONFIG_DEFAULTS,
   ...ICONS_CONFIG_DEFAULTS,
   ...BADGES_CONFIG_DEFAULTS,
+  ...ACTIVE_CONFIG_DEFAULTS,
   ...ACTIONS_CONFIG_DEFAULTS,
   properties: [],
 };

@@ -1,25 +1,33 @@
+import { useMemo } from "react";
+
 import Carousel from "@/components/Carousel";
 import type { FacetsConfig } from "@/components/Facets/config";
 import { useFacetsConfig } from "@/components/Facets/hooks/use-facets-config";
 import { Container } from "@/components/Obsidian/Container";
+
+import { getGroupedData } from "@/lib/obsidian/groups";
 import type { ReactBaseViewProps } from "@/types";
 
 export type CarouselConfig = FacetsConfig;
 
 const CarouselView = ({ data, config, isEmbedded }: ReactBaseViewProps) => {
   const facetsConfig = useFacetsConfig(config);
+  const { groupLayout, groupUngroupedItemsDisplay } = facetsConfig;
+  const groupBy = (config as { groupBy?: string }).groupBy;
+
+  const items = useMemo(() => {
+    return groupBy === undefined
+      ? data.data
+      : getGroupedData(data.groupedData, { groupUngroupedItemsDisplay, groupLayout });
+  }, [data, groupBy, groupLayout, groupUngroupedItemsDisplay]);
 
   return (
-    <Container isEmbedded={isEmbedded} style={{ overflowY: "auto" }}>
-      {data.groupedData.map((group) => (
-        <Carousel
-          groupKey={group.key?.toString() ?? ""}
-          facetsConfig={facetsConfig}
-          config={config}
-          key={group.key?.toString() ?? ""}
-          items={group.entries}
-        />
-      ))}
+    <Container isEmbedded={isEmbedded}>
+      <Carousel
+        facetsConfig={facetsConfig}
+        config={config}
+        items={items}
+      />
     </Container>
   );
 };

@@ -34,8 +34,8 @@ const PureMedia = ({
   mediaThumbnailProperty,
   width,
 }: Props) => {
-  const { type, value } = useCardMedia(entry, mediaProperty) ?? { type: undefined, value: undefined };
   const thumbnail = useCardMedia(entry, mediaThumbnailProperty);
+  const { type, value } = useCardMedia(entry, mediaProperty) ?? thumbnail ?? { type: undefined, value: undefined };
   const title = getTitle(entry);
 
   const shouldShowFallback = !type || type === 'color' || type === 'unsupported' || type === 'empty';

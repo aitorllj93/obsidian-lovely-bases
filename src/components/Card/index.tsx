@@ -53,10 +53,6 @@ const PureCard = forwardRef<HTMLDivElement, Props>(
     },
     ref,
   ) => {
-    const height = facetsConfig.layoutItemSize * facetsConfig.mediaAspectRatio;
-    const width = facetsConfig.layoutItemSize;
-    const aspectRatio = height / width;
-
     const [isHovered, setIsHovered] = useState(false);
     const dragStartPos = useRef<{ x: number; y: number } | null>(null);
     const linkRef = useRef<HTMLAnchorElement>(null);
@@ -110,6 +106,14 @@ const PureCard = forwardRef<HTMLDivElement, Props>(
     };
     const handleMouseLeave = () => setIsHovered(false);
 
+
+    const height = facetsConfig.layoutItemSize * facetsConfig.mediaAspectRatio;
+    const width =
+      active && facetsConfig.activeMediaAspectRatio
+        ? height * facetsConfig.activeMediaAspectRatio
+        : facetsConfig.layoutItemSize;
+    const aspectRatio = height / width;
+
     const showOverlayContent =
       facetsConfig.cardLayout === "overlay" &&
       (facetsConfig.contentVisibility === "always" || isHovered);
@@ -158,7 +162,9 @@ const PureCard = forwardRef<HTMLDivElement, Props>(
 
     return (
       <Wrapper
-        accentColor={facetsConfig.colorApplyTo !== "image" ? accentColor : undefined}
+        accentColor={
+          facetsConfig.colorApplyTo !== "image" ? accentColor : undefined
+        }
         cardAdaptToSize={facetsConfig.cardAdaptToSize}
         cardLayout={facetsConfig.cardLayout}
         cardShape={facetsConfig.cardShape}

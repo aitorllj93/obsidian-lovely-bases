@@ -1,4 +1,5 @@
 import type { BasesEntry, BasesPropertyId, BasesViewConfig, Value } from "obsidian";
+import { BasesEntryGroup } from 'obsidian';
 
 export type Property = {
   displayName: string;
@@ -6,6 +7,10 @@ export type Property = {
   value: Value;
   isEmpty: boolean;
 }
+
+export const getIdentifier = (item: BasesEntry | BasesEntryGroup ) =>
+  (item instanceof BasesEntryGroup ? item.key?.toString() : item.file.path) as string;
+
 
 export const getTitle = (entry: BasesEntry): string => {
   return entry.file.basename.replace(/\.[^.]+$/, '');

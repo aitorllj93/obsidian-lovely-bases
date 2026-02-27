@@ -29,6 +29,8 @@ import {
   WithHoverOverlay,
   WithIcon,
   WithImage,
+  WithLayoutContent,
+  WithLayoutTitle,
   WithMarkdownContent,
   WithNotebookShape,
   WithOverlayLayout,
@@ -42,10 +44,9 @@ import {
   WithSize3XSAndSpacing,
   WithSize6XSAndSpacing,
   WithSquareImage,
+  WithTiltedActiveEffect,
   WithUngroupedItemsInline,
   WithVerticalLayout,
-  WithLayoutTitle,
-  WithLayoutContent
 } from "@/__fixtures__/facets/configs";
 import { FACETS_CONFIG_DEFAULTS } from "@/components/Facets/config";
 import { FACETS_CONFIG_ARG_TYPES } from "@/components/Facets/config/stories.argTypes";
@@ -140,6 +141,7 @@ export const FullExample: FacetCardsViewStory = {
     ...WithCustomBadgeFont,
     ...WithLayoutTitle,
     ...WithLayoutContent,
+    ...WithTiltedActiveEffect,
     groupedData: GROUPED_ENTRIES,
   },
 };

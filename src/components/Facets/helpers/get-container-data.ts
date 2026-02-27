@@ -1,9 +1,9 @@
 import { type App, TFile } from "obsidian";
 
 import { accent } from "@/lib/colors";
-
 import { getPropertyValue, getTitle } from "@/lib/obsidian/entry";
 import { isWikiLink, parseWikilink } from "@/lib/properties";
+
 import { isGroup, type Props } from "../types";
 
 export type ContainerData = {
@@ -42,11 +42,24 @@ export const getContainerData = (
   const isLink = isWikiLink(key);
   const title = isLink ? parseWikilink(key) : key;
 
-  if (!isLink || !facetsConfig.groupInferPropertiesFromLinkedNotes) {
+  if (!isLink || facetsConfig.groupInferPropertiesFrom === 'none') {
     return {
       color: fallback?.color ?? accent(containerEl),
       title,
     };
+  }
+
+  if (facetsConfig.groupInferPropertiesFrom === 'first-item') {
+    const item = props.data.entries[0];
+
+    if (item) {
+      return {
+        color: getPropertyValue(item, facetsConfig.colorProperty) ?? fallback?.color ?? accent(containerEl),
+        title: getPropertyValue(item, facetsConfig.groupTitleProperty) ?? key,
+        file: item.file,
+        icon: getPropertyValue(item, facetsConfig.iconProperty) ?? fallback?.icon ?? undefined,
+      };
+    }
   }
 
   const file = app.metadataCache.getFirstLinkpathDest(

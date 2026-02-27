@@ -10,9 +10,8 @@ import { Header } from "./Header";
 import type { Column } from "./types";
 
 type Props = {
-  activeItemIndex?: number;
-  activeItemKey?: string;
-  collapsedSectionKeys?: Set<string>;
+  activeItemId?: string;
+  collapsedSections?: Set<string>;
   config: BasesViewConfig;
   columns: Column[];
   facetsConfig: FacetsConfig;
@@ -21,16 +20,15 @@ type Props = {
   itemWidth: number;
   index: number;
   layoutIdPrefix?: string;
-  onSetActiveIndex?: (activeItemIndex: number) => void;
   style?: CSSProperties;
 };
 
 const PureRow = forwardRef<HTMLDivElement, Props>(
   (
     {
-      activeItemKey,
+      activeItemId,
       facetsConfig,
-      collapsedSectionKeys,
+      collapsedSections,
       config,
       columns,
       onToggleSection,
@@ -57,11 +55,11 @@ const PureRow = forwardRef<HTMLDivElement, Props>(
       >
         {isSection ? (
           <Header
-            active={activeItemKey === columns[0].key}
-            id={`row-${columns[0].row}-${columns[0].key}`}
+            active={activeItemId === columns[0].id}
+            id={`row-${columns[0].id}`}
             data={columns[0].data as BasesEntryGroup}
             key={columns[0].key}
-            isCollapsed={collapsedSectionKeys?.has(columns[0].key)}
+            isCollapsed={collapsedSections?.has(columns[0].key)}
             onToggleCollapse={() => onToggleSection?.(columns[0].key)}
             facetsConfig={facetsConfig}
             config={config}
@@ -72,9 +70,9 @@ const PureRow = forwardRef<HTMLDivElement, Props>(
         ) : (
           columns.map((col, dataIndex) => (
             <Facets
-              active={activeItemKey === col.key}
+              active={activeItemId === col.id}
               className="mx-auto min-h-fit"
-              id={`row-${col.row}-${col.key}`}
+              id={`row-${col.id}`}
               initialAnimation
               index={dataIndex}
               key={col.key}
@@ -95,12 +93,11 @@ const PureRow = forwardRef<HTMLDivElement, Props>(
 
 const Row = memo(PureRow, (prevProps, nextProps) => {
   return (
-    prevProps.activeItemIndex === nextProps.activeItemIndex &&
-    prevProps.activeItemKey === nextProps.activeItemKey &&
+    prevProps.activeItemId === nextProps.activeItemId &&
     prevProps.index === nextProps.index &&
     prevProps.itemWidth === nextProps.itemWidth &&
     prevProps.itemsPerColumn === nextProps.itemsPerColumn &&
-    prevProps.collapsedSectionKeys === nextProps.collapsedSectionKeys &&
+    prevProps.collapsedSections === nextProps.collapsedSections &&
     prevProps.onToggleSection === nextProps.onToggleSection &&
     shallowEqual(prevProps.style, nextProps.style) &&
     shallowEqual(prevProps.facetsConfig, nextProps.facetsConfig) &&

@@ -55,13 +55,13 @@ const CardOutside = ({
         contentFont={contentFont}
         contentMarkdownMaxHeight={contentMarkdownMaxHeight}
         contentMarkdownMaxLength={contentMarkdownMaxLength}
-        contentPosition="inside"
+        contentPosition={contentPosition === "layout" ? "inside" : "layout"}
         contentShowMarkdown={contentShowMarkdown}
         contentShowPropertyTitles={contentShowPropertyTitles}
         entry={entry}
         properties={properties}
         titleFont={titleFont}
-        titlePosition={titlePosition === "layout" ? "inside" : titlePosition}
+        titlePosition={titlePosition === "layout" ? "inside" : "none"}
         width={0}
       />
     </div>

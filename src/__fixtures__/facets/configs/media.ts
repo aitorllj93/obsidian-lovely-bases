@@ -31,6 +31,10 @@ export const With3x2Ratio: MediaConfigInput = {
   mediaAspectRatio: 3/2,
 }
 
+export const With16x9Ratio: MediaConfigInput = {
+  mediaAspectRatio: 16/9,
+}
+
 export const WithLandscapeRatio: MediaConfigInput = {
   mediaAspectRatio: 1.6,
 }

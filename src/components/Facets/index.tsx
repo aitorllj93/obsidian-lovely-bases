@@ -25,7 +25,7 @@ import { useNavigate } from "./hooks/use-navigate";
 import { isGroup, type Props } from "./types";
 import { getLayoutIds } from "./utils";
 
-const borderVariants = cva("bg-card", {
+const borderVariants = cva("", {
   variants: {
     border: {
       none: "",
@@ -33,48 +33,49 @@ const borderVariants = cva("bg-card", {
       dotted: "bi-dotted",
       dashed: "bi-dashed",
     },
-    active: {
-      true: "shadow-2xl shadow-(--facets-color)/20",
-      false: "",
+    activeEffect: {
+      none: "",
+      tilted: "shadow-2xl shadow-(--facets-color)/20",
+      bordered: "border-solid border-2 border-(--facets-color)"
     },
   },
   compoundVariants: [
     {
       border: "solid",
-      active: false,
+      activeEffect: "none",
       class: "border-border",
     },
     {
       border: "solid",
-      active: true,
+      activeEffect: "tilted",
       class: "border-(--facets-color)/40",
     },
     {
       border: "dotted",
-      active: false,
+      activeEffect: "none",
       class: "bi-color-border",
     },
     {
       border: "dotted",
-      active: true,
+      activeEffect: "tilted",
       class:
         "bi-color-[color-mix(in_srgb,var(--facets-color)_40%,transparent)]",
     },
     {
       border: "dashed",
-      active: false,
+      activeEffect: "none",
       class: "bi-color-border",
     },
     {
       border: "dashed",
-      active: true,
+      activeEffect: "tilted",
       class:
         "bi-color-[color-mix(in_srgb,var(--facets-color)_40%,transparent)]",
     },
   ],
   defaultVariants: {
     border: "none",
-    active: false,
+    activeEffect: "none",
   },
 });
 
@@ -111,13 +112,14 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
 
   const animations = useMemo(() => {
     return getAnimations({
-      active,
+      activeEffect: facetsConfig.activeEffect,
       initialAnimationDelay: (props.index ?? 0) * 0.1,
+      isActive: active,
       isHovered,
       isPressing,
       showInitialAnimation: props.initialAnimation,
     });
-  }, [active, props.index, isHovered, isPressing, props.initialAnimation])
+  }, [facetsConfig.activeEffect, active, props.index, isHovered, isPressing, props.initialAnimation])
 
   const handleOnMouseEnter = (_: React.MouseEvent<HTMLDivElement>) => {
     setIsHovered(true);
@@ -127,9 +129,11 @@ const Facets = forwardRef<HTMLDivElement, Props>((props, ref) => {
     setIsHovered(false);
   };
 
+  const shouldApplyActiveEffect = active || isHovered;
+
   const borderClass = borderVariants({
     border: facetsConfig?.layoutItemBorder ?? "none",
-    active: active || isHovered,
+    activeEffect: shouldApplyActiveEffect ? facetsConfig.activeEffect : "none"
   });
 
   return (

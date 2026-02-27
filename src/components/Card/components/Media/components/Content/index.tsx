@@ -1,4 +1,4 @@
-import type { ComponentType } from "react";
+import { type ComponentType, useEffect, useRef } from "react";
 
 import type { CardMedia, CardMediaType } from "@/components/Card/types";
 import type { CardLayout, MediaFit } from "@/components/Facets/config";
@@ -19,7 +19,7 @@ type Props = {
   type: CardMediaType;
   url?: string | null;
   width: number;
-}
+};
 
 const Noop = (_: ContentProps) => null;
 
@@ -31,8 +31,8 @@ const ContentsByType: Record<CardMediaType, ComponentType<ContentProps>> = {
   unsupported: Noop,
   url: Url,
   video: Video,
-  youtube: Youtube,
-}
+  youtube: Youtube
+};
 
 const MediaContent = ({
   aspectRatio,
@@ -45,18 +45,33 @@ const MediaContent = ({
   url,
   width,
 }: Props) => {
-  const mediaAspectRatio = (layout === 'vertical' || layout === 'polaroid') ?
-    1 / aspectRatio : undefined;
-  const height = layout === 'vertical' ?
-    width * aspectRatio :
-    undefined;
+  const mainEverMountedRef = useRef(false);
 
-  if (!url) {
-    return null;
-  }
+  const hasUrl = !!url;
+  const hasThumb = !!thumbnail?.value;
 
   const Component = ContentsByType[type];
-  const ThumbnailComponent = thumbnail?.value ? ContentsByType[thumbnail.type] : undefined;
+  const ThumbnailComponent = thumbnail?.value
+    ? ContentsByType[thumbnail.type]
+    : undefined;
+
+  const mediaAspectRatio =
+    layout === "vertical" || layout === "polaroid"
+      ? 1 / aspectRatio
+      : undefined;
+  const height = layout === "vertical" ? width * aspectRatio : undefined;
+
+  const wantsMain = hasUrl && (autoPlay || !hasThumb);
+
+  useEffect(() => {
+    if (wantsMain) mainEverMountedRef.current = true;
+  }, [wantsMain]);
+
+  const shouldMountMain = wantsMain || mainEverMountedRef.current;
+
+  if (!hasUrl) {
+    return null;
+  }
 
   return (
     <>
@@ -64,7 +79,7 @@ const MediaContent = ({
         <ThumbnailComponent
           aspectRatio={mediaAspectRatio}
           autoPlay={autoPlay}
-          className={autoPlay ? 'hidden' : undefined}
+          className={autoPlay ? "hidden" : undefined}
           fit={fit}
           title={title}
           url={thumbnail?.value as string}
@@ -73,20 +88,21 @@ const MediaContent = ({
           }}
         />
       )}
-      <Component
-        aspectRatio={mediaAspectRatio}
-        autoPlay={autoPlay}
-        className={!autoPlay && thumbnail ? 'hidden' : undefined}
-        fit={fit}
-        title={title}
-        url={url}
-        style={{
-          height,
-        }}
-      />
+      {shouldMountMain && (
+        <Component
+          aspectRatio={mediaAspectRatio}
+          autoPlay={autoPlay}
+          className={!autoPlay && hasThumb ? "hidden" : undefined}
+          fit={fit}
+          title={title}
+          url={url}
+          style={{
+            height,
+          }}
+        />
+      )}
     </>
-  )
-
-}
+  );
+};
 
 export default MediaContent;

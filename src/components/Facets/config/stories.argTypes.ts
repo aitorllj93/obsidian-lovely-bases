@@ -3,8 +3,36 @@ import type { ArgTypes } from "@storybook/react-vite";
 
 import { type NamespacedTranslationKey, translate } from "@/lib/i18n";
 
-import { ACTIONS_CONFIG_DEFAULTS, BADGES_CONFIG_DEFAULTS, CARDS_CONFIG_DEFAULTS, COLORS_CONFIG_DEFAULTS, CONTENTS_CONFIG_DEFAULTS, GROUPS_CONFIG_DEFAULTS, ICONS_CONFIG_DEFAULTS, MEDIA_CONFIG_DEFAULTS, LAYOUT_CONFIG_DEFAULTS, TITLES_CONFIG_DEFAULTS } from "./defaults";
-import type { ActionsConfig, BadgesConfig, CardsConfig, ColorsConfig, ContentsConfig, FacetsConfig, GroupsConfig, IconsConfig, MediaConfig, LayoutConfig, TitlesConfig } from "./types";
+import {
+  ACTIONS_CONFIG_DEFAULTS,
+  ACTIVE_CONFIG_DEFAULTS,
+  BACKGROUND_CONFIG_DEFAULTS,
+  BADGES_CONFIG_DEFAULTS,
+  CARDS_CONFIG_DEFAULTS,
+  COLORS_CONFIG_DEFAULTS,
+  CONTENTS_CONFIG_DEFAULTS,
+  GROUPS_CONFIG_DEFAULTS,
+  ICONS_CONFIG_DEFAULTS,
+  LAYOUT_CONFIG_DEFAULTS,
+  MEDIA_CONFIG_DEFAULTS,
+  TITLES_CONFIG_DEFAULTS,
+} from "./defaults";
+
+import type {
+  ActionsConfig,
+  ActiveConfig,
+  BackgroundConfig,
+  BadgesConfig,
+  CardsConfig,
+  ColorsConfig,
+  ContentsConfig,
+  FacetsConfig,
+  GroupsConfig,
+  IconsConfig,
+  LayoutConfig,
+  MediaConfig,
+  TitlesConfig,
+} from "./types";
 
 
 const t = (key: NamespacedTranslationKey<"facets">) =>
@@ -69,6 +97,44 @@ export const LAYOUT_CONFIG_ARG_TYPES: ArgTypes<LayoutConfig> = {
       }
     }
   },
+}
+
+export const BACKGROUND_CONFIG_ARG_TYPES: ArgTypes<BackgroundConfig> = {
+  backgroundProperty: {
+    control: { type: "text" },
+    name: t("background.property.title"),
+    description: "Background property",
+    table: {
+      category: t("background.title"),
+      type: {
+        summary: "Property",
+      },
+      defaultValue: {
+        summary: BACKGROUND_CONFIG_DEFAULTS.backgroundProperty?.toString(),
+      }
+    }
+  },
+  backgroundInferFrom: {
+    control: {
+      type: "select",
+      labels: {
+        active: t("background.inferFrom.active"),
+        "first-item": t("background.inferFrom.first-item"),
+      }
+    },
+    name: t("background.inferFrom.title"),
+    description: "Infer property from",
+    options: [
+      "active",
+      "first-item",
+    ],
+    table: {
+      category: t("background.title"),
+      defaultValue: {
+        summary: BACKGROUND_CONFIG_DEFAULTS.backgroundProperty?.toString(),
+      }
+    }
+  }
 }
 
 export const GROUPS_CONFIG_ARG_TYPES: ArgTypes<GroupsConfig> = {
@@ -137,14 +203,26 @@ export const GROUPS_CONFIG_ARG_TYPES: ArgTypes<GroupsConfig> = {
       }
     }
   },
-  groupInferPropertiesFromLinkedNotes: {
-    control: { type: "boolean" },
-    name: t("groups.inferPropertiesFromLinkedNotes.title"),
+  groupInferPropertiesFrom: {
+    control: {
+      type: "select",
+      labels: {
+        none: t("groups.inferPropertiesFrom.none"),
+        "first-item": t("groups.inferPropertiesFrom.first-item"),
+        "linked-note": t("groups.inferPropertiesFrom.linked-note"),
+      }
+    },
+    name: t("groups.inferPropertiesFrom.title"),
     description: "Infer properties from linked notes",
+    options: [
+      "none",
+      "first-item",
+      "linked-note",
+    ],
     table: {
       category: t("groups.title"),
       defaultValue: {
-        summary: GROUPS_CONFIG_DEFAULTS.groupInferPropertiesFromLinkedNotes.toString(),
+        summary: GROUPS_CONFIG_DEFAULTS.groupInferPropertiesFrom.toString(),
       }
     }
   }
@@ -616,6 +694,31 @@ export const BADGES_CONFIG_ARG_TYPES: ArgTypes<BadgesConfig> = {
   }
 };
 
+export const ACTIVE_CONFIG_ARG_TYPES: ArgTypes<ActiveConfig> = {
+  activeEffect: {
+    control: { type: "select" },
+    name: t("active.effect.title"),
+    description: "The effect to display when the item is active/hovered",
+    table: {
+      category: t("active.title"),
+      defaultValue: {
+        summary: ACTIVE_CONFIG_DEFAULTS.activeEffect?.toString(),
+      }
+    }
+  },
+  activeMediaAspectRatio: {
+    control: { type: "range", min: 0.25, max: 2.5, step: 0.05 },
+    name: t("active.aspectRatio.title"),
+    description: "The aspect ratio of the active item (width/height).",
+    table: {
+      category: t("active.title"),
+      defaultValue: {
+        summary: ACTIVE_CONFIG_DEFAULTS.activeMediaAspectRatio?.toString(),
+      }
+    }
+  },
+}
+
 export const ACTIONS_CONFIG_ARG_TYPES: ArgTypes<ActionsConfig> = {
   actionLinkProperty: {
     control: { type: "text" },
@@ -694,6 +797,7 @@ export const ACTIONS_CONFIG_ARG_TYPES: ArgTypes<ActionsConfig> = {
 
 export const FACETS_CONFIG_ARG_TYPES: ArgTypes<FacetsConfig> = {
   ...LAYOUT_CONFIG_ARG_TYPES,
+  ...BACKGROUND_CONFIG_ARG_TYPES,
   ...GROUPS_CONFIG_ARG_TYPES,
   ...CARDS_CONFIG_ARG_TYPES,
   ...TITLES_CONFIG_ARG_TYPES,
@@ -702,6 +806,7 @@ export const FACETS_CONFIG_ARG_TYPES: ArgTypes<FacetsConfig> = {
   ...COLORS_CONFIG_ARG_TYPES,
   ...ICONS_CONFIG_ARG_TYPES,
   ...BADGES_CONFIG_ARG_TYPES,
+  ...ACTIVE_CONFIG_ARG_TYPES,
   ...ACTIONS_CONFIG_ARG_TYPES,
   properties: {
     table: {
