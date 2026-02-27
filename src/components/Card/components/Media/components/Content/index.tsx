@@ -3,6 +3,7 @@ import { type ComponentType, useEffect, useRef } from "react";
 import type { CardMedia, CardMediaType } from "@/components/Card/types";
 import type { CardLayout, MediaFit } from "@/components/Facets/config";
 
+import Audio from "./Audio";
 import Image from "./Image";
 import type { ContentProps } from "./types";
 import Url from "./Url";
@@ -12,7 +13,7 @@ import Youtube from "./Youtube";
 type Props = {
   aspectRatio: number;
   autoPlay?: boolean;
-  fit: MediaFit;
+  fit?: MediaFit;
   layout: CardLayout;
   thumbnail?: CardMedia;
   title: string;
@@ -24,10 +25,10 @@ type Props = {
 const Noop = (_: ContentProps) => null;
 
 const ContentsByType: Record<CardMediaType, ComponentType<ContentProps>> = {
-  image: Image,
-  audio: Noop,
+  audio: Audio,
   color: Noop,
   empty: Noop,
+  image: Image,
   unsupported: Noop,
   url: Url,
   video: Video,
@@ -99,6 +100,7 @@ const MediaContent = ({
           style={{
             height,
           }}
+          thumbnail={thumbnail}
         />
       )}
     </>

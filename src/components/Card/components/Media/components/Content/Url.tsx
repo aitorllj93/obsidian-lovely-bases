@@ -1,5 +1,6 @@
 import { type ComponentType, memo } from "react";
 
+import Audio from "./Audio";
 import { type UrlMediaType, useUrlMediaType } from "./hooks/use-url-media-type";
 import Image from "./Image";
 import type { ContentProps } from "./types";
@@ -9,7 +10,7 @@ const Noop = (_: ContentProps) => null;
 
 const ContentsByType: Record<UrlMediaType, ComponentType<ContentProps>> = {
   image: Image,
-  audio: Noop,
+  audio: Audio,
   url: Noop,
   video: Video,
 }
@@ -20,6 +21,7 @@ const PureUrl = ({
   className,
   fit,
   style,
+  thumbnail,
   title,
   url,
 }: ContentProps) => {
@@ -34,6 +36,7 @@ const PureUrl = ({
       className={className}
       fit={fit}
       style={style}
+      thumbnail={thumbnail}
       title={title}
       url={url}
     />

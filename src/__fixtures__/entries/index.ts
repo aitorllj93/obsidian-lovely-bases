@@ -11,9 +11,11 @@ import { MOVIES_ENTRIES } from "./movies";
 import { PERSON_ENTRIES } from "./people";
 import { PHOTOS_ENTRIES } from "./photos";
 import { PLANS_ENTRIES } from "./plans";
+import { AUDIOS_ENTRIES } from "./audios";
 
 export * from "./applications";
 export * from "./articles";
+export * from "./audios";
 export * from "./books";
 export * from "./groups";
 export * from "./movies";
@@ -25,6 +27,7 @@ export * from "./plans";
 export const ALL_ENTRIES: BasesEntry[] = [
   ...GROUPS_ENTRIES,
   ...APPLICATION_ENTRIES,
+  ...AUDIOS_ENTRIES,
   ...ARTICLE_ENTRIES,
   ...BOOK_ENTRIES,
   ...CATEGORIES_ENTRIES,

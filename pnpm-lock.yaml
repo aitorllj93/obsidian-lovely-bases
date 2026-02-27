@@ -47,6 +47,9 @@ dependencies:
   tailwind-merge:
     specifier: ^3.4.0
     version: 3.4.0
+  use-sound:
+    specifier: ^5.0.0
+    version: 5.0.0(react@19.2.3)
 
 devDependencies:
   '@biomejs/biome':
@@ -4714,6 +4717,10 @@ packages:
       space-separated-tokens: 2.0.2
     dev: false
 
+  /howler@2.2.4:
+    resolution: {integrity: sha512-iARIBPgcQrwtEr+tALF+rapJ8qSc+Set2GJQl7xT1MQzWaVkFebdJhR3alVlSiUf5U7nAANKuj3aWpwerocD5w==}
+    dev: false
+
   /html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
     dev: true
@@ -7867,6 +7874,15 @@ packages:
     dependencies:
       prepend-http: 2.0.0
     dev: true
+
+  /use-sound@5.0.0(react@19.2.3):
+    resolution: {integrity: sha512-MNHT3FFC5HxNCrgZtrnpIMJI2cw/0D2xismcrtyht8BTuF5FhFhb57xO/jlQr2xJaFrc/0btzRQvGyHQwB7PVA==}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      howler: 2.2.4
+      react: 19.2.3
+    dev: false
 
   /use-sync-external-store@1.6.0(react@19.2.3):
     resolution: {integrity: sha512-Pp6GSwGP/NrPIrxVFAIkOQeyw8lFenOHijQWkUTrDvrF4ALqylP2C/KCkeS9dpUM3KvYRQhna5vt7IL95+ZQ9w==}

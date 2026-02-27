@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 
+import type { CardMedia } from "@/components/Card/types";
 import type { MediaFit } from "@/components/Facets/config";
 
 export type ContentProps = {
@@ -10,4 +11,5 @@ export type ContentProps = {
   style?: CSSProperties;
   title?: string;
   url: string;
+  thumbnail?: CardMedia;
 }
