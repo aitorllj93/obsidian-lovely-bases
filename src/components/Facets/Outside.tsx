@@ -28,6 +28,8 @@ const FacetsOutside = ({
 
   return (
     <CardOutside
+      backgroundGradient={facetsConfig.backgroundGradient}
+      backgroundProperty={facetsConfig.backgroundProperty}
       className={className}
       config={config}
       contentFont={facetsConfig.contentFont}

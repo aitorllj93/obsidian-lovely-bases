@@ -67,11 +67,23 @@ export const BACKGROUND_CONFIG_VIEW_OPTIONS: ViewOption[] = [
         displayName: t('background.property.title'),
       },
       {
+        key: 'backgroundGradient',
+        default: BACKGROUND_CONFIG_DEFAULTS.backgroundGradient,
+        type: 'dropdown',
+        displayName: t('background.gradient.title'),
+        shouldHide: (config) => !config.get('backgroundProperty'),
+        options: {
+          'dark': t('background.gradient.dark'),
+          'light': t('background.gradient.light'),
+          'none': t('background.gradient.none'),
+        }
+      },
+      {
         key: 'backgroundInferFrom',
         default: BACKGROUND_CONFIG_DEFAULTS.backgroundInferFrom,
         type: 'dropdown',
         displayName: t('background.inferFrom.title'),
-        shouldHide: (config) => !!config.get('backgroundProperty'),
+        shouldHide: (config) => !config.get('backgroundProperty'),
         options: {
           'active': t('background.inferFrom.active'),
           'first-item': t('background.inferFrom.first-item')
@@ -291,7 +303,7 @@ export const CONTENTS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
   }
 ];
 
-export const IMAGES_CONFIG_VIEW_OPTIONS: ViewOption[] = [
+export const MEDIA_CONFIG_VIEW_OPTIONS: ViewOption[] = [
   {
     type: "group",
     displayName: t('images.title'),
@@ -322,7 +334,13 @@ export const IMAGES_CONFIG_VIEW_OPTIONS: ViewOption[] = [
           cover: t('images.fit.cover'),
           contain: t('images.fit.contain'),
         }
-      }
+      },
+      {
+        key: "mediaThumbnailProperty",
+        default: MEDIA_CONFIG_DEFAULTS.mediaThumbnailProperty,
+        type: "property",
+        displayName: t('images.thumbnail.title'),
+      },
     ]
   }
 ];
@@ -502,7 +520,7 @@ export const FACETS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
   ...CARDS_CONFIG_VIEW_OPTIONS,
   ...TITLES_CONFIG_VIEW_OPTIONS,
   ...CONTENTS_CONFIG_VIEW_OPTIONS,
-  ...IMAGES_CONFIG_VIEW_OPTIONS,
+  ...MEDIA_CONFIG_VIEW_OPTIONS,
   ...COLORS_CONFIG_VIEW_OPTIONS,
   ...ICONS_CONFIG_VIEW_OPTIONS,
   ...BADGES_CONFIG_VIEW_OPTIONS,

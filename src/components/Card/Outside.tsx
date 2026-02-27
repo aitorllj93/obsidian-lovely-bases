@@ -1,11 +1,14 @@
 import type { BasesEntry, BasesViewConfig } from "obsidian";
 
 import type { FacetsConfig } from "@/components/Facets/config";
-import Content from "./components/Content";
 import { cn } from "@/lib/utils";
+
+import Content from "./components/Content";
 
 type Props = Pick<
   FacetsConfig,
+  | "backgroundGradient"
+  | "backgroundProperty"
   | "contentFont"
   | "contentMarkdownMaxHeight"
   | "contentMarkdownMaxLength"
@@ -23,6 +26,8 @@ type Props = Pick<
 };
 
 const CardOutside = ({
+  backgroundGradient,
+  backgroundProperty,
   className,
   config,
   contentFont,
@@ -50,7 +55,11 @@ const CardOutside = ({
     <div className={cn("@container/lovely-card", className)} style={style}>
       <Content
         cardAdaptToSize
-        cardLayout="vertical"
+        cardLayout={
+          backgroundProperty && backgroundGradient !== "light"
+            ? "overlay"
+            : "vertical"
+        }
         config={config}
         contentFont={contentFont}
         contentMarkdownMaxHeight={contentMarkdownMaxHeight}

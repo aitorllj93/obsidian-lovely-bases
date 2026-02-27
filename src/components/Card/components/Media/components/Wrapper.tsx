@@ -1,6 +1,5 @@
 import { type ComponentType, memo, type PropsWithChildren } from "react";
 
-import type { CardMediaType } from "@/components/Card/types";
 import type { CardLayout } from "@/components/Facets/config";
 
 import { cn } from "@/lib/utils";
@@ -105,7 +104,6 @@ type Props = PropsWithChildren<{
   aspectRatio: number;
   backgroundColor?: string;
   layout: CardLayout;
-  type?: CardMediaType;
   width?: number;
 }>;
 
@@ -114,15 +112,9 @@ const PureMediaWrapper = ({
   backgroundColor,
   children,
   layout,
-  type,
   width,
 }: Props) => {
   const Component = WrappersByLayout[layout];
-
-  // Always render empty in overlay
-  if (!type && layout !== "overlay") {
-    return null;
-  }
 
   return (
     <Component

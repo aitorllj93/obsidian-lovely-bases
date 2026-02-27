@@ -23,6 +23,7 @@ export const LAYOUT_CONFIG_DEFAULTS: LayoutConfig = {
 
 export const BACKGROUND_CONFIG_DEFAULTS: BackgroundConfig = {
   backgroundInferFrom: 'active',
+  backgroundGradient: 'dark',
   backgroundProperty: undefined,
 }
 
@@ -91,7 +92,7 @@ export const ACTIONS_CONFIG_DEFAULTS: ActionsConfig = {
 };
 
 export const ACTIVE_CONFIG_DEFAULTS: ActiveConfig = {
-  activeEffect: 'none',
+  activeEffect: 'tilted',
   activeMediaAspectRatio: undefined,
 }
 

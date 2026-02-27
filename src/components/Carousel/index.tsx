@@ -1,133 +1,92 @@
-import type { BasesEntry, BasesViewConfig } from "obsidian";
-import { forwardRef, useCallback, useRef, useState } from "react";
+import type { BasesEntry, BasesEntryGroup, BasesViewConfig } from "obsidian";
+import { type CSSProperties, forwardRef, memo } from "react";
 
+import Background from "@/components/Background";
 import type { FacetsConfig } from "@/components/Facets/config";
+import { arrayEqual, cn, shallowEqual } from "@/lib/utils";
 
-import { Next, Previous } from "./components/Arrows";
-import Header from "./components/Header";
-import Item from "./components/Item";
-
-import { useCarouselScroll } from "./hooks/use-carousel-scroll";
+import CarouselRow from "./components/Row";
+import { useCarousel } from "./hooks/use-carousel";
 
 type Props = {
+  className?: string;
   config: BasesViewConfig;
   facetsConfig: FacetsConfig;
-  items: BasesEntry[];
-  groupKey: string;
+  items: (BasesEntry | BasesEntryGroup)[];
+  layoutIdPrefix?: string;
+  style?: CSSProperties;
 };
 
-type Direction = 'left' | 'right';
-
-type Position = {
-  row: number;
-  col: number;
-}
-
-const Carousel = forwardRef<HTMLDivElement, Props>(
-  ({ config, facetsConfig, items, groupKey }, ref) => {
-    const [activeItemKey, setActiveItemKey] = useState<string>(items[0].file.path);
-    const [activeItemPosition, setActiveItemPosition] = useState<Position>({ col: 0, row: 0 });
-    const keyDownRafRef = useRef<number | null>(null);
+const PureCarousel = forwardRef<HTMLDivElement, Props>(
+  ({ className, config, facetsConfig, items, layoutIdPrefix, style }, ref) => {
     const {
-      carouselRef,
-      isAtStart,
-      isAtEnd,
-      scroll,
-    } = useCarouselScroll();
-
-
-
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (items.length === 0) return;
-
-    const navigateTo = (direction: Direction) => {
-      if (keyDownRafRef.current) return; // ya hay uno pendiente
-
-      keyDownRafRef.current = requestAnimationFrame(() => {
-        keyDownRafRef.current = null;
-        const canNavigate = direction === 'left' ?
-          activeItemPosition.col !== 0 :
-          activeItemPosition.col <= items.length;
-        const nextItemPosition: Position = {
-          row: 0,
-          col: canNavigate ?
-            direction === 'left' ? activeItemPosition.col - 1 : activeItemPosition.col + 1 :
-            activeItemPosition.col,
-        };
-        const nextItem = items[nextItemPosition.col];
-
-        if (!nextItem) {
-          return;
-        }
-
-        setActiveItemPosition(nextItemPosition);
-        setActiveItemKey(nextItem.file.path);
-        carouselRef.current?.scrollTo({
-          left: facetsConfig.layoutItemSize * nextItemPosition.col,
-          behavior: 'smooth',
-        })
-
-        // const elementId = `row-${nextItem.row}-${nextItem.key}`;
-        // const element = document.getElementById(elementId);
-        // element?.focus();
-      });
-    }
-
-    switch (e.key) {
-      case "ArrowLeft":
-        navigateTo('left');
-        e.preventDefault();
-        break;
-      case "ArrowRight":
-        navigateTo('right');
-        e.preventDefault();
-        break;
-    }
-
-}, [activeItemPosition.col, carouselRef.current, facetsConfig.layoutItemSize, items]);
+      activeItem,
+      collapsedSections,
+      handleKeyDown,
+      rows,
+      toggleSectionCollapse,
+    } = useCarousel({ facetsConfig, items });
 
     return (
-      <section aria-labelledby="carousel-title" className="w-full" ref={ref}>
-        <div className="container mx-auto px-4 md:px-6">
-          <Header
-            config={config}
-            groupKey={groupKey}
-            facetsConfig={facetsConfig}
-            items={items}
-          />
-
-          <div className="relative">
+      <div className={
+        cn(
+          className,
+          "isolate relative overflow-hidden",
+        )
+      }>
+        <Background
+          backgroundGradient={facetsConfig.backgroundGradient}
+          backgroundInferFrom={facetsConfig.backgroundInferFrom}
+          backgroundProperty={facetsConfig.backgroundProperty}
+          items={items}
+          activeItem={activeItem?.data}
+        />
+        {/** biome-ignore lint/a11y/useAriaPropsSupportedByRole: navigation */}
+        <div
+          // biome-ignore lint/a11y/noAutofocus: navigation
+          autoFocus
+          className={
+            cn(
+              "h-full max-h-screen w-full overflow-auto"
+            )
+          }
+          style={style}
+          ref={ref}
+          // biome-ignore lint/a11y/noNoninteractiveTabindex: virtual scrollable
+          tabIndex={0}
+          aria-activedescendant={`row-${activeItem?.id}`}
+          onKeyDown={handleKeyDown}
+        >
+          {rows.map((cols, idx) => (
             <div
-              className="flex w-full py-4 px-4 overflow-x-auto pb-4 scrollbar-hide focus-visible:outline-none"
-              style={{
-                gap: `${facetsConfig.layoutGap}px`,
-              }}
-              ref={carouselRef}
-              // biome-ignore lint/a11y/noNoninteractiveTabindex: <explanation>
-              tabIndex={0}
-              onKeyDown={handleKeyDown}
+              key={idx.toString()}
+              className="focus-visible:outline-none"
+              style={{ paddingBottom: facetsConfig.layoutGap }}
             >
-              {items.map((item, index) => (
-                <Item
-                  active={item.file.path === activeItemKey}
-                  facetsConfig={facetsConfig}
-                  config={config}
-                  key={item.file.path}
-                  entry={item}
-                  index={index}
-                />
-              ))}
+              <CarouselRow
+                activeItem={activeItem}
+                collapsedSections={collapsedSections}
+                config={config}
+                columns={cols}
+                facetsConfig={facetsConfig}
+                onToggleSection={toggleSectionCollapse}
+                layoutIdPrefix={layoutIdPrefix}
+              />
             </div>
-
-            {/* Navigation Buttons */}
-            {!isAtStart && <Previous onClick={() => scroll("left")} />}
-            {!isAtEnd && <Next onClick={() => scroll("right")} />}
-          </div>
+          ))}
         </div>
-      </section>
+      </div>
     );
   },
 );
+
+const Carousel = memo(PureCarousel, (prevProps, nextProps) => {
+  return (
+    arrayEqual(prevProps.items, nextProps.items) &&
+    shallowEqual(prevProps.facetsConfig, nextProps.facetsConfig) &&
+    prevProps.config === nextProps.config
+  );
+});
 
 Carousel.displayName = "Carousel";
 

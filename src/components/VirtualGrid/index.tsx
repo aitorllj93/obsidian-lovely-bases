@@ -1,6 +1,7 @@
 import type { BasesEntry, BasesEntryGroup, BasesViewConfig } from "obsidian";
 import { type CSSProperties, memo, useMemo } from "react";
 
+import Background from "@/components/Background";
 import { estimateCardHeight } from "@/components/Card/helpers/estimate-card-height";
 import type { FacetsConfig } from "@/components/Facets/config";
 import { arrayEqual, cn, shallowEqual } from "@/lib/utils";
@@ -58,7 +59,19 @@ function PureVirtualGrid({
   });
 
   return (
-    <>
+    <div className={
+      cn(
+        className,
+        "isolate relative overflow-hidden px-(--size-4-2)",
+      )
+    }>
+      <Background
+        backgroundGradient={facetsConfig.backgroundGradient}
+        backgroundInferFrom={facetsConfig.backgroundInferFrom}
+        backgroundProperty={facetsConfig.backgroundProperty}
+        items={items}
+        activeItem={activeItem?.data}
+      />
       {/** biome-ignore lint/a11y/useAriaPropsSupportedByRole: virtual navigation */}
       <div
         // biome-ignore lint/a11y/noAutofocus: navigation
@@ -126,7 +139,7 @@ function PureVirtualGrid({
           />
         ))
       }
-    </>
+    </div>
   );
 }
 

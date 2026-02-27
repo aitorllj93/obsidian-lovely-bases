@@ -114,6 +114,29 @@ export const BACKGROUND_CONFIG_ARG_TYPES: ArgTypes<BackgroundConfig> = {
       }
     }
   },
+  backgroundGradient: {
+    control: {
+      type: "select",
+      labels: {
+        dark: t("background.gradient.dark"),
+        light: t("background.gradient.light"),
+        none: t("background.gradient.none"),
+      }
+    },
+    name: t("background.gradient.title"),
+    description: "Gradient",
+    options: [
+      "dark",
+      "light",
+      "none",
+    ],
+    table: {
+      category: t("background.title"),
+      defaultValue: {
+        summary: BACKGROUND_CONFIG_DEFAULTS.backgroundGradient?.toString(),
+      }
+    }
+  },
   backgroundInferFrom: {
     control: {
       type: "select",
@@ -493,7 +516,7 @@ export const CONTENTS_CONFIG_ARG_TYPES: ArgTypes<ContentsConfig> = {
   },
 }
 
-export const IMAGES_CONFIG_ARG_TYPES: ArgTypes<MediaConfig> = {
+export const MEDIA_CONFIG_ARG_TYPES: ArgTypes<MediaConfig> = {
   mediaProperty: {
     control: { type: "text" },
     name: t("images.property.title"),
@@ -540,7 +563,22 @@ export const IMAGES_CONFIG_ARG_TYPES: ArgTypes<MediaConfig> = {
         summary: MEDIA_CONFIG_DEFAULTS.mediaFit?.toString(),
       }
     }
-  }
+  },
+  mediaThumbnailProperty: {
+    control: { type: "text" },
+    name: t("images.thumbnail.title"),
+    description: "The thumbnail property that contains the image to display on the cards.",
+    table: {
+      category: t("images.title"),
+      type: {
+        summary: "Thumbnail Property",
+        detail: "Wikilink or URL"
+      },
+      defaultValue: {
+        summary: MEDIA_CONFIG_DEFAULTS.mediaThumbnailProperty?.toString(),
+      }
+    }
+  },
 }
 
 export const COLORS_CONFIG_ARG_TYPES: ArgTypes<ColorsConfig> = {
@@ -802,7 +840,7 @@ export const FACETS_CONFIG_ARG_TYPES: ArgTypes<FacetsConfig> = {
   ...CARDS_CONFIG_ARG_TYPES,
   ...TITLES_CONFIG_ARG_TYPES,
   ...CONTENTS_CONFIG_ARG_TYPES,
-  ...IMAGES_CONFIG_ARG_TYPES,
+  ...MEDIA_CONFIG_ARG_TYPES,
   ...COLORS_CONFIG_ARG_TYPES,
   ...ICONS_CONFIG_ARG_TYPES,
   ...BADGES_CONFIG_ARG_TYPES,

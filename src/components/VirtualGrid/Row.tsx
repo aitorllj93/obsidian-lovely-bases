@@ -2,10 +2,11 @@ import type { BasesEntryGroup, BasesViewConfig } from "obsidian";
 import { type CSSProperties, forwardRef, memo } from "react";
 
 import Facets from "@/components/Facets";
+import Header from "@/components/Sections/Header";
+
 import { arrayEqual, shallowEqual } from "@/lib/utils";
 
 import type { FacetsConfig } from "../Facets/config";
-import { Header } from "./Header";
 
 import type { Column } from "./types";
 

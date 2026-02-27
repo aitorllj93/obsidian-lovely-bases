@@ -11,9 +11,11 @@ export type LayoutConfig = {
 export type LayoutConfigInput = Partial<LayoutConfig>;
 
 export type BackgroundInferFrom = 'active' | 'first-item';
+export type BackgroundGradient = "dark" | "light" | "none";
 
 export type BackgroundConfig = {
   backgroundInferFrom: BackgroundInferFrom;
+  backgroundGradient: BackgroundGradient;
   backgroundProperty?: BasesPropertyId;
 }
 export type BackgroundConfigInput = Partial<BackgroundConfig>;

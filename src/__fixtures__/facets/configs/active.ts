@@ -1,5 +1,9 @@
 import type { ActiveConfigInput } from "@/components/Facets/config";
 
+export const WithNoActiveEffect: ActiveConfigInput = {
+  activeEffect: "none",
+}
+
 export const WithTiltedActiveEffect: ActiveConfigInput = {
   activeEffect: "tilted",
 }

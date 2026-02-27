@@ -13,16 +13,16 @@ const PureImage = ({
   url,
 }: BackgroundProps) => {
   return (
-    <img
-      src={url}
-      alt={title}
+    <div
+      title={title}
       draggable={false}
       className={cn(
-        "pointer-events-none h-full w-full",
-        fit === "cover" ? "object-cover" : "object-contain",
+        "pointer-events-none h-full w-full bg-no-repeat",
+        fit === "cover" ? "bg-cover" : "bg-fixed",
         className,
       )}
       style={{
+        backgroundImage: `url(${url})`,
         aspectRatio,
         ...style
       }}

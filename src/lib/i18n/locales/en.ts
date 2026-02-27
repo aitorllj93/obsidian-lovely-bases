@@ -26,6 +26,12 @@ export const en = {
         active: 'Active Item',
         'first-item': 'First Item'
       },
+      gradient: {
+        title: 'Gradient',
+        dark: 'Dark',
+        light: 'Light',
+        none: 'None'
+      },
       property: {
         title: 'Property'
       }
@@ -143,6 +149,9 @@ export const en = {
         title: "Fit",
         cover: "Cover",
         contain: "Contain",
+      },
+      thumbnail: {
+        title: "Thumbnail Property",
       },
     },
     colors: {

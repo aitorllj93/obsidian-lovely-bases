@@ -22,7 +22,9 @@ function Header({
 }: Props) {
   const { t } = useTranslation("common");
   const { color, icon, title } = useContainerData(props, {
-    color: props.facetsConfig.backgroundProperty ? '#fff' : 'var(--color-foreground)'
+    color: props.facetsConfig.backgroundProperty ? (
+      props.facetsConfig.backgroundGradient === 'light' ? '#000' : '#fff'
+    ) : 'var(--color-foreground)'
   });
   const entries = props.data.entries ?? [];
 
@@ -50,10 +52,11 @@ function Header({
     // biome-ignore lint/a11y/useSemanticElements: header
     <header
       id={id}
-      className="focus-visible:outline-none flex items-center gap-1 px-3 py-2 border-b border-border backdrop-blur-sm cursor-pointer"
+      className="focus-visible:outline-none flex items-center gap-1 px-3 py-2 border-b backdrop-blur-none cursor-pointer"
       style={{
         ...props.style,
         color,
+        borderColor: color === 'var(--color-foreground)' ? 'var(--color-border)' : color,
       }}
       onClick={handleNavigate}
       onKeyDown={handleNavigate}

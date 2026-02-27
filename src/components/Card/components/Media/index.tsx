@@ -3,6 +3,7 @@ import { memo } from "react";
 
 import type { FacetsConfig } from "@/components/Facets/config";
 import { getTitle } from "@/lib/properties";
+
 import { useCardMedia } from "../../hooks/use-card-media";
 import MediaContent from "./components/Content";
 import MediaFallback from "./components/Fallback";
@@ -40,12 +41,15 @@ const PureMedia = ({
 
   const shouldShowFallback = !type || type === 'color' || type === 'unsupported' || type === 'empty';
 
+  if (!mediaProperty && cardLayout !== "overlay") {
+    return null;
+  }
+
   return (
     <MediaWrapper
       aspectRatio={aspectRatio}
       backgroundColor={accentColor}
       layout={cardLayout}
-      type={type}
       width={width}>
       {!shouldShowFallback ? (
         <MediaContent

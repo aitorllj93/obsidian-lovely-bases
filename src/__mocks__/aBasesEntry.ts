@@ -30,6 +30,10 @@ export class MockBasesEntry implements BasesEntry {
   }
 
   private resolveFormula(formulaName: string) {
+    if (formulaName === 'background') {
+      return aValue("https://img.freepik.com/free-vector/stylish-hexagonal-line-pattern-background_1017-19742.jpg");
+    }
+
     if (formulaName === 'banner') {
       if ('banner' in this._frontmatter) {
         return aValue(this._frontmatter.banner);
