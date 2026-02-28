@@ -29,6 +29,7 @@ import {
   WithHoverOverlay,
   WithIcon,
   WithImage,
+  WithInferPropertiesFromLinkedNotes,
   WithMarkdownContent,
   WithNotebookShape,
   WithOverlayLayout,
@@ -45,8 +46,6 @@ import {
   WithTiltedActiveEffect,
   WithUngroupedItemsInline,
   WithVerticalLayout,
-  WithStaticBackground,
-  WithInferPropertiesFromLinkedNotes,
 } from "@/__fixtures__/facets/configs";
 import { FACETS_CONFIG_DEFAULTS } from "@/components/Facets/config";
 import { FACETS_CONFIG_ARG_TYPES } from "@/components/Facets/config/stories.argTypes";
@@ -140,7 +139,6 @@ export const FullExample: FacetCardsViewStory = {
     ...WithCustomContentFont,
     ...WithCustomBadgeFont,
     ...WithTiltedActiveEffect,
-    ...WithStaticBackground,
     ...WithInferPropertiesFromLinkedNotes,
     groupedData: GROUPED_ENTRIES,
   },

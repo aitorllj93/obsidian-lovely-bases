@@ -12,6 +12,7 @@ import { PERSON_ENTRIES } from "./people";
 import { PHOTOS_ENTRIES } from "./photos";
 import { PLANS_ENTRIES } from "./plans";
 import { AUDIOS_ENTRIES } from "./audios";
+import { TASKS_ENTRIES } from "./tasks";
 
 export * from "./applications";
 export * from "./articles";
@@ -23,6 +24,7 @@ export * from "./occurrences";
 export * from "./people";
 export * from "./photos";
 export * from "./plans";
+export * from "./tasks";
 
 export const ALL_ENTRIES: BasesEntry[] = [
   ...GROUPS_ENTRIES,
@@ -35,6 +37,7 @@ export const ALL_ENTRIES: BasesEntry[] = [
   ...PERSON_ENTRIES,
   ...PLANS_ENTRIES,
   ...PHOTOS_ENTRIES,
+  ...TASKS_ENTRIES,
 ];
 
 export const GROUPED_ENTRIES: BasesEntryGroup[] = [

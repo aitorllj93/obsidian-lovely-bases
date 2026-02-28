@@ -83,6 +83,9 @@ export class MockBasesEntry implements BasesEntry {
       if ('rating' in this._frontmatter) {
         return aValue(this._frontmatter.rating);
       }
+      if ('status' in this._frontmatter) {
+        return aValue('');
+      }
     }
 
     if (formulaName === 'badgeIcon') {
@@ -96,6 +99,17 @@ export class MockBasesEntry implements BasesEntry {
       if ('rating' in this._frontmatter) {
         return aValue('star');
       }
+      if ('status' in this._frontmatter) {
+        const ICONS = {
+          open: 'circle-dashed',
+          'in-progress': 'loader-2',
+          done: 'check',
+          blocked: 'ban',
+          'wont-do': 'shield-ban',
+        };
+        const icon = ICONS[this._frontmatter.status as keyof typeof ICONS];
+        return icon ? aValue(icon) : null;
+      }
     }
 
     if (formulaName === 'badgeColor') {
@@ -108,6 +122,17 @@ export class MockBasesEntry implements BasesEntry {
       }
       if ('rating' in this._frontmatter) {
         return aValue('#F7D042');
+      }
+      if ('status' in this._frontmatter) {
+        const COLORS = {
+          open: '#205FA6',
+          'in-progress': '#BC5215',
+          done: '#67800B',
+          blocked: '#5D409D',
+          'wont-do': '#AF3029',
+        };
+        const color = COLORS[this._frontmatter.status as keyof typeof COLORS];
+        return color ? aValue(color) : null;
       }
     }
 

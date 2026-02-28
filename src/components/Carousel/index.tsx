@@ -45,11 +45,7 @@ const PureCarousel = forwardRef<HTMLDivElement, Props>(
         <div
           // biome-ignore lint/a11y/noAutofocus: navigation
           autoFocus
-          className={
-            cn(
-              "h-full max-h-screen w-full overflow-auto"
-            )
-          }
+          className="h-full max-h-screen w-full overflow-auto"
           style={style}
           ref={ref}
           // biome-ignore lint/a11y/noNoninteractiveTabindex: virtual scrollable

@@ -58,12 +58,13 @@ const preview: Preview = {
           'About the Docs',
           'Views',
           [
-            'Project Folders',
             'Facet Cards',
             'Carousel',
+            'Kanban',
             'Infinite Gallery',
             'Heatmap Calendar',
             'Linear Calendar',
+            'Project Folders',
           ],
           'Design System'
         ],

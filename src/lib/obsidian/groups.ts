@@ -2,7 +2,7 @@ import { type BasesEntry, BasesEntryGroup, StringValue } from "obsidian";
 
 import type { FacetsConfig } from "@/components/Facets/config";
 
-import { parseWikilink } from "./link";
+import { isWikiLinkOrEmbed, parseWikilink } from "../properties";
 
 type GroupedGridData = BasesEntryGroup|BasesEntry;
 
@@ -26,6 +26,7 @@ export function getGroupedData(
 
     for (const key of keys) {
       const isEmpty = key === "null";
+      const keyIsWikilink = isWikiLinkOrEmbed(key);
 
       if (isEmpty && groupUngroupedItemsDisplay === 'hidden') continue;
 
@@ -34,10 +35,12 @@ export function getGroupedData(
         continue;
       }
 
-      const title = isEmpty ? "" : parseWikilink(key);
-      const newKey = isEmpty ? "" : `[[${title}]]`;
+      const title = isEmpty ? "" : keyIsWikilink ? parseWikilink(key) : key;
+      const newKey = isEmpty ? "" : keyIsWikilink ? `[[${title}]]` : title;
 
-      let resultGroup: BasesEntryGroup | undefined = resultGroups.find((g) => 'key' in g && g.key?.toString() === newKey);
+      let resultGroup: BasesEntryGroup | undefined = resultGroups.find(
+        (g) => 'key' in g && g.key?.toString() === newKey
+      );
 
       if (!resultGroup) {
         resultGroup = new BasesEntryGroup();

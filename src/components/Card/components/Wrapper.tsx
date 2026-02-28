@@ -7,16 +7,22 @@ import {
   type FacetsConfig,
 } from "@/components/Facets/config";
 import { cn, isEven, isOdd } from "@/lib/utils";
-import { getContentBackgroundColor } from "../helpers/get-colors";
+import { getContentBackgroundColor, getContentBorderColor } from "../helpers/get-colors";
 
 const cardContentVariants = cva(
-  "relative shadow-md overflow-hidden transition-all hover:shadow-lg cursor-pointer border group box-border flex h-full",
+  "relative shadow-md overflow-hidden transition-all hover:shadow-lg cursor-pointer group box-border flex h-full",
   {
+    defaultVariants: {
+      shape: FACETS_CONFIG_DEFAULTS.cardShape,
+      layout: FACETS_CONFIG_DEFAULTS.cardLayout,
+      withBgColor: false,
+      adaptToSize: FACETS_CONFIG_DEFAULTS.cardAdaptToSize,
+    },
     variants: {
       layout: {
-        horizontal: "flex flex-row h-full bg-card border-border",
-        vertical: "flex flex-col h-full bg-card border-border",
-        overlay: "bg-card border-border",
+        horizontal: "flex flex-row h-full",
+        vertical: "flex flex-col h-full",
+        overlay: "",
         polaroid: "flex flex-col h-full",
       },
       shape: {
@@ -25,8 +31,8 @@ const cardContentVariants = cva(
         rounded: "rounded-[20%]",
       },
       withBgColor: {
-        true: "",
-        false: "",
+        true: "bg-card border border-border",
+        false: "border",
       },
       adaptToSize: {
         true: "",
@@ -53,13 +59,8 @@ const cardContentVariants = cva(
       },
       {
         layout: "polaroid",
-        withBgColor: true,
-        class: "bg-card border-card",
-      },
-      {
-        layout: "polaroid",
         adaptToSize: false,
-        class: "border-10 border-b-28",
+        class: "p-[10px] pb-[28px]",
       },
       {
         layout: "polaroid",
@@ -68,12 +69,6 @@ const cardContentVariants = cva(
           "@[0px]/lovely-card:border-4 @[0px]/lovely-card:border-b-10 @8xs/lovely-card:border-b-13 @7xs/lovely-card:border-b-15 @6xs/lovely-card:border-4 @6xs/lovely-card:border-b-16 @5xs/lovely-card:border-5 @5xs/lovely-card:border-b-17 @4xs/lovely-card:border-5 @4xs/lovely-card:border-b-18 @3xs/lovely-card:border-6 @3xs/lovely-card:border-b-20 @2xs/lovely-card:border-7 @2xs/lovely-card:border-b-22 @xs/lovely-card:border-8 @xs/lovely-card:border-b-24 @sm/lovely-card:border-10 @sm/lovely-card:border-b-28",
       },
     ],
-    defaultVariants: {
-      shape: FACETS_CONFIG_DEFAULTS.cardShape,
-      layout: FACETS_CONFIG_DEFAULTS.cardLayout,
-      withBgColor: false,
-      adaptToSize: FACETS_CONFIG_DEFAULTS.cardAdaptToSize,
-    },
   },
 );
 
@@ -134,14 +129,14 @@ const getContainerStyles = (
 const getContentStyles = (
   cardLayout: CardLayout,
   backgroundColor: string | undefined,
+  borderColor: string | undefined,
   width: string | number,
   height?: string | number,
 ): CSSProperties => ({
   width,
   ...(cardLayout === "overlay" && { height }),
-  ...(cardLayout === "polaroid"
-    ? { backgroundColor, borderColor: backgroundColor }
-    : undefined),
+  backgroundColor,
+  borderColor,
 });
 
 type Props = Pick<
@@ -177,6 +172,7 @@ const Wrapper = ({
   ...props
 }: Props) => {
   const backgroundColor = getContentBackgroundColor(accentColor, cardLayout);
+  const borderColor = getContentBorderColor(backgroundColor, cardLayout);
 
   const containerClasses = cardContainerVariants({
     cardLayout,
@@ -200,6 +196,7 @@ const Wrapper = ({
   const contentStyles = getContentStyles(
     cardLayout,
     backgroundColor,
+    borderColor,
     width,
     height,
   );

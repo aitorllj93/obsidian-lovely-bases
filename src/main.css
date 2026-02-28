@@ -76,41 +76,40 @@
 @plugin "@toolwind/corner-shape";
 
 :root {
+  /** ShadCN variables */
   --radius: var(--radius-m);
-
   --background: var(--background-primary);
   --foreground: var(--text-normal);
-
   --card: var(--bases-cards-background);
   --card-foreground: var(--text-normal);
   --popover: var(--background-secondary-alt);
   --popover-foreground: var(--text-normal);
-
   --primary: var(--interactive-accent);
   --primary-foreground: var(--text-on-accent);
-
   --secondary: var(--background-modifier-hover);
   --secondary-foreground: var(--text-normal);
-
   --muted: var(--color-base-20);
   --muted-foreground: var(--text-muted);
-
   --accent: var(--interactive-accent-hover);
   --accent-foreground: var(--text-on-accent);
-
   --destructive: var(--color-red);
   --destructive-foreground: var(--text-on-accent);
-
+  --success: var(--color-emerald-500);
+  --success-foreground: var(--color-emerald-900);
+  --info: var(--color-violet-500);
+  --info-foreground: var(--color-violet-900);
+  --warning: var(--color-yellow-500);
+  --warning-foreground: var(--color-yellow-900);
+  --invert: var(--color-zinc-900);
+  --invert-foreground: var(--color-zinc-50);
   --border: var(--background-modifier-border);
   --input: var(--background-modifier-border);
   --ring: var(--interactive-accent);
-
   --chart-1: oklch(from var(--primary) clamp(0, calc(l + 0.18), 1) calc(c * 0.55) h);
   --chart-2: oklch(from var(--primary) clamp(0, calc(l + 0.08), 1) calc(c * 0.80) h);
   --chart-3: oklch(from var(--primary) clamp(0, calc(l + 0.00), 1) calc(c * 1.00) h);
   --chart-4: oklch(from var(--primary) clamp(0, calc(l - 0.10), 1) calc(c * 0.95) h);
   --chart-5: oklch(from var(--primary) clamp(0, calc(l - 0.20), 1) calc(c * 0.85) h);
-
   --sidebar: var(--background-secondary);
   --sidebar-foreground: var(--text-normal);
   --sidebar-primary: var(--interactive-accent);
@@ -148,7 +147,6 @@
   --text-2xs--line-height: 1.25;
 
   /** ShadCN variables */
-	--radius: var(--radius);
 	--color-background: var(--background);
 	--color-background-secondary: var(--background-secondary);
 	--color-foreground: var(--foreground);
@@ -166,6 +164,14 @@
 	--color-accent-foreground: var(--accent-foreground);
 	--color-destructive: var(--destructive);
 	--color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-invert: var(--invert);
+  --color-invert-foreground: var(--invert-foreground);
 	--color-border: var(--border);
 	--color-input: var(--input);
 	--color-ring: var(--ring);
@@ -174,6 +180,11 @@
 	--color-chart-3: var(--chart-3);
 	--color-chart-4: var(--chart-4);
 	--color-chart-5: var(--chart-5);
+	--radius: var(--radius);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 	--color-sidebar: var(--sidebar);
 	--color-sidebar-foreground: var(--sidebar-foreground);
 	--color-sidebar-primary: var(--sidebar-primary);
@@ -225,6 +236,17 @@
 
 @utility card-skeleton-adaptable {
   @apply @[0px]/lovely-card:[&>div]:h-2.5 @[0px]/lovely-card:gap-0.25;
+}
+
+@utility writing-vertical {
+  writing-mode: vertical-rl;
+  & sub {
+    bottom: "0";
+    right: "0.25em";
+  }
+}
+@utility writing-horizontal {
+  writing-mode: horizontal-tb;
 }
 
 /**

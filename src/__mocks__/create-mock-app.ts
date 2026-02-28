@@ -1,5 +1,5 @@
 
-import type { App, TFile } from "obsidian"
+import type { App, BasesEntry, TFile } from "obsidian"
 
 import { ALL_ENTRIES } from "@/__fixtures__/entries";
 
@@ -13,11 +13,26 @@ const DEFAULT_MOCK_APP_PARAMS: MockAppParams = {
   markdown: true,
 }
 
+type AppEventHandlers = {
+  entryFrontMatterChanged?: (entry: BasesEntry) => void;
+}
+
 export const createMockApp = (
   params: MockAppParams = DEFAULT_MOCK_APP_PARAMS,
   overrides?: Partial<App>,
+  handlers?: AppEventHandlers,
 ): App => {
   return {
+    fileManager: {
+      processFrontMatter: (file: TFile, processor: (fm) => void) => {
+        const entry = ALL_ENTRIES.find(entry => entry.file.path === file.path);
+        if (entry) {
+          // biome-ignore lint/suspicious/noExplicitAny: mock
+          processor((entry as any)._frontmatter);
+          handlers?.entryFrontMatterChanged?.(entry);
+        }
+      }
+    },
     metadataCache: {
 			getFirstLinkpathDest: (linkpath: string, _: string) => {
         const entry = ALL_ENTRIES.find(entry => entry.file.basename === linkpath);
@@ -25,8 +40,8 @@ export const createMockApp = (
           return entry.file;
         }
 			},
-			getFileCache: (_file: TFile) => {
-        const entry = ALL_ENTRIES.find(entry => entry.file.path === _file.path);
+			getFileCache: (file: TFile) => {
+        const entry = ALL_ENTRIES.find(entry => entry.file.path === file.path);
         if (entry) {
           return {
             // biome-ignore lint/suspicious/noExplicitAny: Entry doesn't have a frontmatter property

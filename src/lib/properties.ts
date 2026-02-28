@@ -26,6 +26,23 @@ export const getProperty = (entry: BasesEntry, config: BasesViewConfig, property
   }
 }
 
+export async function setProperty<T = unknown>(
+  app: App,
+  entry: BasesEntry,
+  fieldName: string,
+  value: T
+) {
+  const file: TFile = entry.file;
+
+  await app.fileManager.processFrontMatter(file, (fm) => {
+    if (value === null || value === undefined || value === "") {
+      delete fm[fieldName];
+    } else {
+      fm[fieldName] = value;
+    }
+  });
+}
+
 export const isObsidianEmbed = (raw: string): boolean =>
   raw.startsWith("![[") && raw.endsWith("]]");
 

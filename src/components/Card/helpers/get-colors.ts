@@ -51,6 +51,18 @@ export const getContentBackgroundColor = (
     lighten(accentColor, 0.2);
 }
 
+export const getContentBorderColor = (
+  accentColor: string | undefined,
+  cardLayout: CardLayout
+): string | undefined => {
+  if (cardLayout === 'overlay') return 'transparent';
+  if (!accentColor) return undefined;
+
+  return luminance(accentColor) > 0.5 ?
+    darken(accentColor, 0.1) :
+    lighten(accentColor, 0.1)
+}
+
 export const getContentMutedColor = (
   accentColor: string | undefined,
   cardLayout: CardLayout

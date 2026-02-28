@@ -6,30 +6,29 @@ import {
   ARTICLE_ENTRIES,
   BOOK_ENTRIES,
   MOVIES_ENTRIES,
-  MOVIES_ENTRIES_GROUPED,
   PERSON_ENTRIES,
   PHOTOS_ENTRIES,
+  TASK_ENTRIES_GROUPED,
 } from "@/__fixtures__/entries";
 
 import {
   With3x2Ratio,
   With4x5Ratio,
-  With16x9ActiveRatio,
   WithBadge,
   WithBadgeColor,
   WithBadgeIcon,
   WithCircleShape,
+  WithColor,
   WithContentReversed,
   WithGroupSubtitle,
   WithGroupTitle,
   WithHorizontalLayout,
   WithHover,
   WithHoverOverlay,
+  WithIcon,
   WithImage,
   WithInferPropertiesFromFirstItem,
-  WithLayoutContent,
   WithMarkdownContent,
-  WithNoActiveEffect,
   WithOverlayLayout,
   WithoutGap,
   WithoutPropertyTitles,
@@ -40,8 +39,8 @@ import {
   WithSize3XS,
   WithSize3XSAndSpacing,
   WithSquareImage,
+  WithStaticBackground,
   WithVerticalLayout,
-  WithVideo,
 } from "@/__fixtures__/facets/configs";
 import { FACETS_CONFIG_DEFAULTS } from "@/components/Facets/config";
 import { FACETS_CONFIG_ARG_TYPES } from "@/components/Facets/config/stories.argTypes";
@@ -52,22 +51,22 @@ import {
   ViewWrapper,
 } from "@/stories/decorators";
 
-import CAROUSEL_VIEW from ".";
+import KANBAN_VIEW from ".";
 
-import CarouselView, { type CarouselConfig } from "./CarouselView";
+import KanbanView, { type KanbanConfig } from "./KanbanView";
 
-const View = createViewRenderer<CarouselConfig>(CarouselView);
+const View = createViewRenderer<KanbanConfig>(KanbanView);
 
 const meta = {
-  title: "Views/Carousel",
+  title: "Views/Kanban",
   component: View,
   tags: ["autodocs", "status:ready"],
   decorators: [ViewWrapper, Providers],
   parameters: {
     layout: "fullscreen",
     docs: {
-      def: CAROUSEL_VIEW,
-      icon: CAROUSEL_VIEW.icon,
+      def: KANBAN_VIEW,
+      icon: KANBAN_VIEW.icon,
       subtitle:
         "A dynamic, horizontal scrolling experience that showcases your notes in a continuous flow. Perfect for highlight reels, featured notes, or visual storytelling.",
       description: {
@@ -122,21 +121,26 @@ type Story = StoryObj<typeof meta>;
 
 export const FullExample: Story = {
   args: {
-    groupedData: MOVIES_ENTRIES_GROUPED,
-    ...WithSize3XS,
-    ...WithVideo,
-    ...With3x2Ratio,
-    ...WithOverlayLayout,
+    // groupedData: ARTICLE_ENTRIES,
+    groupedData: TASK_ENTRIES_GROUPED,
+    ...WithSize2XS,
+    ...WithImage,
+    ...With4x5Ratio,
+    ...WithHorizontalLayout,
+    ...WithContentReversed,
+    ...WithoutPropertyTitles,
+    ...WithMarkdownContent,
     ...WithBadge,
     ...WithBadgeColor,
     ...WithBadgeIcon,
-    ...WithoutPropertyTitles,
-    ...WithGroupTitle,
+    ...WithHover,
+    ...WithHoverOverlay,
+    ...WithStaticBackground,
+    // ...WithInferPropertiesFromLinkedNotes,
     ...WithInferPropertiesFromFirstItem,
-    ...With16x9ActiveRatio,
-    ...WithLayoutContent,
-    ...WithMarkdownContent,
-    ...WithNoActiveEffect,
+    ...WithGroupTitle,
+    ...WithIcon,
+    ...WithColor,
   },
 };
 

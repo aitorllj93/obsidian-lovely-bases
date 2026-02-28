@@ -42,7 +42,7 @@ export const getContainerData = (
   const isLink = isWikiLink(key);
   const title = isLink ? parseWikilink(key) : key;
 
-  if (!isLink || facetsConfig.groupInferPropertiesFrom === 'none') {
+  if (facetsConfig.groupInferPropertiesFrom === 'none') {
     return {
       color: fallback?.color ?? accent(containerEl),
       title,
@@ -60,6 +60,13 @@ export const getContainerData = (
         icon: getPropertyValue(item, facetsConfig.iconProperty) ?? fallback?.icon ?? undefined,
       };
     }
+  }
+
+  if (!isLink) {
+    return {
+      color: fallback?.color ?? accent(containerEl),
+      title,
+    };
   }
 
   const file = app.metadataCache.getFirstLinkpathDest(
