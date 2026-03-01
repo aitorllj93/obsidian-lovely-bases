@@ -12,11 +12,20 @@ export const groupBy = (array: BasesEntry[], key: BasesPropertyId): Record<strin
   }, {} as Record<string, BasesEntry[]>);
 };
 
+const statusOrder = ['open', 'in-progress', 'blocked', 'done', 'wont-do'];
+
 export const toBasesEntryGroups = (array: BasesEntry[], key: BasesPropertyId): BasesEntryGroup[] => {
   return Object.entries(groupBy(array, key))
     .map(([key, entries]) => aBasesEntryGroup(key, entries as BasesEntry[]))
-    .sort((a, b) =>
-      Number.parseInt(a.key?.toString() ?? '0', 10) -
-      Number.parseInt(b.key?.toString() ?? '0', 10)
-    );
+    .sort((a, b) => {
+      const aKey = a.key?.toString() as string;
+      const bKey = b.key?.toString() as string;
+
+      if (key === 'note.status') {
+        return statusOrder.indexOf(aKey) - statusOrder.indexOf(bKey);
+      }
+
+      return Number.parseInt(aKey ?? '0', 10) -
+        Number.parseInt(bKey ?? '0', 10)
+    });
 }

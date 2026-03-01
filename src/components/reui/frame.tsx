@@ -3,9 +3,13 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const frameVariants = cva(
-  "relative flex flex-col gap-0.75 p-0.75 rounded-(--frame-radius) [--frame-radius:var(--radius-lg)]",
+  "relative flex gap-0.75 p-0.75 rounded-(--frame-radius) [--frame-radius:var(--radius-lg)]",
   {
     variants: {
+      direction: {
+        row: "flex-row",
+        column: "flex-col"
+      },
       variant: {
         default: "border border-border/50 bg-muted/40 bg-clip-padding",
         inverse: "border border-border/60 bg-background bg-clip-padding [&_[data-slot=frame-panel]]:bg-muted/40 [&_[data-slot=frame-panel]]:border-border/60",
@@ -37,6 +41,7 @@ const frameVariants = cva(
       },
     },
     defaultVariants: {
+      direction: "column",
       variant: "default",
       spacing: "default",
       stacked: false,
@@ -47,6 +52,7 @@ const frameVariants = cva(
 
 function Frame({
   className,
+  direction,
   variant,
   spacing,
   stacked,
@@ -56,7 +62,7 @@ function Frame({
   return (
     <div
       className={cn(
-        frameVariants({ variant, spacing, stacked, dense }),
+        frameVariants({ direction, variant, spacing, stacked, dense }),
         className
       )}
       data-slot="frame"

@@ -245,6 +245,13 @@
     right: "0.25em";
   }
 }
+@utility writing-sideways {
+  writing-mode: sideways-lr;
+  & sub {
+    bottom: "0";
+    right: "0.25em";
+  }
+}
 @utility writing-horizontal {
   writing-mode: horizontal-tb;
 }

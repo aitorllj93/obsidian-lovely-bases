@@ -9,19 +9,26 @@ import {
 } from "@/components/reui/kanban";
 
 import type { GroupBy } from "@/lib/obsidian/groups";
+import { cn } from "@/lib/utils";
 
 import Background from "../Background";
 import Column from "./components/Column";
-import { useKanban } from "./hooks/use-kanban";
 import Item from "./components/Item";
+import { useKanban } from "./hooks/use-kanban";
 
 type Props = {
   config: BasesViewConfig;
   data: BasesEntryGroup[];
+  direction: 'column' | 'row';
   facetsConfig: FacetsConfig;
 };
 
-function Kanban({ config, data, facetsConfig }: Props) {
+function Kanban({
+  config,
+  data,
+  direction = 'column',
+  facetsConfig
+}: Props) {
   const { columns, handleValueChange } = useKanban(
     data,
     (config as { groupBy?: GroupBy }).groupBy?.property,
@@ -45,7 +52,10 @@ function Kanban({ config, data, facetsConfig }: Props) {
         }}
       >
         <KanbanBoard
-          className="focus-visible:outline-none items-start"
+          className={cn(
+            "focus-visible:outline-none items-start",
+            direction === 'column' ? 'flex-row' : 'flex-col',
+          )}
           style={{
             gap: facetsConfig.layoutGap,
           }}
@@ -54,6 +64,7 @@ function Kanban({ config, data, facetsConfig }: Props) {
             <Column
               key={columnId}
               config={config}
+              direction={direction}
               facetsConfig={facetsConfig}
               data={data}
               columnId={columnId}
@@ -66,6 +77,7 @@ function Kanban({ config, data, facetsConfig }: Props) {
               const data = columns[value] ?? []
               return (
                 <Column
+                  direction={direction}
                   key={value}
                   config={config}
                   facetsConfig={facetsConfig}
