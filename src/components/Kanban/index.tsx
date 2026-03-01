@@ -19,19 +19,22 @@ import { useKanban } from "./hooks/use-kanban";
 type Props = {
   config: BasesViewConfig;
   data: BasesEntryGroup[];
-  direction: 'column' | 'row';
   facetsConfig: FacetsConfig;
 };
 
 function Kanban({
   config,
   data,
-  direction = 'column',
   facetsConfig
 }: Props) {
-  const { columns, handleValueChange } = useKanban(
+  const {
+    columns,
+    direction,
+    handleValueChange
+  } = useKanban(
     data,
     (config as { groupBy?: GroupBy }).groupBy?.property,
+    facetsConfig.groupLayoutDirection,
   );
 
   return (

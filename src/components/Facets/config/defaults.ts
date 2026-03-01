@@ -29,6 +29,7 @@ export const BACKGROUND_CONFIG_DEFAULTS: BackgroundConfig = {
 
 export const GROUPS_CONFIG_DEFAULTS: GroupsConfig = {
   groupLayout: "sections",
+  groupLayoutDirection: "vertical",
   groupShape: "folder",
   groupUngroupedItemsDisplay: "group",
   groupInferPropertiesFrom: "none",

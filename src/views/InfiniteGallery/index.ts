@@ -1,4 +1,4 @@
-import { FACETS_CONFIG_VIEW_OPTIONS } from "@/components/Facets/config";
+import { facetsConfigViewOptionsForLayouts } from "@/components/Facets/config";
 import {
   detectLocale,
   type NamespacedTranslationKey,
@@ -6,14 +6,13 @@ import {
 } from "@/lib/i18n";
 import { ReactBasesView } from "@/lib/view-class";
 import type { BaseViewDef } from "@/types";
+import { INFINITE_GALLERY_ID } from "@/views/constants";
 
 import InfiniteGalleryView from "./InfiniteGalleryView";
 
 const locale = detectLocale();
 const t = (key: NamespacedTranslationKey<"infiniteGallery">) =>
   translate(locale, "infiniteGallery", key);
-
-const INFINITE_GALLERY_ID = "infinite-gallery";
 
 const INFINITE_GALLERY_VIEW: BaseViewDef = {
   id: INFINITE_GALLERY_ID,
@@ -39,7 +38,11 @@ const INFINITE_GALLERY_VIEW: BaseViewDef = {
         },
       ],
     },
-    ...FACETS_CONFIG_VIEW_OPTIONS,
+    ...facetsConfigViewOptionsForLayouts(
+      ['grid'],
+      'grid',
+      INFINITE_GALLERY_ID
+    ),
   ],
 };
 

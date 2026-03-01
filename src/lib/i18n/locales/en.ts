@@ -43,6 +43,11 @@ export const en = {
         sections: "Sections",
         grid: "Grid",
       },
+      direction: {
+        title: "Direction",
+        horizontal: "Horizontal",
+        vertical: "Vertical",
+      },
       shape: {
         title: "Shape",
         folder: "Folder",

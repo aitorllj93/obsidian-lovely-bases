@@ -2,6 +2,7 @@
 import type { BasesEntry, BasesEntryGroup, BasesPropertyId } from "obsidian";
 import { useState } from "react";
 
+import type { GroupLayoutDirection } from "@/components/Facets/config";
 import { useObsidian } from "@/components/Obsidian/Context";
 import type { KanbanMoveEvent } from "@/components/reui/kanban";
 import { setProperty } from "@/lib/properties";
@@ -9,6 +10,7 @@ import { setProperty } from "@/lib/properties";
 export const useKanban = (
   data: BasesEntryGroup[],
   groupByProperty?: BasesPropertyId,
+  groupLayoutDirection?: GroupLayoutDirection,
 ) => {
   const { app } = useObsidian();
   const [columns, setColumns] = useState<Record<string, BasesEntry[]>>(data.reduce(
@@ -17,16 +19,10 @@ export const useKanban = (
         [cur.key?.toString() ?? ''] : cur.entries
       }) : acc,
       {} as Record<string, BasesEntry[]>
-  ))
+  ));
 
-  const onMove = (evt: KanbanMoveEvent) => {
-    if (!groupByProperty) return;
-
-    const entry = columns[evt.activeContainer][evt.activeIndex];
-    const targetContainer = evt.overContainer;
-
-    setProperty(app, entry, groupByProperty, targetContainer);
-  }
+  const direction: 'column' | 'row' = groupLayoutDirection === 'vertical' ?
+    'column' : 'row';
 
   const handleValueChange = (columns: Record<string, BasesEntry[]>, evt: KanbanMoveEvent) => {
     setColumns(columns);
@@ -45,7 +41,7 @@ export const useKanban = (
 
   return {
     columns,
-    onMove,
+    direction,
     handleValueChange,
   }
 }

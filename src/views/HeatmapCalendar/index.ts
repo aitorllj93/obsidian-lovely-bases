@@ -1,11 +1,10 @@
 
 import { ReactBasesView } from "@/lib/view-class";
 import type { BaseViewDef } from "@/types";
+import { HEATMAP_CALENDAR_ID } from "@/views/constants";
 
 import { HEATMAP_CALENDAR_OPTIONS } from "./constants";
 import HeatmapCalendarView from "./HeatmapCalendarView";
-
-const HEATMAP_CALENDAR_ID = "heatmap-calendar";
 
 const HEATMAP_CALENDAR_VIEW: BaseViewDef = {
   id: HEATMAP_CALENDAR_ID,

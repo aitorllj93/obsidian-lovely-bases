@@ -160,7 +160,7 @@ const ExpandedView = ({
               {showGrid && (
                 <VirtualGrid
                   facetsConfig={facetsConfig}
-                  className="contain-strict m-(--size-4-3)"
+                  className="contain-strict m-(--size-4-3) h-full"
                   config={config}
                   items={entries}
                   minItemWidth={facetsConfig.layoutItemSize}

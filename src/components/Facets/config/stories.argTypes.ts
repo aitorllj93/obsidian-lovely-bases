@@ -182,6 +182,27 @@ export const GROUPS_CONFIG_ARG_TYPES: ArgTypes<GroupsConfig> = {
       }
     }
   },
+  groupLayoutDirection: {
+    control: {
+      type: "select",
+      labels: {
+        horizontal: t("groups.direction.horizontal"),
+        notebook: t("groups.direction.vertical"),
+      }
+    },
+    name: t("groups.direction.title"),
+    description: "Direction",
+    options: [
+      "horizontal",
+      "vertical",
+    ],
+    table: {
+      category: t("groups.title"),
+      defaultValue: {
+        summary: GROUPS_CONFIG_DEFAULTS.groupLayoutDirection.toString(),
+      }
+    }
+  },
   groupShape: {
     control: {
       type: "select",

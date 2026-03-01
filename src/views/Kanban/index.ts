@@ -1,10 +1,9 @@
-import { FACETS_CONFIG_VIEW_OPTIONS } from "@/components/Facets/config";
+import { facetsConfigViewOptionsForLayouts } from "@/components/Facets/config";
 import { ReactBasesView } from "@/lib/view-class";
 import type { BaseViewDef } from "@/types";
+import { KANBAN_ID } from "@/views/constants";
 
 import KanbanView from "./KanbanView";
-
-const KANBAN_ID = "kanban";
 
 const KANBAN_VIEW: BaseViewDef = {
 	id: KANBAN_ID,
@@ -13,7 +12,11 @@ const KANBAN_VIEW: BaseViewDef = {
 	factory: (controller, containerEl) =>
 		new ReactBasesView(KANBAN_ID, KanbanView, controller, containerEl),
 	options: () => [
-    ...FACETS_CONFIG_VIEW_OPTIONS,
+    ...facetsConfigViewOptionsForLayouts(
+      ['sections'],
+      'sections',
+      KANBAN_ID
+    ),
   ]
 };
 

@@ -4,6 +4,11 @@ export const WithSectionsLayout: GroupsConfigInput = {
   groupLayout: "sections",
 }
 
+export const WithHorizontalSectionsLayout: GroupsConfigInput = {
+  groupLayout: "sections",
+  groupLayoutDirection: "horizontal"
+}
+
 export const WithGridLayout: GroupsConfigInput = {
   groupLayout: "grid",
 }

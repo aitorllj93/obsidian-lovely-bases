@@ -1,8 +1,10 @@
 import type { ViewOption } from "obsidian";
 
 import { detectLocale, type NamespacedTranslationKey, translate } from "@/lib/i18n";
+import { KANBAN_ID, type LovelyViewId } from "@/views/constants";
 
 import { ACTIONS_CONFIG_DEFAULTS, ACTIVE_CONFIG_DEFAULTS, BACKGROUND_CONFIG_DEFAULTS, BADGES_CONFIG_DEFAULTS, CARDS_CONFIG_DEFAULTS, COLORS_CONFIG_DEFAULTS, CONTENTS_CONFIG_DEFAULTS, GROUPS_CONFIG_DEFAULTS, ICONS_CONFIG_DEFAULTS, LAYOUT_CONFIG_DEFAULTS, MEDIA_CONFIG_DEFAULTS, TITLES_CONFIG_DEFAULTS } from "./defaults";
+import { GROUP_LAYOUTS, type GroupLayout } from "./types";
 
 const locale = detectLocale();
 const t = (key: NamespacedTranslationKey<'facets'>) => translate(locale, 'facets', key);
@@ -93,59 +95,79 @@ export const BACKGROUND_CONFIG_VIEW_OPTIONS: ViewOption[] = [
   }
 ]
 
-export const GROUPS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
-  {
-    type: "group",
-    displayName: t('groups.title'),
-    items: [
-      {
-        key: "groupLayout",
-        default: GROUPS_CONFIG_DEFAULTS.groupLayout,
-        type: "dropdown",
-        displayName: t('groups.layout.title'),
-        options: {
-          sections: t('groups.layout.sections'),
-          grid: t('groups.layout.grid'),
-        }
-      },
-      {
-        key: "groupShape",
-        default: GROUPS_CONFIG_DEFAULTS.groupShape,
-        shouldHide: (config) => config.get("groupLayout") === "sections",
-        type: "dropdown",
-        displayName: t('groups.shape.title'),
-        options: {
-          folder: t('groups.shape.folder'),
-          grid: t('groups.shape.notebook'),
-        }
-      },
-      {
-        key: "groupUngroupedItemsDisplay",
-        default: GROUPS_CONFIG_DEFAULTS.groupUngroupedItemsDisplay,
-        shouldHide: (config) => config.get("groupLayout") === "sections",
-        type: "dropdown",
-        displayName: t('groups.ungroupedItemsDisplay.title'),
-        options: {
-          group: t('groups.ungroupedItemsDisplay.group'),
-          inline: t('groups.ungroupedItemsDisplay.inline'),
-          hidden: t('groups.ungroupedItemsDisplay.hidden'),
-        }
-      },
-      {
-        key: "groupInferPropertiesFrom",
-        default: GROUPS_CONFIG_DEFAULTS.groupInferPropertiesFrom,
-        shouldHide: (config) => config.get("groupLayout") === "sections",
-        type: "dropdown",
-        displayName: t('groups.inferPropertiesFrom.title'),
-        options: {
-          none: t('groups.inferPropertiesFrom.none'),
-          "first-item": t('groups.inferPropertiesFrom.first-item'),
-          "linked-note": t('groups.inferPropertiesFrom.linked-note')
-        }
+export const groupsConfigViewOptionsForLayouts = (
+  groupLayouts: readonly GroupLayout[] = GROUP_LAYOUTS,
+  defaultLayout: GroupLayout = GROUPS_CONFIG_DEFAULTS.groupLayout,
+  viewId?: LovelyViewId,
+): ViewOption[] => ([{
+  type: "group",
+  displayName: t('groups.title'),
+  items: [
+    {
+      key: "groupLayout",
+      default: defaultLayout,
+      type: "dropdown",
+      displayName: t('groups.layout.title'),
+      options: groupLayouts.reduce(
+        (acc, layout) => Object.assign(acc, {
+          [layout]: t(`groups.layout.${layout}`)
+        }),
+        {}
+      ),
+      shouldHide: groupLayouts.length <= 1 ?
+        () => true :
+        undefined,
+    },
+    {
+      key: "groupLayoutDirection",
+      default: GROUPS_CONFIG_DEFAULTS.groupLayoutDirection,
+      shouldHide: (config) =>
+        config.get("groupLayout") !== "sections" && viewId !== KANBAN_ID,
+      type: "dropdown",
+      displayName: t('groups.direction.title'),
+      options: {
+        horizontal: t('groups.direction.horizontal'),
+        vertical: t('groups.direction.vertical'),
       }
-    ]
-  }
-];
+    },
+    {
+      key: "groupShape",
+      default: GROUPS_CONFIG_DEFAULTS.groupShape,
+      shouldHide: (config) => config.get("groupLayout") !== "grid",
+      type: "dropdown",
+      displayName: t('groups.shape.title'),
+      options: {
+        folder: t('groups.shape.folder'),
+        grid: t('groups.shape.notebook'),
+      }
+    },
+    {
+      key: "groupUngroupedItemsDisplay",
+      default: GROUPS_CONFIG_DEFAULTS.groupUngroupedItemsDisplay,
+      shouldHide: (config) => config.get("groupLayout") !== "grid",
+      type: "dropdown",
+      displayName: t('groups.ungroupedItemsDisplay.title'),
+      options: {
+        group: t('groups.ungroupedItemsDisplay.group'),
+        inline: t('groups.ungroupedItemsDisplay.inline'),
+        hidden: t('groups.ungroupedItemsDisplay.hidden'),
+      }
+    },
+    {
+      key: "groupInferPropertiesFrom",
+      default: GROUPS_CONFIG_DEFAULTS.groupInferPropertiesFrom,
+      type: "dropdown",
+      displayName: t('groups.inferPropertiesFrom.title'),
+      options: {
+        none: t('groups.inferPropertiesFrom.none'),
+        "first-item": t('groups.inferPropertiesFrom.first-item'),
+        "linked-note": t('groups.inferPropertiesFrom.linked-note')
+      }
+    }
+  ]
+}]);
+
+export const GROUPS_CONFIG_VIEW_OPTIONS: ViewOption[] = groupsConfigViewOptionsForLayouts();
 
 export const CARDS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
   {
@@ -525,11 +547,19 @@ export const ACTIONS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
   }
 ];
 
-export const FACETS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
+export const facetsConfigViewOptionsForLayouts = (
+  groupLayouts: readonly GroupLayout[] = GROUP_LAYOUTS,
+  defaultLayout: GroupLayout = GROUPS_CONFIG_DEFAULTS.groupLayout,
+  viewId?: LovelyViewId,
+): ViewOption[] => ([
   ...LAYOUT_CONFIG_VIEW_OPTIONS,
   ...BACKGROUND_CONFIG_VIEW_OPTIONS,
-  ...GROUPS_CONFIG_VIEW_OPTIONS,
   ...CARDS_CONFIG_VIEW_OPTIONS,
+  ...groupsConfigViewOptionsForLayouts(
+    groupLayouts,
+    defaultLayout,
+    viewId,
+  ),
   ...TITLES_CONFIG_VIEW_OPTIONS,
   ...CONTENTS_CONFIG_VIEW_OPTIONS,
   ...MEDIA_CONFIG_VIEW_OPTIONS,
@@ -538,4 +568,6 @@ export const FACETS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
   ...BADGES_CONFIG_VIEW_OPTIONS,
   ...ACTIVE_CONFIG_VIEW_OPTIONS,
   ...ACTIONS_CONFIG_VIEW_OPTIONS,
-];
+]);
+
+export const FACETS_CONFIG_VIEW_OPTIONS: ViewOption[] = facetsConfigViewOptionsForLayouts();

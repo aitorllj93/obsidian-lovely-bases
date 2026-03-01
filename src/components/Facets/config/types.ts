@@ -20,13 +20,17 @@ export type BackgroundConfig = {
 }
 export type BackgroundConfigInput = Partial<BackgroundConfig>;
 
-export type GroupLayout = 'sections' | 'grid';
+export const GROUP_LAYOUTS = ['sections', 'grid'] as const;
+
+export type GroupLayout = typeof GROUP_LAYOUTS[number];
+export type GroupLayoutDirection = 'horizontal' | 'vertical';
 export type GroupShape = 'folder'  | 'notebook';
 export type UngroupedItemsDisplay = 'group' | 'inline' | 'hidden';
 export type GroupInferPropertiesFrom = 'none' | 'first-item' | 'linked-note';
 
 export type GroupsConfig = {
   groupLayout: GroupLayout;
+  groupLayoutDirection: GroupLayoutDirection;
   groupShape: GroupShape;
   groupUngroupedItemsDisplay: UngroupedItemsDisplay;
   groupInferPropertiesFrom: GroupInferPropertiesFrom;
