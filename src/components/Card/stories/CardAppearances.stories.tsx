@@ -7,6 +7,8 @@ import {
   WithColorAppliedToContent,
   WithColorAppliedToImage,
   WithEmptyImage,
+  WithGroupColor,
+  WithGroupIcon,
   WithIcon,
   WithoutBadge,
 } from "@/__fixtures__/facets/configs";
@@ -47,6 +49,7 @@ const meta = {
     ...WithoutBadge,
     ...WithEmptyImage,
     ...WithIcon,
+    ...WithGroupIcon,
     config: aBasesViewConfig(),
   },
   tags: ["internal"],
@@ -62,6 +65,7 @@ export const Colors: Story = {
   args: {
     ...WithColor,
     ...WithColorAppliedEverywhere,
+    ...WithGroupColor,
   },
 };
 
@@ -70,6 +74,7 @@ export const BackgroundColors: Story = {
   args: {
     ...WithColor,
     ...WithColorAppliedToImage,
+    ...WithGroupColor,
   },
 };
 
@@ -78,5 +83,6 @@ export const ContentColors: Story = {
   args: {
     ...WithColor,
     ...WithColorAppliedToContent,
+    ...WithGroupColor,
   },
 };

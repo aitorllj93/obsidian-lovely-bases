@@ -61,13 +61,83 @@ export class MockBasesEntry implements BasesEntry {
       }
     }
 
+    if (formulaName === 'groupIcon') {
+      if ('status' in this._frontmatter) {
+        const ICONS = {
+          open: 'circle-dashed',
+          'in-progress': 'loader-2',
+          done: 'check',
+          blocked: 'ban',
+          'wont-do': 'shield-ban',
+        };
+        const icon = ICONS[this._frontmatter.status as keyof typeof ICONS];
+        if (icon) {
+          return aValue(icon);
+        }
+      }
+      if ('groupIcon' in this._frontmatter) {
+        return aValue(this._frontmatter.groupIcon);
+      }
+      if ('icon' in this._frontmatter) {
+        return aValue(this._frontmatter.icon);
+      }
+    }
+
     if (formulaName === 'icon') {
+      if ('status' in this._frontmatter) {
+        const ICONS = {
+          open: 'circle-dashed',
+          'in-progress': 'loader-2',
+          done: 'check',
+          blocked: 'ban',
+          'wont-do': 'shield-ban',
+        };
+        const icon = ICONS[this._frontmatter.status as keyof typeof ICONS];
+        if (icon) {
+          return aValue(icon);
+        }
+      }
       if ('icon' in this._frontmatter) {
         return aValue(this._frontmatter.icon);
       }
     }
 
     if (formulaName === 'color') {
+      if ('status' in this._frontmatter) {
+        const COLORS = {
+          open: '#205FA6',
+          'in-progress': '#BC5215',
+          done: '#67800B',
+          blocked: '#5D409D',
+          'wont-do': '#AF3029',
+        };
+        const color = COLORS[this._frontmatter.status as keyof typeof COLORS];
+        if (color) {
+          return aValue(color);
+        }
+      }
+      if ('color' in this._frontmatter) {
+        return aValue(this._frontmatter.color);
+      }
+    }
+
+    if (formulaName === 'groupColor') {
+      if ('status' in this._frontmatter) {
+        const COLORS = {
+          open: '#205FA6',
+          'in-progress': '#BC5215',
+          done: '#67800B',
+          blocked: '#5D409D',
+          'wont-do': '#AF3029',
+        };
+        const color = COLORS[this._frontmatter.status as keyof typeof COLORS];
+        if (color) {
+          return aValue(color);
+        }
+      }
+      if ('groupColor' in this._frontmatter) {
+        return aValue(this._frontmatter.groupColor);
+      }
       if ('color' in this._frontmatter) {
         return aValue(this._frontmatter.color);
       }
@@ -143,6 +213,19 @@ export class MockBasesEntry implements BasesEntry {
     }
 
     if (formulaName === 'groupTitle') {
+      if ('status' in this._frontmatter) {
+        const GROUPS = {
+          open: 'Open',
+          'in-progress': 'In Progress',
+          done: 'Done',
+          blocked: 'Blocked',
+          'wont-do': "Won't Do",
+        };
+        const group = GROUPS[this._frontmatter.status as keyof typeof GROUPS];
+        if (group) {
+          return aValue(group);
+        }
+      }
       if ('sectionTitle' in this._frontmatter) {
         return aValue(this._frontmatter.sectionTitle)
       }

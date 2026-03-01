@@ -165,6 +165,9 @@ export const en = {
         content: "Content",
         both: "Both",
       },
+      groupsProperty: {
+        title: "Groups Property",
+      },
     },
     icons: {
       title: "Icons",
@@ -173,6 +176,9 @@ export const en = {
       },
       fileExtensionAsFallback: {
         title: "Fallback to File Extension Icons",
+      },
+      groupsProperty: {
+        title: "Groups Property",
       },
     },
     badges: {

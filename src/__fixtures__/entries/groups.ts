@@ -12,6 +12,8 @@ export const MY_NOTEBOOK: BasesEntry = aBasesEntry(
     title: "My Notebook",
     color: "#6F6E69",
     icon: "notebook",
+    groupColor: "#6F6E69",
+    groupIcon: "notebook",
   }
 );
 
@@ -25,6 +27,8 @@ export const MY_FOLDER: BasesEntry = aBasesEntry(
     title: "My Folder",
     color: "#6F6E69",
     icon: "folder",
+    groupColor: "#6F6E69",
+    groupIcon: "folder",
   }
 );
 
@@ -38,6 +42,8 @@ export const MY_BOOKS: BasesEntry = aBasesEntry(
     title: "Books",
     color: "#205ea6",
     icon: "library-big",
+    groupColor: "#205ea6",
+    groupIcon: "library-big",
   }
 );
 
@@ -51,6 +57,8 @@ export const MY_ARTICLES: BasesEntry = aBasesEntry(
     title: "Articles",
     color: "#24837b",
     icon: "newspaper",
+    groupColor: "#24837b",
+    groupIcon: "newspaper",
   }
 );
 
@@ -65,6 +73,8 @@ export const MY_MOVIES: BasesEntry = aBasesEntry(
     title: "Movies",
     color: "#af3029",
     icon: "film",
+    groupColor: "#af3029",
+    groupIcon: "film",
   }
 );
 
@@ -78,6 +88,8 @@ export const MY_PHOTOS: BasesEntry = aBasesEntry(
     title: "Photos",
     color: "#66800b",
     icon: "camera",
+    groupColor: "#66800b",
+    groupIcon: "camera",
   }
 );
 
@@ -91,6 +103,8 @@ export const MY_CONTACTS: BasesEntry = aBasesEntry(
     title: "Contacts",
     color: "#5e409d",
     icon: "user",
+    groupColor: "#5e409d",
+    groupIcon: "user",
   }
 );
 
@@ -104,6 +118,8 @@ export const MY_APPLICATIONS: BasesEntry = aBasesEntry(
     title: "Applications",
     color: "#ad8301",
     icon: "layers",
+    groupColor: "#ad8301",
+    groupIcon: "layers",
   }
 );
 

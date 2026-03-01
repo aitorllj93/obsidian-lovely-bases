@@ -15,3 +15,7 @@ export const WithColorAppliedToContent: ColorsConfigInput = {
 export const WithColorAppliedEverywhere: ColorsConfigInput = {
   colorApplyTo: "both"
 }
+
+export const WithGroupColor: ColorsConfigInput = {
+  groupColorProperty: "formula.groupColor",
+}

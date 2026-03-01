@@ -87,12 +87,14 @@ export type ColorApplyTo = 'image' | 'content' | 'both';
 export type ColorsConfig = {
   colorProperty?: BasesPropertyId;
   colorApplyTo: ColorApplyTo;
+  groupColorProperty?: BasesPropertyId;
 }
 export type ColorsConfigInput = Partial<ColorsConfig>;
 
 export type IconsConfig = {
   iconProperty?: BasesPropertyId;
   iconFileExtensionAsFallback: boolean;
+  groupIconProperty?: BasesPropertyId;
 }
 export type IconsConfigInput = Partial<IconsConfig>;
 

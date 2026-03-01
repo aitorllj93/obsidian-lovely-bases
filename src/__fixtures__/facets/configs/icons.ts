@@ -11,3 +11,7 @@ export const WithFileExtensionIcons: IconsConfigInput = {
 export const WithoutFileExtensionIcons: IconsConfigInput = {
   iconFileExtensionAsFallback: false,
 }
+
+export const WithGroupIcon: IconsConfigInput = {
+  groupIconProperty: "formula.groupIcon",
+}

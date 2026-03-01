@@ -7,6 +7,9 @@ import {
   WithBorderSolid,
   WithColor,
   WithGap5XS,
+  WithGridLayout,
+  WithGroupColor,
+  WithGroupIcon,
   WithIcon,
   WithImage,
   WithInnerCounter,
@@ -19,7 +22,6 @@ import {
   WithSize5XSAndSpacing,
   WithSquareImage,
   WithUngroupedItemsInline,
-  WithGridLayout,
 } from "@/__fixtures__/facets/configs";
 import { FACETS_CONFIG_DEFAULTS } from "@/components/Facets/config";
 import { FACETS_CONFIG_ARG_TYPES } from "@/components/Facets/config/stories.argTypes";
@@ -119,7 +121,9 @@ export const FullExample: Story = {
     ...WithInnerTitle,
     ...WithInnerCounter,
     ...WithColor,
+    ...WithGroupColor,
     ...WithIcon,
+    ...WithGroupIcon,
     ...WithBorderDashed,
     ...WithGap5XS,
   },
@@ -229,6 +233,7 @@ layoutItemBorder: solid
   args: {
     layoutItemSpacing: 50,
     ...WithIcon,
+    ...WithGroupIcon,
     ...WithBorderSolid,
     ...WithOuterTitle,
     ...WithOuterCounter,
@@ -251,6 +256,7 @@ groupUngroupedItemsDisplay: inline
   args: {
     layoutItemSpacing: 50,
     ...WithIcon,
+    ...WithGroupIcon,
     ...WithBorderSolid,
     ...WithOuterTitle,
     ...WithOuterCounter,

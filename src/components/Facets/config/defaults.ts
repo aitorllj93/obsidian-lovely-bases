@@ -69,11 +69,13 @@ export const MEDIA_CONFIG_DEFAULTS: MediaConfig = {
 export const COLORS_CONFIG_DEFAULTS: ColorsConfig = {
   colorProperty: undefined,
   colorApplyTo: "both",
+  groupColorProperty: undefined,
 };
 
 export const ICONS_CONFIG_DEFAULTS: IconsConfig = {
   iconProperty: undefined,
   iconFileExtensionAsFallback: true,
+  groupIconProperty: undefined,
 };
 
 export const BADGES_CONFIG_DEFAULTS: BadgesConfig = {

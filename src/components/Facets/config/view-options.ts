@@ -367,7 +367,13 @@ export const COLORS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
           content: t('colors.applyTo.content'),
           both: t('colors.applyTo.both'),
         }
-      }
+      },
+      {
+        key: "groupColorProperty",
+        default: COLORS_CONFIG_DEFAULTS.groupColorProperty,
+        type: "property",
+        displayName: t('colors.groupsProperty.title'),
+      },
     ]
   }
 ];
@@ -388,7 +394,13 @@ export const ICONS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
         default: ICONS_CONFIG_DEFAULTS.iconFileExtensionAsFallback,
         type: "toggle",
         displayName: t('icons.fileExtensionAsFallback.title'),
-      }
+      },
+      {
+        key: "groupIconProperty",
+        default: ICONS_CONFIG_DEFAULTS.groupIconProperty,
+        type: "property",
+        displayName: t('icons.groupsProperty.title'),
+      },
     ]
   }
 ];

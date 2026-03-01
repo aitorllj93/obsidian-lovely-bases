@@ -619,7 +619,22 @@ export const COLORS_CONFIG_ARG_TYPES: ArgTypes<ColorsConfig> = {
         summary: COLORS_CONFIG_DEFAULTS.colorApplyTo?.toString(),
       }
     }
-  }
+  },
+  groupColorProperty: {
+    control: { type: "text" },
+    name: t("colors.groupsProperty.title"),
+    description: "The property that contains the color to apply to the groups.",
+    table: {
+      category: t("colors.title"),
+      type: {
+        summary: "Property",
+        detail: "Hexadecimal Color",
+      },
+      defaultValue: {
+        summary: COLORS_CONFIG_DEFAULTS.groupColorProperty?.toString(),
+      }
+    }
+  },
 }
 
 export const ICONS_CONFIG_ARG_TYPES: ArgTypes<IconsConfig> = {
@@ -648,7 +663,22 @@ export const ICONS_CONFIG_ARG_TYPES: ArgTypes<IconsConfig> = {
         summary: ICONS_CONFIG_DEFAULTS.iconFileExtensionAsFallback.toString(),
       }
     }
-  }
+  },
+  groupIconProperty: {
+    control: { type: "text" },
+    name: t("icons.groupsProperty.title"),
+    description: "The property that contains the icon to display on the groups.",
+    table: {
+      category: t("icons.title"),
+      type: {
+        summary: "Property",
+        detail: "Lucide Icon https://lucide.dev/icons/",
+      },
+      defaultValue: {
+        summary: ICONS_CONFIG_DEFAULTS.groupIconProperty?.toString(),
+      }
+    }
+  },
 }
 
 export const BADGES_CONFIG_ARG_TYPES: ArgTypes<BadgesConfig> = {
@@ -734,9 +764,21 @@ export const BADGES_CONFIG_ARG_TYPES: ArgTypes<BadgesConfig> = {
 
 export const ACTIVE_CONFIG_ARG_TYPES: ArgTypes<ActiveConfig> = {
   activeEffect: {
-    control: { type: "select" },
+    control: {
+      type: "select",
+      labels: {
+        none: t("active.effect.none"),
+        tilted: t("active.effect.tilted"),
+        bordered: t("active.effect.bordered"),
+      }
+    },
     name: t("active.effect.title"),
     description: "The effect to display when the item is active/hovered",
+    options: [
+      "none",
+      "tilted",
+      "bordered",
+    ],
     table: {
       category: t("active.title"),
       defaultValue: {

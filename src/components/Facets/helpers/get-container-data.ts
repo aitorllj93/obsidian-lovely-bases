@@ -2,6 +2,7 @@ import { type App, TFile } from "obsidian";
 
 import { accent } from "@/lib/colors";
 import { getPropertyValue, getTitle } from "@/lib/obsidian/entry";
+import type { GroupBy } from "@/lib/obsidian/groups";
 import { isWikiLink, parseWikilink } from "@/lib/properties";
 
 import { isGroup, type Props } from "../types";
@@ -21,10 +22,8 @@ export const getContainerData = (
 ): ContainerData => {
   const { facetsConfig } = props;
   if (!isGroup(props)) {
-    const colorProperty = facetsConfig.colorProperty;
-
     return {
-      color: getPropertyValue(props.data, colorProperty) ?? fallback?.color ?? accent(containerEl),
+      color: getPropertyValue(props.data, facetsConfig.groupColorProperty) ?? fallback?.color ?? accent(containerEl),
       title: getTitle(props.data),
       file: props.data.file,
     };
@@ -50,14 +49,24 @@ export const getContainerData = (
   }
 
   if (facetsConfig.groupInferPropertiesFrom === 'first-item') {
-    const item = props.data.entries[0];
+    const groupByConfig = (props.config as { groupBy?: GroupBy }).groupBy;
+    const item = groupByConfig ?
+      (props.data.entries.find(entry => {
+        const keys = getPropertyValue(entry, groupByConfig.property)?.split(',');
+        return keys?.some(k =>
+          k === title || (isWikiLink(k) ?
+            parseWikilink(k) === title :
+            false),
+        )
+      }) ?? props.data.entries[0]) :
+      props.data.entries[0];
 
     if (item) {
       return {
-        color: getPropertyValue(item, facetsConfig.colorProperty) ?? fallback?.color ?? accent(containerEl),
+        color: getPropertyValue(item, facetsConfig.groupColorProperty) ?? fallback?.color ?? accent(containerEl),
         title: getPropertyValue(item, facetsConfig.groupTitleProperty) ?? key,
         file: item.file,
-        icon: getPropertyValue(item, facetsConfig.iconProperty) ?? fallback?.icon ?? undefined,
+        icon: getPropertyValue(item, facetsConfig.groupIconProperty) ?? fallback?.icon ?? undefined,
       };
     }
   }
@@ -81,8 +90,8 @@ export const getContainerData = (
     };
   }
 
-  const [, colorProperty] = facetsConfig.colorProperty?.split(".") ?? [];
-  const [, iconProperty] = facetsConfig.iconProperty?.split(".") ?? [];
+  const [, colorProperty] = facetsConfig.groupColorProperty?.split(".") ?? [];
+  const [, iconProperty] = facetsConfig.groupIconProperty?.split(".") ?? [];
 
   const frontmatter =
     app.metadataCache.getFileCache(file)?.frontmatter;

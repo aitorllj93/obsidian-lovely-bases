@@ -44,7 +44,7 @@ export const GROUPED_ENTRIES: BasesEntryGroup[] = [
   aBasesEntryGroup("[[Articles]]", ARTICLE_ENTRIES),
   aBasesEntryGroup("[[Movies]]", MOVIES_ENTRIES),
   aBasesEntryGroup("[[Books]]", BOOK_ENTRIES),
-  aBasesEntryGroup("[[People]]", PERSON_ENTRIES),
+  aBasesEntryGroup("[[Contacts]]", PERSON_ENTRIES),
   aBasesEntryGroup("[[Applications]]", APPLICATION_ENTRIES),
   aBasesEntryGroup("[[Photos]]", PHOTOS_ENTRIES),
   aBasesEntryGroup("null", PLANS_ENTRIES)
