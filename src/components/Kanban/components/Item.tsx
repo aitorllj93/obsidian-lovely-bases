@@ -9,6 +9,7 @@ type Props = {
   config: BasesViewConfig;
   data: BasesEntry;
   facetsConfig: FacetsConfig;
+  isOverlay?: boolean;
 };
 
 const Item = ({ config, data, facetsConfig }: Props) => {

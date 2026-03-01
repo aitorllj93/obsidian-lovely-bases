@@ -6,7 +6,7 @@ import { useFacetsConfig } from "@/components/Facets/hooks/use-facets-config";
 import { Container } from "@/components/Obsidian/Container";
 import VirtualGrid from "@/components/VirtualGrid";
 
-import { getGroupedData } from "@/lib/obsidian/groups";
+import { getGroupedData, type GroupBy } from "@/lib/obsidian/groups";
 
 import type { ReactBaseViewProps } from "@/types";
 
@@ -15,7 +15,7 @@ export type FacetCardsConfig = FacetsConfig;
 const FacetCardsView = ({ data, config, isEmbedded }: ReactBaseViewProps) => {
   const facetsConfig = useFacetsConfig(config);
   const { groupLayout, groupUngroupedItemsDisplay } = facetsConfig;
-  const groupBy = (config as { groupBy?: string }).groupBy;
+  const groupBy = (config as { groupBy?: GroupBy }).groupBy;
 
   const items = useMemo(() => {
     return groupBy === undefined

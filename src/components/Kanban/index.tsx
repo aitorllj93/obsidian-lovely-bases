@@ -8,9 +8,12 @@ import {
   Kanban as KanbanRoot,
 } from "@/components/reui/kanban";
 
+import type { GroupBy } from "@/lib/obsidian/groups";
+
 import Background from "../Background";
 import Column from "./components/Column";
 import { useKanban } from "./hooks/use-kanban";
+import Item from "./components/Item";
 
 type Props = {
   config: BasesViewConfig;
@@ -19,9 +22,9 @@ type Props = {
 };
 
 function Kanban({ config, data, facetsConfig }: Props) {
-  const { columns, onMove, setColumns } = useKanban(
+  const { columns, handleValueChange } = useKanban(
     data,
-    (config as { groupBy?: string }).groupBy,
+    (config as { groupBy?: GroupBy }).groupBy?.property,
   );
 
   return (
@@ -34,11 +37,11 @@ function Kanban({ config, data, facetsConfig }: Props) {
       />
       <KanbanRoot
         value={columns}
-        onValueChange={setColumns}
+        onValueChange={handleValueChange}
         getItemValue={(item) => item.file.path}
         className="h-full max-h-screen w-full overflow-auto"
         style={{
-          padding: facetsConfig.layoutGap
+          padding: facetsConfig.layoutGap,
         }}
       >
         <KanbanBoard
@@ -57,7 +60,39 @@ function Kanban({ config, data, facetsConfig }: Props) {
             />
           ))}
         </KanbanBoard>
-        <KanbanOverlay className="bg-muted/10 rounded-md border-2 border-dashed" />
+        <KanbanOverlay className="opacity-80">
+          {({ value, variant }) => {
+            if (variant === "column") {
+              const data = columns[value] ?? []
+              return (
+                <Column
+                  key={value}
+                  config={config}
+                  facetsConfig={facetsConfig}
+                  data={data}
+                  columnId={value as string}
+                  isOverlay
+                />
+              )
+            }
+
+            const entry = Object.values(columns)
+              .flat()
+              .find((entry) => entry.file.path === value);
+
+            if (!entry) return null
+
+            return (
+              <Item
+                key={entry.file.path?.toString()}
+                config={config}
+                data={entry}
+                facetsConfig={facetsConfig}
+                isOverlay
+              />
+            )
+          }}
+        </KanbanOverlay>
       </KanbanRoot>
     </div>
   );

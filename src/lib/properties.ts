@@ -29,16 +29,17 @@ export const getProperty = (entry: BasesEntry, config: BasesViewConfig, property
 export async function setProperty<T = unknown>(
   app: App,
   entry: BasesEntry,
-  fieldName: string,
+  fieldName: BasesPropertyId,
   value: T
 ) {
+  const [_, property] = fieldName.split('.');
   const file: TFile = entry.file;
 
   await app.fileManager.processFrontMatter(file, (fm) => {
     if (value === null || value === undefined || value === "") {
-      delete fm[fieldName];
+      delete fm[property];
     } else {
-      fm[fieldName] = value;
+      fm[property] = value;
     }
   });
 }

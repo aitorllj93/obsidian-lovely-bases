@@ -8,16 +8,18 @@ import INFINITE_GALLERY_VIEW from "@/views/InfiniteGallery";
 import LINEAR_CALENDAR_VIEW from "@/views/LinearCalendar";
 import PROJECT_FOLDERS_VIEW from "@/views/ProjectFolders";
 import RADAR_CHART_VIEW from "@/views/RadarChart";
+import KANBAN_VIEW from "@/views/Kanban";
 
 const VIEWS: BaseViewDef[] = [
-  CAROUSEL_VIEW,
   FACET_CARDS_VIEW,
+  CAROUSEL_VIEW,
+  KANBAN_VIEW,
   HEATMAP_CALENDAR_VIEW,
-  INFINITE_GALLERY_VIEW,
   LINEAR_CALENDAR_VIEW,
-  PROJECT_FOLDERS_VIEW,
   RADAR_CHART_VIEW,
+  INFINITE_GALLERY_VIEW,
   THREE_D_CAROUSEL_VIEW,
+  PROJECT_FOLDERS_VIEW,
 ];
 
 export default VIEWS;

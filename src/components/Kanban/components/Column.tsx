@@ -25,6 +25,7 @@ type Props = {
   config: BasesViewConfig;
   facetsConfig: FacetsConfig;
   data: BasesEntry[];
+  isOverlay?: boolean;
 };
 
 const Column = ({

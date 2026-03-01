@@ -1,10 +1,15 @@
-import { type BasesEntry, BasesEntryGroup, StringValue } from "obsidian";
+import { type BasesEntry, BasesEntryGroup, type BasesPropertyId, StringValue } from "obsidian";
 
 import type { FacetsConfig } from "@/components/Facets/config";
 
 import { isWikiLinkOrEmbed, parseWikilink } from "../properties";
 
 type GroupedGridData = BasesEntryGroup|BasesEntry;
+
+export type GroupBy = {
+  property: BasesPropertyId;
+  direction: 'ASC' | 'DESC';
+};
 
 export function getGroupedData(
   groups: BasesEntryGroup[],

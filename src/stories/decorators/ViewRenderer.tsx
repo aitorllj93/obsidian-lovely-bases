@@ -5,10 +5,11 @@ import { fn } from 'storybook/test';
 
 import { aBasesEntryGroup, aBasesQueryResult, aBasesViewConfig } from "@/__mocks__";
 import { useObsidian } from "@/components/Obsidian/Context";
+import type { GroupBy } from "@/lib/obsidian/groups";
 import type { EntryClickEventHandler, EntryHoverEventHandler, ReactBaseViewProps } from "@/types";
 
 type GroupedViewRenderer<T extends Record<string, unknown> = Record<string, unknown>> = T & {
-  groupBy?: BasesPropertyId;
+  groupBy?: GroupBy;
   groupedData?: BasesEntryGroup[];
   properties?: BasesPropertyId[];
   onEntryClick?: EntryClickEventHandler;
@@ -39,6 +40,12 @@ export const createViewRenderer = <T extends Record<string, unknown> = Record<st
     const data = isGrouped ? rendererProps.groupedData?.flatMap(group => group.entries) : rendererProps.data;
     const groupedData = isGrouped ? rendererProps.groupedData : [aBasesEntryGroup('', data ?? [])];
 
+    const groupBy: GroupBy | undefined = isGrouped ?
+      (
+        rendererProps.groupBy ??
+        { property: properties[0] ?? 'file.path', direction: 'ASC' }
+      ) : undefined;
+
     const props: ReactBaseViewProps = {
       isEmbedded,
       data: aBasesQueryResult({
@@ -47,7 +54,7 @@ export const createViewRenderer = <T extends Record<string, unknown> = Record<st
         properties,
       }),
       config: aBasesViewConfig(config, {
-        groupBy: isGrouped ? (rendererProps.groupBy ?? properties[0] ?? 'file.path') : undefined,
+        groupBy,
         properties
       }),
       onEntryClick: onEntryClick ?? fn(),

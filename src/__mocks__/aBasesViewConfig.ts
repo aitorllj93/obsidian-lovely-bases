@@ -1,7 +1,9 @@
 import type { BasesPropertyId, BasesSortConfig, BasesViewConfig, Value } from "obsidian";
 
+import type { GroupBy } from "@/lib/obsidian/groups";
+
 type QueryOptions = {
-  groupBy?: BasesPropertyId;
+  groupBy?: GroupBy;
   properties?: BasesPropertyId[];
 }
 

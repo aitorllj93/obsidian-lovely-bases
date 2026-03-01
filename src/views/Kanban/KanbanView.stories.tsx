@@ -123,6 +123,10 @@ export const FullExample: Story = {
   args: {
     // groupedData: ARTICLE_ENTRIES,
     groupedData: TASK_ENTRIES_GROUPED,
+    groupBy: {
+      property: 'note.status',
+      direction: 'ASC'
+    },
     ...WithSize2XS,
     ...WithImage,
     ...With4x5Ratio,

@@ -1,5 +1,5 @@
 
-import type { BasesEntry, BasesEntryGroup } from "obsidian";
+import type { BasesEntry, BasesEntryGroup, BasesPropertyId } from "obsidian";
 import { useState } from "react";
 
 import { useObsidian } from "@/components/Obsidian/Context";
@@ -8,7 +8,7 @@ import { setProperty } from "@/lib/properties";
 
 export const useKanban = (
   data: BasesEntryGroup[],
-  groupByProperty?: string,
+  groupByProperty?: BasesPropertyId,
 ) => {
   const { app } = useObsidian();
   const [columns, setColumns] = useState<Record<string, BasesEntry[]>>(data.reduce(
@@ -28,9 +28,24 @@ export const useKanban = (
     setProperty(app, entry, groupByProperty, targetContainer);
   }
 
+  const handleValueChange = (columns: Record<string, BasesEntry[]>, evt: KanbanMoveEvent) => {
+    setColumns(columns);
+
+    if (!evt || !groupByProperty) {
+      return;
+    }
+
+    if (evt.kind === 'DragEndEvent') {
+      const targetContainer = evt.overContainer;
+      const entry = columns[targetContainer][0]; // TODO: with sortable, it should be evt.overIndex
+
+      setProperty(app, entry, groupByProperty, targetContainer);
+    }
+  }
+
   return {
     columns,
     onMove,
-    setColumns,
+    handleValueChange,
   }
 }
