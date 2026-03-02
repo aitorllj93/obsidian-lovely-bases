@@ -1,34 +1,16 @@
 import type { ComponentType } from "react";
-import { Html5Audio, staticFile, Sequence, useCurrentFrame } from "remotion";
+import { Html5Audio, Sequence, staticFile, useCurrentFrame } from "remotion";
 
-import { FRAMES_PER_STORY, FRAMES_PER_LOGO } from "./constants";
+import { FRAMES_PER_LOGO, FRAMES_PER_STORY } from "./constants";
 import LogoSlide from "./LogoSlide";
 import StorySlide from "./StorySlide";
 import type { ReelStory } from "./types";
 
-import { getStories, type ViewName} from '../utils/stories';
-
-type StatefulProps = {
+type Props = {
   renderer?: ComponentType<{ story: ReelStory }>;
   reelStories: ReelStory[];
   title: string | null | undefined;
   playSFX?: boolean;
-}
-
-type StatelessProps = {
-  viewId: ViewName;
-  title: string | null | undefined;
-  playSFX?: boolean;
-}
-
-const isStatefulProps = (props: Props): props is StatefulProps => {
-  return 'reelStories' in props;
-}
-
-type Props = StatefulProps | StatelessProps;
-
-const Renderer: ComponentType<{ story: ReelStory }> = ({ story }) => {
-  return <pre>{JSON.stringify(story, null, 2)}</pre>
 }
 
 type StorySequenceProps = {
@@ -37,6 +19,10 @@ type StorySequenceProps = {
   title: string | null;
   renderer: ComponentType<{ story: ReelStory }>;
   playSFX?: boolean;
+}
+
+const Renderer: ComponentType<{ story: ReelStory }> = ({ story }) => {
+  return <pre>{JSON.stringify(story, null, 2)}</pre>
 }
 
 const StorySequence = ({ index, story, title, renderer, playSFX }: StorySequenceProps) => {
@@ -71,10 +57,12 @@ const LogoSequence = ({ playSFX }: LogoSequenceProps) => {
   );
 };
 
-const ReelComposition = (props: Props) => {
-  const { title, playSFX } = props;
-  const reelStories = isStatefulProps(props) ? props.reelStories : getStories(props.viewId);
-
+const ReelComposition = ({
+  title,
+  playSFX,
+  reelStories,
+  renderer
+}: Props) => {
   const totalStoryFrames = reelStories.length * FRAMES_PER_STORY;
 
   return (
@@ -97,7 +85,7 @@ const ReelComposition = (props: Props) => {
             index={index}
             story={story}
             title={index === 0 ? (title ?? null) : null}
-            renderer={isStatefulProps(props) ? props.renderer ?? Renderer : Renderer}
+            renderer={renderer ?? Renderer}
             playSFX={playSFX}
           />
         </Sequence>

@@ -3,10 +3,11 @@ import { Composition } from "remotion";
 
 import "../__mocks__/_env";
 
-import ReelComposition, {
+import {
   FRAMES_PER_LOGO,
   FRAMES_PER_STORY,
 } from "./Composition";
+import StatelessReelComposition from "./Composition/StatelessComposition";
 import { STORY_ORDERS } from './utils/data';
 import { getStoriesMeta, type ViewName } from "./utils/stories";
 
@@ -35,7 +36,7 @@ export const RemotionRoot = () => {
       <Composition
         key={viewId}
         id={viewId}
-        component={ReelComposition}
+        component={StatelessReelComposition}
         durationInFrames={stories.length * FRAMES_PER_STORY + FRAMES_PER_LOGO}
         defaultProps={{
           viewId,
