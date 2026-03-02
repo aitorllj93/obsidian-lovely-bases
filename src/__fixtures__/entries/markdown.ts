@@ -1,4 +1,4 @@
-import { aBasesEntry } from "@/__mocks__";
+import { aBasesEntry } from "@/__mocks__/aBasesEntry";
 import { aFile } from "@/__mocks__/aFile";
 
 export const MARKDOWN_ENTRY = aBasesEntry({

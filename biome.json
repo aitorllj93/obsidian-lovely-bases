@@ -16,7 +16,10 @@
 	},
 	"javascript": { "formatter": { "quoteStyle": "double" } },
 	"css": {
-		"parser": { "tailwindDirectives": true }
+		"parser": {
+      "cssModules": true,
+      "tailwindDirectives": true
+    }
 	},
 	"assist": { "enabled": true, "actions": { "source": { "organizeImports": "on" } } }
 }

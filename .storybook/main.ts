@@ -5,16 +5,18 @@ import { mergeConfig } from 'vite';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+const isDev = process.env.NODE_ENV === 'development';
+
 const config: StorybookConfig = {
   staticDirs: ['./static'],
   "stories": [
     "../src/**/*.mdx",
     "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"
   ],
-  tags: {
+  tags: !isDev ? {
     experimental: { defaultFilterSelection: 'exclude' },
     internal: { defaultFilterSelection: 'exclude' },
-  },
+  } : undefined,
   "addons": [
     "@chromatic-com/storybook",
     "@storybook/addon-vitest",
@@ -31,6 +33,20 @@ const config: StorybookConfig = {
           'obsidian': path.resolve(__dirname, '../src/__mocks__/obsidian.ts'),
         },
       },
+      build: {
+        chunkSizeWarningLimit: 1000000, // Iframe Chunk size is above 5MB
+        rollupOptions: {
+          onwarn(warning, warn) {
+            if (
+              warning.code === "MODULE_LEVEL_DIRECTIVE" &&
+              /use client/.test(warning.message)
+            ) {
+              return;
+            }
+            warn(warning);
+          },
+        },
+      }
     });
   },
 };

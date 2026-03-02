@@ -1,4 +1,3 @@
-"use client";
 
 import type { TFile } from "obsidian";
 import { useMemo } from "react";

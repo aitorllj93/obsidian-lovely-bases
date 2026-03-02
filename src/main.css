@@ -270,24 +270,24 @@
  * Use :global() to define styles that won't be scoped to the plugin ID.
  * This is useful for variables that need to be available globally in Obsidian.
  */
-:global(.bases-view[data-view-type="facet-cards"],
-.bases-view[data-view-type="infinite-gallery"],
-.bases-view[data-view-type="linear-calendar"],
-.bases-view[data-view-type="heatmap-calendar"]) {
+:global(.bases-view[data-view-type="facet-cards"]),
+:global(.bases-view[data-view-type="infinite-gallery"]),
+:global(.bases-view[data-view-type="linear-calendar"]),
+:global(.bases-view[data-view-type="heatmap-calendar"]) {
   --bases-view-padding: var(--size-4-3);
   --bases-embed-padding: var(--size-4-1) 1px;
 }
 
 /* Ensure virtualizer containers have proper height for scrolling */
-:global(.bases-view[data-view-type="facet-cards"],
-.bases-view[data-view-type="infinite-gallery"]) {
+:global(.bases-view[data-view-type="facet-cards"]),
+:global(.bases-view[data-view-type="infinite-gallery"]) {
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-:global(.bases-facet-cards-view-container,
-.bases-infinite-gallery-view-container) {
+:global(.bases-facet-cards-view-container),
+:global(.bases-infinite-gallery-view-container) {
   flex: 1 1 0%;
   min-height: 0;
   overflow: hidden;
