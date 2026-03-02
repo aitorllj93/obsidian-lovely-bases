@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 
 import { GROUPED_OCCURRENCES, OCCURRENCES } from "@/__fixtures__/entries";
-import { aBasesEntryGroup } from "@/__mocks__";
+import { aBasesEntryGroup } from "@/__mocks__/aBasesEntryGroup";
 import { type NamespacedTranslationKey, translate } from "@/lib/i18n";
 import {
   createViewRenderer,

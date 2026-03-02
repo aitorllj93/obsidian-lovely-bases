@@ -8,4 +8,4 @@ export type {
 	TranslationKey,
 	Translations,
 } from "./types";
-export { useTranslation } from "./use-translation";
+export * from "./use-translation";

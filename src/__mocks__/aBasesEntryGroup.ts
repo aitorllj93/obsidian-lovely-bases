@@ -1,11 +1,12 @@
-import { type BasesEntry, type BasesEntryGroup, StringValue } from "obsidian";
+import type { BasesEntry, BasesEntryGroup } from "obsidian";
+import { MockStringValue } from '../__mocks__/aValue';
 
 export class MockBasesEntryGroup implements BasesEntryGroup {
-  key: StringValue;
+  key: MockStringValue;
   entries: BasesEntry[];
 
   constructor(key: string, entries: BasesEntry[]) {
-    this.key = new StringValue(key);
+    this.key = new MockStringValue(key);
     this.entries = entries;
   }
 

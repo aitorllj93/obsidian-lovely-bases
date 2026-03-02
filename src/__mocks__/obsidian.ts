@@ -32,9 +32,6 @@ export type {
 	ViewOption,
 } from 'obsidian';
 
-// Importar Value como tipo para usarlo en ListValue
-import type { Value } from 'obsidian';
-
 import { createMockApp } from "./create-mock-app";
 
 // biome-ignore lint/complexity/noStaticOnlyClass: Mock para Storybook, necesita compatibilidad con tipos de Obsidian
@@ -42,70 +39,8 @@ export class Platform {
   static isMobile = false;
 }
 
-// Clases Value mockeadas
-// Estas se usan con `new` en el código, así que necesitan implementación real
-export class StringValue {
-
-  static type = 'string';
-
-	constructor(public value: string) {}
-
-  toString(): string {
-    return this.value;
-  }
-
-  renderTo(el: HTMLElement) {
-    el.textContent = this.value;
-  }
-}
-
-export class NumberValue {
-
-  static type = 'number';
-
-	constructor(public value: number) {}
-
-  toString(): string {
-    return this.value.toString();
-  }
-}
-
-export class BooleanValue {
-
-  static type = 'boolean';
-
-	constructor(public value: boolean) {}
-
-  toString(): string {
-    return this.value.toString();
-  }
-
-  isTruthy(): boolean {
-    return this.value;
-  }
-}
-
-export class ListValue {
-
-  static type = 'list';
-
-	constructor(public values: Value[]) {}
-
-  toString(): string {
-    return this.values.map(value => value.toString()).join(',');
-  }
-
-  renderTo(el: HTMLElement) {
-    el.textContent = this.values.map(value => value.toString()).join(',');
-  }
-}
-
-export class NullValue {
-  toString(): string {
-    return 'null';
-  }
-}
-
+export { MockBooleanValue as BooleanValue, MockListValue as ListValue, MockNullValue as NullValue, MockNumberValue as NumberValue, MockStringValue as StringValue } from './aValue';
+export type { BooleanValue as BooleanValueType, ListValue as ListValueType, NullValue as NullValueType, NumberValue as NumberValueType, StringValue as StringValueType } from 'obsidian';
 
 export { MockTFile as TFile } from './aFile'
 // Re-exportar TFile como tipo también para compatibilidad
