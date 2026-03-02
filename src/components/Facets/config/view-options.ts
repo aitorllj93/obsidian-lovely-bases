@@ -187,6 +187,17 @@ export const CARDS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
         }
       },
       {
+        key: "contentVisibility",
+        default: CONTENTS_CONFIG_DEFAULTS.contentVisibility,
+        type: "dropdown",
+        displayName: t('contents.visibility.title'),
+        shouldHide: (config) => config.get('cardLayout') !== 'overlay',
+        options: {
+          always: t('contents.visibility.always'),
+          hover: t('contents.visibility.hover'),
+        }
+      },
+      {
         key: "cardShape",
         default: CARDS_CONFIG_DEFAULTS.cardShape,
         type: "dropdown",
@@ -277,16 +288,6 @@ export const CONTENTS_CONFIG_VIEW_OPTIONS: ViewOption[] = [
         options: {
           inside: t('contents.position.inside'),
           layout: t('contents.position.layout'),
-        }
-      },
-      {
-        key: "contentVisibility",
-        default: CONTENTS_CONFIG_DEFAULTS.contentVisibility,
-        type: "dropdown",
-        displayName: t('contents.visibility.title'),
-        options: {
-          always: t('contents.visibility.always'),
-          hover: t('contents.visibility.hover'),
         }
       },
       {
