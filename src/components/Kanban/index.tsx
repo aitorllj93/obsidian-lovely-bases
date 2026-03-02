@@ -15,6 +15,7 @@ import Background from "../Background";
 import Column from "./components/Column";
 import Item from "./components/Item";
 import { useKanban } from "./hooks/use-kanban";
+import { useObsidian } from "../Obsidian/Context";
 
 type Props = {
   config: BasesViewConfig;
@@ -27,6 +28,7 @@ function Kanban({
   data,
   facetsConfig
 }: Props) {
+  const { containerEl, contentRef } = useObsidian();
   const {
     columns,
     direction,
@@ -74,7 +76,9 @@ function Kanban({
             />
           ))}
         </KanbanBoard>
-        <KanbanOverlay className="opacity-80">
+        <KanbanOverlay
+          className="opacity-80"
+          container={contentRef.current ?? containerEl}>
           {({ value, variant }) => {
             if (variant === "column") {
               const data = columns[value] ?? []

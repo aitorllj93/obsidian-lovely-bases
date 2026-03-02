@@ -732,6 +732,7 @@ function KanbanColumnContent({
 
 export interface KanbanOverlayProps
   extends Omit<React.ComponentProps<typeof DragOverlay>, "children"> {
+  container?: Element | DocumentFragment,
   children?:
     | ReactNode
     | ((params: {
@@ -740,7 +741,7 @@ export interface KanbanOverlayProps
       }) => ReactNode);
 }
 
-function KanbanOverlay({ children, className, ...props }: KanbanOverlayProps) {
+function KanbanOverlay({ children, className, container, ...props }: KanbanOverlayProps) {
   const { activeId, isColumn, modifiers } = useContext(KanbanContext);
   const [mounted, setMounted] = useState(false);
 
@@ -768,7 +769,7 @@ function KanbanOverlay({ children, className, ...props }: KanbanOverlayProps) {
         {content}
       </IsOverlayContext.Provider>
     </DragOverlay>,
-    document.body,
+    container ?? document.body,
   );
 }
 
