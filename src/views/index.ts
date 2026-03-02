@@ -5,10 +5,10 @@ import CAROUSEL_VIEW from "@/views/Carousel";
 import FACET_CARDS_VIEW from "@/views/FacetCards";
 import HEATMAP_CALENDAR_VIEW from "@/views/HeatmapCalendar";
 import INFINITE_GALLERY_VIEW from "@/views/InfiniteGallery";
+import KANBAN_VIEW from "@/views/Kanban";
 import LINEAR_CALENDAR_VIEW from "@/views/LinearCalendar";
 import PROJECT_FOLDERS_VIEW from "@/views/ProjectFolders";
 import RADAR_CHART_VIEW from "@/views/RadarChart";
-import KANBAN_VIEW from "@/views/Kanban";
 
 const VIEWS: BaseViewDef[] = [
   FACET_CARDS_VIEW,

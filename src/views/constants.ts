@@ -1,3 +1,4 @@
+import { CAROUSEL_ICON_ID, GRID_ICON_ID, KANBAN_ICON_ID, RADAR_CHART_ICON_ID } from "../icons";
 
 export const CARDS_ID = "lovelyCards" as const;
 export const CAROUSEL_ID = 'lovelyCarousel' as const;
@@ -34,12 +35,12 @@ export const LOVELY_VIEW_NAMES: Record<LovelyViewId, string> = {
 
 export const LOVELY_VIEW_ICONS: Record<LovelyViewId, string> = {
   [THREE_D_CAROUSEL_ID]: 'lucide-gallery-horizontal',
-  [CARDS_ID]: 'lucide-layout-grid',
-  [CAROUSEL_ID]: 'lucide-gallery-horizontal',
+  [CARDS_ID]: GRID_ICON_ID,
+  [CAROUSEL_ID]: CAROUSEL_ICON_ID,
   [HEATMAP_CALENDAR_ID]: 'lucide-flame',
   [INFINITE_GALLERY_ID]: 'lucide-infinity',
-  [KANBAN_ID]: 'lucide-square-kanban',
+  [KANBAN_ID]: KANBAN_ICON_ID,
   [LINEAR_CALENDAR_ID]: 'lucide-calendar-days',
   [PROJECT_FOLDERS_ID]: 'lucide-folder',
-  [RADAR_CHART_ID]: 'lucide-hexagon',
+  [RADAR_CHART_ID]: RADAR_CHART_ICON_ID,
 };

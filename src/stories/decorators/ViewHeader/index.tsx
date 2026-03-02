@@ -4,8 +4,9 @@ import type { BasesEntry, BasesEntryGroup } from "obsidian";
 import type { StoryContext } from "storybook/internal/csf";
 
 import { aBasesViewConfig } from "@/__mocks__";
-import LucideIcon from "@/components/Obsidian/LucideIcon";
 import type { BaseViewDef } from "@/types";
+
+import LucideIcon from "../../../../.storybook/blocks/LucideIcon";
 
 import Code from "./Code";
 import Option from "./ViewConfig/Option";

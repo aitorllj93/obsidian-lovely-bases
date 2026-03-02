@@ -2,7 +2,7 @@ import React from 'react';
 import { addons, types } from 'storybook/manager-api';
 
 import { detectBrowserLocale } from '../src/lib/i18n/detect-locale';
-import { LOVELY_VIEW_NAMES, LOVELY_VIEW_ICONS, LovelyViewId } from '../src/views/constants';
+import { LOVELY_VIEW_ICONS, LOVELY_VIEW_NAMES, type LovelyViewId } from '../src/views/constants';
 
 import { BASES_HEADER_ADDON_ID, BASES_HEADER_TOOL_ID, BasesHeaderToggle } from './addons/bases-header';
 import theme from './addons/theme';
