@@ -66,7 +66,6 @@ const meta = {
     ],
     docs: {
       def: INFINITE_GALLERY_VIEW,
-      icon: INFINITE_GALLERY_VIEW.icon,
       subtitle:
         "An immersive, infinite virtualized grid for exploring your notes visually, perfect for browsing large collections of images or media-rich content.",
       description: {

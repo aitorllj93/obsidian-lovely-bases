@@ -12,9 +12,9 @@ import {
 } from "@/__fixtures__/entries";
 
 import {
+  With16x9ActiveRatio,
   With3x2Ratio,
   With4x5Ratio,
-  With16x9ActiveRatio,
   WithBadge,
   WithBadgeColor,
   WithBadgeIcon,
@@ -30,10 +30,10 @@ import {
   WithLayoutContent,
   WithMarkdownContent,
   WithNoActiveEffect,
-  WithOverlayLayout,
   WithoutGap,
   WithoutPropertyTitles,
   WithoutTitle,
+  WithOverlayLayout,
   WithPolaroidLayout,
   WithRoundedShape,
   WithSize2XS,
@@ -59,7 +59,7 @@ import CarouselView, { type CarouselConfig } from "./CarouselView";
 const View = createViewRenderer<CarouselConfig>(CarouselView);
 
 const meta = {
-  title: "Views/Carousel",
+  title: 'Views/Carousel',
   component: View,
   tags: ["autodocs", "status:ready"],
   decorators: [ViewWrapper, Providers],
@@ -67,7 +67,6 @@ const meta = {
     layout: "fullscreen",
     docs: {
       def: CAROUSEL_VIEW,
-      icon: CAROUSEL_VIEW.icon,
       subtitle:
         "A dynamic, horizontal scrolling experience that showcases your notes in a continuous flow. Perfect for highlight reels, featured notes, or visual storytelling.",
       description: {

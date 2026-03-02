@@ -15,13 +15,21 @@ const normalizeLucideName = (name: string) => {
   return pascal;
 };
 
-const LucideIcon = ({ name, className, style }: Props) => {
+const LucideIcon = ({ name, className, size, style }: Props) => {
   const key = normalizeLucideName(name);
   // biome-ignore lint/suspicious/noExplicitAny: dynamic resolution of the icon
   const Icon = (Lucide as any)[key] as React.ComponentType<any> | undefined;
 
   if (!Icon) return null;
-  return <Icon className={className} style={style} />;
+  return <Icon className={className} style={{
+    ...(size
+      ? {
+          width: size,
+          height: size,
+        }
+      : {}),
+    ...style,
+  }} />;
 }
 
 export default LucideIcon;

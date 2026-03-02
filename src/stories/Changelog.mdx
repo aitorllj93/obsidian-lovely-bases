@@ -1,0 +1,22 @@
+import { Meta, Markdown } from "@storybook/addon-docs/blocks";
+import rawChangelog from '../../CHANGELOG.md?raw';
+
+export const parameters = {
+  docs: {
+    toc: {
+      title: "Table of Contents",
+      headingSelector: "h2",
+    },
+  },
+};
+
+export const changelog = rawChangelog.replace(
+  /^(##\s+\[[^\]]+\][^\n]*?)\s+-\s+\d{4}-\d{2}-\d{2}$/gm,
+  "$1"
+);
+
+<Meta title="Changelog" />
+
+<Markdown>
+{changelog}
+</Markdown>

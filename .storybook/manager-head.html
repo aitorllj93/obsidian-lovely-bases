@@ -13,4 +13,39 @@
   input[type='radio'] {
     accent-color: #BEC97E;
   }
+
+  [role="search"] > [role="combobox"],
+  [role="search"] > button {
+    box-shadow: #F2F0E5 0px 0px 0px 1px inset;
+  }
+
+
+  /** HIDE SIDEBAR ICONS **/
+  #storybook-explorer-tree .sidebar-item svg[type="group"],
+  #storybook-explorer-tree .sidebar-item svg[type="component"],
+  #storybook-explorer-tree .sidebar-item svg[type="story"],
+  #storybook-explorer-tree .sidebar-item svg[type="document"] {
+    height: 14px;
+    width: 0;
+    visibility: hidden;
+  }
+  #storybook-explorer-tree .sidebar-item button {
+    gap: 0;
+  }
+  #storybook-explorer-tree .sidebar-item a {
+    padding: 5px 6px 4px 0px;
+  }
+
+  #storybook-explorer-tree .sidebar-item[data-parent-id] a:has(span[data-depth="2"]) {
+    padding: 5px 6px 4px 20px;
+  }
+  #storybook-explorer-tree .sidebar-item[data-parent-id] a:has(span[data-depth="3"]) {
+    padding: 5px 6px 4px 35px;
+  }
+  #storybook-explorer-tree .sidebar-item[data-parent-id] a:has(span[data-depth="4"]) {
+    padding: 5px 6px 4px 55px;
+  }
+  #storybook-explorer-tree .sidebar-item[data-parent-id] a:has(span[data-depth="5"]) {
+    padding: 5px 6px 4px 75px;
+  }
 </style>

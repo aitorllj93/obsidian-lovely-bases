@@ -1,5 +1,4 @@
 import { cva } from "class-variance-authority";
-import type { CSSProperties } from "react";
 
 import type { FacetsConfig } from "@/components/Facets/config";
 import LucideIcon from "@/components/Obsidian/LucideIcon";
@@ -17,7 +16,7 @@ type Props = Pick<FacetsConfig, "groupCounterPosition"> & {
 };
 
 const headerVariants = cva(
-  "flex items-center gap-2 cursor-pointer transition-all",
+  "flex items-center justify-between gap-2 cursor-pointer transition-all",
   {
     variants: {
       collapsed: {
@@ -39,6 +38,11 @@ const headerVariants = cva(
         collapsed: false,
         direction: "column",
         className: "border-b mx-2",
+      },
+      {
+        collapsed: true,
+        direction: "row",
+        className: "flex-row-reverse"
       },
       {
         collapsed: false,
@@ -98,7 +102,7 @@ const titleVariants = cva("", {
 });
 
 const badgeVariants = cva(
-  "bg-(--column-color)/10 text-(--column-color) font-bold",
+  "bg-(--column-color)/10 font-bold",
   {
     variants: {
       direction: {
@@ -139,17 +143,15 @@ const Header = ({
   const badgeClass = badgeVariants({
     collapsed,
     direction,
-  })
+  });
+  const borderColor = color !== "var(--color-foreground)" ? color : "var(--color-muted)";
 
   return (
     <FrameHeader
       className={headerClass}
-      style={
-        {
-          borderColor:
-            color !== "var(--color-foreground)" ? color : "var(--color-border)",
-        } as CSSProperties
-      }
+      style={{
+        borderColor
+      }}
       onClick={toggleCollapsed}
     >
       {icon && (
@@ -164,6 +166,7 @@ const Header = ({
       <FrameTitle
         className={titleClass}
         style={{
+          borderColor,
           color,
         }}
       >
@@ -173,6 +176,9 @@ const Header = ({
         <Badge
           variant="ghost"
           className={badgeClass}
+          style={{
+            color,
+          }}
         >
           {totalItems}
         </Badge>

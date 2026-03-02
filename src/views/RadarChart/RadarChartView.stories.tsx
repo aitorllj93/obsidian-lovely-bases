@@ -39,7 +39,6 @@ const meta = {
 		layout: "fullscreen",
 		docs: {
       def: RADAR_CHART_VIEW,
-			icon: RADAR_CHART_VIEW.icon,
 			subtitle:
 				"Compare groups of entries across multiple numeric properties using overlapping radar/spider charts with aggregation functions.",
 			description: {

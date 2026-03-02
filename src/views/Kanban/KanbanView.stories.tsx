@@ -1,15 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 
-import {
-  APPLICATION_ENTRIES,
-  ARTICLE_ENTRIES,
-  BOOK_ENTRIES,
-  MOVIES_ENTRIES,
-  PERSON_ENTRIES,
-  PHOTOS_ENTRIES,
-  TASK_ENTRIES_GROUPED,
-} from "@/__fixtures__/entries";
+import { TASK_ENTRIES_GROUPED } from "@/__fixtures__/entries";
 
 import {
   With3x2Ratio,
@@ -21,7 +13,6 @@ import {
   WithContentReversed,
   WithGroupColor,
   WithGroupIcon,
-  WithGroupSubtitle,
   WithGroupTitle,
   WithHorizontalLayout,
   WithHover,
@@ -67,7 +58,6 @@ const meta = {
     layout: "fullscreen",
     docs: {
       def: KANBAN_VIEW,
-      icon: KANBAN_VIEW.icon,
       subtitle:
         "A dynamic, horizontal scrolling experience that showcases your notes in a continuous flow. Perfect for highlight reels, featured notes, or visual storytelling.",
       description: {
@@ -108,11 +98,16 @@ const meta = {
     },
   },
   args: {
-    data: BOOK_ENTRIES,
     onEntryClick: fn(),
     ...FACETS_CONFIG_DEFAULTS,
     properties: [],
-    ...WithImage,
+    groupedData: TASK_ENTRIES_GROUPED,
+    groupBy: {
+      property: "note.status",
+      direction: "ASC",
+    },
+    ...WithInferPropertiesFromFirstItem,
+    ...WithGroupTitle,
   },
 } satisfies Meta<typeof View>;
 
@@ -122,12 +117,6 @@ type Story = StoryObj<typeof meta>;
 
 export const FullExample: Story = {
   args: {
-    // groupedData: ARTICLE_ENTRIES,
-    groupedData: TASK_ENTRIES_GROUPED,
-    groupBy: {
-      property: 'note.status',
-      direction: 'ASC'
-    },
     ...WithSize2XS,
     ...WithImage,
     ...With4x5Ratio,
@@ -138,9 +127,6 @@ export const FullExample: Story = {
     ...WithHover,
     ...WithHoverOverlay,
     ...WithStaticBackground,
-    // ...WithInferPropertiesFromLinkedNotes,
-    ...WithInferPropertiesFromFirstItem,
-    ...WithGroupTitle,
     ...WithIcon,
     ...WithGroupIcon,
     ...WithGroupColor,
@@ -174,7 +160,6 @@ cardLayout: horizontal
     },
   },
   args: {
-    data: ARTICLE_ENTRIES,
     ...WithSize2XS,
     ...WithImage,
     ...With4x5Ratio,
@@ -208,7 +193,6 @@ badgeColorProperty: "#D0A215"
     },
   },
   args: {
-    data: MOVIES_ENTRIES,
     ...WithSize3XS,
     ...WithImage,
     ...With3x2Ratio,
@@ -238,7 +222,6 @@ cardLayout: polaroid
     ...WithImage,
     ...WithSquareImage,
     ...WithPolaroidLayout,
-    data: PHOTOS_ENTRIES,
   },
 };
 
@@ -259,7 +242,6 @@ mediaAspectRatio: 1
     },
   },
   args: {
-    data: PERSON_ENTRIES,
     ...WithSize3XSAndSpacing,
     ...WithoutGap,
     ...WithVerticalLayout,
@@ -284,7 +266,6 @@ cardShape: rounded
     },
   },
   args: {
-    data: APPLICATION_ENTRIES,
     ...WithSize3XSAndSpacing,
     ...WithoutGap,
     ...WithVerticalLayout,
@@ -292,29 +273,5 @@ cardShape: rounded
     ...WithImage,
     ...WithSquareImage,
     ...WithoutTitle,
-  },
-};
-
-// === HEADER STORIES ===
-
-export const TitleAndSubtitle: Story = {
-  parameters: {
-    docs: {
-      description: {
-        story: `Add groups titles and subtitles to provide context for the carousel section.
-
-\`\`\`yml
-groupTitleProperty: "note.sectionTitle"
-groupSubtitleProperty: "note.sectionSubtitle"
-\`\`\`
-`,
-      },
-    },
-  },
-  args: {
-    data: ARTICLE_ENTRIES,
-    onEntryClick: fn(),
-    ...WithGroupTitle,
-    ...WithGroupSubtitle,
   },
 };

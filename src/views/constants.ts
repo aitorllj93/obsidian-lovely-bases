@@ -19,3 +19,27 @@ export type LovelyViewId =
   | typeof LINEAR_CALENDAR_ID
   | typeof PROJECT_FOLDERS_ID
   | typeof RADAR_CHART_ID;
+
+export const LOVELY_VIEW_NAMES: Record<LovelyViewId, string> = {
+  [THREE_D_CAROUSEL_ID]: '3D Carousel',
+  [CARDS_ID]: 'Grid',
+  [CAROUSEL_ID]: 'Carousel',
+  [HEATMAP_CALENDAR_ID]: 'Heatmap Calendar',
+  [INFINITE_GALLERY_ID]: 'Infinite Gallery',
+  [KANBAN_ID]: 'Kanban',
+  [LINEAR_CALENDAR_ID]: 'Linear Calendar',
+  [PROJECT_FOLDERS_ID]: 'Project Folders (Deprecated)',
+  [RADAR_CHART_ID]: 'Radar Chart',
+};
+
+export const LOVELY_VIEW_ICONS: Record<LovelyViewId, string> = {
+  [THREE_D_CAROUSEL_ID]: 'lucide-gallery-horizontal',
+  [CARDS_ID]: 'lucide-layout-grid',
+  [CAROUSEL_ID]: 'lucide-gallery-horizontal',
+  [HEATMAP_CALENDAR_ID]: 'lucide-flame',
+  [INFINITE_GALLERY_ID]: 'lucide-infinity',
+  [KANBAN_ID]: 'lucide-square-kanban',
+  [LINEAR_CALENDAR_ID]: 'lucide-calendar-days',
+  [PROJECT_FOLDERS_ID]: 'lucide-folder',
+  [RADAR_CHART_ID]: 'lucide-hexagon',
+};

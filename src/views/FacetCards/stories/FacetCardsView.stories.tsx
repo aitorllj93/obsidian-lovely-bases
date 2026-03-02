@@ -17,7 +17,7 @@ import FacetCardsViewMeta, {
 
 const meta = {
   ...FacetCardsViewMeta,
-  title: "Views/Facet Cards",
+  title: "Views/Grid",
   tags: ["autodocs", "status:ready"],
   component: View,
   decorators: [ViewWrapper, Providers],

@@ -1,14 +1,14 @@
 import { ReactBasesView } from "@/lib/view-class";
 import type { BaseViewDef } from "@/types";
-import { RADAR_CHART_ID } from "@/views/constants";
+import { LOVELY_VIEW_ICONS, LOVELY_VIEW_NAMES, RADAR_CHART_ID } from "@/views/constants";
 
 import { RADAR_CHART_OPTIONS } from "./constants";
 import RadarChartView from "./RadarChartView";
 
 const RADAR_CHART_VIEW: BaseViewDef = {
   id: RADAR_CHART_ID,
-  name: "Radar Chart",
-  icon: "lucide-hexagon",
+  name: LOVELY_VIEW_NAMES[RADAR_CHART_ID],
+  icon: LOVELY_VIEW_ICONS[RADAR_CHART_ID],
   factory: (controller, containerEl) =>
     new ReactBasesView(RADAR_CHART_ID, RadarChartView, controller, containerEl),
   options: () => RADAR_CHART_OPTIONS,

@@ -63,14 +63,14 @@ import FacetCardsView, { type FacetCardsConfig } from "../FacetCardsView";
 export const View = createViewRenderer<FacetCardsConfig>(FacetCardsView);
 
 export const meta = {
-  title: "Views/Facet Cards",
+  title: "Views/Grid",
   component: View,
   tags: ["autodocs", "status:ready"],
   decorators: [ViewWrapper, Providers],
   parameters: {
     layout: "fullscreen",
     docs: {
-      icon: FACET_CARDS_VIEW.icon,
+      def: FACET_CARDS_VIEW,
       subtitle:
         "A structured, property-rich card view that gives you more control over how your note data is displayed. Perfect for databases, catalogs, or property-heavy notes.",
       description: {
@@ -84,7 +84,6 @@ export const meta = {
 
 ### Configuration`,
       },
-      def: FACET_CARDS_VIEW,
     },
   },
   argTypes: {

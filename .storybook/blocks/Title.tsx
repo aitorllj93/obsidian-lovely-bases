@@ -18,7 +18,9 @@ export const Title = () => {
     }
     case 'meta': {
       const title = resolvedOf.preparedMeta.title.split('/').pop();
-      const icon = resolvedOf.preparedMeta.parameters.docs.icon;
+      const icon =
+      resolvedOf.preparedMeta.parameters.docs.def?.icon ??
+        resolvedOf.preparedMeta.parameters.docs.icon;
 
       return <h1 className="flex items-center">
         {icon && <LucideIcon name={icon} className="w-8 h-8 inline-block mr-2" />}

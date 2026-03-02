@@ -15,7 +15,7 @@ import ProjectFoldersViewMeta, {
 
 const meta = {
   ...ProjectFoldersViewMeta,
-  title: "Views/Project Folders/Notebooks",
+  title: "Views/Project Folders (Deprecated)/Notebooks",
   component: View,
   args: {
     ...ProjectFoldersViewMeta.args,

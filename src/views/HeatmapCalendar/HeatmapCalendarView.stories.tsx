@@ -41,7 +41,6 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       def: HEATMAP_CALENDAR_VIEW,
-      icon: HEATMAP_CALENDAR_VIEW.icon,
       subtitle:
         "A GitHub-style activity tracker that visualizes the frequency of notes or events over time, perfect for habit tracking or monitoring daily productivity.",
       description: {

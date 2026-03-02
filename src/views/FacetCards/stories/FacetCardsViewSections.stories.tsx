@@ -14,7 +14,7 @@ import FacetCardsViewMeta, {
 
 const meta = {
   ...FacetCardsViewMeta,
-  title: "Views/Facet Cards/Groups/Sections",
+  title: "Views/Grid/Groups/Sections",
   component: View,
   args: {
     ...FacetCardsViewMeta.args,

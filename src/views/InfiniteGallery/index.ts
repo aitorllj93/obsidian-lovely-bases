@@ -6,7 +6,7 @@ import {
 } from "@/lib/i18n";
 import { ReactBasesView } from "@/lib/view-class";
 import type { BaseViewDef } from "@/types";
-import { INFINITE_GALLERY_ID } from "@/views/constants";
+import { INFINITE_GALLERY_ID, LOVELY_VIEW_ICONS, LOVELY_VIEW_NAMES } from "@/views/constants";
 
 import InfiniteGalleryView from "./InfiniteGalleryView";
 
@@ -16,8 +16,8 @@ const t = (key: NamespacedTranslationKey<"infiniteGallery">) =>
 
 const INFINITE_GALLERY_VIEW: BaseViewDef = {
   id: INFINITE_GALLERY_ID,
-  name: "Infinite Gallery",
-  icon: "lucide-infinity",
+  name: LOVELY_VIEW_NAMES[INFINITE_GALLERY_ID],
+  icon: LOVELY_VIEW_ICONS[INFINITE_GALLERY_ID],
   factory: (controller, containerEl) =>
     new ReactBasesView(
       INFINITE_GALLERY_ID,

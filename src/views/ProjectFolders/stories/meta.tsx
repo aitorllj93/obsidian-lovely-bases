@@ -40,7 +40,7 @@ export const View =
   createViewRenderer<ProjectFoldersConfig>(ProjectFoldersView);
 
 export const meta = {
-  title: "Views/Project Folders",
+  title: "Views/Project Folders (Deprecated)",
   component: View,
   tags: ["autodocs", "status:deprecated"],
   decorators: [ViewWrapper, Providers],
@@ -56,7 +56,6 @@ export const meta = {
     ],
     docs: {
       def: PROJECT_FOLDERS_VIEW,
-      icon: PROJECT_FOLDERS_VIEW.icon,
       subtitle:
         "A tactile, organization-focused view that groups your notes into beautiful 3D interactive folders. Perfect for managing projects, areas, or any hierarchical collection.",
       description: {

@@ -37,7 +37,6 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       def: LINEAR_CALENDAR_VIEW,
-      icon: LINEAR_CALENDAR_VIEW.icon,
       subtitle:
         "A sleek, horizontal timeline view that displays your notes as events across a calendar, perfect for visualizing schedules, projects, or journals.",
       description: {

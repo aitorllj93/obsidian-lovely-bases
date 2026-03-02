@@ -38,6 +38,21 @@
 }
 
 @layer utilities {
+  .writing-sideways {
+    writing-mode: vertical-rl;
+    & sub {
+      bottom: "0";
+      right: "0.25em";
+    }
+  }
+
+  @supports (writing-mode: sideways-lr) {
+    .writing-sideways {
+      writing-mode: sideways-lr;
+      transform: none;
+    }
+  }
+
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -245,13 +260,7 @@
     right: "0.25em";
   }
 }
-@utility writing-sideways {
-  writing-mode: sideways-lr;
-  & sub {
-    bottom: "0";
-    right: "0.25em";
-  }
-}
+
 @utility writing-horizontal {
   writing-mode: horizontal-tb;
 }

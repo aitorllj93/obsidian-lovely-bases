@@ -41,6 +41,8 @@ const Column = ({ columnId, data, direction, ...props }: Props) => {
     },
   );
 
+  const columnColor = color !== "var(--color-foreground)" ? color : "var(--color-muted)"
+
   const toggleCollapsed = () => setCollapsed((prev) => !prev);
 
   return (
@@ -49,14 +51,9 @@ const Column = ({ columnId, data, direction, ...props }: Props) => {
         spacing="sm"
         direction={direction}
         className={cn("h-full bg-(--column-color)/40")}
-        style={
-          {
-            "--column-color":
-              color !== "var(--color-foreground)"
-                ? color
-                : "var(--color-muted)",
-          } as CSSProperties
-        }
+        style={{
+            "--column-color": columnColor,
+        } as CSSProperties}
       >
         <Header
           color={color}

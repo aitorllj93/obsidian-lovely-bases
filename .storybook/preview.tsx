@@ -36,6 +36,7 @@ const preview: Preview = {
     docs: {
       toc: {
         title: 'Table of Contents',
+        headingSelector: 'h2, h3',
         ignoreSelector: '.__remotion-player *, .lovely-bases *'
       },
       page: () => (
@@ -58,7 +59,7 @@ const preview: Preview = {
           'About the Docs',
           'Views',
           [
-            'Facet Cards',
+            'Grid',
             'Carousel',
             'Kanban',
             'Infinite Gallery',
