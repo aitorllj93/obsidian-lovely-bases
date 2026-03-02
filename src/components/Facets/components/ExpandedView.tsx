@@ -40,7 +40,8 @@ const ExpandedView = ({
   layoutIds,
   onClose,
 }: Props) => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation("groups");
+  const { t: tNav } = useTranslation("navigation");
   const { containerEl, contentRef } = useObsidian();
   const [showGrid, setShowGrid] = useState(false);
 
@@ -152,7 +153,7 @@ const ExpandedView = ({
                 )}
                 aria-label="Close folder view"
               >
-                {t("back")}
+                {tNav("back")}
               </button>
             </header>
 

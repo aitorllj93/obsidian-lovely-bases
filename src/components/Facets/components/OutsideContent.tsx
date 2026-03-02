@@ -20,7 +20,7 @@ const OutsideContent = ({
   isHovered,
   layoutIds,
 }: Props) => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation("groups");
   const { titlePosition, groupCounterPosition } = facetsConfig ?? {};
 
   const shouldShowTitle =

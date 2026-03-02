@@ -11,6 +11,7 @@ type Props = Pick<FacetsConfig, "groupCounterPosition"> & {
   icon?: string;
   isCollapsed: boolean;
   title: string;
+  titleFont: string;
   toggleCollapsed: () => void;
   totalItems: number;
 };
@@ -124,6 +125,7 @@ const Header = ({
   icon,
   isCollapsed: collapsed,
   title,
+  titleFont,
   toggleCollapsed,
   totalItems,
 }: Props) => {
@@ -168,6 +170,7 @@ const Header = ({
         style={{
           borderColor,
           color,
+          fontFamily: titleFont,
         }}
       >
         {title}

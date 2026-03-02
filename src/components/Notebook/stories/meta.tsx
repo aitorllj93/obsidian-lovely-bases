@@ -19,7 +19,6 @@ type StoryProps = {
 	icon?: string;
   color?: string;
   title?: string;
-  titleFont?: string;
   showCounter?: boolean;
 	files: BasesEntry[];
 	onClick?: MouseEventHandler<HTMLDivElement>;
@@ -33,7 +32,6 @@ export const NotebookStory = ({
 	width,
 	icon,
   title,
-  titleFont,
   showCounter = false,
 	files,
 	color,
@@ -48,7 +46,6 @@ export const NotebookStory = ({
 			width={width}
 			icon={icon}
       title={title}
-      titleFont={titleFont}
       showCounter={showCounter}
 			files={files}
 			color={color}

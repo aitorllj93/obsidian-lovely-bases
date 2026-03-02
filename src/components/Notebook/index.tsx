@@ -19,7 +19,6 @@ type Props = {
 	colors?: NotebookColors;
 	icon?: string;
 	title?: string;
-	titleFont?: string;
 	files: BasesEntry[];
 	onClick?: MouseEventHandler<HTMLDivElement>;
   facetsConfig: FacetsConfig;
@@ -46,7 +45,6 @@ const Notebook = forwardRef<HTMLDivElement, Props>(({
 	padContent = DEFAULTS.padContent,
 	pageStyle = DEFAULTS.pageStyle,
 	title,
-	titleFont,
   showCounter = DEFAULTS.showCounter,
   counterLayoutId,
 	iconLayoutId,
@@ -67,6 +65,9 @@ const Notebook = forwardRef<HTMLDivElement, Props>(({
 
 		return getNotebookColors(color);
 	}, [color, colors]);
+
+
+  const titleFont = facetsConfig.groupTitleFont ?? facetsConfig.titleFont ?? 'var(--font-serif)';
 
 	const previewFiles = files.slice(0, previewFilesAmount);
 

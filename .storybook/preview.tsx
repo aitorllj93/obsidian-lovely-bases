@@ -65,6 +65,7 @@ const preview: Preview = {
             'Infinite Gallery',
             'Heatmap Calendar',
             'Linear Calendar',
+            'Radar Chart',
             'Project Folders',
           ],
           'Design System'

@@ -435,6 +435,17 @@ export const TITLES_CONFIG_ARG_TYPES: ArgTypes<TitlesConfig> = {
       }
     }
   },
+  groupTitleFont: {
+    control: { type: "text" },
+    name: t("titles.groupTitleFont.title"),
+    description: "The font family to apply to the group titles.",
+    table: {
+      category: t("titles.title"),
+      defaultValue: {
+        summary: TITLES_CONFIG_DEFAULTS.groupTitleFont?.toString(),
+      }
+    }
+  },
 }
 
 export const CONTENTS_CONFIG_ARG_TYPES: ArgTypes<ContentsConfig> = {

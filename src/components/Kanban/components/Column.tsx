@@ -40,6 +40,7 @@ const Column = ({ columnId, data, direction, ...props }: Props) => {
       color: "var(--color-foreground)",
     },
   );
+  const titleFont = props.facetsConfig.groupTitleFont ?? props.facetsConfig.titleFont ?? 'var(--font-serif)';
 
   const columnColor = color !== "var(--color-foreground)" ? color : "var(--color-muted)"
 
@@ -61,6 +62,7 @@ const Column = ({ columnId, data, direction, ...props }: Props) => {
           groupCounterPosition={props.facetsConfig.groupCounterPosition}
           isCollapsed={isCollapsed}
           title={title}
+          titleFont={titleFont}
           toggleCollapsed={toggleCollapsed}
           totalItems={data.length}
           icon={icon}

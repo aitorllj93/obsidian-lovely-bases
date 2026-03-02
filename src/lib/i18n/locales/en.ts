@@ -113,6 +113,9 @@ export const en = {
       groupSubtitleProperty: {
         title: "Group Subtitle Property",
       },
+      groupTitleFont: {
+        title: "Group Font Family",
+      },
     },
     contents: {
       title: "Contents",
@@ -240,6 +243,32 @@ export const en = {
         title: "Hover Property",
       }
     }
+  },
+  navigation: {
+    back: "Back"
+  },
+  groups: {
+    ungrouped: "None",
+    totalItems: "{count} entries",
+    singleItem: "{count} entry",
+  },
+  colors: {
+    palettes: {
+      red: "Red",
+      orange: "Orange",
+      yellow: "Yellow",
+      green: "Green",
+      cyan: "Cyan",
+      blue: "Blue",
+      purple: "Purple",
+      magenta: "Magenta",
+    },
+    schemes: {
+      primary: "Primary",
+      semaphor: "Semaphor",
+      rainbow: "Rainbow",
+      contrast: "Contrast",
+    },
   },
   infiniteGallery: {
     options: {
@@ -444,29 +473,5 @@ export const en = {
   common: {
     loading: "Loading...",
     error: "Error",
-    back: "Back",
-    ungrouped: "None",
-    totalItems: "{count} entries",
-    singleItem: "{count} entry",
-    options: {
-      colors: {
-        palettes: {
-          red: "Red",
-          orange: "Orange",
-          yellow: "Yellow",
-          green: "Green",
-          cyan: "Cyan",
-          blue: "Blue",
-          purple: "Purple",
-          magenta: "Magenta",
-        },
-        schemes: {
-          primary: "Primary",
-          semaphor: "Semaphor",
-          rainbow: "Rainbow",
-          contrast: "Contrast",
-        },
-      },
-    },
   },
 } as const;

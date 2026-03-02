@@ -254,6 +254,12 @@ export const TITLES_CONFIG_VIEW_OPTIONS: ViewOption[] = [
         type: 'property',
         displayName: t('titles.groupSubtitleProperty.title'),
       },
+      {
+        key: "groupTitleFont",
+        default: TITLES_CONFIG_DEFAULTS.groupTitleFont,
+        type: "text",
+        displayName: t('titles.groupTitleFont.title'),
+      },
     ]
   }
 ];

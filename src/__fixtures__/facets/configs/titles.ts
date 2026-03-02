@@ -28,3 +28,7 @@ export const WithGroupTitle: TitlesConfigInput = {
 export const WithGroupSubtitle: TitlesConfigInput = {
   groupSubtitleProperty: "formula.groupSubtitle",
 }
+
+export const WithGroupTitleFont: TitlesConfigInput = {
+  groupTitleFont: HANDWRITTEN_FONTS,
+}

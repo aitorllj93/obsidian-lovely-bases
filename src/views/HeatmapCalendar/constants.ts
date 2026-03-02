@@ -3,7 +3,7 @@ import { detectLocale,  type NamespacedTranslationKey, translate } from "@/lib/i
 import type { HeatmapCalendarConfig } from "./types";
 
 const locale = detectLocale();
-const tCommon = (key: NamespacedTranslationKey<'common'>) => translate(locale, 'common', key);
+const tColors = (key: NamespacedTranslationKey<'colors'>) => translate(locale, 'colors', key);
 const t = (key: NamespacedTranslationKey<'heatmapCalendar'>) => translate(locale, 'heatmapCalendar', key);
 
 export const DEFAULTS: HeatmapCalendarConfig = {
@@ -179,16 +179,16 @@ export const HEATMAP_CALENDAR_OPTIONS: ViewOption[] = [
         key: "colorScheme",
         default: DEFAULTS.colorScheme,
         options: {
-          primary: tCommon("options.colors.schemes.primary"),
-          semaphor: tCommon("options.colors.schemes.semaphor"),
-          red: tCommon("options.colors.palettes.red"),
-          orange: tCommon("options.colors.palettes.orange"),
-          yellow: tCommon("options.colors.palettes.yellow"),
-          green: tCommon("options.colors.palettes.green"),
-          cyan: tCommon("options.colors.palettes.cyan"),
-          blue: tCommon("options.colors.palettes.blue"),
-          purple: tCommon("options.colors.palettes.purple"),
-          magenta: tCommon("options.colors.palettes.magenta"),
+          primary: tColors("schemes.primary"),
+          semaphor: tColors("schemes.semaphor"),
+          red: tColors("palettes.red"),
+          orange: tColors("palettes.orange"),
+          yellow: tColors("palettes.yellow"),
+          green: tColors("palettes.green"),
+          cyan: tColors("palettes.cyan"),
+          blue: tColors("palettes.blue"),
+          purple: tColors("palettes.purple"),
+          magenta: tColors("palettes.magenta"),
         },
       },
       {

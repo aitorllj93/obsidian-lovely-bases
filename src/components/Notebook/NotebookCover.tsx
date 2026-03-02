@@ -38,7 +38,7 @@ const NotebookCover = memo(({
   titleFont,
   files,
 }: Props) => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('groups');
   const elasticBandGradient = `linear-gradient(
 		to right,
 		${notebookColors.elasticBandDark} 0%,
@@ -116,7 +116,7 @@ const NotebookCover = memo(({
               paddingInline: 3 * scaleFactor,
               paddingBlock: 1 * scaleFactor,
               marginTop: -2 * scaleFactor,
-              fontFamily: titleFont ?? "var(--font-mono)",
+              fontFamily: "var(--font-mono)",
               fontSize: 12 * scaleFactor,
             }}
           >

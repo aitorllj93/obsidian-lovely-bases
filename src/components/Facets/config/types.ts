@@ -57,6 +57,7 @@ export type TitlesConfig = {
   titleFont?: string;
   groupTitleProperty?: BasesPropertyId;
   groupSubtitleProperty?: BasesPropertyId;
+  groupTitleFont?: string;
 }
 export type TitlesConfigInput = Partial<TitlesConfig>;
 

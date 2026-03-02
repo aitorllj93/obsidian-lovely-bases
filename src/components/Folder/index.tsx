@@ -22,7 +22,6 @@ type Props = {
 	onClick?: MouseEventHandler<HTMLDivElement>;
   showCounter?: boolean;
   title?: string;
-  titleFont?: string;
 	facetsConfig: FacetsConfig;
 	config: BasesViewConfig;
   counterLayoutId?: string;
@@ -39,19 +38,20 @@ const Folder = forwardRef<HTMLDivElement, Props>(({
 	onClick,
   showCounter = false,
   title,
-  titleFont,
 	facetsConfig,
 	config,
   counterLayoutId,
 	iconLayoutId,
 	titleLayoutId,
 }, ref) => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('groups');
 	const [isHovered, setIsHovered] = useState(false);
 	const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
 	const scaleFactor = width / BASE_WIDTH;
 	const height = width / ASPECT_RATIO;
+
+  const titleFont = facetsConfig.groupTitleFont ?? facetsConfig.titleFont ?? 'var(--font-serif)';
 
 	const { backBg, labelBg, tabBg, frontBg, foreground } = useFolderColors(color, colors);
 
@@ -117,7 +117,7 @@ const Folder = forwardRef<HTMLDivElement, Props>(({
             textShadow: `0 0.6px 0 var(--color-muted)`,
             paddingInline: 8 * scaleFactor,
             paddingBlock: 1 * scaleFactor,
-            fontFamily: titleFont ?? 'var(--font-mono)',
+            fontFamily: 'var(--font-mono)',
             fontSize: 8 * scaleFactor,
           }}
         >

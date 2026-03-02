@@ -20,12 +20,14 @@ function Header({
   onToggleCollapse,
   ...props
 }: Props) {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation("groups");
   const { color, icon, title } = useContainerData(props, {
     color: props.facetsConfig.backgroundProperty ? (
       props.facetsConfig.backgroundGradient === 'light' ? '#000' : '#fff'
     ) : 'var(--color-foreground)'
   });
+  const titleFont = props.facetsConfig.groupTitleFont ?? props.facetsConfig.titleFont ?? 'var(--font-serif)';
+
   const entries = props.data.entries ?? [];
 
   const handleNavigate = (
@@ -91,12 +93,15 @@ function Header({
           transition={{
             scale: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
           }}
+          style={{
+            fontFamily: titleFont,
+          }}
         >
           {title !== '' ? title : t('ungrouped')}
         </motion.h2>
       </div>
       <span
-        className="text-sm  shrink-0"
+        className="text-sm shrink-0"
       >
         {entries.length === 1
           ? t("singleItem", { count: entries.length.toString() })

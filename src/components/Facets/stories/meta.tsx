@@ -23,7 +23,6 @@ export const GroupStory = ({
   // previewFilesAmount,
   showCounter = false,
   title,
-  titleFont,
   counterLayoutId,
 	iconLayoutId,
 	titleLayoutId,
@@ -44,7 +43,6 @@ export const GroupStory = ({
       onClick={onClick}
       showCounter={showCounter}
       title={title}
-      titleFont={titleFont}
       counterLayoutId={counterLayoutId}
       iconLayoutId={iconLayoutId}
       titleLayoutId={titleLayoutId}

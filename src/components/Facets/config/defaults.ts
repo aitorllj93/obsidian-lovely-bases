@@ -48,6 +48,7 @@ export const TITLES_CONFIG_DEFAULTS: TitlesConfig = {
   titleFont: undefined,
   groupTitleProperty: undefined,
   groupSubtitleProperty: undefined,
+  groupTitleFont: undefined,
 };
 
 export const CONTENTS_CONFIG_DEFAULTS: ContentsConfig = {
