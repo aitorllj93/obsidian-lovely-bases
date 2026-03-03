@@ -1,4 +1,7 @@
 import { Meta, Markdown } from "@storybook/addon-docs/blocks";
+
+import Footer from "../../.storybook/blocks/Footer";
+
 import rawChangelog from '../../CHANGELOG.md?raw';
 
 export const parameters = {
@@ -20,3 +23,5 @@ export const changelog = rawChangelog.replace(
 <Markdown>
 {changelog}
 </Markdown>
+
+<Footer />

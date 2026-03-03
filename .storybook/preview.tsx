@@ -11,6 +11,7 @@ import React from 'react';
 
 import '../src/__mocks__/_env';
 
+import Footer from './blocks/Footer';
 import { ExtraNotes } from './blocks/ExtraNotes';
 import { Reel } from './blocks/Reel';
 import { Status } from './blocks/Status';
@@ -49,6 +50,7 @@ const preview: Preview = {
           <Description />
           <Controls />
           <Stories includePrimary={false} />
+          <Footer />
         </>
       ),
     },
