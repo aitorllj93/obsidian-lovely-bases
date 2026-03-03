@@ -52,7 +52,7 @@ const View = createViewRenderer<KanbanConfig>(KanbanView);
 const meta = {
   title: "Views/Kanban",
   component: View,
-  tags: ["autodocs", "status:ready"],
+  tags: ["autodocs", "status:testing"],
   decorators: [ViewWrapper, Providers],
   parameters: {
     layout: "fullscreen",

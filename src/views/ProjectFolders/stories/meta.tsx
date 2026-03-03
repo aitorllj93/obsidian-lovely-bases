@@ -51,7 +51,7 @@ export const meta = {
         kind: "error",
         title: "Deprecated",
         description:
-          "This feature has been reworked under the <bold>Grouping</bold> features for Card based components such as <a href='./?path=/story/views-facet-cards-groups-folders--full-example'>Facet Cards</a>. Please use them instead.",
+          "This feature has been reworked under the <bold>Grouping</bold> features for Card based components such as <a href='./?path=/story/views-grid-groups-folders--full-example'>Grid</a>. Please use them instead.",
       },
     ],
     docs: {

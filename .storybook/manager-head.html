@@ -48,4 +48,19 @@
   #storybook-explorer-tree .sidebar-item[data-parent-id] a:has(span[data-depth="5"]) {
     padding: 5px 6px 4px 75px;
   }
+
+  /** Settings Button **/
+  button[aria-label="Settings"]::after {
+    background: #879A39 !important;
+  }
+
+  /** Range slider **/
+    input[type="range"]::-webkit-slider-runnable-track {
+    background: #879A39 !important;
+  }
+
+  /******** Firefox ********/
+  input[type="range"]::-moz-range-track {
+    background: #879A39 !important;
+  }
 </style>
