@@ -1,78 +1,16 @@
-import { type BasesPropertyId, ListValue, type Value } from "obsidian";
 import { useMemo } from "react";
 
 import { HeatmapCalendar, type Occurrence } from "@/components/HeatmapCalendar";
-import { SUPPORTED_VALUE_TYPES, type TrackType } from "@/components/HeatmapCalendar/hooks/useHeatmapData";
-import type { COLOR_SCHEMES } from "@/components/HeatmapCalendar/utils";
+import { HEATMAP_CALENDAR_CONFIG_DEFAULTS, type HeatmapCalendarConfig, type TrackType  } from "@/components/HeatmapCalendar/config";
+import { MAX_DATE_RANGE_YEARS } from "@/components/HeatmapCalendar/constants";
+import { detectTrackType, extractTrackValue } from "@/components/HeatmapCalendar/utils";
 import { Container } from "@/components/Obsidian/Container";
 import { useConfig } from "@/hooks/use-config";
 import { isHexColor } from "@/lib/colors";
 import { FORMATS, format, parse, subYears } from "@/lib/date";
 import type { ReactBaseViewProps } from "@/types";
-import { DEFAULTS } from "./constants";
 
-const MAX_DATE_RANGE_YEARS = 10;
-
-const detectTrackType = (value: Value | null): TrackType => {
-	if (!value) return "number";
-
-	const valueType = (value.constructor as typeof Value & { type: string }).type as TrackType;
-
-  return SUPPORTED_VALUE_TYPES.includes(valueType) ? valueType : "number";
-};
-
-const extractTrackValue = (
-	value: Value | null,
-	trackType: TrackType,
-  minValue = 0,
-  maxValue = 10,
-): number => {
-	if (!value) return minValue;
-
-  if (trackType === "boolean") {
-    return value.isTruthy() ? maxValue : minValue;
-  }
-
-  if (trackType === "string") {
-    const str = value.toString();
-    if (!str || str === "" || str === "null") return minValue;
-    return str.length;
-  }
-
-  if (trackType === "list") {
-    if (value instanceof ListValue) {
-      const listValue = value as unknown as { value?: Value[]; values?: Value[] };
-      if (listValue.value) return listValue.value.length;
-      if (listValue.values) return listValue.values.length;
-    }
-    const listStr = value.toString();
-    if (!listStr || listStr === "null") return minValue;
-    return listStr.split(",").length;
-  }
-
-  return Number(value.toString());
-};
-
-export type HeatmapCalendarConfig = {
-  dateProperty?: BasesPropertyId;
-  trackProperty?: BasesPropertyId;
-  colorScheme?: keyof typeof COLOR_SCHEMES;
-  shape?: "circle" | "square" | "rounded";
-  reverseColors?: boolean;
-  startDate?: string;
-  endDate?: string;
-  layout?: "horizontal" | "vertical";
-  viewMode?: "week-grid" | "month-grid";
-  showDayLabels?: boolean;
-  showMonthLabels?: boolean;
-  showYearLabels?: boolean;
-  showLegend?: boolean;
-  minValue?: number;
-  maxValue?: number;
-  trackType?: TrackType;
-  customColors?: string;
-  overflowColor?: string;
-};
+export type { HeatmapCalendarConfig };
 
 const HeatmapCalendarView = ({
   config,
@@ -80,26 +18,7 @@ const HeatmapCalendarView = ({
   isEmbedded,
   onEntryClick,
 }: ReactBaseViewProps) => {
-  const viewConfig = useConfig<HeatmapCalendarConfig>(config, {
-    dateProperty: DEFAULTS.dateProperty,
-    trackProperty: DEFAULTS.trackProperty,
-    trackType: DEFAULTS.trackType,
-    minValue: DEFAULTS.minValue,
-    maxValue: DEFAULTS.maxValue,
-    colorScheme: DEFAULTS.colorScheme,
-    customColors: DEFAULTS.customColors,
-    overflowColor: DEFAULTS.overflowColor,
-    reverseColors: DEFAULTS.reverseColors,
-    startDate: DEFAULTS.startDate,
-    endDate: DEFAULTS.endDate,
-    layout: DEFAULTS.layout,
-    viewMode: DEFAULTS.viewMode,
-    showDayLabels: DEFAULTS.showDayLabels,
-    showMonthLabels: DEFAULTS.showMonthLabels,
-    showYearLabels: DEFAULTS.showYearLabels,
-    showLegend: DEFAULTS.showLegend,
-    shape: DEFAULTS.shape,
-  });
+  const viewConfig = useConfig<HeatmapCalendarConfig>(config, HEATMAP_CALENDAR_CONFIG_DEFAULTS);
 
   const startDate = useMemo(() => {
     const now = new Date();
@@ -209,6 +128,7 @@ const HeatmapCalendarView = ({
         <HeatmapCalendar
           key={g.key}
           colorScheme={viewConfig.colorScheme}
+          contentScheme={viewConfig.contentScheme}
           reverseColors={viewConfig.reverseColors}
           data={g.entries}
           startDate={startDate}

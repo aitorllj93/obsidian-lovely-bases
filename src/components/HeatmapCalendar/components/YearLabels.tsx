@@ -8,10 +8,12 @@ import {
 	startOfYear,
 } from "@/lib/date";
 
+import type { LayoutDirection } from "../config";
+
 type Props = {
 	startDate: Date;
 	endDate: Date;
-	layout?: "horizontal" | "vertical";
+	layout?: LayoutDirection;
 	weeks: number;
 };
 

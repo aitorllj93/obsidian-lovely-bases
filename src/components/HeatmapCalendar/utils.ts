@@ -1,86 +1,46 @@
-import { isHexColor } from "@/lib/colors";
+import { ListValue, type Value } from "obsidian";
 
-export const COLOR_SCHEMES = {
-  primary: [
-    "bg-background-secondary",
-    "bg-primary/10",
-    "bg-primary/30",
-    "bg-primary/50",
-    "bg-primary/70",
-    "bg-primary",
-  ],
-  semaphor: [
-    "bg-background-secondary",
-    "bg-palette-red",
-    "bg-palette-orange",
-    "bg-palette-yellow",
-    "bg-palette-green",
-    "bg-palette-cyan",
-  ],
-  red: [
-    "bg-background-secondary",
-    "bg-palette-red/10",
-    "bg-palette-red/30",
-    "bg-palette-red/50",
-    "bg-palette-red/70",
-    "bg-palette-red",
-  ],
-  orange: [
-    "bg-background-secondary",
-    "bg-palette-orange/10",
-    "bg-palette-orange/30",
-    "bg-palette-orange/50",
-    "bg-palette-orange/70",
-    "bg-palette-orange",
-  ],
-  yellow: [
-    "bg-background-secondary",
-    "bg-palette-yellow/10",
-    "bg-palette-yellow/30",
-    "bg-palette-yellow/50",
-    "bg-palette-yellow/70",
-    "bg-palette-yellow",
-  ],
-  green: [
-    "bg-background-secondary",
-    "bg-palette-green/10",
-    "bg-palette-green/30",
-    "bg-palette-green/50",
-    "bg-palette-green/70",
-    "bg-palette-green",
-  ],
-  cyan: [
-    "bg-background-secondary",
-    "bg-palette-cyan/10",
-    "bg-palette-cyan/30",
-    "bg-palette-cyan/50",
-    "bg-palette-cyan/70",
-    "bg-palette-cyan",
-  ],
-  blue: [
-    "bg-background-secondary",
-    "bg-palette-blue/10",
-    "bg-palette-blue/30",
-    "bg-palette-blue/50",
-    "bg-palette-blue/70",
-    "bg-palette-blue",
-  ],
-  purple: [
-    "bg-background-secondary",
-    "bg-palette-purple/10",
-    "bg-palette-purple/30",
-    "bg-palette-purple/50",
-    "bg-palette-purple/70",
-    "bg-palette-purple",
-  ],
-  magenta: [
-    "bg-background-secondary",
-    "bg-palette-magenta/10",
-    "bg-palette-magenta/30",
-    "bg-palette-magenta/50",
-    "bg-palette-magenta/70",
-    "bg-palette-magenta",
-  ],
+import { HEATMAP_CALENDAR_CONFIG_DEFAULTS, SUPPORTED_VALUE_TYPES, type TrackType } from "./config";
+
+export const detectTrackType = (value: Value | null): TrackType => {
+  if (!value) return HEATMAP_CALENDAR_CONFIG_DEFAULTS.trackType;
+
+  const valueType = (value.constructor as typeof Value & { type: string }).type as TrackType;
+
+  return SUPPORTED_VALUE_TYPES.includes(valueType)
+    ? valueType : HEATMAP_CALENDAR_CONFIG_DEFAULTS.trackType;
+};
+
+export const extractTrackValue = (
+	value: Value | null,
+	trackType: TrackType,
+  minValue = 0,
+  maxValue = 10,
+): number => {
+	if (!value) return minValue;
+
+  if (trackType === "boolean") {
+    return value.isTruthy() ? maxValue : minValue;
+  }
+
+  if (trackType === "string") {
+    const str = value.toString();
+    if (!str || str === "" || str === "null") return minValue;
+    return str.length;
+  }
+
+  if (trackType === "list") {
+    if (value instanceof ListValue) {
+      const listValue = value as unknown as { value?: Value[]; values?: Value[] };
+      if (listValue.value) return listValue.value.length;
+      if (listValue.values) return listValue.values.length;
+    }
+    const listStr = value.toString();
+    if (!listStr || listStr === "null") return minValue;
+    return listStr.split(",").length;
+  }
+
+  return Number(value.toString());
 };
 
 export const normalizeValue = (
@@ -102,33 +62,4 @@ export const normalizeValue = (
   const normalized = (value - minValue) / range;
   const index = Math.ceil(normalized * (steps - 1));
   return { normalizedIndex: index, isOverflow: false };
-};
-
-export const getCellStyle = (
-  count: number,
-  classNames: string[],
-  minValue: number,
-  maxValue: number,
-  overflowColor?: string,
-): { className: string; style?: React.CSSProperties; isOverflow: boolean } => {
-  const { normalizedIndex, isOverflow } = normalizeValue(
-    count,
-    minValue,
-    maxValue,
-    classNames.length,
-  );
-  if (isOverflow && overflowColor) {
-    return {
-      className: "",
-      style: { backgroundColor: overflowColor },
-      isOverflow: true,
-    };
-  }
-  const selectedClassName = classNames[normalizedIndex] || classNames[classNames.length - 1];
-  const isHex = isHexColor(selectedClassName);
-  return {
-    className: isHex ? "" : selectedClassName,
-    style: isHex ? { backgroundColor: selectedClassName } : undefined,
-    isOverflow: false,
-  };
 };

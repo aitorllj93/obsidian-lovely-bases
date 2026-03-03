@@ -1,10 +1,7 @@
 import { useMemo } from "react";
 
+import type { TrackType } from "../config";
 import type { Occurrence } from "../index";
-
-export const SUPPORTED_VALUE_TYPES = ["boolean", "list", "string", "number"] as const;
-
-export type TrackType = typeof SUPPORTED_VALUE_TYPES[number];
 
 export const useHeatmapData = (
   data: Occurrence[],

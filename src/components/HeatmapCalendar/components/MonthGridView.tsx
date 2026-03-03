@@ -1,43 +1,32 @@
-import { cva } from "class-variance-authority";
-import { memo, useMemo } from "react";
+import { type MouseEventHandler, memo, useMemo } from "react";
 
 import {
-	addDays,
-	addMonths,
-	eachDayOfInterval,
-	endOfMonth,
-	endOfWeek,
-	FORMATS,
-	format,
-	startOfMonth,
-	startOfWeek,
+  addDays,
+  addMonths,
+  eachDayOfInterval,
+  endOfMonth,
+  endOfWeek,
+  FORMATS,
+  format,
+  startOfMonth,
+  startOfWeek,
 } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import type { EntryClickEventHandler } from "@/types";
 
+import type { CellShape } from "../config";
+
 import type { Occurrence } from "../index";
-import { getCellStyle } from "../utils";
+import Cell from "./Cell";
 
 const MAX_MONTHS = 120;
-
-const classVariants = cva(
-	"w-3 h-3",
-	{
-		variants: {
-			shape: {
-				circle: "rounded-full",
-				rounded: "rounded-[4px]",
-				square: "",
-			},
-		},
-	},
-);
 
 type Props = {
 	occurrences: Occurrence[];
 	startDate: Date;
 	endDate: Date;
 	classNames: string[];
+  contents?: string[];
 	minValue?: number;
 	maxValue?: number;
 	overflowColor?: string;
@@ -64,13 +53,14 @@ type DayCellProps = {
 	isCurrentMonth: boolean;
 	occurrenceMap: Map<string, Occurrence>;
 	classNames: string[];
+  contents?: string[];
 	minValue: number;
 	maxValue: number;
 	overflowColor?: string;
 	onEntryClick?: EntryClickEventHandler;
 	rangeStartDate?: Date;
 	rangeEndDate?: Date;
-  shape?: "circle" | "square" | "rounded";
+  shape?: CellShape;
 };
 
 const DayCell = memo(
@@ -79,6 +69,7 @@ const DayCell = memo(
 		isCurrentMonth,
 		occurrenceMap,
 		classNames,
+    contents,
 		minValue,
 		maxValue,
 		overflowColor,
@@ -92,28 +83,31 @@ const DayCell = memo(
 			(rangeEndDate && day > rangeEndDate);
 
 		if (isOutsideRange) {
-			return <div className="w-3 h-3" />;
+			return <div className="size-3" />;
 		}
 
 		const dateKey = format(day, FORMATS.DATE_ISO);
 		const occurrence = occurrenceMap.get(dateKey);
-		const count = occurrence?.count ?? 0;
-		const cellStyle = occurrence
-			? getCellStyle(count, classNames, minValue, maxValue, overflowColor)
-			: { className: classNames[0], isOverflow: false };
+		const value = occurrence?.count ?? undefined;
+
+    const handleClick: MouseEventHandler | undefined =
+      occurrence && onEntryClick ?
+        (evt) => onEntryClick?.(occurrence.file.path, evt) :
+        undefined;
 
 		return (
-			<div
-				className={cn(
-					classVariants({ shape }),
-					cellStyle.className,
-					!isCurrentMonth && "opacity-30",
-					occurrence && onEntryClick && "cursor-pointer",
-				)}
-				style={cellStyle.style}
-				title={`${format(day, FORMATS.DATE_LONG)}: ${count}${cellStyle.isOverflow ? " (overflow)" : ""}`}
-				onClick={(evt) => occurrence && onEntryClick?.(occurrence.file.path, evt)}
-			/>
+      <Cell
+        colors={classNames}
+        contents={contents}
+        day={day}
+        disabled={!isCurrentMonth}
+        maxValue={maxValue}
+        minValue={minValue}
+        onClick={handleClick}
+        overflowColor={overflowColor}
+        shape={shape}
+        value={value}
+      />
 		);
 	},
 	(prevProps, nextProps) => {
@@ -128,7 +122,8 @@ const DayCell = memo(
 			prevOccurrence?.count === nextOccurrence?.count &&
 			prevOccurrence?.file.path === nextOccurrence?.file.path &&
 			prevProps.classNames === nextProps.classNames &&
-			prevProps.minValue === nextProps.minValue &&
+			prevProps.contents === nextProps.contents &&
+      prevProps.minValue === nextProps.minValue &&
 			prevProps.maxValue === nextProps.maxValue &&
 			prevProps.overflowColor === nextProps.overflowColor &&
 			prevProps.rangeStartDate?.getTime() === nextProps.rangeStartDate?.getTime() &&
@@ -146,6 +141,7 @@ type MonthBlockProps = {
 	dayHeaders: DayHeader[];
 	occurrenceMap: Map<string, Occurrence>;
 	classNames: string[];
+  contents?: string[];
 	minValue: number;
 	maxValue: number;
 	overflowColor?: string;
@@ -163,6 +159,7 @@ const MonthBlock = memo(
 		dayHeaders,
 		occurrenceMap,
 		classNames,
+    contents,
 		minValue,
 		maxValue,
 		overflowColor,
@@ -202,6 +199,7 @@ const MonthBlock = memo(
 									isCurrentMonth={day.getMonth() === currentMonth}
 									occurrenceMap={occurrenceMap}
 									classNames={classNames}
+                  contents={contents}
 									minValue={minValue}
 									maxValue={maxValue}
 									overflowColor={overflowColor}
@@ -226,6 +224,7 @@ const MonthGridViewComponent = ({
 	startDate,
 	endDate,
 	classNames,
+  contents,
 	minValue = 0,
 	maxValue = 10,
 	overflowColor,
@@ -299,6 +298,7 @@ const MonthGridViewComponent = ({
 					dayHeaders={dayHeaders}
 					occurrenceMap={occurrenceMap}
 					classNames={classNames}
+          contents={contents}
 					minValue={minValue}
 					maxValue={maxValue}
 					overflowColor={overflowColor}

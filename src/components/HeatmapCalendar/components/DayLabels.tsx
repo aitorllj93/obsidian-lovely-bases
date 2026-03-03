@@ -1,6 +1,8 @@
 import { cva } from "class-variance-authority";
 import { addDays, FORMATS, format, startOfWeek } from "@/lib/date";
 
+import type { LayoutDirection } from "../config";
+
 const containerVariants = cva("", {
 	variants: {
 		layout: {
@@ -72,7 +74,7 @@ const dayVariants = cva("text-xs text-muted-foreground", {
 });
 
 type Props = {
-	layout?: "horizontal" | "vertical";
+	layout?: LayoutDirection
 	showMonthLabels?: boolean;
   showYearLabels?: boolean;
 };

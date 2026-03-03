@@ -1,30 +1,18 @@
 
-import { cva } from "class-variance-authority";
-
-import { isHexColor } from "@/lib/colors";
 import { useTranslation } from "@/lib/i18n";
-import { cn } from "@/lib/utils";
+
+import type { CellShape } from "../config";
+
+import Cell from "./Cell";
 
 type Props = {
 	classNames: string[];
+  contents?: string[];
 	overflowColor?: string;
-  shape?: "circle" | "square" | "rounded";
+  shape?: CellShape;
 };
 
-const classVariants = cva(
-	"size-3",
-	{
-		variants: {
-			shape: {
-				circle: "rounded-full",
-        rounded: "rounded-[4px]",
-        square: "",
-			},
-		},
-	},
-);
-
-export const Legend = ({ classNames, overflowColor, shape }: Props) => {
+export const Legend = ({ classNames, contents, overflowColor, shape }: Props) => {
 	const { t } = useTranslation("heatmapCalendar");
 	const isBinary = classNames.length === 2;
 	const lessText = isBinary ? t("legend.no") : t("legend.less");
@@ -33,24 +21,31 @@ export const Legend = ({ classNames, overflowColor, shape }: Props) => {
 	return (
 		<div className="mt-4 justify-center flex gap-2 text-muted-foreground text-xs items-center">
 			<span>{lessText}</span>
-			{classNames.map((className, index) => {
-				const isHex = isHexColor(className);
-				return (
-					<div
-						key={`color-${index.toString()}`}
-						className={cn(classVariants({ shape }), !isHex && className)}
-						style={isHex ? { backgroundColor: className } : undefined}
-					/>
-				);
-			})}
+			{classNames.map((_, index) => (
+        <Cell
+          key={`color-${index.toString()}`}
+          colors={classNames}
+          contents={contents}
+          maxValue={classNames.length}
+          minValue={0}
+          overflowColor={overflowColor}
+          shape={shape}
+          value={index}
+        />
+      ))}
 			<span>{moreText}</span>
 			{overflowColor && (
 				<>
 					<span className="ml-2">|</span>
-					<div
-						className={cn(classVariants({ shape }))}
-						style={{ backgroundColor: overflowColor }}
-					/>
+          <Cell
+            colors={classNames}
+            contents={contents}
+            maxValue={classNames.length}
+            minValue={0}
+            overflowColor={overflowColor}
+            shape={shape}
+            value={classNames.length + 1}
+          />
 					<span>{t("legend.overflow")}</span>
 				</>
 			)}

@@ -5,6 +5,10 @@ export const DEFAULT_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
   dateProperty: "file.name",
   trackProperty: "note.dietQuality",
   colorScheme: "primary",
+  contentScheme: "none",
+  shape: "rounded",
+  trackType: "number",
+  viewMode: 'week-grid',
   reverseColors: false,
   startDate: format(subYears(new Date(), 1), FORMATS.DATE_ISO),
   endDate: format(new Date(), FORMATS.DATE_ISO),
@@ -14,6 +18,10 @@ export const FULL_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
   dateProperty: "file.name",
   trackProperty: "note.dietQuality",
   colorScheme: "semaphor",
+  contentScheme: "none",
+  shape: "rounded",
+  trackType: "number",
+  viewMode: 'week-grid',
   reverseColors: false,
   minValue: 0,
   maxValue: 5,
@@ -23,6 +31,7 @@ export const FULL_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
 };
 
 export const THIRTEEN_WEEKS_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
+  ...DEFAULT_HEATMAP_BASE_CONFIG,
   dateProperty: "file.name",
   trackProperty: "note.dietQuality",
   colorScheme: "green",
@@ -32,6 +41,7 @@ export const THIRTEEN_WEEKS_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
 };
 
 export const REVERSE_COLORS_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
+  ...DEFAULT_HEATMAP_BASE_CONFIG,
   dateProperty: "file.name",
   trackProperty: "note.dietQuality",
   colorScheme: "red",
@@ -41,6 +51,7 @@ export const REVERSE_COLORS_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
 };
 
 export const RED_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
+  ...DEFAULT_HEATMAP_BASE_CONFIG,
   dateProperty: "file.name",
   trackProperty: "note.dietQuality",
   colorScheme: "red",
@@ -50,6 +61,7 @@ export const RED_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
 };
 
 export const ORANGE_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
+  ...DEFAULT_HEATMAP_BASE_CONFIG,
   dateProperty: "file.name",
   trackProperty: "note.dietQuality",
   colorScheme: "orange",
@@ -59,6 +71,7 @@ export const ORANGE_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
 };
 
 export const YELLOW_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
+  ...DEFAULT_HEATMAP_BASE_CONFIG,
   dateProperty: "file.name",
   trackProperty: "note.dietQuality",
   colorScheme: "yellow",
@@ -68,6 +81,7 @@ export const YELLOW_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
 };
 
 export const GREEN_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
+  ...DEFAULT_HEATMAP_BASE_CONFIG,
   dateProperty: "file.name",
   trackProperty: "note.dietQuality",
   colorScheme: "green",
@@ -77,6 +91,7 @@ export const GREEN_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
 };
 
 export const CYAN_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
+  ...DEFAULT_HEATMAP_BASE_CONFIG,
   dateProperty: "file.name",
   trackProperty: "note.dietQuality",
   colorScheme: "cyan",
@@ -86,6 +101,7 @@ export const CYAN_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
 };
 
 export const BLUE_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
+  ...DEFAULT_HEATMAP_BASE_CONFIG,
   dateProperty: "file.name",
   trackProperty: "note.dietQuality",
   colorScheme: "blue",
@@ -95,6 +111,7 @@ export const BLUE_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
 };
 
 export const PURPLE_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
+  ...DEFAULT_HEATMAP_BASE_CONFIG,
   dateProperty: "file.name",
   trackProperty: "note.dietQuality",
   colorScheme: "purple",
@@ -104,6 +121,7 @@ export const PURPLE_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
 };
 
 export const MAGENTA_HEATMAP_BASE_CONFIG: HeatmapCalendarConfig = {
+  ...DEFAULT_HEATMAP_BASE_CONFIG,
   dateProperty: "file.name",
   trackProperty: "note.dietQuality",
   colorScheme: "magenta",
@@ -141,6 +159,14 @@ export const SHAPE_CONFIG: HeatmapCalendarConfig = {
   colorScheme: "semaphor",
   shape: "circle",
 };
+
+export const CONTENT_CONFIG: HeatmapCalendarConfig = {
+  ...DEFAULT_HEATMAP_BASE_CONFIG,
+  colorScheme: "custom",
+  contentScheme: "mood",
+  shape: 'circle'
+};
+
 
 export const CUSTOM_COLORS_CONFIG: HeatmapCalendarConfig = {
   ...DEFAULT_HEATMAP_BASE_CONFIG,

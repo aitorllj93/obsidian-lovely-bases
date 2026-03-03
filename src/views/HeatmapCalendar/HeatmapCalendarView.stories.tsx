@@ -14,6 +14,7 @@ import {
 import HEATMAP_CALENDAR_VIEW from ".";
 import {
   BOOLEAN_TRACKING_CONFIG,
+  CONTENT_CONFIG,
   CUSTOM_COLORS_CONFIG,
   DEFAULT_HEATMAP_BASE_CONFIG,
   FULL_HEATMAP_BASE_CONFIG,
@@ -202,10 +203,29 @@ const meta = {
         "blue",
         "purple",
         "magenta",
+        "custom",
       ],
       table: {
         category: t("options.appearance.title"),
         defaultValue: { summary: "primary" },
+      },
+    },
+    contentScheme: {
+      control: "select",
+      name: t("options.appearance.contentScheme.title"),
+      description:
+        "The content for the cells (e.g., mood faces, food, numbers).",
+      options: [
+        "none",
+        "mood",
+        "food",
+        "tree",
+        "numerical",
+        "alphabetical",
+      ],
+      table: {
+        category: t("options.appearance.title"),
+        defaultValue: { summary: "none" },
       },
     },
     reverseColors: {
@@ -407,6 +427,27 @@ shape: circle
     groupedData: [aBasesEntryGroup('', GROUPED_OCCURRENCES[0].entries)],
     onEntryClick: fn(),
     ...SHAPE_CONFIG,
+  },
+};
+
+export const CellContent: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: `Change the content of the cells to an emoji.
+
+\`\`\`yml
+contentScheme: mood
+\`\`\`
+`,
+      },
+    },
+  },
+  args: {
+    data: OCCURRENCES,
+    groupedData: [aBasesEntryGroup('', GROUPED_OCCURRENCES[0].entries)],
+    onEntryClick: fn(),
+    ...CONTENT_CONFIG,
   },
 };
 

@@ -10,11 +10,13 @@ import {
   startOfWeek,
 } from "@/lib/date";
 
+import type { LayoutDirection } from "../config";
+
 type Props = {
 	startDate: Date;
 	weeks: number;
 	endDate?: Date;
-	layout?: "horizontal" | "vertical";
+	layout?: LayoutDirection;
 };
 
 export const MonthLabels = ({ startDate, weeks, endDate, layout = "horizontal" }: Props) => {

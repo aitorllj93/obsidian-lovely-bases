@@ -399,6 +399,16 @@ export const en = {
         },
         colorScheme: {
           title: "Color Scheme",
+          custom: "Custom",
+        },
+        contentScheme: {
+          title: "Cell Content",
+          none: "None",
+          mood: "Mood",
+          food: "Food",
+          tree: "Tree",
+          numerical: "Numbers",
+          alphabetical: "Alphabet"
         },
         reverseColors: {
           title: "Reverse Colors",

@@ -1,44 +1,31 @@
-
-import { cva } from "class-variance-authority";
-import { memo } from "react";
+import { type MouseEventHandler, memo } from "react";
 
 import { FORMATS, format } from "@/lib/date";
-import { cn } from "@/lib/utils";
 import type { EntryClickEventHandler } from "@/types";
 
+import type { CellShape } from "../config";
 import type { Occurrence } from "../index";
-import { getCellStyle } from "../utils";
-
-const classVariants = cva(
-	"w-3 h-3",
-	{
-		variants: {
-			shape: {
-				circle: "rounded-full",
-        rounded: 'rounded-[4px]',
-        square: ''
-			},
-		},
-	},
-);
+import Cell from "./Cell";
 
 type Props = {
   day: Date;
   occurrenceMap: Map<string, Occurrence>;
   classNames: string[];
+  contents?: string[];
   minValue: number;
   maxValue: number;
   overflowColor?: string;
   onEntryClick?: EntryClickEventHandler;
   rangeStartDate?: Date;
   rangeEndDate?: Date;
-  shape?: "circle" | "square" | "rounded";
+  shape?: CellShape;
 };
 
 const PureWeekDay = ({
   day,
   occurrenceMap,
   classNames,
+  contents,
   minValue,
   maxValue,
   overflowColor,
@@ -52,26 +39,29 @@ const PureWeekDay = ({
     (rangeEndDate && day > rangeEndDate);
 
   if (isOutsideRange) {
-    return <div className="w-3 h-3" />;
+    return <div className="size-3" />;
   }
 
   const dateKey = format(day, FORMATS.DATE_ISO);
   const occurrence = occurrenceMap.get(dateKey);
-  const count = occurrence?.count ?? 0;
-  const cellStyle = occurrence
-    ? getCellStyle(count, classNames, minValue, maxValue, overflowColor)
-    : { className: classNames[0], isOverflow: false };
+  const value = occurrence?.count ?? undefined;
+
+  const handleClick: MouseEventHandler | undefined =
+    occurrence && onEntryClick ?
+      (evt) => onEntryClick?.(occurrence.file.path, evt) :
+      undefined;
 
   return (
-    <div
-      className={cn(
-        classVariants({ shape }),
-        cellStyle.className,
-        occurrence && onEntryClick && "cursor-pointer",
-      )}
-      style={cellStyle.style}
-      title={`${format(day, FORMATS.DATE_LONG)}: ${count}${cellStyle.isOverflow ? " (overflow)" : ""}`}
-      onClick={(evt) => occurrence && onEntryClick?.(occurrence.file.path, evt)}
+    <Cell
+      colors={classNames}
+      contents={contents}
+      day={day}
+      maxValue={maxValue}
+      minValue={minValue}
+      onClick={handleClick}
+      overflowColor={overflowColor}
+      shape={shape}
+      value={value}
     />
   );
 };
@@ -81,6 +71,7 @@ export const WeekDay = memo(PureWeekDay, (prevProps, nextProps) => {
     prevProps.day.getTime() === nextProps.day.getTime() &&
     prevProps.occurrenceMap.size === nextProps.occurrenceMap.size &&
     prevProps.classNames.join(",") === nextProps.classNames.join(",") &&
+    prevProps.contents === nextProps.contents &&
     prevProps.minValue === nextProps.minValue &&
     prevProps.maxValue === nextProps.maxValue &&
     prevProps.overflowColor === nextProps.overflowColor &&

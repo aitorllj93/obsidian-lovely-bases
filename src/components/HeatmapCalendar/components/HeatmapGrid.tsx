@@ -1,3 +1,4 @@
+import { cva } from "class-variance-authority";
 import { useMemo } from "react";
 
 import {
@@ -8,9 +9,10 @@ import {
 } from "@/lib/date";
 import type { EntryClickEventHandler } from "@/types";
 
+import type { CellShape, LayoutDirection } from "../config";
+
 import type { Occurrence } from "../index";
 import { WeekDay } from "./WeekDay";
-import { cva } from "class-variance-authority";
 
 const containerVariants = cva("", {
   variants: {
@@ -41,14 +43,15 @@ type Props = {
   startDate: Date;
   weeks: number;
   classNames: string[];
-  layout?: "horizontal" | "vertical";
+  contents?: string[];
+  layout?: LayoutDirection;
   minValue?: number;
   maxValue?: number;
   overflowColor?: string;
   onEntryClick?: EntryClickEventHandler;
   rangeStartDate?: Date;
   rangeEndDate?: Date;
-  shape?: "circle" | "square" | "rounded";
+  shape?: CellShape;
 };
 
 export const HeatmapGrid = ({
@@ -56,6 +59,7 @@ export const HeatmapGrid = ({
   startDate,
   weeks,
   classNames,
+  contents,
   layout = "horizontal",
   minValue = 0,
   maxValue = 10,
@@ -104,6 +108,7 @@ export const HeatmapGrid = ({
               day={day}
               occurrenceMap={occurrenceMap}
               classNames={classNames}
+              contents={contents}
               minValue={minValue}
               maxValue={maxValue}
               overflowColor={overflowColor}

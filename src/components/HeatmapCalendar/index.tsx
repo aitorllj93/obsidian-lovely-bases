@@ -11,17 +11,17 @@ import {
 } from "@/lib/date";
 import type { EntryClickEventHandler } from "@/types";
 
-
 import { DayLabels } from "./components/DayLabels";
 import { HeatmapGrid } from "./components/HeatmapGrid";
 import { Legend } from "./components/Legend";
 import { MonthGridView } from "./components/MonthGridView";
 import { MonthLabels } from "./components/MonthLabels";
 import { YearLabels } from "./components/YearLabels";
-import { type TrackType, useHeatmapData } from "./hooks/useHeatmapData";
-import { COLOR_SCHEMES } from "./utils";
+import type { CellShape, ColorScheme, ContentScheme, LayoutDirection, TrackType, ViewMode } from "./config";
+import { HEATMAP_CALENDAR_CONFIG_DEFAULTS } from "./config";
+import { COLOR_SCHEMES, CONTENT_SCHEMES, MAX_WEEKS } from "./constants";
+import { useHeatmapData } from "./hooks/useHeatmapData";
 
-const MAX_WEEKS = 520;
 
 export type Occurrence = {
   date: string;
@@ -35,10 +35,11 @@ type Props = {
   startDate?: Date;
   endDate?: Date;
   classNames?: string[];
-  colorScheme?: keyof typeof COLOR_SCHEMES;
+  colorScheme?: ColorScheme;
+  contentScheme?: ContentScheme;
   reverseColors?: boolean;
-  layout?: "horizontal" | "vertical";
-  viewMode?: "week-grid" | "month-grid";
+  layout?: LayoutDirection;
+  viewMode?: ViewMode;
   showDayLabels?: boolean;
   showMonthLabels?: boolean;
   showYearLabels?: boolean;
@@ -46,7 +47,7 @@ type Props = {
   minValue?: number;
   maxValue?: number;
   trackType?: TrackType;
-  shape?: "circle" | "square" | "rounded";
+  shape?: CellShape;
   customColors?: string[];
   overflowColor?: string;
   onEntryClick?: EntryClickEventHandler;
@@ -56,11 +57,12 @@ export const HeatmapCalendar = ({
   data,
   startDate = subYears(new Date(), 1),
   endDate = new Date(),
-  colorScheme = "primary",
+  colorScheme = HEATMAP_CALENDAR_CONFIG_DEFAULTS.colorScheme,
+  contentScheme = HEATMAP_CALENDAR_CONFIG_DEFAULTS.contentScheme,
   reverseColors = false,
-  layout = "horizontal",
-  viewMode = "week-grid",
-  shape = "rounded",
+  layout = HEATMAP_CALENDAR_CONFIG_DEFAULTS.layout,
+  viewMode = HEATMAP_CALENDAR_CONFIG_DEFAULTS.viewMode,
+  shape = HEATMAP_CALENDAR_CONFIG_DEFAULTS.shape,
   showDayLabels = true,
   showMonthLabels = true,
   showYearLabels = false,
@@ -80,7 +82,6 @@ export const HeatmapCalendar = ({
   );
 
   const occurrences = useHeatmapData(data, trackType);
-
 
   const classNames = useMemo(() => {
     let colors: string[];
@@ -102,6 +103,7 @@ export const HeatmapCalendar = ({
 
     return colors;
   }, [colorScheme, reverseColors, customColors, trackType]);
+  const contents = CONTENT_SCHEMES[contentScheme];
 
   // MonthGridView is a standalone view mode that doesn't use the week-grid layout system
   if (viewMode === "month-grid") {
@@ -112,6 +114,7 @@ export const HeatmapCalendar = ({
           startDate={displayStartDate}
           endDate={displayEndDate}
           classNames={classNames}
+          contents={contents}
           minValue={minValue}
           maxValue={maxValue}
           overflowColor={overflowColor}
@@ -124,6 +127,7 @@ export const HeatmapCalendar = ({
         />
         <Legend
           classNames={classNames}
+          contents={contents}
           overflowColor={overflowColor}
           shape={shape}
         />
@@ -188,6 +192,7 @@ export const HeatmapCalendar = ({
                 startDate={displayStartDate}
                 weeks={weeks}
                 classNames={classNames}
+                contents={contents}
                 layout={layout}
                 minValue={minValue}
                 maxValue={maxValue}
@@ -215,6 +220,7 @@ export const HeatmapCalendar = ({
                 startDate={displayStartDate}
                 weeks={weeks}
                 classNames={classNames}
+                contents={contents}
                 layout={layout}
                 minValue={minValue}
                 maxValue={maxValue}
@@ -230,6 +236,7 @@ export const HeatmapCalendar = ({
       </div>
       {showLegend && <Legend
         classNames={classNames}
+        contents={contents}
         overflowColor={overflowColor}
         shape={shape}
       />}

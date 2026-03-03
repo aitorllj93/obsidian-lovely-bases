@@ -1,36 +1,12 @@
 import type { ViewOption } from "obsidian";
+
 import { detectLocale,  type NamespacedTranslationKey, translate } from "@/lib/i18n";
-import type { HeatmapCalendarConfig } from "./types";
+
+import { HEATMAP_CALENDAR_CONFIG_DEFAULTS } from './defaults';
 
 const locale = detectLocale();
 const tColors = (key: NamespacedTranslationKey<'colors'>) => translate(locale, 'colors', key);
 const t = (key: NamespacedTranslationKey<'heatmapCalendar'>) => translate(locale, 'heatmapCalendar', key);
-
-export const DEFAULTS: HeatmapCalendarConfig = {
-  /* Data */
-  dateProperty: undefined,
-  trackProperty: undefined,
-  trackType: undefined,
-  /* Date Range */
-  startDate: undefined,
-  endDate: undefined,
-  /* Layout & Display */
-  layout: "horizontal",
-  viewMode: "week-grid",
-  showDayLabels: true,
-  showMonthLabels: true,
-  showYearLabels: false,
-  showLegend: true,
-  /* Value Range */
-  minValue: 0,
-  maxValue: 10,
-  /* Appearance */
-  colorScheme: "primary",
-  shape: "rounded",
-  reverseColors: false,
-  customColors: undefined,
-  overflowColor: undefined,
-};
 
 export const HEATMAP_CALENDAR_OPTIONS: ViewOption[] = [
   {
@@ -41,19 +17,19 @@ export const HEATMAP_CALENDAR_OPTIONS: ViewOption[] = [
         type: "property",
         displayName: t("options.data.dateProperty.title"),
         key: "dateProperty",
-        default: DEFAULTS.dateProperty,
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.dateProperty,
       },
       {
         type: "property",
         displayName: t("options.data.trackProperty.title"),
         key: "trackProperty",
-        default: DEFAULTS.trackProperty,
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.trackProperty,
       },
       {
         type: "dropdown",
         displayName: t("options.data.trackType.title"),
         key: "trackType",
-        default: DEFAULTS.trackType,
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.trackType,
         options: {
           "": t("options.data.trackType.autoDetect"),
           number: t("options.data.trackType.number"),
@@ -72,14 +48,14 @@ export const HEATMAP_CALENDAR_OPTIONS: ViewOption[] = [
         type: "text",
         displayName: t("options.dateRange.startDate.title"),
         key: "startDate",
-        default: DEFAULTS.startDate,
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.startDate,
         placeholder: t("options.dateRange.startDate.placeholder"),
       },
       {
         type: "text",
         displayName: t("options.dateRange.endDate.title"),
         key: "endDate",
-        default: DEFAULTS.endDate,
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.endDate,
         placeholder: t("options.dateRange.endDate.placeholder"),
       },
     ],
@@ -92,7 +68,7 @@ export const HEATMAP_CALENDAR_OPTIONS: ViewOption[] = [
         type: "dropdown",
         displayName: t("options.display.layout.title"),
         key: "layout",
-        default: DEFAULTS.layout,
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.layout,
         options: {
           horizontal: t("options.display.layout.horizontal"),
           vertical: t("options.display.layout.vertical"),
@@ -102,7 +78,7 @@ export const HEATMAP_CALENDAR_OPTIONS: ViewOption[] = [
         type: "dropdown",
         displayName: t("options.display.viewMode.title"),
         key: "viewMode",
-        default: DEFAULTS.viewMode,
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.viewMode,
         options: {
           "week-grid": t("options.display.viewMode.week-grid"),
           "month-grid": t("options.display.viewMode.month-grid"),
@@ -112,25 +88,25 @@ export const HEATMAP_CALENDAR_OPTIONS: ViewOption[] = [
         type: "toggle",
         displayName: t("options.display.showDayLabels.title"),
         key: "showDayLabels",
-        default: DEFAULTS.showDayLabels,
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.showDayLabels,
       },
       {
         type: "toggle",
         displayName: t("options.display.showMonthLabels.title"),
         key: "showMonthLabels",
-        default: DEFAULTS.showMonthLabels,
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.showMonthLabels,
       },
       {
         type: "toggle",
         displayName: t("options.display.showYearLabels.title"),
         key: "showYearLabels",
-        default: DEFAULTS.showYearLabels,
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.showYearLabels,
       },
       {
         type: "toggle",
         displayName: t("options.display.showLegend.title"),
         key: "showLegend",
-        default: DEFAULTS.showLegend,
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.showLegend,
       },
     ],
   },
@@ -142,7 +118,7 @@ export const HEATMAP_CALENDAR_OPTIONS: ViewOption[] = [
         type: "slider",
         displayName: t("options.valueRange.minValue.title"),
         key: "minValue",
-        default: DEFAULTS.minValue,
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.minValue,
         min: 0,
         max: 100,
         step: 1,
@@ -151,7 +127,7 @@ export const HEATMAP_CALENDAR_OPTIONS: ViewOption[] = [
         type: "slider",
         displayName: t("options.valueRange.maxValue.title"),
         key: "maxValue",
-        default: DEFAULTS.maxValue,
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.maxValue,
         min: 0,
         max: 100,
         step: 1,
@@ -166,7 +142,7 @@ export const HEATMAP_CALENDAR_OPTIONS: ViewOption[] = [
         type: "dropdown",
         displayName: t("options.appearance.shape.title"),
         key: "shape",
-        default: DEFAULTS.shape,
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.shape,
         options: {
           circle: t("options.appearance.shape.circle"),
           square: t("options.appearance.shape.square"),
@@ -177,7 +153,7 @@ export const HEATMAP_CALENDAR_OPTIONS: ViewOption[] = [
         type: "dropdown",
         displayName: t("options.appearance.colorScheme.title"),
         key: "colorScheme",
-        default: DEFAULTS.colorScheme,
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.colorScheme,
         options: {
           primary: tColors("schemes.primary"),
           semaphor: tColors("schemes.semaphor"),
@@ -189,26 +165,42 @@ export const HEATMAP_CALENDAR_OPTIONS: ViewOption[] = [
           blue: tColors("palettes.blue"),
           purple: tColors("palettes.purple"),
           magenta: tColors("palettes.magenta"),
+          custom: t("options.appearance.colorScheme.custom"),
         },
       },
       {
-        type: "toggle",
-        displayName: t("options.appearance.reverseColors.title"),
-        key: "reverseColors",
-        default: DEFAULTS.reverseColors,
+        type: "dropdown",
+        displayName: t("options.appearance.colorScheme.title"),
+        key: "contentScheme",
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.contentScheme,
+        options: {
+          none: t("options.appearance.contentScheme.none"),
+          mood: t("options.appearance.contentScheme.mood"),
+          food: t("options.appearance.contentScheme.food"),
+          tree: t("options.appearance.contentScheme.tree"),
+          numerical: t("options.appearance.contentScheme.numerical"),
+          alphabetical: t("options.appearance.contentScheme.alphabetical"),
+        },
       },
       {
         type: "text",
         displayName: t("options.appearance.customColors.title"),
         key: "customColors",
-        default: DEFAULTS.customColors,
+        shouldHide: (config) => config.get('colorScheme') !== 'custom',
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.customColors,
         placeholder: t("options.appearance.customColors.placeholder"),
+      },
+      {
+        type: "toggle",
+        displayName: t("options.appearance.reverseColors.title"),
+        key: "reverseColors",
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.reverseColors,
       },
       {
         type: "text",
         displayName: t("options.appearance.overflowColor.title"),
         key: "overflowColor",
-        default: DEFAULTS.overflowColor,
+        default: HEATMAP_CALENDAR_CONFIG_DEFAULTS.overflowColor,
         placeholder: t("options.appearance.overflowColor.placeholder"),
       },
     ],
